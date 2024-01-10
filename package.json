@@ -1,0 +1,9 @@
+{
+  "name": "any-ts",
+  "version": "0.1.0",
+  "license": "MIT",
+  "author": "Andrew Jarrett <ahrjarrett@gmail.com>",
+  "devDependencies": {
+    "typescript": "5.2.2"
+  }
+}
