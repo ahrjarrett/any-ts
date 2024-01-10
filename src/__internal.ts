@@ -248,3 +248,4 @@ declare namespace Any {
     = invariant extends invariant ? invariant : never
   > = subtype
 }
+

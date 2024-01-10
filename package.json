@@ -1,9 +1,21 @@
 {
   "name": "any-ts",
   "version": "0.1.0",
-  "license": "MIT",
   "author": "Andrew Jarrett <ahrjarrett@gmail.com>",
+  "license": "MIT",
+  "main": "src/index.ts",
+  "module": "dist/index.mjs",
+  "types": "src/index.d.ts",
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "lint": "tsc"
+  },
   "devDependencies": {
+    "@changesets/cli": "^2.27.1",
+    "tsup": "^8.0.1",
     "typescript": "5.2.2"
+  },
+  "dependencies": {
+    "init": "^0.1.2"
   }
 }
