@@ -9,8 +9,9 @@ declare namespace never {
     = "Illegal state should be unrepresentable: `never.unrepresentable` should never be called"
   > = [type] extends [never] ? never : description
 
-  namespace closing {
+  export namespace close {
+    type unmatched_expr = never
     type inline_var<_varName extends string> = never
-    type distributive_case<_varName extends string> = never
+    type distributive<_varName extends string> = never
   }
 }
