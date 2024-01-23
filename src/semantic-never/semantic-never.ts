@@ -1,10 +1,3 @@
-/*
- eslint-disable
- @typescript-eslint/naming-convention,
- @typescript-eslint/no-namespace,
- @typescript-eslint/no-shadow,
- prettier/prettier,
-*/
 export type {
   close,
   illegal_state,

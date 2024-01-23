@@ -3,7 +3,7 @@ import { empty, nonempty } from "./empty"
 
 import named = any.term.named
 import { never } from "./never"
-import { assert, expect } from '../test/test';
+import { assert, expect } from './test/test';
 
 declare namespace impl {
   type unfold<path extends any.array<any.index>, leaf = unknown>

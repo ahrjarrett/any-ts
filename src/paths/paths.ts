@@ -2,9 +2,9 @@ export {
   type pathsof,
 }
 
-import type { any } from "./exports"
+import type { any } from "../exports"
 import { assert, expect } from "../test/test"
-import type { never } from "./semantic-never/exports"
+import type { never } from "../semantic-never/exports"
 
 type isOptional<key extends keyof type, type>
   = {} extends { [ix in key]: type[ix] } ? true : false

@@ -66,6 +66,11 @@ declare namespace enforce {
     : Fn.return<typeof Err.MaxOneProp<type>>
     ;
 
+  type isNotAssignableTo<type, disallow>
+    = [type] extends [disallow] ? Fn.return<typeof Err.IsNotAssignableTo<type>>
+    : (unknown)
+    ;
+
   type nonEmptyString<type>
     = [type] extends [``]
     ? Fn.return<typeof Err.NonEmptyString<type>>

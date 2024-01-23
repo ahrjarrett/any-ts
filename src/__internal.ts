@@ -1,4 +1,4 @@
-import { pathsof } from "./paths"
+import { pathsof } from "./paths/paths"
 
 // module aliases
 export { never }
