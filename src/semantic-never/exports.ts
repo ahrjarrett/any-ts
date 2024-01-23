@@ -1,0 +1,1 @@
+export * as never from "./semantic-never"

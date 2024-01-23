@@ -1,4 +1,5 @@
 import * as any from "./__internal"
+import { enforce } from "./err/enforce"
 
 export {
   empty,
@@ -10,16 +11,32 @@ type _ = unknown
 
 const string = "" as const
 const array = [] as const
+type array<type extends typeof array = typeof array> = type
+type object_ = {}
+const object_ = {} as const
 
-namespace empty { export const never: never = void 0 as never }
 declare namespace empty {
-  export type array<type extends typeof array = typeof array> = type
-
-  type string_ = typeof string
-  export { string_ as string }
+  export {
+    array as path,
+    array,
+    object_ as object,
+    string,
+  }
 }
 
-namespace nonempty { export const never: never = void 0 as never }
+namespace empty {
+  empty.array = array
+  empty.path = array
+  empty.string = string
+  empty.object = object
+}
+
+namespace nonempty {
+  export const string
+    : <text extends enforce.nonEmptyString<text>>(text: text) => text
+    = (text) => text
+}
+
 declare namespace nonempty {
   export type array<
     head = _,
@@ -29,15 +46,32 @@ declare namespace nonempty {
   > = type
 
   export type arrayof<
-    invariant
-    , head extends
+    invariant,
+    head extends
     | invariant
-    = invariant
-    , type extends
+    = invariant,
+    type extends
     | any.array<head>
     = any.array<head>
   > = type
 
-  type string_<head extends string = string, tail extends string = string> = `${head}${tail}`
-  export { string_ as string }
+  /** 
+   * {@link nonempty.path `nonempty.path`} 
+   */
+  export type path<
+    head extends any.index = any.index,
+    tail extends
+    | any.array<any.index>
+    = any.array<any.index>
+  > = readonly [head, ...tail]
+
+  /** 
+   * {@link nonempty.path `nonempty.path`} 
+   */
+  export type pathLeft<
+    init extends
+    | any.array<any.index>
+    = any.array<any.index>,
+    last extends any.index = any.index
+  > = readonly [...init, last]
 }
