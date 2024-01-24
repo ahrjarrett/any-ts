@@ -1,19 +1,3 @@
-// export type {
-//   enforce,
-// }
-
-// declare namespace enforce {
-//   namespace nonempty {
-//     type string_<type> = [type] extends [string] ? [type] extends [""] ? ["TypeError"] : unknown : never
-//     export { string_ as string }
-//   }
-// }
-
-/* eslint-disable
- import/first,
- @typescript-eslint/no-namespace,
- @typescript-eslint/naming-convention,
- */
 export {
   enforce,
 }
@@ -65,6 +49,8 @@ declare namespace enforce {
     : [boolean] extends [type] ? (unknown)
     : Fn.return<typeof Err.MaxOneProp<type>>
     ;
+
+  type _54 = Parameters<typeof Err.IsNotAssignableTo<123>>
 
   type isNotAssignableTo<type, disallow>
     = [type] extends [disallow] ? Fn.return<typeof Err.IsNotAssignableTo<type>>

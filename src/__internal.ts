@@ -79,7 +79,7 @@ type entry<type extends field = field> = type
 /** @category unary, composite @internal */
 type entries<type extends array<entry> = array<entry>> = type
 /** @category nullary, composite @internal */
-type path = array<key>
+type path = array<index>
 
 /** @category nullary, composite @internal */
 interface struct { [𝐢𝐱: keyof never]: any }

@@ -1,4 +1,5 @@
 export type {
+  as_identity,
   close,
   illegal_state,
 }
@@ -10,3 +11,4 @@ declare namespace close {
 }
 
 type illegal_state<__description extends string = never> = never
+type as_identity = never

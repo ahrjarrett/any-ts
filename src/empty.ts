@@ -9,10 +9,11 @@ export {
 /** @internal */
 type _ = unknown
 
-const string = "" as const
+type string_ = typeof string_
+const string_ = "" as const
 const array = [] as const
 type array<type extends typeof array = typeof array> = type
-type object_ = {}
+type object_ = typeof object_
 const object_ = {} as const
 
 declare namespace empty {
@@ -20,7 +21,7 @@ declare namespace empty {
     array as path,
     array,
     object_ as object,
-    string,
+    string_ as string,
   }
 }
 
@@ -50,6 +51,16 @@ declare namespace nonempty {
     head extends
     | invariant
     = invariant,
+    tail extends
+    | any.array<invariant>
+    = any.array<invariant>
+  > = readonly [head, ...tail]
+
+  export type arrayofStrict<
+    invariant,
+    head extends
+    | invariant
+    = invariant,
     type extends
     | any.array<head>
     = any.array<head>
@@ -66,7 +77,7 @@ declare namespace nonempty {
   > = readonly [head, ...tail]
 
   /** 
-   * {@link nonempty.path `nonempty.path`} 
+   * {@link nonempty.pathLeft `nonempty.pathLeft`} 
    */
   export type pathLeft<
     init extends
