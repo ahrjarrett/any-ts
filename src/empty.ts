@@ -50,6 +50,16 @@ declare namespace nonempty {
     head extends
     | invariant
     = invariant,
+    tail extends
+    | any.array<invariant>
+    = any.array<invariant>
+  > = readonly [head, ...tail]
+
+  export type arrayofStrict<
+    invariant,
+    head extends
+    | invariant
+    = invariant,
     type extends
     | any.array<head>
     = any.array<head>
