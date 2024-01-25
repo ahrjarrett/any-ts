@@ -1,6 +1,6 @@
 export { to }
 
-import * as any from "./__internal"
+import * as any from "./any"
 
 namespace to { export const never: never = void 0 as never }
 declare namespace to {

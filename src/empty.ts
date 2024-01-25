@@ -1,4 +1,4 @@
-import * as any from "./__internal"
+import * as any from "./any"
 import { enforce } from "./err/enforce"
 
 export {

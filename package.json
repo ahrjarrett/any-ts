@@ -1,7 +1,7 @@
 {
   "name": "any-ts",
   "private": false,
-  "version": "0.2.0",
+  "version": "0.4.0",
   "author": "Andrew Jarrett <ahrjarrett@gmail.com>",
   "license": "MIT",
   "main": "src/index.ts",
