@@ -1,20 +1,17 @@
-import * as any from './__internal'
+import * as any from './any'
 import { empty, nonempty } from "./empty"
 
-import named = any.term.named
-import { never } from "./never"
+import { never } from "./semantic-never/exports"
 import { assert, expect } from './test/test';
 
 declare namespace impl {
   type unfold<path extends any.array<any.index>, leaf = unknown>
     = path extends empty.array ? leaf
     : path extends nonempty.pathLeft<infer init, infer last>
-    ? unfold<init, named<[𝐥𝐚𝐛𝐞𝐥: last, 𝐯𝐚𝐥𝐮𝐞: leaf]>>
+    ? unfold<init, any.named<[𝐥𝐚𝐛𝐞𝐥: last, 𝐯𝐚𝐥𝐮𝐞: leaf]>>
     : never
     ;
 }
-
-type _5 = nonempty.pathLeft<[1, 2, 3], 4>
 
 type unfold<leaf, path extends any.array<any.key>> = impl.unfold<path, leaf>
 
@@ -55,15 +52,6 @@ type from<
   type extends
   | impl.unfold<invariant>
   = impl.unfold<invariant>
->
-  = type
-
-type of<
-  path extends any.path,
-  leaf = unknown,
-  type extends
-  | impl.unfold<path, leaf>
-  = impl.unfold<path, leaf>
 >
   = type
 

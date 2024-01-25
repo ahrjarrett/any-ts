@@ -1,1 +1,1 @@
-export { keyof } from "./__internal"
+export { keyof } from "./any"
