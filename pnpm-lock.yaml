@@ -4,15 +4,13 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-dependencies:
-  init:
-    specifier: ^0.1.2
-    version: 0.1.2
-
 devDependencies:
   '@changesets/cli':
     specifier: ^2.27.1
     version: 2.27.1
+  init:
+    specifier: ^0.1.2
+    version: 0.1.2
   tsup:
     specifier: ^8.0.1
     version: 8.0.1(typescript@5.2.2)
@@ -955,7 +953,7 @@ packages:
   /daemon@1.1.0:
     resolution: {integrity: sha512-1vX9YVcP21gt12nSD3SQRC/uPU7fyA6M8qyClTBIFuiRWoylFn57PwXhjBAqRl085bZAje7sILhZU48qcS9SWw==}
     engines: {node: '>= 0.8.0'}
-    dev: false
+    dev: true
 
   /debug@4.3.4:
     resolution: {integrity: sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==}
@@ -1456,7 +1454,7 @@ packages:
     engines: {node: '>=0.4.7'}
     dependencies:
       daemon: 1.1.0
-    dev: false
+    dev: true
 
   /internal-slot@1.0.6:
     resolution: {integrity: sha512-Xj6dv+PsbtwyPpEflsejS+oIZxmMlV44zAhG479uYu89MsjcYOhCFnNyKrkJrihbsiasQyY0afoCl/9BLR65bg==}

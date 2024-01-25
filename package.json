@@ -1,7 +1,7 @@
 {
   "name": "any-ts",
   "private": false,
-  "version": "0.4.0",
+  "version": "0.5.0",
   "author": "Andrew Jarrett <ahrjarrett@gmail.com>",
   "license": "MIT",
   "main": "src/index.ts",
@@ -13,10 +13,8 @@
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.1",
+    "init": "^0.1.2",
     "tsup": "^8.0.1",
     "typescript": "5.2.2"
-  },
-  "dependencies": {
-    "init": "^0.1.2"
   }
 }
