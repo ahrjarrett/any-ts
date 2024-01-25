@@ -48,6 +48,8 @@ export {
   type fieldof,
   /** {@link fieldof `any.fieldOf`} @external */
   type fieldof as fieldOf,
+  /** {@link guard `any.guard`} @external */
+  type guard,
   /** {@link index `any.index`} @external */
   type index,
   /** {@link indexof `any.indexof`} @external */
@@ -84,6 +86,8 @@ export {
   type pathof,
   /** {@link pathof `any.pathOf`} @external */
   type pathof as pathOf,
+  /** {@link predicate `any.predicate`} @external */
+  type predicate,
   /** {@link primitive `any.primitive`} @external */
   type primitive,
   /** {@link showable `any.showable`} @external */
@@ -147,7 +151,9 @@ type triple<type extends three = three> = type
 type unary<type extends some.unary = some.unary> = type
 type binary<type extends some.binary = some.binary> = type
 type ternary<type extends some.ternary = some.ternary> = type
+type predicate<type extends any.predicate = any.predicate> = type
 type typeguard<𝐢𝐧 = any, 𝐨𝐮𝐭 = _> = any.typeguard<[𝐢𝐧: 𝐢𝐧, 𝐨𝐮𝐭: 𝐨𝐮𝐭]>
+type guard<target = _> = any.typeguard<[𝐢𝐧: any, 𝐨𝐮𝐭: target]>
 
 type array<type = _> = any.array<type>
 type list<type extends any.array = any.array> = type
@@ -212,6 +218,8 @@ declare namespace any {
     type numeric,
     /** {@link path `any.path`} @internal */
     type path,
+    /** {@link predicate `any.predicate`} @internal */
+    type predicate,
     /** {@link primitive `any.primitive`} @internal */
     type primitive,
     /** {@link showable `any.showable`} @internal */
@@ -244,6 +252,7 @@ declare namespace any {
   interface enumerable<type = _> { [𝐢𝐱: number]: type }
   interface arraylike<type = _> extends enumerable<type> { length: number }
 
+  interface predicate<type = any> { (u: type): boolean }
   type typeguard<
     map extends
     | readonly [𝐟𝐫𝐨𝐦: _, 𝐭𝐨: _]
@@ -345,6 +354,8 @@ declare namespace some {
     field,
     /** {@link named `some.named`} @external */
     named,
+    /** {@link predicate `some.predicate`} @external */
+    predicate,
     /** {@link record `some.record`} @external */
     record,
     /** {@link ternary `some.ternary`} @external */
@@ -352,6 +363,8 @@ declare namespace some {
     /** {@link unary `some.unary`} @external */
     unary,
   }
+
+  type predicate<type = never> = any.predicate<type>
 
   /** {@link unary `some.unary`} @external */
   interface unary<

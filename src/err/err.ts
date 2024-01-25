@@ -21,6 +21,7 @@ const Msg = {
   /** TODO: switch over to an HKT impl */
   IsNotAssignableTo: "Expected input to not be assignable, but input was assignable instead",
   NonObject: "Expected an array, but got a non-array type instead",
+  NonUnion: "Expected a non-union, but got a union type instead",
   NonEmptyArray: "Expected a non-empty array, but got an empty array instead",
   NonEmptyString: "Expected a non-empty string, but got an empty string instead",
   KeyUniqueness: "Expected keys to be unique, but encountered 1 or more duplicate keys",

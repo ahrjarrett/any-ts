@@ -27,6 +27,11 @@ declare namespace enforce {
     : (unknown)
     ;
 
+  type nonunion<type>
+    = U.is<type> extends false ? (unknown)
+    : Fn.return<typeof Err.NonUnion<type>>
+    ;
+
   type singletonObject<type>
     = [type] extends [any.array] ? (unknown)
     : [type] extends [any.object]

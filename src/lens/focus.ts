@@ -23,15 +23,26 @@ declare namespace Err {
   type infer<type extends Err<any>> = type extends Err<infer err> ? err : never
 }
 
-type Params<
+type PartialParams<
+  structure = unknown,
+  tried extends any.index = any.index,
+> = never | [𝐬𝐭𝐫𝐮𝐜𝐭𝐮𝐫𝐞: structure, 𝐭𝐫𝐢𝐞𝐝: tried]
+
+type FullParams<
   focus = unknown,
   tried extends any.index = any.index,
   breadcrumbs extends any.path = any.path,
-  structure = unknown
+  structure = unknown,
 > = never | [𝐬𝐭𝐫𝐮𝐜𝐭𝐮𝐫𝐞: structure, 𝐛𝐫𝐞𝐚𝐝𝐜𝐫𝐮𝐦𝐛𝐬: breadcrumbs, 𝐟𝐨𝐜𝐮𝐬: focus, 𝐭𝐫𝐢𝐞𝐝: tried]
 
 declare namespace TypeError {
-  interface PathNotFound<params extends Params>
+  interface PathNotFound<params extends PartialParams>
+    extends Err<{
+      tag: "SegmentNotFound"
+      tree: params[0]
+      tried: params[1]
+    }> { }
+  interface PathNotFoundExtended<params extends FullParams>
     extends Err<{
       tag: "SegmentNotFound"
       focus: params[0]
@@ -52,7 +63,7 @@ declare namespace impl {
     = path extends empty.path ? Ok<tree>
     : path extends nonempty.path<any.keyof<tree, infer head>, infer tail>
     ? impl.safeFold<tree[head], tail>
-    : TypeError.PathNotFound<Params<tree, List.head<path>>>
+    : TypeError.PathNotFound<PartialParams<tree, List.head<path>>>
     ;
 
   interface Metadata { history: any.path, structure: unknown }
@@ -78,8 +89,8 @@ declare namespace impl {
       }
     >
     :
-    TypeError.PathNotFound<
-      Params<tree, List.head<path>,
+    TypeError.PathNotFoundExtended<
+      FullParams<tree, List.head<path>,
         debug["history"],
         debug["structure"]
       >
@@ -107,8 +118,8 @@ declare namespace impl {
       }
     >
     :
-    TypeError.PathNotFound<
-      Params<tree, List.head<path>,
+    TypeError.PathNotFoundExtended<
+      FullParams<tree, List.head<path>,
         meta["history"],
         meta["structure"]
       >
@@ -160,19 +171,33 @@ declare namespace impl {
 
 type join<path extends any.path, delimiter extends any.showable> = impl.join<``, path, delimiter>
 
+const safeFold = Tree.fold.safely(["abc", "def"])
+const r1 = Tree.fold(["abc", "def"])({ abc: { def: 123 } })
+const r2 = safeFold({ abc: 123 })
+const r3 = Tree.fold.safelyWithDebugger(["abc", "def"])({ abc: {} })
+
 declare namespace Tree {
-  namespace safely {
-    type fold<tree, path extends any.path> = impl.safeFold<tree, path>
+  type fold<tree, path extends any.path> = impl.fold<tree, path>
+  const fold: {
+    <const path extends any.path>(path: path): <const tree extends Tree.unfold<path, any>>(tree: tree) => fold<tree, path>
+    safely<const path extends any.path>(path: path): <const tree>(tree: tree) => fold.safely<tree, path>
+    withDebugger<const path extends any.path>(path: path): <const tree extends Tree.unfold<path, any>>(tree: tree) => fold.withDebugger<tree, path>
+    safelyWithDebugger<const path extends any.path>(path: path): <const tree>(tree: tree) => fold.withDebugger<tree, path>
   }
-  namespace withDebugger {
-    type fold<tree, path extends any.path> = impl.foldWithDebugger<tree, path, { history: [], structure: tree }>
-  }
-  namespace safelyWithDebugger {
-    type fold<tree, path extends any.path> = impl.safeFoldWithDebugger<tree, path, { history: [], structure: tree }>
+  namespace fold {
+    type safely<tree, path extends any.path> = impl.safeFold<tree, path>
+    type withDebugger<tree, path extends any.path> = impl.foldWithDebugger<tree, path, { history: [], structure: tree }>
+    type safelyWithDebugger<tree, path extends any.path> = impl.safeFoldWithDebugger<tree, path, { history: [], structure: tree }>
   }
 
-  type fold<tree, path extends any.path> = impl.fold<tree, path>
   type unfold<path extends any.path, leaf> = impl.unfold<path, leaf>
+  const unfold
+    : {
+      <const leaf, const path extends any.path>(leaf: leaf, path: path): unfold<path, leaf>
+      <const path extends any.path>(path: path): unfold<path, {}>
+    }
+
+
   type mergeTrees<union> = impl.mergeTrees<union>
   type joinLeft<left, right> = impl.joinLeft<left, right>
   type merge<union> = impl.merge<union>
@@ -191,10 +216,23 @@ type _9 = Tree.joinLeft<
 
 interface Storage<type = {}> { [0]: type }
 
+
+interface IndexedStorage<index extends any.array<any.key>, type extends any.object> {
+  [-1]: index
+  [0]: type
+}
+
+type createIndexedStorage<type extends any.object, index extends any.array<any.keyof<type>>>
+  = IndexedStorage<index, { [ix in Extract<keyof type, index[number]>]: type[ix] }>
+
+type indexed = createIndexedStorage<{ abc: 123, def: [456], ghi: 789 }, ["abc", "def"]>
+
 declare const Focus: FocusConstructor
 interface FocusConstructor {
   of<const structure extends {} = never>(): Focus<[], structure>
   of<const structure extends {}>(structure: structure): Focus<[], structure>
+  /** given a path, construct a {@link Focus} that is focused on that path (constructing the required parent directories along the way) */
+  from<path extends any.path>(...path: path): Focus<path, Tree.unfold<path, {}>>
 }
 
 type mapFocus<next, self extends Focus>
@@ -209,7 +247,7 @@ interface Focus<path extends any.path = any.path, structure = unknown> extends S
   _path: path
   /** @internal */
   _focus(): Tree.fold<this["_root"], this["_path"]>
-  /** unwraps the {@link Focus} at the current focus */
+  /** `"."` unwraps the {@link Focus `Focus`} at the current focus */
   get ["."](): ReturnType<this["_focus"]>
   /** focus parent directory */
   get [".."](): Focus<Extract<List.lead<this["_path"]>, any.path>, this["_root"]>
@@ -226,23 +264,22 @@ interface Focus<path extends any.path = any.path, structure = unknown> extends S
   map<const next>(fn: (focus: this["."]) => next):
     Focus<this["_path"], mapFocus<next, this>>
   /** 
-   * {@link Focus.mergeLeft} allows you to merge two {@link Focus} structures into one.
+   * {@link mergeLeft `Focus.mergeLeft`} allows you to merge two {@link Focus `Focus`} structures into one.
    *
    * **Note:** "Left" in this context indicates that the focus to the left of the "." will take
    * precedence in the event of any path collisions.
    * 
-   * **Note:** The focus of the left {@link Focus} is kept, and the right focus is discarded.
+   * **Note:** The focus of the left {@link Focus `Focus`} is kept, and the right focus is discarded.
    */
-
   mergeLeft<const other extends Focus>(other: other):
     Focus<this["_path"], Tree.joinLeft<this["_root"], other["_root"]>>
   /** 
-   * {@link Focus.mergeRight} allows you to merge two {@link Focus} structures into one.
+   * {@link mergeRight `Focus.mergeRight`} allows you to merge two {@link Focus `Focus`} structures into one.
    * 
    * **Note:** "Right" in this context indicates that the focus to the right of the "." will take
    * precedence in the event of any path collisions.
    * 
-   * **Note:** The focus of the right {@link Focus} is kept, and the left focus is discarded.
+   * **Note:** The focus of the right {@link Focus `Focus`} is kept, and the left focus is discarded.
    */
 
   mergeRight<const other extends Focus>(other: other):

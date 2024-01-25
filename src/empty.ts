@@ -41,10 +41,10 @@ namespace nonempty {
 declare namespace nonempty {
   export type array<
     head = _,
-    type extends
+    tail extends
     | any.array<head>
     = any.array<head>
-  > = type
+  > = readonly [head, ...tail]
 
   export type arrayof<
     invariant,
