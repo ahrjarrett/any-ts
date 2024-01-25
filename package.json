@@ -13,10 +13,8 @@
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.1",
+    "init": "^0.1.2",
     "tsup": "^8.0.1",
     "typescript": "5.2.2"
-  },
-  "dependencies": {
-    "init": "^0.1.2"
   }
 }
