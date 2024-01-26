@@ -5,18 +5,46 @@ export {
 import type * as any from "../any";
 
 import type { Fn } from "../function/exports";
-import type { Err } from "./err";
+import type { Err, Err2 } from "./err";
 import type { never } from "../semantic-never/exports";
 import type { HasDiscriminant } from "../tag/tag";
 import type { Union as U } from "../union/exports";
 
 declare namespace impl {
+  type parseNumeric<type> = type extends `${infer x extends number}` ? x : never
+  type extract<type, invariant> = [type] extends [invariant] ? type : never
+  type getKeys<type>
+    = [type] extends [any.entries] ? extract<{ [ix in keyof type]: type[ix][extract<0, keyof type[ix]>] }, any.array> : never
+
   type duplicateKeys<type extends any.array, seen extends any.object, duplicates extends any.array>
     = [type] extends [readonly []] ? 0 extends duplicates["length"] ? never : duplicates
     : [type] extends [readonly [any.index<infer head>, ...any.list<infer tail>]]
     ? [head] extends [keyof seen] ? impl.duplicateKeys<tail, seen, [...duplicates, head]>
     : impl.duplicateKeys<tail, seen & { [ix in head]: void }, duplicates>
     : never.illegal_state<"branch unreachable">
+    ;
+
+  type nonnumericIndex_<index extends any.index>
+    = index extends number ? true : [parseNumeric<index>] extends [never] ? false : true
+
+  type isNumeric<index extends any.index>
+    = nonnumericIndex_<index> extends infer b
+    ? [boolean] extends [b] ? true : [b] extends [true] ? true : false
+    : never.close.inline_var<"b">
+    ;
+
+  type numericKeys<type extends any.array, numerics extends any.array>
+    = [type] extends [readonly []] ? 0 extends numerics["length"] ? never : numerics
+    : [type] extends [readonly [any.index<infer head>, ...infer tail]]
+    ? impl.isNumeric<head> extends true ? impl.numericKeys<tail, [...numerics, head]>
+    : impl.numericKeys<tail, numerics>
+    : never.illegal_state<"branch unreachable">
+    ;
+
+  type nonnumericIndex<type extends any.array<any.two<any.index, unknown>>>
+    = 0 extends type["length"] ? unknown
+    : isNumeric<type[number][0]> extends false ? (unknown)
+    : impl.numericKeys<impl.getKeys<type>, []>
     ;
 }
 
@@ -41,6 +69,25 @@ declare namespace enforce {
     : (unknown)
     ;
 
+  type nonnumericIndex<type extends any.array<any.two<any.index, unknown>>>
+    = 0 extends type["length"] ? unknown
+    : impl.isNumeric<type[number][0]> extends false ? (unknown)
+    : Err2<"NonNumericIndex", impl.numericKeys<impl.getKeys<type>, []>>
+    ;
+
+  type uniqNonNumericIndex<type> =
+    [type] extends [any.entries]
+    ? impl.nonnumericIndex<type> extends any.arrayof<any.index, infer numerics> ? Err2<"NonNumericIndex", numerics>
+    : enforce.uniqueness.ofEntries<type> extends infer dupes
+    ? unknown extends dupes ? (unknown)
+    : dupes
+    : never.close.inline_var<"uniq">
+    : never
+    ;
+
+  // : Fn.return<typeof Err.KeyUniqueness<duplicates>>
+  //Err2<"UniqueNonNumericIndex", enforce.uniqueness.ofEntries<type>>
+
   type literal<type>
     = [string] extends [type] ? Fn.return<typeof Err.Literal<type>>
     : [number] extends [type] ? Fn.return<typeof Err.Literal<type>>
@@ -54,8 +101,6 @@ declare namespace enforce {
     : [boolean] extends [type] ? (unknown)
     : Fn.return<typeof Err.MaxOneProp<type>>
     ;
-
-  type _54 = Parameters<typeof Err.IsNotAssignableTo<123>>
 
   type isNotAssignableTo<type, disallow>
     = [type] extends [disallow] ? Fn.return<typeof Err.IsNotAssignableTo<type>>
@@ -78,7 +123,7 @@ declare namespace enforce {
     type[number],
     any.object,
     { onMatch: Fn.return<typeof Err.Shallow<type>>; onNoMatch: unknown }
-  >;
+  >
 
   type shallow<type>
     = [type] extends [any.primitive] ? (unknown)
@@ -88,13 +133,9 @@ declare namespace enforce {
     : (unknown)
     ;
 
-  type extract<type, invariant> = [type] extends [invariant] ? type : never
-
-  type getKeys<type> = [type] extends [any.entries] ? extract<{ [ix in keyof type]: type[ix][extract<0, keyof type[ix]>] }, any.array> : never
-
   namespace uniqueness {
     type ofEntries<type>
-      = [impl.duplicateKeys<getKeys<type>, {}, []>] extends [any.list<infer duplicates>]
+      = [impl.duplicateKeys<impl.getKeys<type>, {}, []>] extends [any.list<infer duplicates>]
       ? [duplicates] extends [never]
       ? (unknown)
       : Fn.return<typeof Err.KeyUniqueness<duplicates>>
@@ -103,9 +144,63 @@ declare namespace enforce {
   }
 }
 
+namespace __Spec__ {
+  declare const testUniqNonNumericSignature
+    /** 
+     * TODO: see if you can remove the `any.array &` part -- that would clean up the output significantly
+     */
+    : <const type extends any.array & enforce.uniqNonNumericIndex<type>>(...type: type) => type
 
+  const __testUniqNonNumericSignature__ = [
+    testUniqNonNumericSignature(),
+    testUniqNonNumericSignature(["abc", 123]),
+    testUniqNonNumericSignature(["abc", 123], ["def", 456]),
+    // @ts-expect-error: outputs 🡓🡓
+    // 
+    //   any.array & TypeError<[
+    //     𝗺𝘀𝗴: "Expected keys to be unique, but encountered 1 or more duplicate keys", 
+    //     𝗴𝗼𝘁: ["abc"]
+    //   ]>
+    //
+    testUniqNonNumericSignature(["abc", 123], ["def", 456], ["abc", 789]),
+    // @ts-expect-error: outputs 🡓🡓
+    // 
+    //   any.array & TypeError<[
+    //     𝗺𝘀𝗴: "Expected keys to be unique, but encountered 1 or more duplicate keys", 
+    //     𝗴𝗼𝘁: ["abc", "def"]
+    //   ]> 
+    //
+    testUniqNonNumericSignature(["abc", 123], ["def", 456], ["abc", 789], ["def", 0]),
+    // @ts-expect-error: outputs 🡓🡓
+    //
+    //   any.array & [0]
+    // 
+    testUniqNonNumericSignature([0, 123], ["def", 456], ["abc", 789]),
+    // @ts-expect-error: outputs 🡓🡓
+    //
+    //   any.array & [0]
+    // 
+    testUniqNonNumericSignature(["def", 456], [0, 123], ["abc", 789]),
+    // @ts-expect-error: outputs 🡓🡓
+    //
+    //   any.array & [0]
+    // 
+    testUniqNonNumericSignature(["def", 456], ["abc", 789], [0, 123]),
+    // @ts-expect-error: outputs 🡓🡓
+    //
+    //   any.array & [0]
+    // 
+    testUniqNonNumericSignature([0, 123], [0, 456]),
+    // @ts-expect-error: outputs 🡓🡓
+    //
+    //   any.array & [10, 10]
+    // 
+    testUniqNonNumericSignature(["abc", 123], ["def", 456], ["abc", 789], [10, 0], [10, 0]),
+  ] as const
+}
 
 declare namespace __Spec__ {
+
   namespace uniqueness {
     type __ofEntries__ = [
       enforce.uniqueness.ofEntries<[]>,
@@ -137,10 +232,10 @@ declare namespace __Spec__ {
   }
 
   type __getKeys__ = [
-    enforce.getKeys<never>,
-    enforce.getKeys<[]>,
-    enforce.getKeys<[["abc", 123]]>,
-    enforce.getKeys<[["abc", 123], ["def", 456]]>,
-    enforce.getKeys<[["abc", 123], ["def", 456], ["ghi", 789]]>,
+    impl.getKeys<never>,
+    impl.getKeys<[]>,
+    impl.getKeys<[["abc", 123]]>,
+    impl.getKeys<[["abc", 123], ["def", 456]]>,
+    impl.getKeys<[["abc", 123], ["def", 456], ["ghi", 789]]>,
   ]
 }

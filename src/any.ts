@@ -176,7 +176,7 @@ type field<key extends any.index = any.index, value = _> = any.field<key, value>
  * as a pair, and {@link field `any.field`} when you'd prefer to pass them separately.
  * @external 
  */
-type entry<type extends readonly [any.key, _] = readonly [any.key, _]> = type
+type entry<type extends any.entry = any.entry> = type
 
 declare namespace any {
   // aliased exports
@@ -247,8 +247,8 @@ declare namespace any {
   type nonnullable = {}
   type array<type = _> = globalThis.ReadonlyArray<type>
   type field<k extends index = index, v = _> = readonly [𝐤𝐞𝐲: k, 𝐯𝐚𝐥𝐮𝐞: v]
-  type entry<type extends field = field> = type
-  type entries<type extends array<entry> = array<entry>> = type
+  type entry<type extends readonly [any.index, _] = readonly [any.index, _]> = type
+  type entries<type extends any.array<any.entry> = any.array<any.entry>> = type
   interface enumerable<type = _> { [𝐢𝐱: number]: type }
   interface arraylike<type = _> extends enumerable<type> { length: number }
 

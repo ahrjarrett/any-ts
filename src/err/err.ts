@@ -10,6 +10,7 @@
 export {
   type TypeError,
   type Err,
+  type Err2,
   Msg,
 }
 
@@ -31,6 +32,12 @@ const Msg = {
   Shallow: "Expected a primitive type or a shallow array",
 } as const
 
+type Msg2 = typeof Msg2
+const Msg2 = {
+  NonNumericIndex: "Expected a non-numeric index, but received one or more numeric keys",
+  UniqueNonNumericIndex: "Expected a unique index of non-numeric keys, but got at least one duplicate or numeric key instead"
+} as const
+
 /** @category model */
 type typeError<msg extends string, error>
   = never | TypeError<[𝗺𝘀𝗴: msg, 𝗴𝗼𝘁: error]>
@@ -48,6 +55,10 @@ const Err
     {}
   ) as never
 
+type Err2<key extends keyof Msg2, type>
+  = ({ [tag in keyof Msg2]: TypeError.template2<[𝗱𝗶𝘀𝗰𝗿𝗶𝗺𝗶𝗻𝗮𝗻𝘁: tag], type> })[key]
+
+
 declare namespace TypeError {
   export {
     /** @category function application */
@@ -63,7 +74,10 @@ declare namespace TypeError {
   /** @category type constructors */
   export interface template<errorTag extends readonly [tag: keyof Msg]> {
     <const type>(type: type): typeError<Msg[errorTag[0]], type>
+    // <const type extends any.two>(type: type): typeError<Msg[errorTag[0]], type>
   }
+
+  export type template2<errorTag extends readonly [tag: keyof Msg2], type> = typeError<Msg2[errorTag[0]], type>
 
   /** @category function application */
   export interface bind<message extends string> {
