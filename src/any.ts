@@ -38,9 +38,13 @@ export {
   type double,
   /** {@link entries `any.entries`} @external */
   type entries,
+  /** {@link entryof `any.entryof`} @external */
+  type entryof,
+  /** {@link entryof `any.entryOf`} alias for {@link entryof `any.entryof`} @external */
+  type entryof as entryOf,
   /** {@link entriesof `any.entriesof`} @external */
   type entriesof,
-  /** {@link entriesof `any.entriesOf`} @external */
+  /** {@link entriesof `any.entriesOf`} alias for {@link entriesof `any.entriesOf`} @external */
   type entriesof as entriesOf,
   /** {@link entry `any.entry`} @external */
   type entry,
@@ -315,6 +319,13 @@ type arrayof<
   type extends
   | any.array<invariant>
   = any.array<invariant>
+> = type
+
+type entryof<
+  invariant,
+  type extends
+  | readonly [any.index, invariant]
+  = readonly [any.index, invariant]
 > = type
 
 type entriesof<
