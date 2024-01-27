@@ -58,7 +58,6 @@ const Err
 type Err2<key extends keyof Msg2, type>
   = ({ [tag in keyof Msg2]: TypeError.template2<[𝗱𝗶𝘀𝗰𝗿𝗶𝗺𝗶𝗻𝗮𝗻𝘁: tag], type> })[key]
 
-
 declare namespace TypeError {
   export {
     /** @category function application */

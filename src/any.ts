@@ -24,7 +24,7 @@ export {
   type array,
   /** {@link arrayof `any.arrayof`} @external */
   type arrayof,
-  /** {@link arrayof `any.arrayOf`} @external */
+  /** {@link arrayof `any.arrayOf`} alias for {@link arrayof `any.arrayof`} @external */
   type arrayof as arrayOf,
   /** {@link arraylike `any.arraylike`} @external */
   type arraylike,
@@ -32,12 +32,16 @@ export {
   type binary,
   /** {@link dictionary `any.dictionary`} @external */
   type dictionary,
-  /** {@link dictionary `any.dict`} @external */
+  /** {@link dictionary `any.dict`} alias for {@link dictionary `any.dictionary`} @external */
   type dictionary as dict,
   /** {@link double `any.double`} @external */
   type double,
   /** {@link entries `any.entries`} @external */
   type entries,
+  /** {@link entriesof `any.entriesof`} @external */
+  type entriesof,
+  /** {@link entriesof `any.entriesOf`} @external */
+  type entriesof as entriesOf,
   /** {@link entry `any.entry`} @external */
   type entry,
   /** {@link enumerable `any.enumerable`} @external */
@@ -46,19 +50,19 @@ export {
   type field,
   /** {@link fieldof `any.fieldof`} @external */
   type fieldof,
-  /** {@link fieldof `any.fieldOf`} @external */
+  /** {@link fieldof `any.fieldOf`} alias for {@link fieldof `any.fieldof`} @external */
   type fieldof as fieldOf,
-  /** {@link guard `any.guard`} @external */
+  /** {@link guard `any.guard`} - a variant of {@link typeguard `any.typeguard`} that fixes the input type to `unknown` @external */
   type guard,
-  /** {@link index `any.index`} @external */
+  /** {@link index `any.index`} - `string | number | symbol` @external */
   type index,
   /** {@link indexof `any.indexof`} @external */
   type indexof,
-  /** {@link indexof `any.indexOf`} @external */
+  /** {@link indexof `any.indexOf`} alias for {@link indexof `any.indexof`} @external */
   type indexof as indexOf,
   /** {@link indexedby `any.indexedby`} @external */
   type indexedby,
-  /** {@link indexedby `any.indexedBy`} @external */
+  /** {@link indexedby `any.indexedBy`} alias for {@link indexedby `any.indexedby`} @external */
   type indexedby as indexedBy,
   /** {@link invertible `any.invertible`} @external */
   type invertible,
@@ -66,7 +70,7 @@ export {
   type key,
   /** {@link keyof `any.keyof`} @external */
   type keyof,
-  /** {@link keyof `any.keyOf`} @external */
+  /** {@link keyof `any.keyOf`} alias for {@link keyof `any.keyof`} @external */
   type keyof as keyOf,
   /** {@link list `any.list`} @external */
   type list,
@@ -84,7 +88,7 @@ export {
   type path,
   /** {@link pathof `any.pathof`} @external */
   type pathof,
-  /** {@link pathof `any.pathOf`} @external */
+  /** {@link pathof `any.pathOf`} alias for {@link pathof `any.pathof`} @external */
   type pathof as pathOf,
   /** {@link predicate `any.predicate`} @external */
   type predicate,
@@ -92,13 +96,17 @@ export {
   type primitive,
   /** {@link showable `any.showable`} @external */
   type showable,
+  /** {@link showableKeyof `any.showableKeyof`} @external */
+  type showableKeyof,
+  /** {@link showableKeyof `any.showableKeyOf`} alias for {@link showableKeyof `any.showableKeyof`} @external */
+  type showableKeyof as showableKeyOf,
   /** {@link single `any.single`} @external */
   type single,
   /** {@link struct `any.struct`} @external */
   type struct,
   /** {@link subtypeof `any.subtypeof`} @external */
   type subtypeof,
-  /** {@link subtypeof `any.subtypeOf`} @external */
+  /** {@link subtypeof `any.subtypeOf`} alias for {@link subtypeof `any.subtypeof`} @external */
   type subtypeof as subtypeOf,
   /** {@link ternary `any.ternary`} @external */
   type ternary,
@@ -263,8 +271,15 @@ declare namespace any {
 type keyof<
   invariant,
   type extends
-  | key & keyof invariant
-  = key & keyof invariant
+  | keyof invariant
+  = keyof invariant
+> = type
+
+type showableKeyof<
+  invariant,
+  type extends
+  | any.key & keyof invariant
+  = any.key & keyof invariant
 > = type
 
 type indexof<
@@ -302,6 +317,13 @@ type arrayof<
   = any.array<invariant>
 > = type
 
+type entriesof<
+  invariant,
+  type extends
+  | any.array<readonly [any.index, invariant]>
+  = any.array<readonly [any.index, invariant]>
+> = type
+
 type fieldof<
   invariant,
   type extends
@@ -315,7 +337,6 @@ type subtypeof<
   | invariant extends invariant ? invariant : never
   = invariant extends invariant ? invariant : never
 > = subtype
-
 
 namespace some { export const never: never = void 0 as never }
 /**
