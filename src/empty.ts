@@ -42,7 +42,7 @@ declare namespace nonempty {
   export type array<
     head = _,
     tail extends
-    | any.array<head>
+    | any.array
     = any.array<head>
   > = readonly [head, ...tail]
 
