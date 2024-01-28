@@ -217,7 +217,7 @@ type _9 = Tree.joinLeft<
 interface Storage<type = {}> { [0]: type }
 
 
-interface IndexedStorage<index extends any.array<any.key>, type extends any.object> {
+interface IndexedStorage<index extends any.array<any.index>, type extends any.object> {
   [-1]: index
   [0]: type
 }

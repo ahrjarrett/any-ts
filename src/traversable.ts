@@ -16,8 +16,8 @@ declare namespace impl {
 type unfold<leaf, path extends any.array<any.key>> = impl.unfold<path, leaf>
 
 /** 
- * {@link from `traversable.from`} is a type-constructor that takes a path and, via induction, 
- * constructs the tree it describes.
+ * {@link from `traversable.from`} is a type-constructor that takes a path describing a tree and, 
+ * via induction, constructs the tree it describes.
  *
  * See also: {@link of `traversable.of`}
  * 

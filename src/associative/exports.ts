@@ -1,0 +1,1 @@
+export { Assoc } from "./associative"
