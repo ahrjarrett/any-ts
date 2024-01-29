@@ -16,11 +16,16 @@ type array<type extends typeof array = typeof array> = type
 type object_ = typeof object_
 const object_ = {} as const
 
+
 declare namespace empty {
   export {
+    /** {@link array `empty.path`} @external */
     array as path,
+    /** {@link array `empty.array`} @external */
     array,
+    /** {@link object_ `empty.object`} @external */
     object_ as object,
+    /** {@link string_ `empty.string`} @external */
     string_ as string,
   }
 }
@@ -33,15 +38,35 @@ namespace empty {
 }
 
 declare namespace nonempty {
-  export { string_ as string }
-  export type array<
+  export {
+    /** {@link array `nonempty.array`} @external */
+    array,
+    /** {@link arrayof `nonempty.arrayof`} @external */
+    arrayof,
+    /** {@link arrayof `nonempty.arrayOf`} @external */
+    arrayof as arrayOf,
+    /** {@link arrayofStrict `nonempty.arrayofStrict`} @external */
+    arrayofStrict,
+    /** {@link arrayofStrict `nonempty.arrayOfStrict`} @external */
+    arrayofStrict as arrayOfStrict,
+    /** {@link path `nonempty.path`} @external */
+    path,
+    /** {@link path `nonempty.pathRight`} @external */
+    path as pathRight,
+    /** {@link pathLeft `nonempty.pathLeft`} */
+    pathLeft,
+    /** {@link string_ `nonempty.string`} @external */
+    string_ as string
+  }
+
+  type array<
     head = _,
     tail extends
     | any.array
     = any.array<head>
   > = readonly [head, ...tail]
 
-  export type arrayof<
+  type arrayof<
     invariant,
     head extends
     | invariant
@@ -51,9 +76,12 @@ declare namespace nonempty {
     = any.array<invariant>
   > = readonly [head, ...tail]
 
-  type string_<head extends string, tail extends string = string> = `${head}${tail}`
+  type string_<
+    head extends string = string,
+    tail extends string = string
+  > = `${head}${tail}`
 
-  export type arrayofStrict<
+  type arrayofStrict<
     invariant,
     head extends
     | invariant
@@ -63,20 +91,14 @@ declare namespace nonempty {
     = any.array<head>
   > = type
 
-  /** 
-   * {@link nonempty.path `nonempty.path`} 
-   */
-  export type path<
+  type path<
     head extends any.index = any.index,
     tail extends
     | any.array<any.index>
     = any.array<any.index>
   > = readonly [head, ...tail]
 
-  /** 
-   * {@link nonempty.pathLeft `nonempty.pathLeft`} 
-   */
-  export type pathLeft<
+  type pathLeft<
     init extends
     | any.array<any.index>
     = any.array<any.index>,
@@ -85,6 +107,7 @@ declare namespace nonempty {
 }
 
 namespace nonempty {
+  export const never: never = void 0 as never
   // export const string
   //   : <text extends enforce.nonEmptyString<text>>(text: text) => text
   //   = (text) => text

@@ -1,9 +1,9 @@
-import * as any from "../any"
-import { TypeError, assert, describe, empty, enforce, evaluate, expect, never, nonempty } from "../exports";
-
 export {
   assoc as Assoc,
 }
+
+import * as any from "../any"
+import { TypeError, assert, describe, empty, enforce, evaluate, expect, never, nonempty } from "../exports";
 
 declare namespace impl {
   type parseNumeric<type> = type extends `${infer x extends number}` ? x : never
@@ -88,7 +88,7 @@ type is<type>
 class Assoc<const type extends object> extends impl.base<type> { }
 type associative<type extends any.entries> = make<type, any.entries, assoc<of<type>>>
 
-type assoc<type extends readonly [any.object, any.array]> = never | Assoc<type[0] & type[1]>
+type assoc<type extends readonly [any.type, any.array]> = never | Assoc<type[0] & type[1]>
 declare function assoc
   <const type extends any.entries & enforce.uniqNonNumericIndex<type>>(...type: type): associative<type>
 

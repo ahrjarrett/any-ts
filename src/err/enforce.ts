@@ -5,10 +5,12 @@ export {
 import type * as any from "../any";
 
 import type { Fn } from "../function/exports";
-import type { Err, Err2 } from "./err";
+import type { Err, Err2, TypeError } from "./err";
 import type { never } from "../semantic-never/exports";
 import type { HasDiscriminant } from "../tag/tag";
 import type { Union as U } from "../union/exports";
+import { empty } from "../empty";
+import { assert, expect } from "../exports";
 
 declare namespace impl {
   type parseNumeric<type> = type extends `${infer x extends number}` ? x : never
@@ -54,6 +56,16 @@ declare namespace enforce {
     : [type] extends [any.object] ? Fn.return<typeof Err.NonObject<type>>
     : (unknown)
     ;
+
+  type singleChar<type>
+    = [string] extends [type] ? Fn.return<typeof Err.SingleCharGotUniversal<type>>
+    : [type] extends [`${any}${infer rest}`]
+    ? rest extends empty.string ? (unknown)
+    : Fn.return<typeof Err.SingleCharGotLonger<type>>
+    : Fn.return<typeof Err.SingleCharGotShorter<type>>
+    ;
+
+  // type arbitraryBranch
 
   type nonunion<type>
     = U.is<type> extends false ? (unknown)
@@ -232,10 +244,51 @@ declare namespace __Spec__ {
   }
 
   type __getKeys__ = [
-    impl.getKeys<never>,
-    impl.getKeys<[]>,
-    impl.getKeys<[["abc", 123]]>,
-    impl.getKeys<[["abc", 123], ["def", 456]]>,
-    impl.getKeys<[["abc", 123], ["def", 456], ["ghi", 789]]>,
+    // ^?
+    expect<assert.equal<
+      impl.getKeys<never>,
+      never
+    >>,
+    expect<assert.equal<
+      impl.getKeys<[]>,
+      []
+    >>,
+    expect<assert.equal<
+      impl.getKeys<[["abc", 123]]>,
+      ["abc"]
+    >>,
+    expect<assert.equal<
+      impl.getKeys<[["abc", 123], ["def", 456]]>,
+      ["abc", "def"]
+    >>,
+    expect<assert.equal<
+      impl.getKeys<[["abc", 123], ["def", 456], ["ghi", 789]]>,
+      ["abc", "def", "ghi"]
+    >>,
   ]
+
+  type __singleChar__ = [
+    // ^?
+    // unhappy path 🡫🡫
+    expect<assert.equal<
+      enforce.singleChar<"">,
+      TypeError<[𝗺𝘀𝗴: "Expected to receive a single-char string, but encountered an empty string instead", 𝗴𝗼𝘁: ""]>
+    >>,
+    expect<assert.equal<
+      enforce.singleChar<string>,
+      TypeError<[𝗺𝘀𝗴: "Expected to receive a single-char string, but encountered the universal string type instead", 𝗴𝗼𝘁: string]>
+    >>,
+    expect<assert.equal<
+      enforce.singleChar<"ab">,
+      TypeError<[𝗺𝘀𝗴: "Expected to receive a single-char string, but encountered a string containing more than 1 character instead", 𝗴𝗼𝘁: "ab"]>
+    >>,
+    expect<assert.equal<
+      enforce.singleChar<"abc">,
+      TypeError<[𝗺𝘀𝗴: "Expected to receive a single-char string, but encountered a string containing more than 1 character instead", 𝗴𝗼𝘁: "abc"]>
+    >>,
+    // happy path 🡫🡫
+    expect<assert.equal<enforce.singleChar<"a">, unknown>>,
+    // happy path 🡩🡩
+  ]
+
 }

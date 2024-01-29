@@ -6,9 +6,12 @@ export {
 }
 
 import type * as any from "../any"
-import { enforce, TypeError } from "../exports";
+import { Case, TypeError } from "../err/exports"
+import { enforce } from "../err/enforce"
 
 import * as Sym from "./symbol"
+import { empty, never, nonempty } from "../exports"
+import { Union } from "../union/exports"
 
 interface Suite {
   assert: typeof assert
@@ -28,11 +31,15 @@ type byPos<type extends any.array, failures extends any.object = {}, ix extends 
 
 type byName<type extends any.object>
   = (
-    keyof type extends infer key ? key extends keyof type ? type[key] extends Sym.GreenEmoji ? never : key : never : never) extends infer key ? [key] extends [keyof type]
+    keyof type extends infer key
+    ? key extends keyof type
+    ? type[key] extends Sym.GreenEmoji
+    ? never.as_identity
+    : key
+    : never.close.distributive<"key">
+    : never.close.inline_var<"key">
+  ) extends infer key ? [key] extends [keyof type]
   ? { [k in key]: type[k] }
-  //   [key] extends [keyof type]
-  // ? { [ix in keyof type]: type[ix] }
-  // : never
   : never
   : never
   ;
@@ -55,17 +62,22 @@ type expect<type extends [type] extends [Sym.GreenEmoji] ? Sym.GreenEmoji : neve
 declare const expect
   : {
     /** 
-     * This overload is the trick to getting the type of `type` to come through
-     * when in an error-state (since the first overload is meant to be unsatisfiable):
+     * This is the trick to getting the type of `type` to come through when in 
+     * an error-state (since the first overload is meant to be unsatisfiable):
      */
     <const type>(type: type, _skip: never): [Sym.RedEmoji, type]
     <const type extends Sym.GreenEmoji>(type: type): type
   }
 
+
 declare const expectToFail
   : {
-    <const type>(type: type, _skip: never): [Sym.GreenEmoji] extends [type] ? TypeError<[Sym.RedEmoji, `Expected a failing test, but got a passing one instead`]> : type
-    <const type extends [type] extends [Sym.GreenEmoji] ? TypeError<[Sym.RedEmoji, `Expected a failing test, but got a passing one instead`]> : unknown>(type: type): Sym.GreenEmoji
+    /** 
+     * This is the trick to getting the type of `type` to come through when in 
+     * an error-state (since the first overload is meant to be unsatisfiable):
+     */
+    <const type>(type: type, _skip: never): [Sym.GreenEmoji] extends [type] ? TypeError<[Sym.RedEmoji, Case.ExpectedFailure]> : type
+    <const type extends [type] extends [Sym.GreenEmoji] ? TypeError<[Sym.RedEmoji, Case.ExpectedFailure]> : unknown>(type: type): Sym.GreenEmoji
   }
 
 
@@ -230,14 +242,14 @@ namespace __Spec__ {
     t => [
       expect(
         assert.equal(
-          /* @ts-expect-error: tests to make sure we're raising a TypeError here */
+          /* @ts-expect-error: tests to make a failing assertion raises a TypeError */
           expectToFail(t.assert.equal({ abc: 123 }, { abc: 123 })),
           expectToFailErrorMsg
         )
       ),
       expect(
         assert.equal(
-          /* @ts-expect-error: tests to make sure we're raising a TypeError here */
+          /* @ts-expect-error: tests to make a failing assertion raises a TypeError */
           expectToFail(Sym.GreenEmoji),
           expectToFailErrorMsg
         )

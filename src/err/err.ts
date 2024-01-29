@@ -11,6 +11,7 @@ export {
   type TypeError,
   type Err,
   type Err2,
+  Case,
   Msg,
 }
 
@@ -30,6 +31,16 @@ const Msg = {
   MaxOneProp: "Expected a non-object type, or an object type with at most 1 property",
   NonLiteral: "Expected a non-literal type, but encountered a literal instead",
   Shallow: "Expected a primitive type or a shallow array",
+  SingleCharGotLonger: "Expected to receive a single-char string, but encountered a string containing more than 1 character instead",
+  SingleCharGotShorter: "Expected to receive a single-char string, but encountered an empty string instead",
+  SingleCharGotUniversal: "Expected to receive a single-char string, but encountered the universal string type instead",
+} as const
+
+declare namespace Case {
+  type ExpectedFailure = typeof Case.ExpectedFailure
+}
+const Case = {
+  ExpectedFailure: `Expected a failing test, but got a passing one instead`,
 } as const
 
 type Msg2 = typeof Msg2
