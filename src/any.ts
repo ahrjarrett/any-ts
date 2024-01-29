@@ -28,6 +28,10 @@ export {
   type arrayof as arrayOf,
   /** {@link arraylike `any.arraylike`} @external */
   type arraylike,
+  /** {@link assertion `any.assertion`} @external */
+  type assertion,
+  /** {@link asserts `any.asserts`} @external */
+  type asserts,
   /** {@link double `any.double`} @external */
   type binary,
   /** {@link dictionary `any.dictionary`} @external */
@@ -164,6 +168,8 @@ type unary<type extends some.unary = some.unary> = type
 type binary<type extends some.binary = some.binary> = type
 type ternary<type extends some.ternary = some.ternary> = type
 type predicate<type extends any.predicate = any.predicate> = type
+type asserts<target = _> = any.assertion<[𝐢𝐧: any, 𝐨𝐮𝐭: target]>
+type assertion<𝐢𝐧 = any, 𝐨𝐮𝐭 = _> = any.assertion<[𝐢𝐧: 𝐢𝐧, 𝐨𝐮𝐭: 𝐨𝐮𝐭]>
 type typeguard<𝐢𝐧 = any, 𝐨𝐮𝐭 = _> = any.typeguard<[𝐢𝐧: 𝐢𝐧, 𝐨𝐮𝐭: 𝐨𝐮𝐭]>
 type guard<target = _> = any.typeguard<[𝐢𝐧: any, 𝐨𝐮𝐭: target]>
 
@@ -204,6 +210,10 @@ declare namespace any {
     type array,
     /** {@link arraylike `any.arraylike`} @internal */
     type arraylike,
+
+    /** {@link assertion `any.assertion`} @internal */
+    type assertion,
+
     /** {@link dictionary `any.dictionary`} @internal */
     type dictionary,
     /** {@link entries `any.entries`} @internal */
@@ -270,6 +280,12 @@ declare namespace any {
     | readonly [𝐟𝐫𝐨𝐦: _, 𝐭𝐨: _]
     = readonly [𝐟𝐫𝐨𝐦: any, 𝐭𝐨: _]
   > = never | { (u: map[0]): u is map[1] }
+
+  type assertion<
+    map extends
+    | readonly [𝐟𝐫𝐨𝐦: _, 𝐭𝐨: _]
+    = readonly [𝐟𝐫𝐨𝐦: any, 𝐭𝐨: _]
+  > = never | { (u: map[0]): asserts u is map[1] }
 }
 
 type keyof<
