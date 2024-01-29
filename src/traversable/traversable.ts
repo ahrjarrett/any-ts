@@ -1,8 +1,13 @@
-import * as any from './any'
-import { empty, nonempty } from "./empty"
+export {
+  traversable,
+  traversal,
+}
 
-import { never } from "./semantic-never/exports"
-import { assert, expect } from './test/test';
+import * as any from '../any'
+import { empty, nonempty } from "../empty"
+
+import { never } from "../semantic-never/exports"
+import { assert, expect } from '../test/test';
 
 declare namespace impl {
   type unfold<path extends any.array<any.index>, leaf = unknown>
@@ -55,6 +60,15 @@ type from<
 >
   = type
 
+namespace traversable { export const never: never = void 0 as never }
+declare namespace traversable {
+  export {
+    from,
+    unfold,
+  }
+}
+
+namespace traversal { export const never: never = void 0 as never }
 declare namespace traversal {
   type of<
     tree,
@@ -65,6 +79,7 @@ declare namespace traversal {
     : never.close.unmatched_expr
     ;
 }
+
 
 type leaf = typeof leaf
 declare const leaf: unique symbol
@@ -97,11 +112,3 @@ type __nonempty_path__ = expect<assert.equal<nonempty.path<0, [1, 2, 3]>, readon
 //   ^?
 type __nonempty_pathLeft__ = expect<assert.equal<nonempty.pathLeft<[1, 2, 3], 4>, readonly [1, 2, 3, 4]>>
 //   ^?
-
-namespace traversable { export const never: never = void 0 as never }
-declare namespace traversable {
-  export {
-    from,
-    unfold,
-  }
-}

@@ -32,13 +32,8 @@ namespace empty {
   empty.object = object
 }
 
-namespace nonempty {
-  export const string
-    : <text extends enforce.nonEmptyString<text>>(text: text) => text
-    = (text) => text
-}
-
 declare namespace nonempty {
+  export { string_ as string }
   export type array<
     head = _,
     tail extends
@@ -55,6 +50,8 @@ declare namespace nonempty {
     | any.array<invariant>
     = any.array<invariant>
   > = readonly [head, ...tail]
+
+  type string_<head extends string, tail extends string = string> = `${head}${tail}`
 
   export type arrayofStrict<
     invariant,
@@ -85,4 +82,10 @@ declare namespace nonempty {
     = any.array<any.index>,
     last extends any.index = any.index
   > = readonly [...init, last]
+}
+
+namespace nonempty {
+  // export const string
+  //   : <text extends enforce.nonEmptyString<text>>(text: text) => text
+  //   = (text) => text
 }
