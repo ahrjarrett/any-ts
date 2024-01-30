@@ -62,8 +62,11 @@ type expect<type extends [type] extends [Sym.GreenEmoji] ? Sym.GreenEmoji : neve
 declare const expect
   : {
     /** 
-     * This is the trick to getting the type of `type` to come through when in 
-     * an error-state (since the first overload is meant to be unsatisfiable):
+     * The first overload is intentionally unsatisfiable. This is the trick to
+     * getting the type of `type` to "come through" when the assertion fails
+     * (otherwise on invalid input TS chooses the second overload, and since 
+     * `type` can only be {@link Sym.GreenEmoji}, we lose access to the type
+     * that triggered the invalid state
      */
     <const type>(type: type, _skip: never): [Sym.RedEmoji, type]
     <const type extends Sym.GreenEmoji>(type: type): type
@@ -73,8 +76,11 @@ declare const expect
 declare const expectToFail
   : {
     /** 
-     * This is the trick to getting the type of `type` to come through when in 
-     * an error-state (since the first overload is meant to be unsatisfiable):
+     * The first overload is intentionally unsatisfiable. This is the trick to
+     * getting the type of `type` to "come through" when the assertion fails
+     * (otherwise on invalid input TS chooses the second overload, and since 
+     * `type` can only be {@link Sym.GreenEmoji}, we lose access to the type
+     * that triggered the invalid state
      */
     <const type>(type: type, _skip: never): [Sym.GreenEmoji] extends [type] ? TypeError<[Sym.RedEmoji, Case.ExpectedFailure]> : type
     <const type extends [type] extends [Sym.GreenEmoji] ? TypeError<[Sym.RedEmoji, Case.ExpectedFailure]> : unknown>(type: type): Sym.GreenEmoji
@@ -102,7 +108,11 @@ declare const assert: {
       <const b>(b: b): <const a, fn extends Interpreter = NotEquivalent>(a: a, fn?: fn) => assert.not.equivalent<a, b, fn>
     }
   }
+  // curried assertions:
+  equals: <expected = never>() => <const actual, fn extends Interpreter = Equal>
+    (actual: actual, fn?: fn) => assert.equal<actual, expected, fn>
 }
+
 declare namespace assert {
   type isTrue<type> = handleAnys<type, never, [true] extends [type] ? Sym.GreenEmoji : interpretFailure<TrueLiteral, type, never>>
   type isFalse<type> = handleAnys<type, never, [false] extends [type] ? Sym.GreenEmoji : interpretFailure<FalseLiteral, type, never>>
@@ -258,4 +268,3 @@ namespace __Spec__ {
   )
 
 }
-
