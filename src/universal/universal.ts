@@ -34,4 +34,12 @@ declare namespace Universal {
     ? Universal.key<Extract<keyof type, `${number}`>>
     : Universal.key<keyof type>
     ;
+
+  type values<type>
+    = type extends any.array
+    ? type[number]
+    : type extends any.object
+    ? type[keyof type]
+    : type
+    ;
 }
