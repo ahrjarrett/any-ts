@@ -3,7 +3,7 @@ export {
 }
 
 import * as any from "../any"
-import { TypeError, Universal, assert, describe, empty, enforce, evaluate, expect, never, nonempty } from "../exports"
+import { TypeError, Universal, assert, describe, enforce, expect, never } from "../exports"
 
 declare namespace impl {
   type parseNumeric<type> = type extends `${infer x extends number}` ? x : never
