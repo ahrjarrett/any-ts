@@ -1,5 +1,5 @@
 export {
-  assoc as Assoc,
+  Assoc as assoc,
 }
 
 import * as any from "../any"
@@ -38,7 +38,7 @@ namespace impl {
 }
 
 declare const is
-  : <const type>(type: type) => assoc.is<type>
+  : <const type>(type: type) => Assoc.is<type>
   ;
 
 type of<type extends any.entries> = never | [
@@ -85,14 +85,14 @@ type is<type>
   ;
 
 /* @ts-expect-error - internal use only */
-class Assoc<const type extends object> extends impl.base<type> { }
-type associative<type extends any.entries> = make<type, any.entries, assoc<of<type>>>
+class assoc<const type extends object> extends impl.base<type> { }
+type associative<type extends any.entries> = make<type, any.entries, Assoc<of<type>>>
 
-type assoc<type extends readonly [any.type, any.array]> = never | Assoc<type[0] & type[1]>
-declare function assoc
+type Assoc<type extends readonly [any.type, any.indexedby<number>]> = never | assoc<type[0] & type[1]>
+declare function Assoc
   <const type extends any.entries & enforce.uniqNonNumericIndex<type>>(...type: type): associative<type>
 
-declare namespace assoc {
+declare namespace Assoc {
   export {
     is,
     separate,
@@ -101,27 +101,27 @@ declare namespace assoc {
 }
 
 namespace assoc {
-  assoc.is = is
-  assoc.separate = separate
-  assoc.indices = indices
+  Assoc.is = is
+  Assoc.separate = separate
+  Assoc.indices = indices
 }
 
 type __is__ = [
   // ^?
-  expect<assert.isFalse<assoc.is<any.array>>>,
-  expect<assert.isFalse<assoc.is<[]>>>,
-  expect<assert.isFalse<assoc.is<{}>>>,
-  expect<assert.isFalse<assoc.is<[] & {}>>>,
-  expect<assert.isFalse<assoc.is<[1]>>>,
-  expect<assert.isFalse<assoc.is<[1] & { abc: 123 }>>>,
-  expect<assert.isFalse<assoc.is<[] & { abc: 123 }>>>,
-  expect<assert.isFalse<assoc.is<["abc", "def", "xyz"] & { abc: 123, def: 455, ghi: 789 }>>>,
-  expect<assert.isFalse<assoc.is<["abc", "def", "ghii"] & { abc: 123, def: 455, ghi: 789 }>>>,
-  expect<assert.isFalse<assoc.is<["abc", "def"] & { abc: 123, def: 455, ghi: 789 }>>>,
+  expect<assert.isFalse<Assoc.is<any.array>>>,
+  expect<assert.isFalse<Assoc.is<[]>>>,
+  expect<assert.isFalse<Assoc.is<{}>>>,
+  expect<assert.isFalse<Assoc.is<[] & {}>>>,
+  expect<assert.isFalse<Assoc.is<[1]>>>,
+  expect<assert.isFalse<Assoc.is<[1] & { abc: 123 }>>>,
+  expect<assert.isFalse<Assoc.is<[] & { abc: 123 }>>>,
+  expect<assert.isFalse<Assoc.is<["abc", "def", "xyz"] & { abc: 123, def: 455, ghi: 789 }>>>,
+  expect<assert.isFalse<Assoc.is<["abc", "def", "ghii"] & { abc: 123, def: 455, ghi: 789 }>>>,
+  expect<assert.isFalse<Assoc.is<["abc", "def"] & { abc: 123, def: 455, ghi: 789 }>>>,
   // correct
-  expect<assert.isTrue<assoc.is<["abc"] & { abc: 123 }>>>,
-  expect<assert.isTrue<assoc.is<["abc", "def"] & { abc: 123, def: 455 }>>>,
-  expect<assert.isTrue<assoc.is<["abc", "def"] & { abc: 123, def: 455 }>>>,
+  expect<assert.isTrue<Assoc.is<["abc"] & { abc: 123 }>>>,
+  expect<assert.isTrue<Assoc.is<["abc", "def"] & { abc: 123, def: 455 }>>>,
+  expect<assert.isTrue<Assoc.is<["abc", "def"] & { abc: 123, def: 455 }>>>,
 ]
 
 namespace __Spec__ {
@@ -144,14 +144,14 @@ namespace __Spec__ {
     { abc: 123 } & ["abc"],
     { abc: 123, def: 456 } & ["abc", "def"],
   ]
-  declare const assoc1: Assoc<{ abc: 123; def: 456; } & ["abc", "def"]>
+  declare const assoc1: assoc<{ abc: 123; def: 456; } & ["abc", "def"]>
   declare const err1: TypeError<[𝗺𝘀𝗴: "Expected keys to be unique, but encountered 1 or more duplicate keys", 𝗴𝗼𝘁: ["abc"]]>
 
   describe("Assoc", () => {
     // ^?
     return [
       describe("assoc", t => [
-        expect(t.assert.equal(assoc(["abc", 123], ["def", 456]), assoc1)),
+        expect(t.assert.equal(Assoc(["abc", 123], ["def", 456]), assoc1)),
         /* @ts-expect-error: this directive makes sure passing invalid input raises a TypeError */
         expect(t.assert.equal(assoc(["abc", 123], ["abc", 456]), err1)),
       ]),
