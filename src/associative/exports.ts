@@ -1,1 +1,1 @@
-export { Assoc } from "./associative"
+export { assoc } from "./associative"
