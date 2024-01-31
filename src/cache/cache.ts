@@ -1,4 +1,8 @@
+export {
+  cache,
+}
 
+namespace cache { export const never: never = void 0 as never }
 declare namespace cache {
   type _ = unknown
 
