@@ -1,8 +1,11 @@
 // module namespaces
 export {
-  some,
   numeric,
+  some,
 }
+
+// external module namespaces
+export { mut } from "./mutable/exports"
 
 // aliased exports
 export {
@@ -158,9 +161,9 @@ type showable<type extends any.showable = any.showable> = type
 type primitive<type extends any.primitive = any.primitive> = type
 type numeric<type extends any.numeric = any.numeric> = type
 
-type one<first = _> = readonly [_𝟭: first]
-type two<first = _, second = _> = readonly [_𝟭: first, _𝟮: second]
-type three<first = _, second = _, third = _> = readonly [_𝟭: first, _𝟮: second, _𝟯: third]
+type one<only = _> = readonly [_𝟭: only]
+type two<fst = _, snd = _> = readonly [_𝟭: fst, _𝟮: snd]
+type three<fst = _, snd = _, thr = _> = readonly [_𝟭: fst, _𝟮: snd, _𝟯: thr]
 type single<type extends one = one> = type
 type double<type extends two = two> = type
 type triple<type extends three = three> = type
@@ -182,6 +185,7 @@ type enumerable<type extends any.enumerable = any.enumerable> = type
 type arraylike<type extends any.arraylike = any.arraylike> = type
 type invertible<type extends any.invertible = any.invertible> = type
 type path<type extends any.path = any.path> = type
+type keys<type extends any.keys = any.keys> = type
 
 /** 
  * Use {@link field `any.field`} when its more convenient to pass the key/value
@@ -230,6 +234,8 @@ declare namespace any {
     type invertible,
     /** {@link key `any.key`} @internal */
     type key,
+    /** {@link keys `any.keys`} @internal */
+    type keys,
     /** {@link literal `any.literal`} @internal */
     type literal,
     /** {@link nonnullable `any.nonnullable`} @internal */
@@ -257,6 +263,7 @@ declare namespace any {
   type key = string | number
   type index = string | number | symbol
   type numeric = number | `${number}`
+  type keys = any.array<any.key>
   type path = readonly index[]
   interface struct { [𝐢𝐱: keyof never]: any }
   type literal = string | number | boolean
