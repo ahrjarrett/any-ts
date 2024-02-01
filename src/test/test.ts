@@ -88,8 +88,12 @@ declare const expectToFail
 
 
 declare const assert: {
-  isTrue<const type>(type: type): assert.isTrue<type>
-  isFalse<const type>(type: type): assert.isFalse<type>
+  is: {
+    true<type>(type: type): assert.is.true<type>
+    false<type>(type: type): assert.is.false<type>
+    never<type>(type: type): assert.is.never<type>
+    unknown<type>(type: type): assert.is.unknown<type>
+  }
   equal: {
     <const a, const b, fn extends Interpreter = Equal>(a: a, b: b, fn?: fn): assert.equal<a, b, fn>
     <const b>(b: b): <const a, fn extends Interpreter = Equal>(a: a, fn?: fn) => assert.equal<a, b, fn>
@@ -114,8 +118,19 @@ declare const assert: {
 }
 
 declare namespace assert {
-  type isTrue<type> = handleAnys<type, never, [true] extends [type] ? Sym.GreenEmoji : interpretFailure<TrueLiteral, type, never>>
-  type isFalse<type> = handleAnys<type, never, [false] extends [type] ? Sym.GreenEmoji : interpretFailure<FalseLiteral, type, never>>
+  namespace is {
+    export {
+      true_ as true,
+      false_ as false,
+      never_ as never,
+      unknown_ as unknown,
+    }
+    type true_<type> = handleAnys<type, never, [true] extends [type] ? Sym.GreenEmoji : interpretFailure<TrueLiteral, type, never>>
+    type false_<type> = handleAnys<type, never, [false] extends [type] ? Sym.GreenEmoji : interpretFailure<FalseLiteral, type, never>>
+    type never_<type> = handleAnys<type, never, [type] extends [never] ? Sym.GreenEmoji : interpretFailure<Never, type, never>>
+    type unknown_<type> = handleAnys<type, never, unknown extends type ? Sym.GreenEmoji : interpretFailure<Unknown, type, never>>
+  }
+
   type equal<a, b, fn extends Interpreter = Equal>
     = handleAnys<a, b, [relation.equal<a, b>] extends [true] ? Sym.GreenEmoji : interpretFailure<fn, a, b>>
     ;
@@ -133,13 +148,17 @@ declare namespace assert {
 }
 
 declare namespace interpreter {
-  type trueLiteral<type extends { [0]: unknown }> = never | [𝐰𝐚𝐧𝐭: true, 𝐠𝐨𝐭: type[0]]
-  type falseLiteral<type extends { [0]: unknown }> = never | [𝐰𝐚𝐧𝐭: false, 𝐠𝐨𝐭: type[0]]
-  type point<map extends { [0]: unknown, [1]: unknown }> = never | [𝐥𝐞𝐟𝐭: map[0], 𝐫𝐢𝐠𝐡𝐭: map[1]]
-  type equal<map extends { [0]: unknown, [1]: unknown }> = never | [𝐧𝐨𝐭_𝐞𝐪𝐮𝐚𝐥: point<map>]
-  type equivalent<map extends { [0]: unknown, [1]: unknown }> = never | [𝐧𝐨𝐭_𝐞𝐪: point<map>]
-  type not_equivalent<map extends { [0]: unknown, [1]: unknown }> = never | [𝐮𝐧𝐞𝐱𝐩𝐞𝐜𝐭𝐞𝐝_𝐞𝐪: point<map>]
-  type not_equal<map extends { [0]: unknown, [1]: unknown }> = never | [𝐮𝐧𝐞𝐱𝐩𝐞𝐜𝐭𝐞𝐝_𝐞𝐪𝐮𝐚𝐥: point<map>]
+  type never_<type extends { [0]: unknown }> = never | [𝐰𝐚𝐧𝐭: never, 𝐠𝐨𝐭: type[0]]
+  export { never_ as never }
+  type unknown_<type extends { [0]: unknown }> = never | [𝐰𝐚𝐧𝐭: unknown, 𝐠𝐨𝐭: type[0]]
+  export { unknown_ as unknown }
+  export type trueLiteral<type extends { [0]: unknown }> = never | [𝐰𝐚𝐧𝐭: true, 𝐠𝐨𝐭: type[0]]
+  export type falseLiteral<type extends { [0]: unknown }> = never | [𝐰𝐚𝐧𝐭: false, 𝐠𝐨𝐭: type[0]]
+  export type point<map extends { [0]: unknown, [1]: unknown }> = never | [𝐥𝐞𝐟𝐭: map[0], 𝐫𝐢𝐠𝐡𝐭: map[1]]
+  export type equal<map extends { [0]: unknown, [1]: unknown }> = never | [𝐧𝐨𝐭_𝐞𝐪𝐮𝐚𝐥: point<map>]
+  export type equivalent<map extends { [0]: unknown, [1]: unknown }> = never | [𝐧𝐨𝐭_𝐞𝐪: point<map>]
+  export type not_equivalent<map extends { [0]: unknown, [1]: unknown }> = never | [𝐮𝐧𝐞𝐱𝐩𝐞𝐜𝐭𝐞𝐝_𝐞𝐪: point<map>]
+  export type not_equal<map extends { [0]: unknown, [1]: unknown }> = never | [𝐮𝐧𝐞𝐱𝐩𝐞𝐜𝐭𝐞𝐝_𝐞𝐪𝐮𝐚𝐥: point<map>]
 }
 
 type interpretFailure<fn extends Interpreter, left, right> = (fn & { 0: left, 1: right })[-1];
@@ -147,6 +166,8 @@ interface Interpreter { [-1]: unknown, [0]: unknown, [1]: unknown }
 
 interface TrueLiteral extends Interpreter { [-1]: interpreter.trueLiteral<this> }
 interface FalseLiteral extends Interpreter { [-1]: interpreter.falseLiteral<this> }
+interface Never extends Interpreter { [-1]: interpreter.never<this> }
+interface Unknown extends Interpreter { [-1]: interpreter.unknown<this> }
 interface Equal extends Interpreter { [-1]: interpreter.equal<this> }
 interface Equivalent extends Interpreter { [-1]: interpreter.equivalent<this> }
 interface NotEquivalent extends Interpreter { [-1]: interpreter.not_equivalent<this> }
@@ -200,8 +221,8 @@ namespace __Spec__ {
   describe("handleAnys", t => {
     // ^?
     return [
-      expect(t.assert.equal(assert.isTrue(unsafeAny), singleAny)),
-      expect(t.assert.equal(assert.isFalse(unsafeAny), singleAny)),
+      expect(t.assert.equal(assert.is.true(unsafeAny), singleAny)),
+      expect(t.assert.equal(assert.is.false(unsafeAny), singleAny)),
       expect(t.assert.equal(assert.equal(1, unsafeAny), singleAny)),
       expect(t.assert.equal(assert.equal(unsafeAny, 1), singleAny)),
       expect(t.assert.equal(assert.equal(unsafeAny, unsafeAny), doubleAny)),
@@ -266,5 +287,4 @@ namespace __Spec__ {
       )
     ]
   )
-
 }

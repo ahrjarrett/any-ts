@@ -1,2 +1,2 @@
 export { char, chars } from "./char"
-export * as string from "./string"
+export { string } from "./string"

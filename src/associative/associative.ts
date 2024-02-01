@@ -188,42 +188,42 @@ namespace __Spec__ {
         // ^?
         type __is__ = [
           // ^?
-          expect<assert.isFalse<Assoc.is<any.array>>>,
-          expect<assert.isFalse<Assoc.is<[]>>>,
-          expect<assert.isFalse<Assoc.is<{}>>>,
-          expect<assert.isFalse<Assoc.is<[] & {}>>>,
-          expect<assert.isFalse<Assoc.is<[1]>>>,
-          expect<assert.isFalse<Assoc.is<[1] & { abc: 123 }>>>,
-          expect<assert.isFalse<Assoc.is<[] & { abc: 123 }>>>,
-          expect<assert.isFalse<Assoc.is<["abc", "def", "xyz"] & { abc: 123, def: 455, ghi: 789 }>>>,
-          expect<assert.isFalse<Assoc.is<["abc", "def", "ghii"] & { abc: 123, def: 455, ghi: 789 }>>>,
-          expect<assert.isFalse<Assoc.is<["abc", "def"] & { abc: 123, def: 455, ghi: 789 }>>>,
-          expect<assert.isFalse<Assoc.is<["abc"] & { abc: 123 }>>>,
+          expect<assert.is.false<Assoc.is<any.array>>>,
+          expect<assert.is.false<Assoc.is<[]>>>,
+          expect<assert.is.false<Assoc.is<{}>>>,
+          expect<assert.is.false<Assoc.is<[] & {}>>>,
+          expect<assert.is.false<Assoc.is<[1]>>>,
+          expect<assert.is.false<Assoc.is<[1] & { abc: 123 }>>>,
+          expect<assert.is.false<Assoc.is<[] & { abc: 123 }>>>,
+          expect<assert.is.false<Assoc.is<["abc", "def", "xyz"] & { abc: 123, def: 455, ghi: 789 }>>>,
+          expect<assert.is.false<Assoc.is<["abc", "def", "ghii"] & { abc: 123, def: 455, ghi: 789 }>>>,
+          expect<assert.is.false<Assoc.is<["abc", "def"] & { abc: 123, def: 455, ghi: 789 }>>>,
+          expect<assert.is.false<Assoc.is<["abc"] & { abc: 123 }>>>,
           // correct
-          expect<assert.isTrue<Assoc.is<{ length: 1, 0: "abc", abc: 123 }>>>,
-          expect<assert.isTrue<Assoc.is<{ length: 2, 0: "abc", 1: "def", abc: 123, def: 455 }>>>,
+          expect<assert.is.true<Assoc.is<{ length: 1, 0: "abc", abc: 123 }>>>,
+          expect<assert.is.true<Assoc.is<{ length: 2, 0: "abc", 1: "def", abc: 123, def: 455 }>>>,
         ]
 
         return [
           // ^?
-          expect(t.assert.isTrue(is(happyPath[0]))),
-          expect(t.assert.isTrue(is(happyPath[1]))),
+          expect(t.assert.is.true(is(happyPath[0]))),
+          expect(t.assert.is.true(is(happyPath[1]))),
         ]
       }),
 
       describe("is (not)", t => [
         // ^?
-        expect(t.assert.isFalse(is(failureCases[0]))),
-        expect(t.assert.isFalse(is(failureCases[1]))),
-        expect(t.assert.isFalse(is(failureCases[2]))),
-        expect(t.assert.isFalse(is(failureCases[3]))),
-        expect(t.assert.isFalse(is(failureCases[4]))),
-        expect(t.assert.isFalse(is(failureCases[5]))),
-        expect(t.assert.isFalse(is(failureCases[6]))),
-        expect(t.assert.isFalse(is(failureCases[7]))),
-        expect(t.assert.isFalse(is(failureCases[8]))),
-        expect(t.assert.isFalse(is(failureCases[9]))),
-        expect(t.assert.isFalse(is(failureCases[10]))),
+        expect(t.assert.is.false(is(failureCases[0]))),
+        expect(t.assert.is.false(is(failureCases[1]))),
+        expect(t.assert.is.false(is(failureCases[2]))),
+        expect(t.assert.is.false(is(failureCases[3]))),
+        expect(t.assert.is.false(is(failureCases[4]))),
+        expect(t.assert.is.false(is(failureCases[5]))),
+        expect(t.assert.is.false(is(failureCases[6]))),
+        expect(t.assert.is.false(is(failureCases[7]))),
+        expect(t.assert.is.false(is(failureCases[8]))),
+        expect(t.assert.is.false(is(failureCases[9]))),
+        expect(t.assert.is.false(is(failureCases[10]))),
       ]),
     ]
   })

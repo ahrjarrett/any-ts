@@ -85,7 +85,7 @@ namespace __Spec__ {
 
   const __isOptional__ = [
     //  ^?
-    expect(assert.isTrue(isOptional.expectTrue)),
+    expect(assert.is.true(isOptional.expectTrue)),
   ] as const
 
   declare namespace pathsof {
