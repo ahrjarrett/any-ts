@@ -6,7 +6,6 @@ export {
 
 // external module namespaces
 export { mut } from "./mutable/exports"
-export type { never } from "./semantic-never/exports"
 
 // aliased exports
 export {
@@ -142,7 +141,6 @@ export {
 
 import { to } from "./to"
 import { pathsof } from "./paths/paths"
-import { empty, nonempty } from "./empty"
 
 /** @internal */
 type _ = unknown
@@ -519,7 +517,6 @@ declare namespace distributive {
     ;
 }
 
-
 declare namespace numeric {
   // direct exports
   export {
@@ -537,8 +534,9 @@ declare namespace numeric {
   > = numeric.parse<type>
 }
 
-// NOTE: Do not move this namespace. It needs to stay here (_after_ the ambient `any` namespace),
-// otherwise the aliases it exports like `any.object_` will not be preserved.
+// NOTE: Do not move this namespace. It needs to stay here (positionally _after_ 
+// ambient `any`), otherwise the aliases it exports such as `any.object_` will 
+// not be preserved.
 namespace any {
   // TODO: generate this identifier from manifest
   export type PKG_VERSION = typeof PKG_VERSION
