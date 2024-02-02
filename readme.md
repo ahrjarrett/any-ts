@@ -1,5 +1,5 @@
 <br>
-<h1 align="center">∀NY-TS</h1>
+<h2 align="center">∀𝖭𝖸-𝖳𝖲</h2>
 <br>
 
 <img alt="npm" src="https://img.shields.io/npm/v/any-ts?style=for-the-badge&logo=npm">
