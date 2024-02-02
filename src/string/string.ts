@@ -105,6 +105,11 @@ declare namespace String {
   export type replace<needle extends any.showable, next extends any.showable, haystack extends _>
     = [haystack] extends [`${infer before}${needle}${infer after}`] ? `${before}${next}${after}` : haystack
 
+  export type head<chars extends _> = chars extends nonempty.string<infer head, any> ? head : never
+  export type tail<chars extends _> = chars extends nonempty.string<any, infer tail> ? tail : never
+  export type behead<chars extends _> = chars extends nonempty.string<infer head, infer tail> ? [head: head, tail: tail] : never
+  export type second<chars extends _> = chars extends nonempty.string<any, infer tail> ? head<tail> : never
+
   export type concat<left extends _, right extends _> = `${left}${right}`
   export type between<left extends _, middle extends _, right extends _> = `${left}${middle}${right}`
   export type prefix<before extends any.showable, text extends _> = `${before}${text}`

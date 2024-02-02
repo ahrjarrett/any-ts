@@ -30,18 +30,8 @@ declare namespace char {
   export type Uppers = typeof char.Uppers
   export type Digits = typeof char.Digits
   export {
-    behead,
-    head,
-    head as first,
     is,
-    second,
-    tail,
   }
-
-  type head<chars extends _> = chars extends nonempty.string<infer head, any> ? head : never
-  type tail<chars extends _> = chars extends nonempty.string<any, infer tail> ? tail : never
-  type behead<chars extends _> = chars extends nonempty.string<infer head, infer tail> ? [head: head, tail: tail] : never
-  type second<chars extends _> = chars extends nonempty.string<any, infer tail> ? char.first<tail> : never
 
   type is<type> = [type] extends [`${any}${infer tail}`] ? string.is.empty<tail> : false
   namespace is {
