@@ -1,5 +1,6 @@
 export {
   enforce,
+  constrain,
 }
 
 import type * as any from "../any";
@@ -11,6 +12,7 @@ import type { HasDiscriminant } from "../tag/tag";
 import type { Union as U } from "../union/exports";
 import { empty } from "../empty";
 import { assert, expect } from "../exports";
+import { number } from "../number/number";
 
 declare namespace impl {
   type parseNumeric<type> = type extends `${infer x extends number}` ? x : never
@@ -48,7 +50,17 @@ declare namespace impl {
     : isNumeric<type[number][0]> extends false ? (unknown)
     : impl.numericKeys<impl.getKeys<type>, []>
     ;
+
+  type bijection<left extends any.object, right extends any.object>
+    = [Exclude<keyof left, keyof right>, Exclude<keyof right, keyof left>] extends infer out
+    ? out extends [never, never]
+    ? (unknown)
+    : out
+    : never.close.inline_var<"out">
+    ;
 }
+
+type constrain<invariant, type> = type & invariant
 
 declare namespace enforce {
   type nonobject<type>
@@ -65,7 +77,17 @@ declare namespace enforce {
     : Fn.return<typeof Err.SingleCharGotShorter<type>>
     ;
 
-  // type arbitraryBranch
+  type noExcessProps<left extends any.object, right extends left>
+    = impl.bijection<left, right> extends any.two<infer l, infer r>
+    ? Fn.return<typeof Err.NoExcessProps<
+      [...(
+        | [l] extends [never] ? [𝐫𝐢𝐠𝐡𝐭: r]
+        : [r] extends [never] ? [𝐥𝐞𝐟𝐭: l]
+        : [𝐥𝐞𝐟𝐭: l, 𝐫𝐢𝐠𝐡𝐭: r]
+      )]
+    >>
+    : (unknown)
+    ;
 
   type nonunion<type>
     = U.is<type> extends false ? (unknown)
@@ -87,8 +109,8 @@ declare namespace enforce {
     : Err2<"NonNumericIndex", impl.numericKeys<impl.getKeys<type>, []>>
     ;
 
-  type uniqNonNumericIndex<type> =
-    [type] extends [any.entries]
+  type uniqNonNumericIndex<type>
+    = [type] extends [any.entries]
     ? impl.nonnumericIndex<type> extends any.arrayof<any.index, infer numerics> ? Err2<"NonNumericIndex", numerics>
     : enforce.uniqueness.ofEntries<type> extends infer dupes
     ? unknown extends dupes ? (unknown)
@@ -97,14 +119,28 @@ declare namespace enforce {
     : never
     ;
 
-  // : Fn.return<typeof Err.KeyUniqueness<duplicates>>
-  //Err2<"UniqueNonNumericIndex", enforce.uniqueness.ofEntries<type>>
-
   type literal<type>
     = [string] extends [type] ? Fn.return<typeof Err.Literal<type>>
     : [number] extends [type] ? Fn.return<typeof Err.Literal<type>>
     : [boolean] extends [type] ? Fn.return<typeof Err.Literal<type>>
     : (unknown)
+    ;
+
+  type integer<type>
+    = number.is.integer<type> extends true ? (number)
+    : Fn.return<typeof Err.Integer<type>>
+    ;
+  type natural<type>
+    = number.is.natural<type> extends true ? (unknown)
+    : Fn.return<typeof Err.Integer<type>>
+    ;
+  type negativeNumber<type>
+    = number.is.negative<type> extends true ? (unknown)
+    : Fn.return<typeof Err.Negative<type>>
+    ;
+  type positiveNumber<type>
+    = number.is.positive<type> extends true ? (unknown)
+    : Fn.return<typeof Err.Positive<type>>
     ;
 
   type nonliteral<type>
@@ -212,21 +248,29 @@ namespace __Spec__ {
 }
 
 declare namespace __Spec__ {
-
   namespace uniqueness {
     type __ofEntries__ = [
-      enforce.uniqueness.ofEntries<[]>,
-      enforce.uniqueness.ofEntries<[["a", 1]]>,
-      enforce.uniqueness.ofEntries<[["a", 1], ["b", 2]]>,
-      enforce.uniqueness.ofEntries<[["a", 1], ["b", 2], ["c", 3]]>,
+      /* 𝖈𝖚𝖗𝖘𝖊𝖉 */
       enforce.uniqueness.ofEntries<[["a", 1], ["a", 2]]>,
       enforce.uniqueness.ofEntries<[["a", 1], ["b", 2], ["a", 2]]>,
       enforce.uniqueness.ofEntries<[["a", 1], ["a", 2], ["a", 2]]>,
+      /* happy path */
+      expect<assert.is.unknown<enforce.uniqueness.ofEntries<[]>>>,
+      expect<assert.is.unknown<enforce.uniqueness.ofEntries<[["a", 1]]>>>,
+      expect<assert.is.unknown<enforce.uniqueness.ofEntries<[["a", 1], ["b", 2]]>>>,
+      expect<assert.is.unknown<enforce.uniqueness.ofEntries<[["a", 1], ["b", 2], ["c", 3]]>>>,
     ]
   }
 
   namespace __impl__ {
     type __duplicateKeys__ = [
+      /* 𝖈𝖚𝖗𝖘𝖊𝖉: duplicate(s) found */
+      impl.duplicateKeys<["a", "a"], {}, []>,
+      impl.duplicateKeys<["a", "b", "c", "a"], {}, []>,
+      impl.duplicateKeys<["a", "b", "a", "c"], {}, []>,
+      impl.duplicateKeys<["a", "a", "a"], {}, []>,
+      impl.duplicateKeys<["a", "c", "a", "c"], {}, []>,
+      /* happy path */
       impl.duplicateKeys<never, {}, []>,
       impl.duplicateKeys<any.array, {}, []>,
       impl.duplicateKeys<any.array<number>, {}, []>,
@@ -234,12 +278,6 @@ declare namespace __Spec__ {
       impl.duplicateKeys<["a"], {}, []>,
       impl.duplicateKeys<["a", "b"], {}, []>,
       impl.duplicateKeys<["a", "b", "c"], {}, []>,
-      // duplicate(s) found
-      impl.duplicateKeys<["a", "a"], {}, []>,
-      impl.duplicateKeys<["a", "b", "c", "a"], {}, []>,
-      impl.duplicateKeys<["a", "b", "a", "c"], {}, []>,
-      impl.duplicateKeys<["a", "a", "a"], {}, []>,
-      impl.duplicateKeys<["a", "c", "a", "c"], {}, []>,
     ]
   }
 
@@ -269,7 +307,7 @@ declare namespace __Spec__ {
 
   type __singleChar__ = [
     // ^?
-    // unhappy path 🡫🡫
+    /* 𝖈𝖚𝖗𝖘𝖊𝖉 */
     expect<assert.equal<
       enforce.singleChar<"">,
       TypeError<[𝗺𝘀𝗴: "Expected to receive a single-char string, but encountered an empty string instead", 𝗴𝗼𝘁: ""]>
@@ -286,9 +324,37 @@ declare namespace __Spec__ {
       enforce.singleChar<"abc">,
       TypeError<[𝗺𝘀𝗴: "Expected to receive a single-char string, but encountered a string containing more than 1 character instead", 𝗴𝗼𝘁: "abc"]>
     >>,
-    // happy path 🡫🡫
+    /* happy path */
     expect<assert.equal<enforce.singleChar<"a">, unknown>>,
-    // happy path 🡩🡩
+  ]
+
+  type __noExcessProps__ = [
+    /* 𝖈𝖚𝖗𝖘𝖊𝖉 */
+    expect<assert.equal<
+      enforce.noExcessProps<
+        { abc: number, def: string },
+        /* @ts-expect-error: intentionally causing this type error to make sure the `TypeError` comes through */
+        { abc: 123 }
+      >,
+      TypeError<[𝗺𝘀𝗴: "Expected inputs to share an index signature, but encountered excess props", 𝗴𝗼𝘁: [𝐥𝐞𝐟𝐭: "def"]]>
+    >>,
+    expect<assert.equal<
+      enforce.noExcessProps<
+        { abc: number },
+        { abc: 123, def: 456 }
+      >,
+      TypeError<[𝗺𝘀𝗴: "Expected inputs to share an index signature, but encountered excess props", 𝗴𝗼𝘁: [𝐫𝐢𝐠𝐡𝐭: "def"]]>
+    >>,
+    expect<assert.equal<
+      enforce.noExcessProps<
+        { abc: number, def: 789 },
+        /* @ts-expect-error: intentionally causing this type error to make sure the `TypeError` comes through */
+        { abc: number, ghi: 456 }
+      >,
+      TypeError<[𝗺𝘀𝗴: "Expected inputs to share an index signature, but encountered excess props", 𝗴𝗼𝘁: [𝐥𝐞𝐟𝐭: "def", 𝐫𝐢𝐠𝐡𝐭: "ghi"]]>
+    >>,
+    /* happy path */
+
   ]
 
 }

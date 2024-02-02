@@ -1,1 +1,1 @@
-export * as never from "./semantic-never"
+export { never } from "./semantic-never"

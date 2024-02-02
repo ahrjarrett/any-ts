@@ -77,8 +77,12 @@ export {
   type indexedby as indexedBy,
   /** {@link invertible `any.invertible`} @external */
   type invertible,
+  /** {@link json `any.json`} @external */
+  type json,
   /** {@link key `any.key`} @external */
   type key,
+  /** {@link keys `any.keys`} @external */
+  type keys,
   /** {@link keyof `any.keyof`} @external */
   type keyof,
   /** {@link keyof `any.keyOf`} alias for {@link keyof `any.keyof`} @external */
@@ -164,6 +168,9 @@ type numeric<type extends any.numeric = any.numeric> = type
 type one<only = _> = readonly [_𝟭: only]
 type two<fst = _, snd = _> = readonly [_𝟭: fst, _𝟮: snd]
 type three<fst = _, snd = _, thr = _> = readonly [_𝟭: fst, _𝟮: snd, _𝟯: thr]
+
+type json<type extends any.json = any.json> = type
+
 type single<type extends one = one> = type
 type double<type extends two = two> = type
 type triple<type extends three = three> = type
@@ -214,10 +221,8 @@ declare namespace any {
     type array,
     /** {@link arraylike `any.arraylike`} @internal */
     type arraylike,
-
     /** {@link assertion `any.assertion`} @internal */
     type assertion,
-
     /** {@link dictionary `any.dictionary`} @internal */
     type dictionary,
     /** {@link entries `any.entries`} @internal */
@@ -232,12 +237,16 @@ declare namespace any {
     type index,
     /** {@link invertible `any.invertible`} @internal */
     type invertible,
+    /** {@link json `any.json`} @internal */
+    type json,
     /** {@link key `any.key`} @internal */
     type key,
     /** {@link keys `any.keys`} @internal */
     type keys,
     /** {@link literal `any.literal`} @internal */
     type literal,
+    /** {@link listlike `any.listlike`} @internal */
+    type listlike,
     /** {@link nonnullable `any.nonnullable`} @internal */
     type nonnullable,
     /** {@link nullable `any.nullable`} @internal */
@@ -250,6 +259,8 @@ declare namespace any {
     type predicate,
     /** {@link primitive `any.primitive`} @internal */
     type primitive,
+    /** {@link scalar `any.scalar`} @internal */
+    type scalar,
     /** {@link showable `any.showable`} @internal */
     type showable,
     /** {@link struct `any.struct`} @internal */
@@ -268,8 +279,10 @@ declare namespace any {
   interface struct { [𝐢𝐱: keyof never]: any }
   type literal = string | number | boolean
   type primitive = string | number | boolean | bigint | null | undefined | symbol
+
   interface invertible { [𝐢𝐱: key]: key }
   interface dictionary<type = _> { [𝐢𝐱: keyof never]: type }
+  interface listlike<type = _> extends globalThis.ReadonlyArray<type> { }
   type showable = string | number | boolean | bigint | null | undefined
   type type = nullable | nonnullable
   type nullable = null | undefined
@@ -280,6 +293,12 @@ declare namespace any {
   type entries<type extends any.array<any.entry> = any.array<any.entry>> = type
   interface enumerable<type = _> { [𝐢𝐱: number]: type }
   interface arraylike<type = _> extends enumerable<type> { length: number }
+  type scalar = string | number | boolean | null
+  type json =
+    | any.scalar
+    | readonly json[]
+    | dictionary<json>
+    ;
 
   interface predicate<type = any> { (u: type): boolean }
   type typeguard<
@@ -452,8 +471,51 @@ declare namespace some {
     = any.key,
     value = _
   > = globalThis.Record<key, value>
+
+  export type entryof<
+    invariant extends any.object,
+    type extends
+    | distributive.entryof<invariant>
+    = distributive.entryof<invariant>
+  > = type
+
+  export type keyof<
+    invariant,
+    type extends
+    | distributive.keyof<invariant>
+    = distributive.keyof<invariant>
+  > = type
+
+  export type valueof<
+    invariant,
+    type extends
+    | distributive.values<invariant>
+    = distributive.values<invariant>
+  > = type
 }
 
+declare namespace distributive {
+  type values<type> = type extends any.array ? type[number] : type[keyof type]
+  type keyof<type>
+    = (
+      type extends any.array
+      ? Extract<keyof type, `${number}`>
+      : keyof type
+    ) extends infer key extends any.index
+    ? values<{ [ix in key]: ix }>
+    : never // never.close.inline_var<"key">
+    ;
+
+  type entryof<type extends any.object>
+    = type extends type
+    ? keyof type extends infer key
+    ? key extends keyof type
+    ? readonly [key, type[key]]
+    : never // never.close.unmatched_expr
+    : never // never.close.inline_var<"key">
+    : never // never.close.distributive<"type">
+    ;
+}
 
 declare namespace numeric {
   // direct exports
@@ -472,8 +534,9 @@ declare namespace numeric {
   > = numeric.parse<type>
 }
 
-// NOTE: Do not move this namespace. It needs to stay here (_after_ the ambient `any` namespace),
-// otherwise the aliases it exports like `any.object_` will not be preserved.
+// NOTE: Do not move this namespace. It needs to stay here (positionally _after_ 
+// ambient `any`), otherwise the aliases it exports such as `any.object_` will 
+// not be preserved.
 namespace any {
   // TODO: generate this identifier from manifest
   export type PKG_VERSION = typeof PKG_VERSION

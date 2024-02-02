@@ -21,15 +21,20 @@ import type { any } from "../exports"
 type Msg = typeof Msg
 const Msg = {
   /** TODO: switch over to an HKT impl */
+  Integer: "Expected an integer",
   IsNotAssignableTo: "Expected input to not be assignable, but input was assignable instead",
+  KeyUniqueness: "Expected keys to be unique, but encountered 1 or more duplicate keys",
+  Literal: "Expected a literal type, but encountered a non-literal instead",
+  MaxOneProp: "Expected a non-object type, or an object type with at most 1 property",
+  Natural: "Expected a natural number",
+  Negative: "Expected a negative number",
   NonObject: "Expected an array, but got a non-array type instead",
   NonUnion: "Expected a non-union, but got a union type instead",
   NonEmptyArray: "Expected a non-empty array, but got an empty array instead",
   NonEmptyString: "Expected a non-empty string, but got an empty string instead",
-  KeyUniqueness: "Expected keys to be unique, but encountered 1 or more duplicate keys",
-  Literal: "Expected a literal type, but encountered a non-literal instead",
-  MaxOneProp: "Expected a non-object type, or an object type with at most 1 property",
+  NoExcessProps: "Expected inputs to share an index signature, but encountered excess props",
   NonLiteral: "Expected a non-literal type, but encountered a literal instead",
+  Positive: "Expected a positive number",
   Shallow: "Expected a primitive type or a shallow array",
   SingleCharGotLonger: "Expected to receive a single-char string, but encountered a string containing more than 1 character instead",
   SingleCharGotShorter: "Expected to receive a single-char string, but encountered an empty string instead",
