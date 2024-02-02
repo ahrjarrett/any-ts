@@ -6,6 +6,7 @@ export {
 
 // external module namespaces
 export { mut } from "./mutable/exports"
+export type { never } from "./semantic-never/exports"
 
 // aliased exports
 export {
@@ -137,6 +138,7 @@ export {
 
 import { to } from "./to"
 import { pathsof } from "./paths/paths"
+import { empty, nonempty } from "./empty"
 
 /** @internal */
 type _ = unknown
@@ -164,6 +166,51 @@ type numeric<type extends any.numeric = any.numeric> = type
 type one<only = _> = readonly [_𝟭: only]
 type two<fst = _, snd = _> = readonly [_𝟭: fst, _𝟮: snd]
 type three<fst = _, snd = _, thr = _> = readonly [_𝟭: fst, _𝟮: snd, _𝟯: thr]
+
+type point2d<x = _, y = _> = readonly [𝐱: x, 𝐲: y]
+type point3d<x = _, y = _, z = _> = readonly [𝐱: x, 𝐲: y, 𝐳: z]
+type matrix<xss extends any.array<any.array> = any.array<any.array>> = xss
+
+type Tree<leaf> =
+  | leaf
+  | any.listlike<Tree<leaf>>
+  | any.dictionary<Tree<leaf>>
+  ;
+
+type Parameters = Tree<string>
+
+type showParamsList<acc extends string, type extends any.array<Parameters>> = type
+
+type kv<key extends string, value extends string> = `${key}=${value}`
+
+type showParamsEntries<acc extends string, params extends any.entries<, order extends any.path>
+  = [order] extends [empty.array] ? acc
+  : [order] extends [nonempty.arrayof<any.key, infer head, infer tail>]
+  ? showParamsStruct<`${acc}${params[head]}`, Omit<params, head>, tail>
+  : 123
+  ;
+
+  type _34 = showParamsStruct<``, { docid: "520" }, ["docid"]>
+
+type showParams<params extends Parameters>
+  =[params] extends [string] ? params
+  : [params] extends [any.listlike] ? showParamsList<``, params>
+    : [params] extends [any.dictionary] ? showParamsStruct<``, params,>
+  ;
+
+type Scheme = "http" | "https"
+type url<
+  scheme extends Scheme,
+  subdomains extends any.array<string>,
+  domain extends string,
+  toplevelDomain extends string,
+  port extends string,
+  subdirectory extends string,
+  path extends any.array<string>,
+  parameters extends Parameters,
+  fragments extends string
+> = `${scheme}://${subdomains[0]}.${domain}.${toplevelDomain}:${port}/${subdirectory}/${path[0]}${[parameters] extends [never] ? "" : "?"}${}`
+
 type single<type extends one = one> = type
 type double<type extends two = two> = type
 type triple<type extends three = three> = type
@@ -238,6 +285,8 @@ declare namespace any {
     type keys,
     /** {@link literal `any.literal`} @internal */
     type literal,
+    /** {@link listlike `any.listlike`} @internal */
+    type listlike,
     /** {@link nonnullable `any.nonnullable`} @internal */
     type nonnullable,
     /** {@link nullable `any.nullable`} @internal */
@@ -270,6 +319,7 @@ declare namespace any {
   type primitive = string | number | boolean | bigint | null | undefined | symbol
   interface invertible { [𝐢𝐱: key]: key }
   interface dictionary<type = _> { [𝐢𝐱: keyof never]: type }
+  interface listlike<type = _> extends globalThis.ReadonlyArray<type> { }
   type showable = string | number | boolean | bigint | null | undefined
   type type = nullable | nonnullable
   type nullable = null | undefined
@@ -452,6 +502,50 @@ declare namespace some {
     = any.key,
     value = _
   > = globalThis.Record<key, value>
+
+  export type entryof<
+    invariant extends any.object,
+    type extends
+    | distributive.entryof<invariant>
+    = distributive.entryof<invariant>
+  > = type
+
+  export type keyof<
+    invariant,
+    type extends
+    | distributive.keyof<invariant>
+    = distributive.keyof<invariant>
+  > = type
+
+  export type valueof<
+    invariant,
+    type extends
+    | distributive.values<invariant>
+    = distributive.values<invariant>
+  > = type
+}
+
+declare namespace distributive {
+  type values<type> = type extends any.array ? type[number] : type[keyof type]
+  type keyof<type>
+    = (
+      type extends any.array
+      ? Extract<keyof type, `${number}`>
+      : keyof type
+    ) extends infer key extends any.index
+    ? values<{ [ix in key]: ix }>
+    : never // never.close.inline_var<"key">
+    ;
+
+  type entryof<type extends any.object>
+    = type extends type
+    ? keyof type extends infer key
+    ? key extends keyof type
+    ? readonly [key, type[key]]
+    : never // never.close.unmatched_expr
+    : never // never.close.inline_var<"key">
+    : never // never.close.distributive<"type">
+    ;
 }
 
 

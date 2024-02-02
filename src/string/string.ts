@@ -214,7 +214,7 @@ declare namespace case_ {
 declare namespace __Spec__ {
   type __Fn_isUppercaseAlphaChar__ = [
     // ^?
-    /* cursed */
+    /* 𝖈𝖚𝖗𝖘𝖊𝖉 */
     expect<assert.is.false<interpret1<Fn.is.uppercaseAlphaChar, "a">>>,
     expect<assert.is.false<interpret1<Fn.is.uppercaseAlphaChar, "z">>>,
     expect<assert.is.false<interpret1<Fn.is.uppercaseAlphaChar, " ">>>,
@@ -241,9 +241,12 @@ declare namespace __Spec__ {
   type __String_split__ = [
     // ^?
     expect<assert.equal<String.split<``, [``]>, "">>,
-    String.split<`.`, [`.`]>,
-    String.split<`hey jude`, Fn.is.uppercaseAlphaChar, Fn.snake>,
-    String.split<`123e4567-e89b-12d3-a456-426614174000`, [`-`], Fn.replace<`-`, `_`>>,
+    expect<assert.equal<String.split<`.`, [`.`]>, `.`>>,
+    expect<assert.equal<String.split<`hey jude`, Fn.is.uppercaseAlphaChar, Fn.snake>, "hey jude">>,
+    expect<assert.equal<
+      String.split<`123e4567-e89b-12d3-a456-426614174000`, [`-`], Fn.replace<`-`, `_`>>,
+      "123e4567_e89b_12d3_a456_426614174000"
+    >>,
   ]
 
   type __string_splitOnceOnChar__ = [
@@ -270,9 +273,9 @@ declare namespace __Spec__ {
 
   type __startsWith__ = [
     // ^?
-    // cursed
-    String.startsWith<123, "hey">,
-    // happy path
+    /* 𝖈𝖚𝖗𝖘𝖊𝖉 */
+    expect<assert.is.false<String.startsWith<123, "hey">>>,
+    /* happy path */
     expect<assert.is.true<String.startsWith<"", "">>>,
     expect<assert.is.true<String.startsWith<"", "123">>>,
     expect<assert.is.true<String.startsWith<123, "123">>>,

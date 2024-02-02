@@ -261,44 +261,51 @@ namespace __Spec__ {
       >>,
     ]
 
-    return [
-      expect(t.assert.equals<[order: {}, object: {}]>()(separate(void 0 as never))),
-      expect(t.assert.equals<[order: {}, object: {}]>()(separate(void 0 as any))),
-      expect(t.assert.equals<[order: {}, object: {}]>()(separate({ length: Math.random() }))),
-      expect(t.assert.equals<[order: {}, object: {}]>()(separate({ length: 0 }))),
-      expect(t.assert.equals<[order: {}, object: {}]>()(separate({ length: 1 }))),
+    const result = [
+      t.assert.equal(1, 3),
+      t.assert.extends<[]>(0 as never)
+    ] as const
+
+    const r = [
+      expect(t.assert.extends<{ abc: 123 }>({ abc: 123 })),
+      expect(t.assert.extends<[{}, {}]>(separate(void 0 as never))),
+      expect(t.assert.extends<[order: {}, object: {}]>(separate(void 0 as any))),
+      expect(t.assert.extends<[order: {}, object: {}]>(separate({ length: Math.random() }))),
+      expect(t.assert.extends<[order: {}, object: {}]>(separate({ length: 0 }))),
+      expect(t.assert.extends<[order: {}, object: {}]>(separate({ length: 1 }))),
       expect(
-        t.assert.equals<
+        t.assert.extends<
           [order: { 0: "abc", 1: "def" }, object: { abc: 123, def: 456 }]
-        >()(separate(
+        >(separate(
           { 0: "abc", 1: "def", abc: 123, def: 456, length: 2 }
         ))
       ),
       expect(
-        t.assert.equals<
+        t.assert.extends<
           [order: { 0: "abc", 1: "def" }, object: { abc: 123, def: 456 }]
-        >()(separate(
+        >(separate(
           { length: 3, 0: "abc", 1: "def", abc: 123, def: 456 }
           //🡑🡑🡑🡑🡑🡑
         ))
       ),
       expect(
-        t.assert.equals<
+        t.assert.extends<
           [order: { 0: "abc", 1: "def" }, object: { abc: 123, def: 456 }]
-        >()(separate(
+        >(separate(
           { length: 2, 0: "abc", 1: "def", 2: "ghi", abc: 123, def: 456 }
           //                               🡑🡑🡑🡑🡑
         ))
       ),
       expect(
-        t.assert.equals<
+        t.assert.extends<
           [order: { 0: "abc", 1: "def" }, object: { abc: 123, def: 456 }]
-        >()(separate(
+        >(separate(
           { length: 2, 0: "abc", 1: "def", abc: 123, def: 456, ghi: 789 }
           //                                                   🡑🡑🡑🡑🡑
         ))
       ),
-    ]
+    ] as const
+    return result
   })
 
   type __range__ = [
@@ -307,4 +314,3 @@ namespace __Spec__ {
     expect<assert.equal<range<70>["length"], 70>>,
   ]
 }
-
