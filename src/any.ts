@@ -78,8 +78,12 @@ export {
   type indexedby as indexedBy,
   /** {@link invertible `any.invertible`} @external */
   type invertible,
+  /** {@link json `any.json`} @external */
+  type json,
   /** {@link key `any.key`} @external */
   type key,
+  /** {@link keys `any.keys`} @external */
+  type keys,
   /** {@link keyof `any.keyof`} @external */
   type keyof,
   /** {@link keyof `any.keyOf`} alias for {@link keyof `any.keyof`} @external */
@@ -167,49 +171,7 @@ type one<only = _> = readonly [_𝟭: only]
 type two<fst = _, snd = _> = readonly [_𝟭: fst, _𝟮: snd]
 type three<fst = _, snd = _, thr = _> = readonly [_𝟭: fst, _𝟮: snd, _𝟯: thr]
 
-type point2d<x = _, y = _> = readonly [𝐱: x, 𝐲: y]
-type point3d<x = _, y = _, z = _> = readonly [𝐱: x, 𝐲: y, 𝐳: z]
-type matrix<xss extends any.array<any.array> = any.array<any.array>> = xss
-
-type Tree<leaf> =
-  | leaf
-  | any.listlike<Tree<leaf>>
-  | any.dictionary<Tree<leaf>>
-  ;
-
-type Parameters = Tree<string>
-
-type showParamsList<acc extends string, type extends any.array<Parameters>> = type
-
-type kv<key extends string, value extends string> = `${key}=${value}`
-
-type showParamsEntries<acc extends string, params extends any.entries<, order extends any.path>
-  = [order] extends [empty.array] ? acc
-  : [order] extends [nonempty.arrayof<any.key, infer head, infer tail>]
-  ? showParamsStruct<`${acc}${params[head]}`, Omit<params, head>, tail>
-  : 123
-  ;
-
-  type _34 = showParamsStruct<``, { docid: "520" }, ["docid"]>
-
-type showParams<params extends Parameters>
-  =[params] extends [string] ? params
-  : [params] extends [any.listlike] ? showParamsList<``, params>
-    : [params] extends [any.dictionary] ? showParamsStruct<``, params,>
-  ;
-
-type Scheme = "http" | "https"
-type url<
-  scheme extends Scheme,
-  subdomains extends any.array<string>,
-  domain extends string,
-  toplevelDomain extends string,
-  port extends string,
-  subdirectory extends string,
-  path extends any.array<string>,
-  parameters extends Parameters,
-  fragments extends string
-> = `${scheme}://${subdomains[0]}.${domain}.${toplevelDomain}:${port}/${subdirectory}/${path[0]}${[parameters] extends [never] ? "" : "?"}${}`
+type json<type extends any.json = any.json> = type
 
 type single<type extends one = one> = type
 type double<type extends two = two> = type
@@ -261,10 +223,8 @@ declare namespace any {
     type array,
     /** {@link arraylike `any.arraylike`} @internal */
     type arraylike,
-
     /** {@link assertion `any.assertion`} @internal */
     type assertion,
-
     /** {@link dictionary `any.dictionary`} @internal */
     type dictionary,
     /** {@link entries `any.entries`} @internal */
@@ -279,6 +239,8 @@ declare namespace any {
     type index,
     /** {@link invertible `any.invertible`} @internal */
     type invertible,
+    /** {@link json `any.json`} @internal */
+    type json,
     /** {@link key `any.key`} @internal */
     type key,
     /** {@link keys `any.keys`} @internal */
@@ -299,6 +261,8 @@ declare namespace any {
     type predicate,
     /** {@link primitive `any.primitive`} @internal */
     type primitive,
+    /** {@link scalar `any.scalar`} @internal */
+    type scalar,
     /** {@link showable `any.showable`} @internal */
     type showable,
     /** {@link struct `any.struct`} @internal */
@@ -317,6 +281,7 @@ declare namespace any {
   interface struct { [𝐢𝐱: keyof never]: any }
   type literal = string | number | boolean
   type primitive = string | number | boolean | bigint | null | undefined | symbol
+
   interface invertible { [𝐢𝐱: key]: key }
   interface dictionary<type = _> { [𝐢𝐱: keyof never]: type }
   interface listlike<type = _> extends globalThis.ReadonlyArray<type> { }
@@ -330,6 +295,12 @@ declare namespace any {
   type entries<type extends any.array<any.entry> = any.array<any.entry>> = type
   interface enumerable<type = _> { [𝐢𝐱: number]: type }
   interface arraylike<type = _> extends enumerable<type> { length: number }
+  type scalar = string | number | boolean | null
+  type json =
+    | any.scalar
+    | readonly json[]
+    | dictionary<json>
+    ;
 
   interface predicate<type = any> { (u: type): boolean }
   type typeguard<
