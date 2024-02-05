@@ -4,15 +4,17 @@ export {
 }
 
 import type * as any from "../any";
+import { number } from "../number/number"
 
 import type { Fn } from "../function/exports";
-import type { Err, Err2, TypeError } from "./err";
+import type { Err, Err2 } from "./err";
 import type { never } from "../semantic-never/exports";
 import type { HasDiscriminant } from "../tag/tag";
 import type { Union as U } from "../union/exports";
 import { empty } from "../empty";
-import { assert, expect } from "../exports";
-import { number } from "../number/number";
+
+/** @internal - only exported for testing purposes */
+export { impl as internal }
 
 declare namespace impl {
   type parseNumeric<type> = type extends `${infer x extends number}` ? x : never
@@ -105,13 +107,14 @@ declare namespace enforce {
 
   type nonnumericIndex<type extends any.array<any.two<any.index, unknown>>>
     = 0 extends type["length"] ? unknown
-    : impl.isNumeric<type[number][0]> extends false ? (unknown)
+    : [impl.isNumeric<type[number][0]>] extends [false] ? (unknown)
     : Err2<"NonNumericIndex", impl.numericKeys<impl.getKeys<type>, []>>
     ;
 
   type uniqNonNumericIndex<type>
     = [type] extends [any.entries]
-    ? impl.nonnumericIndex<type> extends any.arrayof<any.index, infer numerics> ? Err2<"NonNumericIndex", numerics>
+    ? impl.nonnumericIndex<type> extends any.arrayof<any.index, infer numerics>
+    ? Err2<"NonNumericIndex", numerics>
     : enforce.uniqueness.ofEntries<type> extends infer dupes
     ? unknown extends dupes ? (unknown)
     : dupes
@@ -127,19 +130,26 @@ declare namespace enforce {
     ;
 
   type integer<type>
-    = number.is.integer<type> extends true ? (number)
+    = [number.is.integer<type>] extends [true] ? (unknown)
     : Fn.return<typeof Err.Integer<type>>
     ;
+
+  const integer
+    : <x extends number & enforce.integer<x>>(x: x) => x
+    ;
+
   type natural<type>
     = number.is.natural<type> extends true ? (unknown)
     : Fn.return<typeof Err.Integer<type>>
     ;
+
   type negativeNumber<type>
     = number.is.negative<type> extends true ? (unknown)
     : Fn.return<typeof Err.Negative<type>>
     ;
+
   type positiveNumber<type>
-    = number.is.positive<type> extends true ? (unknown)
+    = number.is.positive<type> extends true ? (number)
     : Fn.return<typeof Err.Positive<type>>
     ;
 
@@ -190,171 +200,4 @@ declare namespace enforce {
       : (unknown)
       ;
   }
-}
-
-namespace __Spec__ {
-  declare const testUniqNonNumericSignature
-    /** 
-     * TODO: see if you can remove the `any.array &` part -- that would clean up the output significantly
-     */
-    : <const type extends any.array & enforce.uniqNonNumericIndex<type>>(...type: type) => type
-
-  const __testUniqNonNumericSignature__ = [
-    testUniqNonNumericSignature(),
-    testUniqNonNumericSignature(["abc", 123]),
-    testUniqNonNumericSignature(["abc", 123], ["def", 456]),
-    // @ts-expect-error: outputs 🡓🡓
-    // 
-    //   any.array & TypeError<[
-    //     𝗺𝘀𝗴: "Expected keys to be unique, but encountered 1 or more duplicate keys", 
-    //     𝗴𝗼𝘁: ["abc"]
-    //   ]>
-    //
-    testUniqNonNumericSignature(["abc", 123], ["def", 456], ["abc", 789]),
-    // @ts-expect-error: outputs 🡓🡓
-    // 
-    //   any.array & TypeError<[
-    //     𝗺𝘀𝗴: "Expected keys to be unique, but encountered 1 or more duplicate keys", 
-    //     𝗴𝗼𝘁: ["abc", "def"]
-    //   ]> 
-    //
-    testUniqNonNumericSignature(["abc", 123], ["def", 456], ["abc", 789], ["def", 0]),
-    // @ts-expect-error: outputs 🡓🡓
-    //
-    //   any.array & [0]
-    // 
-    testUniqNonNumericSignature([0, 123], ["def", 456], ["abc", 789]),
-    // @ts-expect-error: outputs 🡓🡓
-    //
-    //   any.array & [0]
-    // 
-    testUniqNonNumericSignature(["def", 456], [0, 123], ["abc", 789]),
-    // @ts-expect-error: outputs 🡓🡓
-    //
-    //   any.array & [0]
-    // 
-    testUniqNonNumericSignature(["def", 456], ["abc", 789], [0, 123]),
-    // @ts-expect-error: outputs 🡓🡓
-    //
-    //   any.array & [0]
-    // 
-    testUniqNonNumericSignature([0, 123], [0, 456]),
-    // @ts-expect-error: outputs 🡓🡓
-    //
-    //   any.array & [10, 10]
-    // 
-    testUniqNonNumericSignature(["abc", 123], ["def", 456], ["abc", 789], [10, 0], [10, 0]),
-  ] as const
-}
-
-declare namespace __Spec__ {
-  namespace uniqueness {
-    type __ofEntries__ = [
-      /* 𝖈𝖚𝖗𝖘𝖊𝖉 */
-      enforce.uniqueness.ofEntries<[["a", 1], ["a", 2]]>,
-      enforce.uniqueness.ofEntries<[["a", 1], ["b", 2], ["a", 2]]>,
-      enforce.uniqueness.ofEntries<[["a", 1], ["a", 2], ["a", 2]]>,
-      /* happy path */
-      expect<assert.is.unknown<enforce.uniqueness.ofEntries<[]>>>,
-      expect<assert.is.unknown<enforce.uniqueness.ofEntries<[["a", 1]]>>>,
-      expect<assert.is.unknown<enforce.uniqueness.ofEntries<[["a", 1], ["b", 2]]>>>,
-      expect<assert.is.unknown<enforce.uniqueness.ofEntries<[["a", 1], ["b", 2], ["c", 3]]>>>,
-    ]
-  }
-
-  namespace __impl__ {
-    type __duplicateKeys__ = [
-      /* 𝖈𝖚𝖗𝖘𝖊𝖉: duplicate(s) found */
-      impl.duplicateKeys<["a", "a"], {}, []>,
-      impl.duplicateKeys<["a", "b", "c", "a"], {}, []>,
-      impl.duplicateKeys<["a", "b", "a", "c"], {}, []>,
-      impl.duplicateKeys<["a", "a", "a"], {}, []>,
-      impl.duplicateKeys<["a", "c", "a", "c"], {}, []>,
-      /* happy path */
-      impl.duplicateKeys<never, {}, []>,
-      impl.duplicateKeys<any.array, {}, []>,
-      impl.duplicateKeys<any.array<number>, {}, []>,
-      impl.duplicateKeys<[], {}, []>,
-      impl.duplicateKeys<["a"], {}, []>,
-      impl.duplicateKeys<["a", "b"], {}, []>,
-      impl.duplicateKeys<["a", "b", "c"], {}, []>,
-    ]
-  }
-
-  type __getKeys__ = [
-    // ^?
-    expect<assert.equal<
-      impl.getKeys<never>,
-      never
-    >>,
-    expect<assert.equal<
-      impl.getKeys<[]>,
-      []
-    >>,
-    expect<assert.equal<
-      impl.getKeys<[["abc", 123]]>,
-      ["abc"]
-    >>,
-    expect<assert.equal<
-      impl.getKeys<[["abc", 123], ["def", 456]]>,
-      ["abc", "def"]
-    >>,
-    expect<assert.equal<
-      impl.getKeys<[["abc", 123], ["def", 456], ["ghi", 789]]>,
-      ["abc", "def", "ghi"]
-    >>,
-  ]
-
-  type __singleChar__ = [
-    // ^?
-    /* 𝖈𝖚𝖗𝖘𝖊𝖉 */
-    expect<assert.equal<
-      enforce.singleChar<"">,
-      TypeError<[𝗺𝘀𝗴: "Expected to receive a single-char string, but encountered an empty string instead", 𝗴𝗼𝘁: ""]>
-    >>,
-    expect<assert.equal<
-      enforce.singleChar<string>,
-      TypeError<[𝗺𝘀𝗴: "Expected to receive a single-char string, but encountered the universal string type instead", 𝗴𝗼𝘁: string]>
-    >>,
-    expect<assert.equal<
-      enforce.singleChar<"ab">,
-      TypeError<[𝗺𝘀𝗴: "Expected to receive a single-char string, but encountered a string containing more than 1 character instead", 𝗴𝗼𝘁: "ab"]>
-    >>,
-    expect<assert.equal<
-      enforce.singleChar<"abc">,
-      TypeError<[𝗺𝘀𝗴: "Expected to receive a single-char string, but encountered a string containing more than 1 character instead", 𝗴𝗼𝘁: "abc"]>
-    >>,
-    /* happy path */
-    expect<assert.equal<enforce.singleChar<"a">, unknown>>,
-  ]
-
-  type __noExcessProps__ = [
-    /* 𝖈𝖚𝖗𝖘𝖊𝖉 */
-    expect<assert.equal<
-      enforce.noExcessProps<
-        { abc: number, def: string },
-        /* @ts-expect-error: intentionally causing this type error to make sure the `TypeError` comes through */
-        { abc: 123 }
-      >,
-      TypeError<[𝗺𝘀𝗴: "Expected inputs to share an index signature, but encountered excess props", 𝗴𝗼𝘁: [𝐥𝐞𝐟𝐭: "def"]]>
-    >>,
-    expect<assert.equal<
-      enforce.noExcessProps<
-        { abc: number },
-        { abc: 123, def: 456 }
-      >,
-      TypeError<[𝗺𝘀𝗴: "Expected inputs to share an index signature, but encountered excess props", 𝗴𝗼𝘁: [𝐫𝐢𝐠𝐡𝐭: "def"]]>
-    >>,
-    expect<assert.equal<
-      enforce.noExcessProps<
-        { abc: number, def: 789 },
-        /* @ts-expect-error: intentionally causing this type error to make sure the `TypeError` comes through */
-        { abc: number, ghi: 456 }
-      >,
-      TypeError<[𝗺𝘀𝗴: "Expected inputs to share an index signature, but encountered excess props", 𝗴𝗼𝘁: [𝐥𝐞𝐟𝐭: "def", 𝐫𝐢𝐠𝐡𝐭: "ghi"]]>
-    >>,
-    /* happy path */
-
-  ]
-
 }

@@ -9,16 +9,29 @@ import type { Universal } from "../universal/exports"
 import type { cache } from "../cache/exports"
 import type { enforce } from "../err/enforce"
 import { never } from "../semantic-never/exports"
+import { real } from "../exports"
+
+const len$: unique symbol = Symbol.for("any-ts/associative::len$")
+type len$ = typeof len$
 
 declare namespace impl {
   type parseNumeric<type> = type extends `${infer x extends number}` ? x : never
   type asArraylike<type extends any.array> = never | { [ix in "length" | Extract<keyof type, `${number}`>]: type[ix] }
-  type toEntries<type, order extends any.array<keyof type>> = never | { [ix in keyof order]: [order[ix], type[order[ix]]] }
-  type range<acc extends any.array<number>, type extends number>
-    = [type] extends [acc["length"]] ? acc
-    : range<[...acc, acc["length"]], type>
+
+  type toEntries<type, order extends any.array<keyof type>>
+    = never | { [ix in keyof order]: [order[ix], type[order[ix]]] }
+
+  type rangeInclusive<acc extends any.array<number>, type extends number>
+    = [type] extends [acc["length"]] ? Readonly<[...acc, acc["length"]]>
+    : impl.rangeInclusive<[...acc, acc["length"]], type>
     ;
-  type is<type extends { length: number }>
+
+  type rangeExclusive<acc extends any.array<number>, type extends number>
+    = [type] extends [acc["length"]] ? Readonly<acc>
+    : impl.rangeExclusive<[...acc, acc["length"]], type>
+    ;
+
+  type is<type extends { [len$]: number }>
     = [separate<type>] extends [[infer order, infer object_]]
     ? [keyof order] extends [never] ? false
     : [keyof object_] extends [never] ? false
@@ -33,6 +46,23 @@ namespace impl {
       Object.assign(this, type);
     }
   } as new <const type extends object>(type: type) => type;
+
+  export const rangeInclusive
+    : <x extends enforce.positiveNumber<x>>(upperBound: x) => impl.rangeInclusive<[], Extract<x, number>>
+    = (upperBound) => {
+      let acc = []
+      if (!real.is$(upperBound)) return [] as never
+      while (acc.length < upperBound) acc.push(acc.length)
+      return acc as never
+    }
+  export const rangeExclusive
+    : <x extends enforce.positiveNumber<x>>(upperBound: x) => impl.rangeExclusive<[], Extract<x, number>>
+    = (upperBound) => {
+      let acc = []
+      if (!real.is$(upperBound)) return [] as never
+      while (acc.length < upperBound) acc.push(acc.length)
+      return acc as never
+    }
 }
 
 declare const is
@@ -53,23 +83,33 @@ type make<
   ;
 
 declare const indices
-  : <const type extends { length: number }>(type: type) => indices<type>
+  : <const type extends { [len$]: number }>(type: type) => indices<type>
 
-type range<type extends number>
-  = [type] extends [keyof cache.next.next]
-  ? cache.next.next[type] extends any.list<infer unknowns>
+type rangeInclusive<maxInclusive extends number>
+  = number extends maxInclusive ? any.array<number>
+  : [maxInclusive] extends [keyof cache.next.next]
+  ? cache.next.next[maxInclusive] extends any.list<infer unknowns>
   ? { [ix in keyof unknowns]: impl.parseNumeric<ix> }
   : never.close.inline_var<"unknowns">
-  : impl.range<[], type>
+  : impl.rangeInclusive<[], maxInclusive>
   ;
 
-type indices<type extends { length: number }>
-  = [type["length"]] extends [never] ? []
-  : number extends type["length"] ? []
-  : range<type["length"]>
+type rangeExclusive<maxExclusive extends number>
+  = number extends maxExclusive ? any.array<number>
+  : [maxExclusive] extends [keyof cache.curr.curr]
+  ? cache.curr.curr[maxExclusive] extends any.list<infer unknowns>
+  ? { [ix in keyof unknowns]: impl.parseNumeric<ix> }
+  : never.close.inline_var<"unknowns">
+  : impl.rangeExclusive<[], maxExclusive>
   ;
 
-type separate<type extends { length: number }>
+type indices<type extends { [len$]: number }>
+  = [type[len$]] extends [never] ? []
+  : number extends type[len$] ? []
+  : rangeInclusive<type[len$]>
+  ;
+
+type separate<type extends { [len$]: number }>
   = indices<type> extends any.path<infer index>
   ? Universal.key<
     index[number] extends infer ix
@@ -89,10 +129,10 @@ type separate<type extends { length: number }>
   ;
 
 declare const separate
-  : <const type extends { length: number }>(type: type) => separate<type>
+  : <const type extends { [len$]: number }>(type: type) => separate<type>
 
 type is<type>
-  = [type] extends [{ length: number }]
+  = [type] extends [{ [len$]: number }]
   ? Exclude<type, any.array> extends infer nonArray
   ? [nonArray] extends [never] ? false
   : impl.is<type>
@@ -110,14 +150,15 @@ declare function Assoc
 declare function Assoc
   <const type extends any.object, const order extends any.array<keyof type>>(type: type, order: order): associative<impl.toEntries<type, order>>
 
-const __test__ = Assoc({ abc: 123, def: 456 }, ["abc", "def"])
+const __test_1__ = Assoc({ abc: 123, def: 456 }, ["abc", "def"])
+const __test_2__ = Assoc(["abc", 123], [0, 456])
 
 declare namespace Assoc {
   export {
     is,
     separate,
     indices,
-    range,
+    rangeInclusive as range,
   }
 }
 
@@ -148,8 +189,8 @@ namespace __Spec__ {
   type __ = ({ 0: 123, 1: 456 } & [0, 1]) extends [any.array] ? true : false
 
   declare const happyPath: [
-    { abc: 123 } & { 0: "abc", length: 1 },
-    { abc: 123, def: 456 } & { 0: "abc", 1: "def", length: 2 },
+    { abc: 123 } & { 0: "abc", [len$]: 1 },
+    { abc: 123, def: 456 } & { 0: "abc", 1: "def", [len$]: 2 },
   ]
   declare const assoc1: assoc<{ abc: 123; def: 456; } & { 0: "abc", 1: "def" }>
   declare const err1: TypeError<[𝗺𝘀𝗴: "Expected keys to be unique, but encountered 1 or more duplicate keys", 𝗴𝗼𝘁: ["abc"]]>
@@ -158,13 +199,13 @@ namespace __Spec__ {
     // ^?
     expect<assert.equal<indices<never>, []>>,
     expect<assert.equal<indices<any>, []>>,
-    expect<assert.equal<indices<{ length: number }>, []>>,
-    expect<assert.equal<indices<{ length: 0 }>, [0]>>,
-    expect<assert.equal<indices<{ length: 2 }>, [0, 1, 2]>>,
+    expect<assert.equal<indices<{ [len$]: number }>, []>>,
+    expect<assert.equal<indices<{ [len$]: 0 }>, [0]>>,
+    expect<assert.equal<indices<{ [len$]: 2 }>, [0, 1, 2]>>,
     // all that matters is the "length" property (excess properties are ignored)
-    expect<assert.equal<indices<{ length: 2, abc: 123, def: 456, 0: "abc", 1: "def" }>, [0, 1, 2]>>,
+    expect<assert.equal<indices<{ [len$]: 2, abc: 123, def: 456, 0: "abc", 1: "def" }>, [0, 1, 2]>>,
     // all that matters is the "length" property (excess properties are ignored)
-    expect<assert.equal<indices<{ length: 3, abc: 123, def: 456, 0: "abc", 1: "def" }>, [0, 1, 2, 3]>>,
+    expect<assert.equal<indices<{ [len$]: 3, abc: 123, def: 456, 0: "abc", 1: "def" }>, [0, 1, 2, 3]>>,
   ]
 
   type __toEntries__ = [
@@ -188,6 +229,7 @@ namespace __Spec__ {
         // ^?
         type __is__ = [
           // ^?
+          /* 𝖈𝖚𝖗𝖘𝖊𝖉 */
           expect<assert.is.false<Assoc.is<any.array>>>,
           expect<assert.is.false<Assoc.is<[]>>>,
           expect<assert.is.false<Assoc.is<{}>>>,
@@ -200,12 +242,11 @@ namespace __Spec__ {
           expect<assert.is.false<Assoc.is<["abc", "def"] & { abc: 123, def: 455, ghi: 789 }>>>,
           expect<assert.is.false<Assoc.is<["abc"] & { abc: 123 }>>>,
           // correct
-          expect<assert.is.true<Assoc.is<{ length: 1, 0: "abc", abc: 123 }>>>,
-          expect<assert.is.true<Assoc.is<{ length: 2, 0: "abc", 1: "def", abc: 123, def: 455 }>>>,
+          expect<assert.is.true<Assoc.is<{ [len$]: 1, 0: "abc", abc: 123 }>>>,
+          expect<assert.is.true<Assoc.is<{ [len$]: 2, 0: "abc", 1: "def", abc: 123, def: 455 }>>>,
         ]
 
         return [
-          // ^?
           expect(t.assert.is.true(is(happyPath[0]))),
           expect(t.assert.is.true(is(happyPath[1]))),
         ]
@@ -229,88 +270,101 @@ namespace __Spec__ {
   })
 
   describe("separate", t => {
-    // ^?
     type __separate__ = [
       // ^?
       expect<assert.equal<separate<never>, [{}, {}]>>,
       expect<assert.equal<separate<any>, [{}, {}]>>,
-      expect<assert.equal<separate<{ length: number }>, [{}, {}]>>,
-      expect<assert.equal<separate<{ length: 0 }>, [{}, {}]>>,
-      expect<assert.equal<separate<{ length: 1 }>, [{}, {}]>>,
+      expect<assert.equal<separate<{ [len$]: number }>, [{}, {}]>>,
+      expect<assert.equal<separate<{ [len$]: 0 }>, [{}, {}]>>,
+      expect<assert.equal<separate<{ [len$]: 1 }>, [{}, {}]>>,
       expect<assert.equal<
-        separate<{ abc: 123, def: 456, 0: "abc", 1: "def", length: 2 }>,
+        separate<{ abc: 123, def: 456, 0: "abc", 1: "def", [len$]: 2 }>,
         [order: { 0: "abc", 1: "def" }, object: { abc: 123, def: 456 }]
       >>,
-      /** (TODO) CASE: too many members in `order` (handled gracefully by taking the greatest common denominator of length, order and object) */
+      /** 
+       * CASE: too many members in `order`
+       * handle gracefully by taking the greatest common denominator of `len$`, `order` and `object` 
+       */
       expect<assert.equal<
-        separate<{ length: 2, abc: 123, def: 456, 0: "abc", 1: "def", 2: "ghi" }>,
+        separate<{ [len$]: 2, abc: 123, def: 456, 0: "abc", 1: "def", 2: "ghi" }>,
         //                                                            🡑🡑🡑🡑🡑
         [order: { 0: "abc", 1: "def", }, object: { abc: 123, def: 456, }]
       >>,
-      /** CASE: length is too high (handled gracefully by taking the greatest common denominator of length, order and object) */
+      /** 
+       * CASE: `len$` is too high
+       * handle gracefully by taking the greatest common denominator of `len$`, `order` and `object` 
+       */
       expect<assert.equal<
-        separate<{ length: 3, abc: 123, def: 456, 0: "abc", 1: "def" }>,
+        separate<{ [len$]: 3, abc: 123, def: 456, 0: "abc", 1: "def" }>,
         //         🡑🡑🡑🡑🡑🡑
         [order: { 0: "abc", 1: "def", }, object: { abc: 123, def: 456, }]
       >>,
-      /** CASE: too many members in `object` (handled gracefully by taking the greatest common denominator of length, order and object) */
+      /** 
+       * CASE: too many members in `object` 
+       * handle gracefully by taking the greatest common denominator of `len$`, `order` and `object`
+       */
       expect<assert.equal<
-        separate<{ length: 2, abc: 123, def: 456, ghi: 789, 0: "abc", 1: "def" }>,
+        separate<{ [len$]: 2, abc: 123, def: 456, ghi: 789, 0: "abc", 1: "def" }>,
         //                                        🡑🡑🡑🡑🡑
         [order: { 0: "abc", 1: "def", }, object: { abc: 123, def: 456, }]
       >>,
     ]
 
-    const result = [
-      t.assert.equal(1, 3),
-      t.assert.extends<[]>(0 as never)
-    ] as const
+    describe("corner cases", t => {
+      return [
+        expect(t.assert.extends<[order: {}, object: {}]>(separate(void 0 as any))),
+        expect(t.assert.extends<[order: {}, object: {}]>(separate(void 0 as never))),
+        expect(t.assert.extends<[order: {}, object: {}]>(separate({ [len$]: Math.random() }))),
+        expect(t.assert.extends<[order: {}, object: {}]>(separate({ [len$]: 0 }))),
+        expect(t.assert.extends<[order: {}, object: {}]>(separate({ [len$]: 1 }))),
+        expect(t.assert.extends
+          <[order: { 0: "abc", 1: "def" }, object: { abc: 123, def: 456 }]>
+          (separate({ [len$]: 3, 0: "abc", 1: "def", abc: 123, def: 456 }))
+          //          🡑🡑🡑🡑🡑🡑
+        ),
+        expect(t.assert.extends
+          <[order: { 0: "abc", 1: "def" }, object: { abc: 123, def: 456 }]>
+          (separate({ [len$]: 2, 0: "abc", 1: "def", 2: "ghi", abc: 123, def: 456 }))
+          //                                         🡑🡑🡑🡑🡑
+        ),
+        expect(t.assert.extends
+          <[order: { 0: "abc", 1: "def" }, object: { abc: 123, def: 456 }]>
+          (separate(
+            { [len$]: 2, 0: "abc", 1: "def", abc: 123, def: 456, ghi: 789 }))
+          //                                                     🡑🡑🡑🡑🡑
+        ),
+      ] as const
+      //   ^?
+    })
 
-    const r = [
-      expect(t.assert.extends<{ abc: 123 }>({ abc: 123 })),
-      expect(t.assert.extends<[{}, {}]>(separate(void 0 as never))),
-      expect(t.assert.extends<[order: {}, object: {}]>(separate(void 0 as any))),
-      expect(t.assert.extends<[order: {}, object: {}]>(separate({ length: Math.random() }))),
-      expect(t.assert.extends<[order: {}, object: {}]>(separate({ length: 0 }))),
-      expect(t.assert.extends<[order: {}, object: {}]>(separate({ length: 1 }))),
-      expect(
-        t.assert.extends<
-          [order: { 0: "abc", 1: "def" }, object: { abc: 123, def: 456 }]
-        >(separate(
-          { 0: "abc", 1: "def", abc: 123, def: 456, length: 2 }
-        ))
-      ),
-      expect(
-        t.assert.extends<
-          [order: { 0: "abc", 1: "def" }, object: { abc: 123, def: 456 }]
-        >(separate(
-          { length: 3, 0: "abc", 1: "def", abc: 123, def: 456 }
-          //🡑🡑🡑🡑🡑🡑
-        ))
-      ),
-      expect(
-        t.assert.extends<
-          [order: { 0: "abc", 1: "def" }, object: { abc: 123, def: 456 }]
-        >(separate(
-          { length: 2, 0: "abc", 1: "def", 2: "ghi", abc: 123, def: 456 }
-          //                               🡑🡑🡑🡑🡑
-        ))
-      ),
-      expect(
-        t.assert.extends<
-          [order: { 0: "abc", 1: "def" }, object: { abc: 123, def: 456 }]
-        >(separate(
-          { length: 2, 0: "abc", 1: "def", abc: 123, def: 456, ghi: 789 }
-          //                                                   🡑🡑🡑🡑🡑
-        ))
-      ),
-    ] as const
-    return result
+    describe("happy path", t => {
+      return [
+        expect(t.assert.extends
+          <[order: { 0: "abc", 1: "def" }, object: { abc: 123, def: 456 }]>
+          (separate({ 0: "abc", 1: "def", abc: 123, def: 456, [len$]: 2 })),
+        ),
+      ] as const
+      //   ^?
+    })
   })
+
+  type _5 = rangeInclusive<70>["length"]
 
   type __range__ = [
     // ^?
-    expect<assert.equal<range<10>, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]>>,
-    expect<assert.equal<range<70>["length"], 70>>,
+    expect<assert.equal<rangeInclusive<10>, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]>>,
+    expect<assert.equal<rangeInclusive<70>["length"], 71>>,
+    expect<assert.equal<rangeInclusive<number>, any.array<number>>>,
+    expect<assert.equal<rangeExclusive<10>, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]>>,
+    expect<assert.equal<rangeExclusive<70>["length"], 70>>,
+    expect<assert.equal<rangeExclusive<number>, any.array<number>>>,
   ]
+
+  describe("range", t => {
+    return [
+      expect(t.assert.equal(impl.rangeExclusive(10), [0, 1, 2, 3, 4, 5, 6, 7, 8, 9])),
+
+    ] as const
+    //   ^?
+  })
 }

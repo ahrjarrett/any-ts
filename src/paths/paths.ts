@@ -10,7 +10,7 @@ type isOptional<key extends keyof type, type>
   = {} extends { [ix in key]: type[ix] } ? true : false
 
 type pathsof<type>
-  = Path.GO<type, []> extends
+  = Path.go<type, []> extends
   | any.two<any, any.arrayof<Path.propWithMeta, infer path>>
   ? { [ix in keyof path]: path[ix] extends
     | any.two<infer segment, infer meta>
@@ -26,7 +26,7 @@ type pathsof<type>
 
 
 declare namespace Path {
-  export type GO<type, path extends any.array<Path.propWithMeta>>
+  export type go<type, path extends any.array<Path.propWithMeta>>
     = type extends any.primitive ? [𝐋𝐄𝐀𝐅: type, 𝐏𝐀𝐓𝐇: path]
     : type extends any.array ? Path.array<type, path>
     : type extends any.object ? Path.object<type, path>
@@ -40,12 +40,12 @@ declare namespace Path {
   export type propWithMeta = any.two<any.index, Path.Meta>
 
   export type array<type extends any.array, path extends any.array<Path.propWithMeta>>
-    = number extends type["length"] ? Path.GO<type[number], [...path, [𝐤𝐞𝐲: number, 𝐦𝐞𝐭𝐚: typeof Meta.Required]]>
+    = number extends type["length"] ? Path.go<type[number], [...path, [𝐤𝐞𝐲: number, 𝐦𝐞𝐭𝐚: typeof Meta.Required]]>
     : any.indexof<type> extends infer ix
     ? ix extends keyof type
     ? isOptional<ix, type> extends true
-    ? Path.GO<Exclude<type[ix], undefined>, [...path, [𝐤𝐞𝐲: ix, 𝐦𝐞𝐭𝐚: typeof Meta.Optional]]>
-    : Path.GO<type[ix], [...path, [𝐤𝐞𝐲: ix, 𝐦𝐞𝐭𝐚: typeof Meta.Required]]>
+    ? Path.go<Exclude<type[ix], undefined>, [...path, [𝐤𝐞𝐲: ix, 𝐦𝐞𝐭𝐚: typeof Meta.Optional]]>
+    : Path.go<type[ix], [...path, [𝐤𝐞𝐲: ix, 𝐦𝐞𝐭𝐚: typeof Meta.Required]]>
     : never.close.distributive<"ix">
     : never.close.inline_var<"ix">
     ;
@@ -56,8 +56,8 @@ declare namespace Path {
     = keyof type extends infer key
     ? key extends keyof type
     ? isOptional<key, type> extends true
-    ? Path.GO<Exclude<type[key], undefined>, [...path, [𝐤𝐞𝐲: key, 𝐦𝐞𝐭𝐚: typeof Meta.Optional]]>
-    : Path.GO<type[key], [...path, [𝐤𝐞𝐲: key, 𝐦𝐞𝐭𝐚: typeof Meta.Required]]>
+    ? Path.go<Exclude<type[key], undefined>, [...path, [𝐤𝐞𝐲: key, 𝐦𝐞𝐭𝐚: typeof Meta.Optional]]>
+    : Path.go<type[key], [...path, [𝐤𝐞𝐲: key, 𝐦𝐞𝐭𝐚: typeof Meta.Required]]>
     : never.close.unmatched_expr
     : never.close.inline_var<"key">
     ;
@@ -66,7 +66,7 @@ declare namespace Path {
   type sym<type extends typeof sym = typeof sym> = type
 
   type __array__ = Path.array<[1, 2, 3], []>
-  type __object__ = Path.GO<
+  type __object__ = Path.go<
     {
       a: { b: { c: 1 }, d: 2 },
       e?: ["four", "five"?, "six"?],
