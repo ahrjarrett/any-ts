@@ -34,6 +34,7 @@ const Msg = {
   NonEmptyString: "Expected a non-empty string, but got an empty string instead",
   NoExcessProps: "Expected inputs to share an index signature, but encountered excess props",
   NonLiteral: "Expected a non-literal type, but encountered a literal instead",
+  Numeric: "Expected a numeric type, for example `number` or `bigint`",
   Positive: "Expected a positive number",
   Shallow: "Expected a primitive type or a shallow array",
   SingleCharGotLonger: "Expected to receive a single-char string, but encountered a string containing more than 1 character instead",
@@ -137,14 +138,6 @@ declare namespace TypeError {
   export namespace raise {
     export { If as if }
     namespace If {
-
-
-
-
-
-
-
-
       /**
        * @example
        *  const nonNumber = TypeError.raise.if.assignableTo(100)

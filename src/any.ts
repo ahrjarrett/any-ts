@@ -75,6 +75,13 @@ export {
   type indexedby,
   /** {@link indexedby `any.indexedBy`} alias for {@link indexedby `any.indexedby`} @external */
   type indexedby as indexedBy,
+
+  /** {@link indexableby `any.indexableby`} @external */
+  type indexableby,
+
+  /** {@link indexableby `any.indexableBy`} alias for {@link indexableby `any.indexableby`} @external */
+  type indexableby as indexableBy,
+
   /** {@link invertible `any.invertible`} @external */
   type invertible,
   /** {@link json `any.json`} @external */
@@ -340,6 +347,13 @@ type indexedby<
   type extends
   | { [𝒊𝒙 in invariant]: _ }
   = { [𝒊𝒙 in invariant]: _ }
+> = type
+
+type indexableby<
+  invariant extends any.index,
+  type extends
+  | { [ix in invariant]: any.index }
+  = { [ix in invariant]: any.index }
 > = type
 
 type pathof<

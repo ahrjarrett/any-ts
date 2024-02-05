@@ -1,14 +1,14 @@
 <br>
-<h2 align="center">∀𝖭𝖸-𝖳𝖲</h2>
+<h2 align="center">𝗮𝗻𝘆-𝘁𝘀</h2>
 <br>
 
-<img alt="npm" src="https://img.shields.io/npm/v/any-ts?style=for-the-badge&logo=npm">
-&nbsp;
-<img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-5.0%2B-blue?style=for-the-badge&logo=TypeScript">
-&nbsp;
+[![NPM Package][]](https://npmjs.org/package/any-ts)
 
-<p align="center">
-a core set of type constructors for writing every day TypeScript with the names you already know.
-</p>
+[npm package]: https://img.shields.io/npm/v/any-ts.svg?color=44bb17
 
-**TODO:** add a list of the exported namespaces to make this package discoverable from the repo's root
+> 
+
+
+
+any-ts is a small set of TypeScript namespaces that overload built-in names (like [`any`](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#any)) to make them extensible.
+
