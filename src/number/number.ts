@@ -5,7 +5,7 @@ export {
 import { bigint } from "./bigint"
 import { int } from "./integer"
 import { nat } from "./natural"
-import { real } from "./real"
+import { real as real_ } from "./real"
 import { boolean } from "../boolean/exports"
 import {
   isNegative,
@@ -23,7 +23,7 @@ declare namespace number {
     type negative<x> = isNegative<x>
     type one<x> = isOne<x>
     type positive<x> = isPositive<x>
-    type real<x> = real.is<x>
+    type real<x> = real_.is<x>
     type zero<x> = isZero<x>
     type universal<x> = [number] extends [x] ? true : false
     type literal<x> = boolean.all<[number.is<x>, boolean.not<number.is.universal<x>>]>

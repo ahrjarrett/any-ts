@@ -75,25 +75,22 @@ export {
   type indexedby,
   /** {@link indexedby `any.indexedBy`} alias for {@link indexedby `any.indexedby`} @external */
   type indexedby as indexedBy,
-
   /** {@link indexableby `any.indexableby`} @external */
   type indexableby,
-
   /** {@link indexableby `any.indexableBy`} alias for {@link indexableby `any.indexableby`} @external */
   type indexableby as indexableBy,
-
   /** {@link invertible `any.invertible`} @external */
   type invertible,
   /** {@link json `any.json`} @external */
   type json,
   /** {@link key `any.key`} @external */
   type key,
+  /** {@link keyOf `any.keyof`} @external */
+  type keyOf as keyof,
+  /** {@link keyOf `any.keyOf`} alias for {@link keyof `any.keyof`} @external */
+  type keyOf,
   /** {@link keys `any.keys`} @external */
   type keys,
-  /** {@link keyof `any.keyof`} @external */
-  type keyof,
-  /** {@link keyof `any.keyOf`} alias for {@link keyof `any.keyof`} @external */
-  type keyof as keyOf,
   /** {@link list `any.list`} @external */
   type list,
   /** {@link literal `any.literal`} @external */
@@ -214,6 +211,14 @@ type field<key extends any.index = any.index, value = _> = any.field<key, value>
  */
 type entry<type extends any.entry = any.entry> = type
 
+type keyOf<
+  invariant,
+  type extends
+  | keyof invariant
+  = keyof invariant
+> = type
+
+
 declare namespace any {
   // aliased exports
   export {
@@ -319,14 +324,8 @@ declare namespace any {
     | readonly [𝐟𝐫𝐨𝐦: _, 𝐭𝐨: _]
     = readonly [𝐟𝐫𝐨𝐦: any, 𝐭𝐨: _]
   > = never | { (u: map[0]): asserts u is map[1] }
-}
 
-type keyof<
-  invariant,
-  type extends
-  | keyof invariant
-  = keyof invariant
-> = type
+}
 
 type showableKeyof<
   invariant,
