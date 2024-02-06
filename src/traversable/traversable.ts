@@ -7,7 +7,7 @@ import * as any from '../any'
 import { empty, nonempty } from "../empty"
 
 import { never } from "../semantic-never/exports"
-import { assert, expect } from '../test/test';
+import { assert, expect } from '../test/exports';
 
 declare namespace impl {
   type unfold<path extends any.array<any.index>, leaf = unknown>
@@ -18,7 +18,7 @@ declare namespace impl {
     ;
 }
 
-type unfold<leaf, path extends any.array<any.key>> = impl.unfold<path, leaf>
+type unfold<leaf, path extends any.path> = impl.unfold<path, leaf>
 
 /** 
  * {@link from `traversable.from`} is a type-constructor that takes a path describing a tree and, 

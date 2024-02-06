@@ -45,10 +45,6 @@ declare namespace nonempty {
     arrayof,
     /** {@link arrayof `nonempty.arrayOf`} @external */
     arrayof as arrayOf,
-    /** {@link arrayofStrict `nonempty.arrayofStrict`} @external */
-    arrayofStrict,
-    /** {@link arrayofStrict `nonempty.arrayOfStrict`} @external */
-    arrayofStrict as arrayOfStrict,
     /** {@link path `nonempty.path`} @external */
     path,
     /** {@link path `nonempty.pathRight`} @external */
@@ -80,16 +76,6 @@ declare namespace nonempty {
     head extends string = string,
     tail extends string = string
   > = `${head}${tail}`
-
-  type arrayofStrict<
-    invariant,
-    head extends
-    | invariant
-    = invariant,
-    type extends
-    | any.array<head>
-    = any.array<head>
-  > = type
 
   type path<
     head extends any.index = any.index,

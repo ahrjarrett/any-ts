@@ -1,3 +1,9 @@
+// namespace exports
+export {
+  /** {@link nonempty `mut.nonempty`} @external */
+  nonempty,
+}
+
 export {
   /** {@link array `mut.array`} @external */
   array,
@@ -38,8 +44,9 @@ export {
 }
 
 import * as any from "../any"
-type _ = unknown
 import { pathsof } from "../paths/paths"
+
+type _ = unknown
 
 type list<type extends mut.array = mut.array> = type
 type keys<type extends mut.keys = mut.keys> = type
@@ -70,8 +77,8 @@ type entryof<
 type entriesof<
   invariant,
   type extends
-  | any.array<[any.index, invariant]>
-  = any.array<[any.index, invariant]>
+  | mut.array<[any.index, invariant]>
+  = mut.array<[any.index, invariant]>
 > = type
 
 type pathof<
@@ -81,8 +88,53 @@ type pathof<
   = pathsof<invariant>
 > = type
 
+declare namespace nonempty {
+  export {
+    /** {@link array `mut.nonempty.array`} @internal */
+    array,
+    /** {@link arrayof `mut.nonempty.arrayof`} @internal */
+    arrayof,
+    /** {@link arrayof `mut.nonempty.arrayOf`} @internal */
+    arrayof as arrayOf,
+    /** {@link path `mut.nonempty.path`} @internal */
+    path,
+    /** {@link pathLeft `mut.nonempty.pathLeft`} @internal */
+    pathLeft,
+  }
 
+  type array<
+    head = _,
+    tail extends
+    | mut.array
+    = mut.array<head>
+  > = [head, ...tail]
+
+  type arrayof<
+    invariant,
+    head extends invariant = invariant,
+    tail extends
+    | mut.array<invariant>
+    = mut.array<invariant>
+  > = [head, ...tail]
+
+  type path<
+    head extends any.index = any.index,
+    tail extends
+    | mut.array<any.index>
+    = mut.array<any.index>
+  > = [head, ...tail]
+
+  type pathLeft<
+    init extends
+    | mut.array<any.index>
+    = mut.array<any.index>,
+    last extends any.index = any.index
+  > = [...init, last]
+}
+
+/** @internal */
 namespace mut { export const never: never = void 0 as never }
+/** @internal */
 declare namespace mut {
   export {
     /** {@link array `mut.array`} @internal */
@@ -98,7 +150,7 @@ declare namespace mut {
     /** {@link path `mut.path`} @internal */
     path,
   }
-  type array<type = unknown> = type[]
+  type array<type = _> = type[]
   type list<type extends mut.array = mut.array> = type
   type entries<type extends mut.array<mut.entry> = mut.array<mut.entry>> = type
   type entry<type extends two<any.index, _> = two<any.index, _>> = type

@@ -1,1 +1,1 @@
-export { } from "./focus"
+export type { Focus } from "./focus"

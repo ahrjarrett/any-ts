@@ -2,10 +2,10 @@ export {
   Int as int,
 }
 
-import * as any from "../any"
+import type * as any from "../any"
 import type { Fn } from "../function/exports";
-import { Err, assert, enforce, expect } from "../exports"
-import { $$, newtype } from "./shared"
+import type { Err } from "../err/exports"
+import type { $$, newtype } from "./shared"
 
 
 type enforce<x>

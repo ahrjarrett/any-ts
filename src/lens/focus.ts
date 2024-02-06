@@ -1,4 +1,9 @@
+export {
+  Focus,
+}
+
 import { any, describe, empty, expect, never, nonempty } from "../exports"
+import { traversable } from "../traversable/traversable"
 
 declare namespace List {
   type head<type extends any.array> = type[0]
@@ -235,27 +240,77 @@ interface FocusConstructor {
   from<path extends any.path>(...path: path): Focus<path, Tree.unfold<path, {}>>
 }
 
-type mapFocus<next, self extends Focus>
-  = Tree.joinLeft<Tree.unfold<self["_path"], next>, self["_root"]>
+type mapFocus<next, F extends Focus>
+  = Tree.joinLeft<Tree.unfold<F["_path"], next>, F["_root"]>
 
-type propsInFocus<self extends Focus> = keyof self["."]
+type propsInFocus<F extends Focus> = keyof F["."]
+
+type tag<type>
+  = [type] extends [any.array] ? "array"
+  : [type] extends [any.object] ? "object"
+  : [type] extends [any.primitive] ? "primitive"
+  : "unknown"
+  ;
+
+type tagAtFocus<F extends Focus> = tag<Tree.fold<F["_root"], F["_path"]>>
+type popFocus<F extends Focus> = Extract<List.lead<F["_path"]>, any.path>
+type foldFocus<F extends Focus> = Tree.fold<F["_root"], F["_path"]>
+type pushFocus<prop extends any.index, F extends Focus> = [...F["_path"], prop]
+
+interface FocusPlusMetadata<
+  meta extends any.object = {},
+  path extends any.path = any.path,
+  structure = unknown
+> extends Focus<path, structure> { }
+
+type focus<F extends Focus = Focus> = F
 
 interface Focus<path extends any.path = any.path, structure = unknown> extends Storage {
+  ////////////////
+  /// internal ///
+  ////////////////
+  ////////////////
   /** @internal */
   _root: structure
   /** @internal */
   _path: path
   /** @internal */
-  _focus(): Tree.fold<this["_root"], this["_path"]>
-  /** `"."` unwraps the {@link Focus `Focus`} at the current focus */
+  _focus(): foldFocus<this>
+
+  /////////////////////
+  /// "file system" ///
+  /////////////////////
+  /////////////////////
+  /** ["/"] moves the focus back to the current {@link Focus `Focus`} root */
+  get ["/"](): Focus<[], this["_root"]>,
+  /** ["."] unwraps the {@link Focus `Focus`} at the current focus */
   get ["."](): ReturnType<this["_focus"]>
-  /** focus parent directory */
-  get [".."](): Focus<Extract<List.lead<this["_path"]>, any.path>, this["_root"]>
-  /** print working directory */
+  /** [".."] focuses the parent directory */
+  get [".."](): Focus<popFocus<this>, this["_root"]>
+  /** "print working directory" */
   get pwd(): join<this["_path"], "/">
   /** "change directory" */
-  cd<prop extends propsInFocus<this>>(prop: prop):
-    Focus<[...this["_path"], prop], this["_root"]>
+  cd<prop extends propsInFocus<this>>(prop: prop): Focus<pushFocus<prop, this>, this["_root"]>
+
+  //////////////////////
+  /// dry run, debug ///
+  //////////////////////
+  //////////////////////
+  /** 
+   * query the focused value and derive a "tag" that describes it 
+   * (makes it simple for users to pattern match: they just define 
+   * a handler for each tag
+   */
+  tag(): FocusPlusMetadata<[𝘁𝗮𝗴: tagAtFocus<this>], path, structure>
+  /** 
+   * {@link peek `Focus.peek`} uses {@link path `path`} to query {@link structure `structure`} 
+   * and returns a variant of {@link Focus `Focus`} called {@link FocusPlusMetadata `FocusPlusMetadata`},
+   * which behaves the same as {@link Focus `Focus`} but includes some extra metadata (which in this case
+   * will be result of the query).
+   */
+  peek(): FocusPlusMetadata<[𝗽𝗲𝗲𝗸: ReturnType<this["_focus"]>], path, structure>
+
+  /** TODO: adapt (note: use the profunctor lens encoding) */
 
   /** 
    * {@link Focus.map} applies a user-provided function to the current focus, and replaces the
@@ -286,35 +341,44 @@ interface Focus<path extends any.path = any.path, structure = unknown> extends S
     Focus<other["_path"], Tree.joinLeft<other["_root"], this["_root"]>>
 }
 
-declare const data: {
-  a: {
-    b: {
-      c: 123
+
+namespace __Spec__ {
+  declare const data: {
+    a: {
+      b: {
+        c: 123
+      },
+      d: 456
     },
-    d: 456
-  },
-  e: {
-    f: {
-      g: 789,
-      h: {
-        i: 0
+    e: {
+      f: {
+        g: 789,
+        h: {
+          i: 0
+        }
       }
     }
   }
-}
 
-declare const otherData: {
-  e: {
-    f: 9000
+  declare const otherData: {
+    e: {
+      f: 9000
+    }
   }
-}
 
-declare const minimal: { a: { b: { c: 123 } } }
+  declare const minimal: { a: { b: { c: 123 } }, d: 456 }
 
-const focus
-  = Focus
-    .of(data)
-    //^?
+  const focus1
+    //  ^?
+    = Focus
+      .of(minimal)
+      .cd("d")
+      .tag()
+      .peek()
+      .map(v => [v, v] as const)
+
+  const focus2 = Focus.of(data)
+    //  ^?
     .cd("a")
     //^?
     .cd("b")
@@ -329,31 +393,31 @@ const focus
       // ^?
     )
 
-focus // =>
 
-describe(
-  // ^?
-  "Focus",
-  t => [
-    expect(
-      t.assert.equal(Focus.of(data).cd("a").cd("b").cd("c").pwd,
-        "a/b/c"
-      )),
-    expect(
-      t.assert.equal(Focus.of(data).cd("a").cd("b").cd("c")["."],
-        123
+  describe(
+    // ^?
+    "Focus",
+    t => [
+      expect(
+        t.assert.equal(Focus.of(data).cd("a").cd("b").cd("c").pwd,
+          "a/b/c"
+        )),
+      expect(
+        t.assert.equal(Focus.of(data).cd("a").cd("b").cd("c")["."],
+          123
+        )
+      ),
+      expect(
+        /** 
+         * TODO: we're using `equivalent` instead of `equal` because one of the
+         * tree operations is converting the subtree it operates on to be mutable,
+         * which means that subtree is no longer readonly in the output
+         */
+        t.assert.equivalent(
+          Focus.of({ a: { b: { c: 123 } } }).cd("a").map(() => 9000 as const),
+          Focus.of({ a: 9000 }).cd("a")
+        )
       )
-    ),
-    expect(
-      /** 
-       * TODO: we're using `equivalent` instead of `equal` because one of the
-       * tree operations is converting the subtree it operates on to be mutable,
-       * which means that subtree is no longer readonly in the output
-       */
-      t.assert.equivalent(
-        Focus.of({ a: { b: { c: 123 } } }).cd("a").map(() => 9000 as const),
-        Focus.of({ a: 9000 }).cd("a")
-      )
-    )
-  ]
-)
+    ]
+  )
+}

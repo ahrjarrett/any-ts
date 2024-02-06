@@ -28,6 +28,7 @@ declare namespace Fn {
     Fn2,
     interpret1,
     interpret2,
+    rm,
   }
 
   // internal exports
@@ -50,17 +51,18 @@ declare namespace Fn {
     interface uppercaseAlphaChar extends Fn1<any.showable> { [-1]: char.is.uppercaseAlpha<`${this[0]}`> }
   }
 
+  // unary
+  interface rm extends Fn1<any.showable> { [-1]: "" }
   interface show extends Fn1<any.showable> { [-1]: `${this[0]}` }
-  interface between<middle extends any.showable> extends Fn2<any.showable, any.showable> { [-1]: `${this[0]}${middle}${this[1]}` }
   interface capitalize extends Fn1<any.showable> { [-1]: globalThis.Capitalize<`${this[0]}`> }
-
   interface prefix<before extends any.showable> extends Fn1<any.showable> { [-1]: `${before}${this[0]}` }
   interface postfix<after extends any.showable> extends Fn1<any.showable> { [-1]: `${this[0]}${after}` }
   interface unprefix<prefix extends any.showable> extends Fn1<string> { [-1]: String.unprefix<prefix, this[0]> }
   interface unpostfix<suffix extends any.showable> extends Fn1<string> { [-1]: String.unpostfix<suffix, this[0]> }
-
   interface replace<needle extends any.showable, next extends any.showable> extends Fn1<string> { [-1]: String.replace<needle, next, this[0]> }
   interface snake extends Fn1<any.showable> { [-1]: `_${Lowercase<`${this[0]}`>}` }
+  // binary
+  interface between<middle extends any.showable> extends Fn2<any.showable, any.showable> { [-1]: `${this[0]}${middle}${this[1]}` }
 }
 
 type String = "hey"
@@ -116,12 +118,25 @@ declare namespace String {
   export type postfix<after extends any.showable, text extends _> = `${text}${after}`
   export type unprefix<prefix extends any.showable, text extends _> = text extends `${prefix}${infer tail}` ? tail : never
   export type unpostfix<suffix extends any.showable, text extends _> = text extends `${infer head}${suffix}` ? head : never
-  export type split<
+
+  /** 
+   * TODO: think of a better name for this? remove it altogether? 
+   * the weird thing about its behavior is that it splits the string, runs a function on
+   * the matched value, then _reinserts_ the output of that value in-place in the string 🫠
+   */
+  export type splice<
     text extends _,
     matcher extends Fn1<any.showable> | any.array<any.showable>,
     onMatch extends Fn1<any.showable> = Fn.show
   >
     = string.join<``, string.split<[], ``, text, matcher, onMatch>>
+
+  export type split<
+    text extends _,
+    matcher extends Fn1<any.showable> | any.array<any.showable>,
+    onMatch extends Fn1<any.showable> = Fn.rm
+  >
+    = string.split<[], ``, text, matcher, onMatch>
 
   /**
    * TODO: 
@@ -138,6 +153,12 @@ declare namespace String {
     : char.is<`${delimiter}`> extends true ? string.splitOnceOnChar<``, text, delimiter>
     : chars.is<`${delimiter}`> extends true ? string.splitOnceOnChars<``, text, delimiter>
     : never.illegal_state<"`char.is` and `chars.is` should be total over strings">
+    ;
+
+  export type chop<delimiter extends any.showable, text extends _>
+    = [text] extends [`${string}${delimiter}${string}`]
+    ? splitOn<delimiter, text>
+    : [head: text, tail: []]
     ;
 }
 
@@ -193,7 +214,7 @@ declare namespace string {
     delimiter extends any.showable
   > = lines extends empty.array ? acc
     : lines extends nonempty.arrayof<any.showable, infer head, infer tail>
-    ? join<`${acc}${delimiter}${head}`, tail>
+    ? string.join<`${acc}${delimiter}${head}`, tail>
     : never.close.inline_var<"head" | "tail">
     ;
 
@@ -243,13 +264,30 @@ declare namespace __Spec__ {
     expect<assert.is.true<String.is.parsableNumeric<"0.000">>>,
   ]
 
+  type __split__ = [
+    expect<assert.equal<String.split<"", []>, [""]>>,
+    expect<assert.equal<String.split<"", [""]>, [""]>>,
+    expect<assert.equal<String.split<"", ["."]>, [""]>>,
+    /** 
+     * A good indication that we're onto something with this abstraction:
+     * I found this test case confusing, until I translated it to its term-level
+     * equivalent and saw that it evaluated to the same thing:
+     * 
+     * @example
+     * const out = (".").split(".") 
+     * console.log(out) // => ["", ""]
+     */
+    expect<assert.equal<String.split<".", ["."]>, ["", ""]>>,
+  ]
+
   type __String_split__ = [
     // ^?
-    expect<assert.equal<String.split<``, [``]>, "">>,
-    expect<assert.equal<String.split<`.`, [`.`]>, `.`>>,
-    expect<assert.equal<String.split<`hey jude`, Fn.is.uppercaseAlphaChar, Fn.snake>, "hey jude">>,
+    expect<assert.equal<String.splice<``, [``]>, "">>,
+    expect<assert.equal<String.splice<`.`, [`.`]>, `.`>>,
+    expect<assert.equal<String.splice<`hey jude`, Fn.is.uppercaseAlphaChar, Fn.snake>, "hey jude">>,
+    String.splice<`a.b.c`, [`.`]>,
     expect<assert.equal<
-      String.split<`123e4567-e89b-12d3-a456-426614174000`, [`-`], Fn.replace<`-`, `_`>>,
+      String.splice<`123e4567-e89b-12d3-a456-426614174000`, [`-`], Fn.replace<`-`, `_`>>,
       "123e4567_e89b_12d3_a456_426614174000"
     >>,
   ]

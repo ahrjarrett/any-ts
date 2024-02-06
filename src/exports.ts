@@ -32,5 +32,6 @@ export {
   chars,
   string
 } from "./string/exports"
+export { Focus } from "./lens/exports"
 export { Universal } from "./universal/exports"
 export { to } from "./to"
