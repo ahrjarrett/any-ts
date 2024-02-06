@@ -141,7 +141,7 @@ type is<type>
   ;
 
 /* @ts-expect-error - internal use only */
-class assoc<const type extends object> extends impl.base<type> { }
+class assoc<const type extends any.object> extends impl.base<type> { }
 type associative<type extends any.entries> = make<type, any.entries, Assoc<of<type>>>
 
 type Assoc<type extends readonly [any.type, any.array]> = never | assoc<type[0] & impl.asArraylike<type[1]>>
@@ -149,9 +149,6 @@ declare function Assoc
   <const type extends any.entries & enforce.uniqNonNumericIndex<type>>(...type: type): associative<type>
 declare function Assoc
   <const type extends any.object, const order extends any.array<keyof type>>(type: type, order: order): associative<impl.toEntries<type, order>>
-
-const __test_1__ = Assoc({ abc: 123, def: 456 }, ["abc", "def"])
-const __test_2__ = Assoc(["abc", 123], [0, 456])
 
 declare namespace Assoc {
   export {

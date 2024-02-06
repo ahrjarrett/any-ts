@@ -1,12 +1,12 @@
 {
   "name": "any-ts",
   "private": false,
-  "version": "0.25.0",
+  "version": "0.26.0",
   "author": "Andrew Jarrett <ahrjarrett@gmail.com>",
   "license": "MIT",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "module": "dist/index.mjs",
-  "types": "src/index.d.ts",
+  "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsup src/index.ts --format cjs,esm --dts",
     "clean": "rm -rf dist node_modules",

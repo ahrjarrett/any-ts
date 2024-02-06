@@ -4,16 +4,16 @@
 */
 export {
   Assoc as assoc,
-  Tag as tag,
+  type Tag as tag,
 }
 
 import type { any } from "../any-namespace"
 import { assert, describe, expect } from "../test/exports"
-import { enforce } from "../err/enforce"
-import { TypeError } from "../err/exports"
-import { never } from "../semantic-never/exports"
-import { Universal } from "../universal/exports"
-import { assoc as _ } from "../associative/exports"
+import type { enforce } from "../err/enforce"
+import type { TypeError } from "../err/exports"
+import type { never } from "../semantic-never/exports"
+import type { Universal } from "../universal/exports"
+import type { assoc as _ } from "../associative/exports"
 
 const len$: unique symbol = Symbol.for("TypeConstructor/assoc::len")
 type len$ = typeof len$
@@ -136,7 +136,7 @@ namespace impl {
 
 class assoc<
   tag extends Tag,
-  const named extends object, order extends any.indexedby<len$>
+  const named extends any.object, order extends any.indexedby<len$>
 >
   extends impl.assoc<{ [tag$]: tag } & named, order>
   implements Tagged<tag> {
