@@ -1,4 +1,4 @@
-export {
+export type {
   /** {@link array `mut.array`} @external */
   array,
   /** {@link arrayof `mut.arrayof`} @external */
@@ -37,7 +37,7 @@ export {
   two,
 }
 
-import * as any from "../any"
+import type { any } from "../any-namespace"
 type _ = unknown
 import { pathsof } from "../paths/paths"
 

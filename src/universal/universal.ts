@@ -2,7 +2,7 @@ export {
   Universal
 }
 
-import * as any from "../any"
+import type { any } from "../any-namespace"
 
 type parseNumeric<type> = type extends `${infer x extends number}` ? x : never
 

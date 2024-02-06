@@ -1,5 +1,4 @@
-import * as any from "./any"
-import { enforce } from "./err/enforce"
+import type { any } from "./any-namespace"
 
 export {
   empty,

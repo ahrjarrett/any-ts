@@ -2,7 +2,7 @@ export {
   evaluate,
 }
 
-import { any } from "../exports";
+import type { any } from "../any-namespace";
 
 /**
  * @example

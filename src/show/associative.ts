@@ -7,7 +7,7 @@ export {
   Tag as tag,
 }
 
-import * as any from "../any"
+import type { any } from "../any-namespace"
 import { assert, describe, expect } from "../test/exports"
 import { enforce } from "../err/enforce"
 import { TypeError } from "../err/exports"

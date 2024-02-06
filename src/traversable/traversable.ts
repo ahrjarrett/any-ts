@@ -3,11 +3,11 @@ export {
   traversal,
 }
 
-import * as any from '../any'
-import { empty, nonempty } from "../empty"
+import type { any } from "../any-namespace"
+import type { empty, nonempty } from "../empty"
 
-import { never } from "../semantic-never/exports"
-import { assert, expect } from '../test/test';
+import type { never } from "../semantic-never/exports"
+import type { assert, expect } from '../test/test';
 
 declare namespace impl {
   type unfold<path extends any.array<any.index>, leaf = unknown>
@@ -84,7 +84,7 @@ declare namespace traversal {
 type leaf = typeof leaf
 declare const leaf: unique symbol
 
-type __traversal_of__ = [
+export type __traversal_of__ = [
   // ^?
   expect<assert.equivalent<traversal.of<leaf, []>, leaf>>,
   expect<assert.equivalent<traversal.of<{ a: leaf }, ["a"]>, leaf>>,
@@ -96,7 +96,7 @@ type __traversal_of__ = [
   expect<assert.equivalent<traversal.of<{ a: { b: { c: leaf } } }, ["a", "b", "c"]>, leaf>>,
 ]
 
-type __traversable_from__ = [
+export type __traversable_from__ = [
   // ^?
   expect<assert.equal<traversable.from<[]>, unknown>>,
   expect<assert.equal<traversable.from<["a"]>, { a: unknown }>>,
@@ -108,7 +108,7 @@ type __traversable_from__ = [
   expect<assert.equal<traversable.from<["a", "b", "c"], { a: { b: { c: leaf } } }>, { a: { b: { c: leaf } } }>>,
 ]
 
-type __nonempty_path__ = expect<assert.equal<nonempty.path<0, [1, 2, 3]>, readonly [0, 1, 2, 3]>>
+export type __nonempty_path__ = expect<assert.equal<nonempty.path<0, [1, 2, 3]>, readonly [0, 1, 2, 3]>>
 //   ^?
-type __nonempty_pathLeft__ = expect<assert.equal<nonempty.pathLeft<[1, 2, 3], 4>, readonly [1, 2, 3, 4]>>
+export type __nonempty_pathLeft__ = expect<assert.equal<nonempty.pathLeft<[1, 2, 3], 4>, readonly [1, 2, 3, 4]>>
 //   ^?

@@ -1,4 +1,4 @@
-import * as any from "../any"
+import type { any } from "../any-namespace"
 import { never } from "../semantic-never/exports";
 import { empty, nonempty } from "../empty"
 import { traversable } from "../traversable/traversable"

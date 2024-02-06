@@ -1,9 +1,9 @@
-export { }
+export type { named }
 
-import * as any from "../any"
-import { some } from "../any"
-import { nonempty } from "../empty"
-import { describe, expect, never } from "../exports"
+import type { some } from "../any"
+import type { any } from "../any-namespace"
+import type { nonempty } from "../empty"
+import type { never } from "../exports"
 
 type pick<props extends any.array<any.keyof<type>>, type> = never | ({ [prop in props[number]]: type[prop] })
 
