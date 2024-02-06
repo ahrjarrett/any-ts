@@ -3,7 +3,7 @@ export {
 }
 
 import type { any } from "../exports"
-import { assert, expect } from "../test/test"
+import { assert, expect } from "../test/exports"
 import type { never } from "../semantic-never/exports"
 
 type isOptional<key extends keyof type, type>

@@ -4,7 +4,7 @@
   "version": "0.24.0",
   "author": "Andrew Jarrett <ahrjarrett@gmail.com>",
   "license": "MIT",
-  "main": "src/index.ts",
+  "main": "src/index.js",
   "module": "dist/index.mjs",
   "types": "src/index.d.ts",
   "scripts": {
