@@ -2,14 +2,14 @@ export {
   Assoc as assoc,
 }
 
-import * as any from "../any"
+import type { any } from "../any-namespace"
 import { assert, describe, expect } from "../test/exports"
 import type { TypeError } from "../err/exports"
 import type { Universal } from "../universal/exports"
 import type { cache } from "../cache/exports"
 import type { enforce } from "../err/enforce"
-import { never } from "../semantic-never/exports"
-import { real } from "../exports"
+import type { never } from "../semantic-never/exports"
+import { real } from "../number/real"
 
 const len$: unique symbol = Symbol.for("any-ts/associative::len$")
 type len$ = typeof len$

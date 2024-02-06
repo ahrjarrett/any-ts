@@ -1,5 +1,7 @@
 export {
   $$,
+}
+export type {
   isNegative,
   isNumber,
   isOne,
@@ -9,7 +11,7 @@ export {
   Whitespace,
 }
 
-import * as any from "../any"
+import type { any } from "../any-namespace"
 
 type isNumber<x> = [x] extends [number] ? true : false
 type isNegative<x> = [x] extends [any.showable] ? [`${x}`] extends [`-${number}`] ? true : false : false

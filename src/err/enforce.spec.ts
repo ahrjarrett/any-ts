@@ -1,8 +1,8 @@
 import { enforce as _, internal } from "./enforce"
-import type * as any from "../any";
+import type { any } from "../any-namespace";
 
 import type { TypeError } from "./err";
-import { assert, expect } from "../exports";
+import { assert, expect } from "../test/exports";
 
 namespace __Spec__ {
   declare const testUniqNonNumericSignature

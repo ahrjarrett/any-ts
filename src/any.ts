@@ -1,6 +1,6 @@
 // module namespaces
-export {
-  numeric,
+export type {
+  any,
   some,
 }
 
@@ -8,140 +8,142 @@ export {
 export { mut } from "./mutable/exports"
 
 // aliased exports
-export {
-  /** {@link boolean_ `any.boolean`} @external */
-  type boolean_ as boolean,
-  /** {@link function_ `any.function`} @external */
-  type function_ as function,
-  /** {@link number_ `any.number`} @external */
-  type number_ as number,
-  /** {@link object_ `any.object`} @external */
-  type object_ as object,
-  /** {@link string_ `any.string`} @external */
-  type string_ as string,
-}
+// export {
+//   /** {@link boolean_ `any.boolean`} @external */
+//   type boolean_ as boolean,
+//   /** {@link function_ `any.function`} @external */
+//   type function_ as function,
+//   /** {@link number_ `any.number`} @external */
+//   type number_ as number,
+//   /** {@link object_ `any.object`} @external */
+//   type object_ as object,
+//   /** {@link string_ `any.string`} @external */
+//   type string_ as string,
+// }
 
-// direct exports
-export {
-  /** {@link array `any.array`} @external */
-  type array,
-  /** {@link arrayof `any.arrayof`} @external */
-  type arrayof,
-  /** {@link arrayof `any.arrayOf`} alias for {@link arrayof `any.arrayof`} @external */
-  type arrayof as arrayOf,
-  /** {@link arraylike `any.arraylike`} @external */
-  type arraylike,
-  /** {@link assertion `any.assertion`} @external */
-  type assertion,
-  /** {@link asserts `any.asserts`} @external */
-  type asserts,
-  /** {@link double `any.double`} @external */
-  type binary,
-  /** {@link dictionary `any.dictionary`} @external */
-  type dictionary,
-  /** {@link dictionary `any.dict`} alias for {@link dictionary `any.dictionary`} @external */
-  type dictionary as dict,
-  /** {@link double `any.double`} @external */
-  type double,
-  /** {@link entries `any.entries`} @external */
-  type entries,
-  /** {@link entryof `any.entryof`} @external */
-  type entryof,
-  /** {@link entryof `any.entryOf`} alias for {@link entryof `any.entryof`} @external */
-  type entryof as entryOf,
-  /** {@link entriesof `any.entriesof`} @external */
-  type entriesof,
-  /** {@link entriesof `any.entriesOf`} alias for {@link entriesof `any.entriesOf`} @external */
-  type entriesof as entriesOf,
-  /** {@link entry `any.entry`} @external */
-  type entry,
-  /** {@link enumerable `any.enumerable`} @external */
-  type enumerable,
-  /** {@link field `any.field`} @external */
-  type field,
-  /** {@link fieldof `any.fieldof`} @external */
-  type fieldof,
-  /** {@link fieldof `any.fieldOf`} alias for {@link fieldof `any.fieldof`} @external */
-  type fieldof as fieldOf,
-  /** {@link guard `any.guard`} - a variant of {@link typeguard `any.typeguard`} that fixes the input type to `unknown` @external */
-  type guard,
-  /** {@link index `any.index`} - `string | number | symbol` @external */
-  type index,
-  /** {@link indexof `any.indexof`} @external */
-  type indexof,
-  /** {@link indexof `any.indexOf`} alias for {@link indexof `any.indexof`} @external */
-  type indexof as indexOf,
-  /** {@link indexedby `any.indexedby`} @external */
-  type indexedby,
-  /** {@link indexedby `any.indexedBy`} alias for {@link indexedby `any.indexedby`} @external */
-  type indexedby as indexedBy,
-  /** {@link indexableby `any.indexableby`} @external */
-  type indexableby,
-  /** {@link indexableby `any.indexableBy`} alias for {@link indexableby `any.indexableby`} @external */
-  type indexableby as indexableBy,
-  /** {@link invertible `any.invertible`} @external */
-  type invertible,
-  /** {@link json `any.json`} @external */
-  type json,
-  /** {@link key `any.key`} @external */
-  type key,
-  /** {@link keyOf `any.keyof`} @external */
-  type keyOf as keyof,
-  /** {@link keyOf `any.keyOf`} alias for {@link keyof `any.keyof`} @external */
-  type keyOf,
-  /** {@link keys `any.keys`} @external */
-  type keys,
-  /** {@link list `any.list`} @external */
-  type list,
-  /** {@link literal `any.literal`} @external */
-  type literal,
-  /** {@link named `any.named`} @external */
-  type named,
-  /** {@link nonnullable `any.nonnullable`} @external */
-  type nonnullable,
-  /** {@link nullable `any.nullable`} @external */
-  type nullable,
-  /** {@link one `any.one`} @external */
-  type one,
-  /** {@link path `any.path`} @external */
-  type path,
-  /** {@link pathof `any.pathof`} @external */
-  type pathof,
-  /** {@link pathof `any.pathOf`} alias for {@link pathof `any.pathof`} @external */
-  type pathof as pathOf,
-  /** {@link predicate `any.predicate`} @external */
-  type predicate,
-  /** {@link primitive `any.primitive`} @external */
-  type primitive,
-  /** {@link showable `any.showable`} @external */
-  type showable,
-  /** {@link showableKeyof `any.showableKeyof`} @external */
-  type showableKeyof,
-  /** {@link showableKeyof `any.showableKeyOf`} alias for {@link showableKeyof `any.showableKeyof`} @external */
-  type showableKeyof as showableKeyOf,
-  /** {@link single `any.single`} @external */
-  type single,
-  /** {@link struct `any.struct`} @external */
-  type struct,
-  /** {@link subtypeof `any.subtypeof`} @external */
-  type subtypeof,
-  /** {@link subtypeof `any.subtypeOf`} alias for {@link subtypeof `any.subtypeof`} @external */
-  type subtypeof as subtypeOf,
-  /** {@link ternary `any.ternary`} @external */
-  type ternary,
-  /** {@link three `any.three`} @external */
-  type three,
-  /** {@link triple `any.triple`} @external */
-  type triple,
-  /** {@link two `any.two`} @external */
-  type two,
-  /** {@link type `any.type`} @external */
-  type type,
-  /** {@link typeguard `any.typeguard`} @external */
-  type typeguard,
-  /** {@link unary `any.unary`} @external */
-  type unary,
-}
+// // direct exports
+// export {
+//   /** {@link array `any.array`} @external */
+//   type array,
+//   /** {@link arrayof `any.arrayof`} @external */
+//   type arrayof,
+//   /** {@link arrayof `any.arrayOf`} alias for {@link arrayof `any.arrayof`} @external */
+//   type arrayof as arrayOf,
+//   /** {@link arraylike `any.arraylike`} @external */
+//   type arraylike,
+//   /** {@link assertion `any.assertion`} @external */
+//   type assertion,
+//   /** {@link asserts `any.asserts`} @external */
+//   type asserts,
+//   /** {@link double `any.double`} @external */
+//   type binary,
+//   /** {@link dictionary `any.dictionary`} @external */
+//   type dictionary,
+//   /** {@link dictionary `any.dict`} alias for {@link dictionary `any.dictionary`} @external */
+//   type dictionary as dict,
+//   /** {@link double `any.double`} @external */
+//   type double,
+//   /** {@link entries `any.entries`} @external */
+//   type entries,
+//   /** {@link entryof `any.entryof`} @external */
+//   type entryof,
+//   /** {@link entryof `any.entryOf`} alias for {@link entryof `any.entryof`} @external */
+//   type entryof as entryOf,
+//   /** {@link entriesof `any.entriesof`} @external */
+//   type entriesof,
+//   /** {@link entriesof `any.entriesOf`} alias for {@link entriesof `any.entriesOf`} @external */
+//   type entriesof as entriesOf,
+//   /** {@link entry `any.entry`} @external */
+//   type entry,
+//   /** {@link enumerable `any.enumerable`} @external */
+//   type enumerable,
+//   /** {@link field `any.field`} @external */
+//   type field,
+//   /** {@link fieldof `any.fieldof`} @external */
+//   type fieldof,
+//   /** {@link fieldof `any.fieldOf`} alias for {@link fieldof `any.fieldof`} @external */
+//   type fieldof as fieldOf,
+//   /** {@link guard `any.guard`} - a variant of {@link typeguard `any.typeguard`} that fixes the input type to `unknown` @external */
+//   type guard,
+//   /** {@link index `any.index`} - `string | number | symbol` @external */
+//   type index,
+//   /** {@link indexof `any.indexof`} @external */
+//   type indexof,
+//   /** {@link indexof `any.indexOf`} alias for {@link indexof `any.indexof`} @external */
+//   type indexof as indexOf,
+//   /** {@link indexedby `any.indexedby`} @external */
+//   type indexedby,
+//   /** {@link indexedby `any.indexedBy`} alias for {@link indexedby `any.indexedby`} @external */
+//   type indexedby as indexedBy,
+//   /** {@link indexableby `any.indexableby`} @external */
+//   type indexableby,
+//   /** {@link indexableby `any.indexableBy`} alias for {@link indexableby `any.indexableby`} @external */
+//   type indexableby as indexableBy,
+//   /** {@link invertible `any.invertible`} @external */
+//   type invertible,
+//   /** {@link json `any.json`} @external */
+//   type json,
+//   /** {@link key `any.key`} @external */
+//   type key,
+//   /** {@link keyOf `any.keyof`} @external */
+//   type keyOf as keyof,
+//   /** {@link keyOf `any.keyOf`} alias for {@link keyof `any.keyof`} @external */
+//   type keyOf,
+//   /** {@link keys `any.keys`} @external */
+//   type keys,
+//   /** {@link list `any.list`} @external */
+//   type list,
+//   /** {@link literal `any.literal`} @external */
+//   type literal,
+//   /** {@link named `any.named`} @external */
+//   type named,
+//   /** {@link nonnullable `any.nonnullable`} @external */
+//   type nonnullable,
+//   /** {@link nullable `any.nullable`} @external */
+//   type nullable,
+//   /** {@link numeric `any.numeric`} @external */
+//   type numeric,
+//   /** {@link one `any.one`} @external */
+//   type one,
+//   /** {@link path `any.path`} @external */
+//   type path,
+//   /** {@link pathof `any.pathof`} @external */
+//   type pathof,
+//   /** {@link pathof `any.pathOf`} alias for {@link pathof `any.pathof`} @external */
+//   type pathof as pathOf,
+//   /** {@link predicate `any.predicate`} @external */
+//   type predicate,
+//   /** {@link primitive `any.primitive`} @external */
+//   type primitive,
+//   /** {@link showable `any.showable`} @external */
+//   type showable,
+//   /** {@link showableKeyof `any.showableKeyof`} @external */
+//   type showableKeyof,
+//   /** {@link showableKeyof `any.showableKeyOf`} alias for {@link showableKeyof `any.showableKeyof`} @external */
+//   type showableKeyof as showableKeyOf,
+//   /** {@link single `any.single`} @external */
+//   type single,
+//   /** {@link struct `any.struct`} @external */
+//   type struct,
+//   /** {@link subtypeof `any.subtypeof`} @external */
+//   type subtypeof,
+//   /** {@link subtypeof `any.subtypeOf`} alias for {@link subtypeof `any.subtypeof`} @external */
+//   type subtypeof as subtypeOf,
+//   /** {@link ternary `any.ternary`} @external */
+//   type ternary,
+//   /** {@link three `any.three`} @external */
+//   type three,
+//   /** {@link triple `any.triple`} @external */
+//   type triple,
+//   /** {@link two `any.two`} @external */
+//   type two,
+//   /** {@link type `any.type`} @external */
+//   type type,
+//   /** {@link typeguard `any.typeguard`} @external */
+//   type typeguard,
+//   /** {@link unary `any.unary`} @external */
+//   type unary,
+// }
 
 import { to } from "./to"
 import { pathsof } from "./paths/paths"

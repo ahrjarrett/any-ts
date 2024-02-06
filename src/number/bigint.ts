@@ -1,8 +1,8 @@
-export {
+export type {
   bigint,
 }
 
-import * as any from "../any"
+import type { any } from "../any-namespace"
 import { never } from "../semantic-never/exports"
 
 declare namespace bigint {

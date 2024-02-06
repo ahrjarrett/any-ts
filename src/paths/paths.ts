@@ -2,7 +2,7 @@ export {
   type pathsof,
 }
 
-import type { any } from "../exports"
+import type { any } from "../any-namespace"
 import { assert, expect } from "../test/exports"
 import type { never } from "../semantic-never/exports"
 
@@ -61,29 +61,16 @@ declare namespace Path {
     : never.close.unmatched_expr
     : never.close.inline_var<"key">
     ;
-
-  const sym: unique symbol
-  type sym<type extends typeof sym = typeof sym> = type
-
-  type __array__ = Path.array<[1, 2, 3], []>
-  type __object__ = Path.go<
-    {
-      a: { b: { c: 1 }, d: 2 },
-      e?: ["four", "five"?, "six"?],
-      [sym]: { f: number[] }
-    },
-    []
-  >
 }
 
-namespace __Spec__ {
+export namespace __Spec__ {
   declare const sym: unique symbol
 
   declare namespace isOptional {
     const expectTrue: isOptional<2, [1, 2, 3?]>
   }
 
-  const __isOptional__ = [
+  export const __isOptional__ = [
     //  ^?
     expect(assert.is.true(isOptional.expectTrue)),
   ] as const
@@ -106,7 +93,7 @@ namespace __Spec__ {
       ;
   }
 
-  const __pathof__ = [
+  export const __pathof__ = [
     //  ^?
     expect(assert.equal(pathsof.actual, pathsof.expected))
   ] as const

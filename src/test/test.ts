@@ -5,13 +5,11 @@ export {
   expectToFail,
 }
 
-import type * as any from "../any"
-import { Case, TypeError } from "../err/exports"
-import { enforce } from "../err/enforce"
+import type { any } from "../any-namespace"
+import type { Case, TypeError } from "../err/exports"
 
 import * as Sym from "./symbol"
-import { empty, never, nonempty } from "../exports"
-import { Union } from "../union/exports"
+import type { never } from "../exports"
 
 interface Suite {
   assert: typeof assert

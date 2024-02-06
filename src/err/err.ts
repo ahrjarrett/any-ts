@@ -15,7 +15,7 @@ export {
   Msg,
 }
 
-import type { any } from "../exports"
+import type { any } from "../any-namespace"
 
 /** @category model */
 type Msg = typeof Msg

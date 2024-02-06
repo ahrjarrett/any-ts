@@ -1,8 +1,8 @@
-export {
+export type {
   String as string,
 }
 
-import * as any from "../any"
+import type { any } from "../any-namespace"
 import type { boolean } from "../boolean/boolean"
 import type { assert, expect } from "../test/exports"
 import type { empty, nonempty } from "../empty"
@@ -10,7 +10,7 @@ import type { never } from "../semantic-never/exports"
 
 import type { char, chars } from "./char"
 import type { Fn1, Fn2, interpret1, interpret2 } from "./kind"
-import { Union } from "../union/exports"
+import type { Union } from "../union/exports"
 
 type _ = string
 type parseNumeric<type> = type extends `${infer x extends number}` ? x : never

@@ -1,20 +1,21 @@
-export {
+export type {
   enforce,
   constrain,
 }
 
-import type * as any from "../any";
-import { number } from "../number/number"
+/** @internal - only exported for testing purposes */
+export type { impl as internal }
+
+import type { any } from "../any-namespace";
+import type { number } from "../number/number"
 
 import type { Fn } from "../function/exports";
 import type { Err, Err2 } from "./err";
 import type { never } from "../semantic-never/exports";
 import type { HasDiscriminant } from "../tag/tag";
 import type { Union as U } from "../union/exports";
-import { empty } from "../empty";
+import type { empty } from "../empty";
 
-/** @internal - only exported for testing purposes */
-export { impl as internal }
 
 declare namespace impl {
   type parseNumeric<type> = type extends `${infer x extends number}` ? x : never
@@ -30,11 +31,11 @@ declare namespace impl {
     : never.illegal_state<"branch unreachable">
     ;
 
-  type nonnumericIndex_<index extends any.index>
-    = index extends number ? true : [parseNumeric<index>] extends [never] ? false : true
+  type nonnumericIndex_<ix extends any.index>
+    = ix extends number ? true : [parseNumeric<ix>] extends [never] ? false : true
 
-  type isNumeric<index extends any.index>
-    = nonnumericIndex_<index> extends infer b
+  type isNumeric<ix extends any.index>
+    = nonnumericIndex_<ix> extends infer b
     ? [boolean] extends [b] ? true : [b] extends [true] ? true : false
     : never.close.inline_var<"b">
     ;
