@@ -5,6 +5,8 @@
 export {
   Assoc as assoc,
   type Tag as tag,
+  len$,
+  tag$,
 }
 
 import type { any } from "../any-namespace"
@@ -160,6 +162,7 @@ declare function Assoc
   <tag extends Tag, const type extends any.entries & enforce.uniqNonNumericIndex<type>>(tag: tag, ...type: type): associative<type, tag>
 declare function Assoc
   <tag extends Tag, const type extends any.object, const order extends any.array<keyof type>>(tag: tag, type: type, order: order): associative<impl.toEntries<type, order>, tag>
+
 
 declare namespace Assoc {
   export {

@@ -5,7 +5,7 @@ export type { boolean } from "./boolean/exports"
 export type { cache } from "./cache/exports"
 export type { evaluate } from "./evaluate/exports"
 export type { empty, nonempty } from "./empty"
-export type {
+export {
   assert,
   describe,
   expect,
