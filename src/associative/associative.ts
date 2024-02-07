@@ -91,22 +91,32 @@ type make<
 declare const indices
   : <const type extends { [size$]: number }>(type: type) => indices<type>
 
-type rangeInclusive<maxInclusive extends number>
-  = number extends maxInclusive ? any.array<number>
-  : [maxInclusive] extends [keyof cache.next.next]
-  ? cache.next.next[maxInclusive] extends any.list<infer unknowns>
+/** 
+ * TODO: I believe `rangeInclusive` actually behaves like "rangeInclusive 
+ * plus one", and `rangeExclusive` behaves the way `rangeInclusive` should. 
+ * fix that
+ */
+type rangeInclusive<inclusiveMax extends number>
+  = number extends inclusiveMax ? any.array<number>
+  : [inclusiveMax] extends [keyof cache.next.next]
+  ? cache.next.next[inclusiveMax] extends any.list<infer unknowns>
   ? { [ix in keyof unknowns]: impl.parseNumeric<ix> }
   : never.close.inline_var<"unknowns">
-  : impl.rangeInclusive<[], maxInclusive>
+  : impl.rangeInclusive<[], inclusiveMax>
   ;
 
-type rangeExclusive<maxExclusive extends number>
-  = number extends maxExclusive ? any.array<number>
-  : [maxExclusive] extends [keyof cache.curr.curr]
-  ? cache.curr.curr[maxExclusive] extends any.list<infer unknowns>
+/** 
+ * TODO: I believe `rangeInclusive` actually behaves like "rangeInclusive 
+ * plus one", and `rangeExclusive` behaves the way `rangeInclusive` should. 
+ * fix that
+ */
+type rangeExclusive<exclusiveMax extends number>
+  = number extends exclusiveMax ? any.array<number>
+  : [exclusiveMax] extends [keyof cache.curr.curr]
+  ? cache.curr.curr[exclusiveMax] extends any.list<infer unknowns>
   ? { [ix in keyof unknowns]: impl.parseNumeric<ix> }
   : never.close.inline_var<"unknowns">
-  : impl.rangeExclusive<[], maxExclusive>
+  : impl.rangeExclusive<[], exclusiveMax>
   ;
 
 type indices<type extends { [size$]: number }>
@@ -146,20 +156,6 @@ type is<type>
   : false
   ;
 
-/* @ts-expect-error - internal use only */
-class assoc<const type extends any.object> extends impl.base<type> { }
-type associative<type extends any.entries> = make<type, any.entries, Assoc<of<type>>>
-
-type Assoc<type extends readonly [any.type, any.array]> = never | assoc<type[0] & impl.asArraylike<type[1]>>
-declare function Assoc
-  <const type extends any.entries & enforce.uniqNonNumericIndex<type>>(...type: type): associative<type>
-declare function Assoc
-  <const type extends any.object, const order extends any.array<keyof type>>(type: type, order: order): associative<impl.toEntries<type, order>>
-
-type Any = Assoc<[any.type, any.entries]>
-
-const myAssoc = Assoc({ abc: 123, def: 456 }, ["abc", "def"])
-
 declare const keys: <const type extends Any>(assoc: type) => Assoc.keys<type>
 type keys<type extends Any>
   = iter.from<type[size$]> extends any.list<infer iterator>
@@ -170,23 +166,47 @@ type keys<type extends Any>
 declare const keyof: <type extends Any>(assoc: type) => Assoc.keyof<type>
 type keyof<type extends Any> = Exclude<keyof type, number | size$>
 
+/**
+ * TODO: see if you can get rid of this somehow
+ */ // @ts-expect-error - internal use only
+class assoc<const type extends any.object> extends impl.base<type> { }
+type associative<type extends any.entries> = make<type, any.entries, Assoc<of<type>>>
+
+type Assoc<type extends readonly [any.type, any.array]> = never | assoc<type[0] & impl.asArraylike<type[1]>>
+declare function Assoc
+  <const type extends any.entries & enforce.uniqNonNumericIndex<type>>(...type: type): associative<type>
+declare function Assoc
+  <const type extends any.object, const order extends any.array<keyof type>>(type: type, order: order): associative<impl.toEntries<type, order>>
+
+/** 
+ * If we consider {@link Assoc `assoc`} as the set of all "ordered structs"
+ * or associative arrays (as defined in the context of this module),
+ * then {@link Any `assoc.any`} is assoc's 
+ * {@link https://en.wikipedia.org/wiki/Infimum_and_supremum#:~:text=The%20supremum%20(abbreviated%20sup%3B%20plural,to%20the%20greatest%20element%20of least upper bound}.
+ */
+type Any = Assoc<[any.type, any.entries]>
 
 declare namespace Assoc {
+  // aliased exports
+  export {
+    Any as any,
+    rangeInclusive as range,
+  }
+  // direct exports
   export {
     indices,
     is,
     keys,
     keyof,
     separate,
-    rangeInclusive as range,
   }
 }
 
-namespace assoc {
+namespace Assoc {
   Assoc.indices = indices
   Assoc.is = is
-  Assoc.keys = keys
   Assoc.keyof = keyof
+  Assoc.keys = keys
   Assoc.separate = separate
 }
 
@@ -207,8 +227,6 @@ namespace __Spec__ {
     { abc: 1230 } & { 0: "abc", length: 1 },
     { 0: 123, 1: 456 } & [0, 1],
   ]
-
-  type __ = ({ 0: 123, 1: 456 } & [0, 1]) extends [any.array] ? true : false
 
   declare const happyPath: [
     { abc: 123 } & { 0: "abc", [size$]: 1 },
@@ -279,7 +297,7 @@ namespace __Spec__ {
       }),
 
       describe("is (not)", t => [
-        // ^?
+        //                   ^?
         expect(t.assert.is.false(is(failureCases[0]))),
         expect(t.assert.is.false(is(failureCases[1]))),
         expect(t.assert.is.false(is(failureCases[2]))),
@@ -337,6 +355,7 @@ namespace __Spec__ {
     ]
 
     describe("corner cases", t => {
+      //                     ^?
       return [
         expect(t.assert.extends<[order: {}, object: {}]>(separate(void 0 as any))),
         expect(t.assert.extends<[order: {}, object: {}]>(separate(void 0 as never))),
@@ -359,18 +378,17 @@ namespace __Spec__ {
             { [size$]: 2, 0: "abc", 1: "def", abc: 123, def: 456, ghi: 789 }))
           //                                                     🡑🡑🡑🡑🡑
         ),
-      ] as const
-      //   ^?
+      ]
     })
 
     describe("happy path", t => {
+      //                   ^?
       return [
         expect(t.assert.extends
           <[object: { abc: 123, def: 456 }, order: { 0: "abc", 1: "def" }]>
           (separate({ 0: "abc", 1: "def", abc: 123, def: 456, [size$]: 2 })),
         ),
-      ] as const
-      //   ^?
+      ]
     })
   })
 
