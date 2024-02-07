@@ -9,144 +9,6 @@ export type { mut } from "./mutable/exports"
 
 import type { any } from "./any-native"
 
-// aliased exports
-// export {
-//   /** {@link boolean_ `any.boolean`} @external */
-//   type boolean_ as boolean,
-//   /** {@link function_ `any.function`} @external */
-//   type function_ as function,
-//   /** {@link number_ `any.number`} @external */
-//   type number_ as number,
-//   /** {@link object_ `any.object`} @external */
-//   type object_ as object,
-//   /** {@link string_ `any.string`} @external */
-//   type string_ as string,
-// }
-
-// // direct exports
-// export {
-//   /** {@link array `any.array`} @external */
-//   type array,
-//   /** {@link arrayof `any.arrayof`} @external */
-//   type arrayof,
-//   /** {@link arrayof `any.arrayOf`} alias for {@link arrayof `any.arrayof`} @external */
-//   type arrayof as arrayOf,
-//   /** {@link arraylike `any.arraylike`} @external */
-//   type arraylike,
-//   /** {@link assertion `any.assertion`} @external */
-//   type assertion,
-//   /** {@link asserts `any.asserts`} @external */
-//   type asserts,
-//   /** {@link double `any.double`} @external */
-//   type binary,
-//   /** {@link dictionary `any.dictionary`} @external */
-//   type dictionary,
-//   /** {@link dictionary `any.dict`} alias for {@link dictionary `any.dictionary`} @external */
-//   type dictionary as dict,
-//   /** {@link double `any.double`} @external */
-//   type double,
-//   /** {@link entries `any.entries`} @external */
-//   type entries,
-//   /** {@link entryof `any.entryof`} @external */
-//   type entryof,
-//   /** {@link entryof `any.entryOf`} alias for {@link entryof `any.entryof`} @external */
-//   type entryof as entryOf,
-//   /** {@link entriesof `any.entriesof`} @external */
-//   type entriesof,
-//   /** {@link entriesof `any.entriesOf`} alias for {@link entriesof `any.entriesOf`} @external */
-//   type entriesof as entriesOf,
-//   /** {@link entry `any.entry`} @external */
-//   type entry,
-//   /** {@link enumerable `any.enumerable`} @external */
-//   type enumerable,
-//   /** {@link field `any.field`} @external */
-//   type field,
-//   /** {@link fieldof `any.fieldof`} @external */
-//   type fieldof,
-//   /** {@link fieldof `any.fieldOf`} alias for {@link fieldof `any.fieldof`} @external */
-//   type fieldof as fieldOf,
-//   /** {@link guard `any.guard`} - a variant of {@link typeguard `any.typeguard`} that fixes the input type to `unknown` @external */
-//   type guard,
-//   /** {@link index `any.index`} - `string | number | symbol` @external */
-//   type index,
-//   /** {@link indexof `any.indexof`} @external */
-//   type indexof,
-//   /** {@link indexof `any.indexOf`} alias for {@link indexof `any.indexof`} @external */
-//   type indexof as indexOf,
-//   /** {@link indexedby `any.indexedby`} @external */
-//   type indexedby,
-//   /** {@link indexedby `any.indexedBy`} alias for {@link indexedby `any.indexedby`} @external */
-//   type indexedby as indexedBy,
-//   /** {@link indexableby `any.indexableby`} @external */
-//   type indexableby,
-//   /** {@link indexableby `any.indexableBy`} alias for {@link indexableby `any.indexableby`} @external */
-//   type indexableby as indexableBy,
-//   /** {@link invertible `any.invertible`} @external */
-//   type invertible,
-//   /** {@link json `any.json`} @external */
-//   type json,
-//   /** {@link key `any.key`} @external */
-//   type key,
-//   /** {@link keyOf `any.keyof`} @external */
-//   type keyOf as keyof,
-//   /** {@link keyOf `any.keyOf`} alias for {@link keyof `any.keyof`} @external */
-//   type keyOf,
-//   /** {@link keys `any.keys`} @external */
-//   type keys,
-//   /** {@link list `any.list`} @external */
-//   type list,
-//   /** {@link literal `any.literal`} @external */
-//   type literal,
-//   /** {@link named `any.named`} @external */
-//   type named,
-//   /** {@link nonnullable `any.nonnullable`} @external */
-//   type nonnullable,
-//   /** {@link nullable `any.nullable`} @external */
-//   type nullable,
-//   /** {@link numeric `any.numeric`} @external */
-//   type numeric,
-//   /** {@link one `any.one`} @external */
-//   type one,
-//   /** {@link path `any.path`} @external */
-//   type path,
-//   /** {@link pathof `any.pathof`} @external */
-//   type pathof,
-//   /** {@link pathof `any.pathOf`} alias for {@link pathof `any.pathof`} @external */
-//   type pathof as pathOf,
-//   /** {@link predicate `any.predicate`} @external */
-//   type predicate,
-//   /** {@link primitive `any.primitive`} @external */
-//   type primitive,
-//   /** {@link showable `any.showable`} @external */
-//   type showable,
-//   /** {@link showableKeyof `any.showableKeyof`} @external */
-//   type showableKeyof,
-//   /** {@link showableKeyof `any.showableKeyOf`} alias for {@link showableKeyof `any.showableKeyof`} @external */
-//   type showableKeyof as showableKeyOf,
-//   /** {@link single `any.single`} @external */
-//   type single,
-//   /** {@link struct `any.struct`} @external */
-//   type struct,
-//   /** {@link subtypeof `any.subtypeof`} @external */
-//   type subtypeof,
-//   /** {@link subtypeof `any.subtypeOf`} alias for {@link subtypeof `any.subtypeof`} @external */
-//   type subtypeof as subtypeOf,
-//   /** {@link ternary `any.ternary`} @external */
-//   type ternary,
-//   /** {@link three `any.three`} @external */
-//   type three,
-//   /** {@link triple `any.triple`} @external */
-//   type triple,
-//   /** {@link two `any.two`} @external */
-//   type two,
-//   /** {@link type `any.type`} @external */
-//   type type,
-//   /** {@link typeguard `any.typeguard`} @external */
-//   type typeguard,
-//   /** {@link unary `any.unary`} @external */
-//   type unary,
-// }
-
 import { to } from "./to"
 import { pathsof } from "./paths/paths"
 
@@ -156,77 +18,7 @@ type _ = unknown
 type id<type> = type
 interface object_ extends id<object> { }
 
-// 🡓🡓 aliased exports 🡓🡓
 type function_<type extends any_.function = any.function> = type
-interface object_ extends id<object> { }
-// type string_<type extends string = string> = type
-// type number_<type extends number = number> = type
-// type boolean_<type extends boolean = boolean> = type
-// type object_<type extends any.object = any.object> = type
-
-// 🡑🡑 aliased exports 🡑🡑
-
-// 🡓🡓 direct exports 🡓🡓
-// type type<type extends any.type = any.type> = type
-// type nullable<type extends any.nullable = any.nullable> = type
-// type nonnullable<type extends any.nonnullable = any.nonnullable> = type
-
-// type key<type extends any.key = any.key> = type
-// type index<type extends any.index = any.index> = type
-// type literal<type extends any.literal = any.literal> = type
-// type showable<type extends any.showable = any.showable> = type
-// type primitive<type extends any.primitive = any.primitive> = type
-// type numeric<type extends any.numeric = any.numeric> = type
-
-type one<only = _> = readonly [_𝟭: only]
-type two<fst = _, snd = _> = readonly [_𝟭: fst, _𝟮: snd]
-type three<fst = _, snd = _, thr = _> = readonly [_𝟭: fst, _𝟮: snd, _𝟯: thr]
-
-// type json<type extends any.json = any.json> = type
-
-// type single<type extends one = one> = type
-// type double<type extends two = two> = type
-// type triple<type extends three = three> = type
-// type unary<type extends some.unary = some.unary> = type
-// type binary<type extends some.binary = some.binary> = type
-// type ternary<type extends some.ternary = some.ternary> = type
-// type predicate<type extends any.predicate = any.predicate> = type
-// type asserts<target = _> = any.assertion<[𝐢𝐧: any, 𝐨𝐮𝐭: target]>
-// type assertion<𝐢𝐧 = any, 𝐨𝐮𝐭 = _> = any.assertion<[𝐢𝐧: 𝐢𝐧, 𝐨𝐮𝐭: 𝐨𝐮𝐭]>
-// type typeguard<𝐢𝐧 = any, 𝐨𝐮𝐭 = _> = any.typeguard<[𝐢𝐧: 𝐢𝐧, 𝐨𝐮𝐭: 𝐨𝐮𝐭]>
-// type guard<target = _> = any.typeguard<[𝐢𝐧: any, 𝐨𝐮𝐭: target]>
-
-// type array<type = _> = any.array<type>
-// type list<type extends any.array = any.array> = type
-// type entries<type extends any.array<entry> = any.array<entry>> = type
-// type struct<type extends any.struct = any.struct> = type
-// type dictionary<type = _> = any.dictionary<type>
-// type enumerable<type extends any.enumerable = any.enumerable> = type
-// type arraylike<type extends any.arraylike = any.arraylike> = type
-// type invertible<type extends any.invertible = any.invertible> = type
-// type path<type extends any.path = any.path> = type
-// type keys<type extends any.keys = any.keys> = type
-
-/** 
- * Use {@link field `any.field`} when its more convenient to pass the key/value
- * separately, and {@link entry `any.entry`} when you'd prefer passing them as a pair.
- * @external 
- */
-// type field<key extends any.index = any.index, value = _> = any.field<key, value>
-/** 
- * Use {@link entry `any.entry`} when its more convenient to pass the key/value together
- * as a pair, and {@link field `any.field`} when you'd prefer to pass them separately.
- * @external 
- */
-// type entry<type extends any.entry = any.entry> = type
-
-// type keyOf<
-//   invariant,
-//   type extends
-//   | keyof invariant
-//   = keyof invariant
-// > = type
-
 
 declare namespace any_ {
   // aliased exports
@@ -333,43 +125,7 @@ declare namespace any_ {
     | readonly [𝐟𝐫𝐨𝐦: _, 𝐭𝐨: _]
     = readonly [𝐟𝐫𝐨𝐦: any, 𝐭𝐨: _]
   > = never | { (u: map[0]): asserts u is map[1] }
-
 }
-
-type showableKeyof<
-  invariant,
-  type extends
-  | any.key & keyof invariant
-  = any.key & keyof invariant
-> = type
-
-type indexof<
-  invariant extends any.array,
-  type extends
-  | Extract<keyof invariant, `${number}`>
-  = Extract<keyof invariant, `${number}`>
-> = type
-
-type indexedby<
-  invariant extends any.index,
-  type extends
-  | { [𝒊𝒙 in invariant]: _ }
-  = { [𝒊𝒙 in invariant]: _ }
-> = type
-
-type indexableby<
-  invariant extends any.index,
-  type extends
-  | { [ix in invariant]: any.index }
-  = { [ix in invariant]: any.index }
-> = type
-
-type pathof<
-  invariant,
-  type extends
-  | pathsof<invariant>
-  = pathsof<invariant>
-> = type
 
 type named<
   invariant extends any.field,
@@ -383,20 +139,6 @@ type arrayof<
   type extends
   | any.array<invariant>
   = any.array<invariant>
-> = type
-
-type entryof<
-  invariant,
-  type extends
-  | readonly [any.index, invariant]
-  = readonly [any.index, invariant]
-> = type
-
-type entriesof<
-  invariant,
-  type extends
-  | any.array<readonly [any.index, invariant]>
-  = any.array<readonly [any.index, invariant]>
 > = type
 
 type fieldof<
@@ -539,30 +281,14 @@ declare namespace distributive {
     ;
 }
 
-declare namespace numeric {
-  // direct exports
-  export {
-    /** {@link parse `numeric.parse`} @external */
-    parse,
-    /** {@link indexof `numeric.indexof`} @external */
-    indexof,
-  }
-  type parse<type> = type extends `${infer x extends number}` ? x : never
-  type indexof<
-    invariant extends any.array,
-    type extends
-    | Extract<keyof invariant, `${number}`>
-    = Extract<keyof invariant, `${number}`>
-  > = numeric.parse<type>
-}
-
 // NOTE: Do not move this namespace. It needs to stay here (positionally _after_ 
 // ambient `any`), otherwise the aliases it exports such as `any.object_` will 
 // not be preserved.
 namespace any_ {
-  // TODO: generate this identifier from manifest
   export type PKG_VERSION = typeof PKG_VERSION
-  export const PKG_VERSION = "0.3.0"
+  // TODO: generate this identifier from manifest
+  export const PKG_VERSION = "0.28.0" as const
+
   /** @internal */
   type id<type> = type
   /** @internal */
