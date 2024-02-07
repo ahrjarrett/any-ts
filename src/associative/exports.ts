@@ -1,1 +1,1 @@
-export { assoc } from "./associative"
+export { assoc, size$ } from "./associative"

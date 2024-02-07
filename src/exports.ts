@@ -17,7 +17,6 @@ export type {
   Msg,
   TypeError
 } from "./err/exports"
-export type { never } from "./semantic-never/exports"
 export type {
   bigint,
   int,
@@ -25,8 +24,10 @@ export type {
   number,
   real,
 } from "./number/exports"
+export type { iter } from "./iter/exports"
 export type { mut } from "./mutable/exports"
 export type { pathsof } from "./paths/exports"
+export type { never } from "./semantic-never/exports"
 export type {
   char,
   chars,
