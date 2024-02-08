@@ -73,7 +73,6 @@ declare namespace String {
     Config,
   }
 
-
   export type Digits = typeof char.Digits
   export type Digit = Digits[number]
   export type LowercaseChars = typeof char.Lowers
@@ -99,6 +98,12 @@ declare namespace String {
   export type lowercaseAll<type extends any.array<any.showable>> = { [ix in keyof type]: Lowercase<`${type[ix]}`> }
   export type uppercaseAll<type extends any.array<any.showable>> = { [ix in keyof type]: Uppercase<`${type[ix]}`> }
   export type capitalizeAll<type extends any.array<any.showable>> = { [ix in keyof type]: Capitalize<`${type[ix]}`> }
+  export type join<
+    type extends any.array<any.showable>,
+    delimiter extends
+    | any.showable
+    = empty.string
+  > = string.intercalate<``, type, delimiter>
 
   export type endsWith<matcher extends any.showable, text extends _> = [text] extends [`${_}${matcher}`] ? true : false
   export type startsWith<matcher extends any.showable, text extends _> = [text] extends [`${matcher}${_}`] ? true : false
@@ -116,12 +121,13 @@ declare namespace String {
   export type postfix<after extends any.showable, text extends _> = `${text}${after}`
   export type unprefix<prefix extends any.showable, text extends _> = text extends `${prefix}${infer tail}` ? tail : never
   export type unpostfix<suffix extends any.showable, text extends _> = text extends `${infer head}${suffix}` ? head : never
+
   export type split<
     text extends _,
     matcher extends Fn1<any.showable> | any.array<any.showable>,
     onMatch extends Fn1<any.showable> = Fn.show
   >
-    = string.join<``, string.split<[], ``, text, matcher, onMatch>>
+    = string.intercalate<``, string.split<[], ``, text, matcher, onMatch>>
 
   /**
    * TODO: 
@@ -180,20 +186,13 @@ declare namespace string {
     : never.close.unmatched_expr
     ;
 
-  type join<acc extends string, lines extends any.array<any.showable>>
-    = lines extends empty.array ? acc
-    : lines extends nonempty.arrayof<any.showable, infer head, infer tail>
-    ? join<`${acc}${head}`, tail>
-    : never.close.inline_var<"head" | "tail">
-    ;
-
   type intercalate<
     acc extends string,
     lines extends any.array<any.showable>,
-    delimiter extends any.showable
+    delimiter extends any.showable = empty.string
   > = lines extends empty.array ? acc
     : lines extends nonempty.arrayof<any.showable, infer head, infer tail>
-    ? join<`${acc}${delimiter}${head}`, tail>
+    ? string.intercalate<acc extends `` ? `${head}` : `${acc}${delimiter}${head}`, tail, delimiter>
     : never.close.inline_var<"head" | "tail">
     ;
 
@@ -209,7 +208,7 @@ namespace case_ {
 declare namespace case_ {
   namespace snake {
     type fromCamel<text extends string>
-      = string.join<``, string.snakeFromCamel<text>> extends any.string<infer out>
+      = string.intercalate<``, string.snakeFromCamel<text>> extends any.string<infer out>
       ? [out] extends [`_${infer tail}`] ? tail : out
       : never.close.inline_var<"out">
       ;
