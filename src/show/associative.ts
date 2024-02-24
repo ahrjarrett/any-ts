@@ -129,7 +129,7 @@ namespace impl {
         Object.assign(this, order, named);
       }
     } as never
-  /* @ts-expect-error - internal use only */
+  // @ts-expect-error - internal use only
   export class assoc<
     const named extends any.object,
     const order extends any.indexedby<len$>
