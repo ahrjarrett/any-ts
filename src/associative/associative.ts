@@ -166,9 +166,7 @@ type keys<type extends Any>
 declare const keyof: <type extends Any>(assoc: type) => Assoc.keyof<type>
 type keyof<type extends Any> = Exclude<keyof type, number | size$>
 
-/**
- * TODO: see if you can get rid of this somehow
- */ // @ts-expect-error - internal use only
+/** @ts-expect-error - internal use only */
 class assoc<const type extends any.object> extends impl.base<type> { }
 type associative<type extends any.entries> = make<type, any.entries, Assoc<of<type>>>
 

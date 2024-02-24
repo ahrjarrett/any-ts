@@ -18,7 +18,7 @@ type _ = unknown
 type id<type> = type
 interface object_ extends id<object> { }
 
-type function_<type extends any_.function = any.function> = type
+type function_<type extends any_.function = any_.function> = type
 
 declare namespace any_ {
   // aliased exports
