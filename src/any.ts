@@ -18,7 +18,7 @@ type interface_<type extends Interface = Interface> = Interface<type>
 /** @ts-expect-error */
 interface Interface<type extends {} = {}> extends id<type> { }
 
-type function_<type extends any_.function = any_.function> = type
+type function_<type extends any.function = any.function> = type
 
 declare namespace any_ {
   // aliased exports
