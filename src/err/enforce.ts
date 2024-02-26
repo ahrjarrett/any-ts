@@ -65,6 +65,17 @@ declare namespace impl {
 
 type constrain<invariant, type> = type & invariant
 
+declare function nonObjects<const type extends nonobject<type>>(x: type): type
+
+type check<type, constraint, applied, err> =
+  [type] extends [constraint]
+  ? ([type] extends [applied] ? unknown : err)
+  : never
+  ;
+
+type nonobject<type> = check<type, any.object, enforce.nonobject<type>, "err">
+  ;
+
 declare namespace enforce {
   type nonobject<type>
     = [type] extends [any.array] ? (unknown)
@@ -84,9 +95,9 @@ declare namespace enforce {
     = impl.bijection<left, right> extends any.two<infer l, infer r>
     ? Fn.return<typeof Err.NoExcessProps<
       [...(
-        | [l] extends [never] ? [𝐫𝐢𝐠𝐡𝐭: r]
-        : [r] extends [never] ? [𝐥𝐞𝐟𝐭: l]
-        : [𝐥𝐞𝐟𝐭: l, 𝐫𝐢𝐠𝐡𝐭: r]
+        | [l] extends [never] ? [r]
+        : [r] extends [never] ? [l]
+        : [l, r]
       )]
     >>
     : (unknown)
