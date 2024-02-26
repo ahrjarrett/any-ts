@@ -8,15 +8,15 @@ export type {
 export type { mut } from "./mutable/exports"
 
 import type { any } from "./any-native"
+import type { never } from "./semantic-never/exports"
 
 import { to } from "./to"
-import { pathsof } from "./paths/paths"
-
-/** @internal */
-type _ = unknown
 
 type id<type> = type
 interface object_ extends id<object> { }
+type interface_<type extends Interface = Interface> = Interface<type>
+/** @ts-expect-error */
+interface Interface<type extends {} = {}> extends id<type> { }
 
 type function_<type extends any_.function = any_.function> = type
 
@@ -27,6 +27,12 @@ declare namespace any_ {
     type object_ as object,
     /** {@link function_ `any.function`} @internal */
     type function_ as function,
+    /** {@link interface `any.interface`} @internal */
+    type interface_ as interface,
+    /** {@link class_ `any.class`} @internal */
+    type class_ as class,
+    /** {@link instanceOf `any.instanceof`} @internal */
+    type instanceOf as instanceof,
   }
   // direct exports
   export {
@@ -84,28 +90,35 @@ declare namespace any_ {
     type typeguard,
   }
 
+  interface class_<
+    args extends
+    | any.array<any>
+    = any.array<any>
+  > { new(...arg: args): unknown }
+
   type key = string | number
   type index = string | number | symbol
   type numeric = number | `${number}`
-  type keys = any.array<any.key>
+  type keys = readonly any.key[]
   type path = readonly index[]
-  interface struct { [𝐢𝐱: keyof never]: any }
   type literal = string | number | boolean
   type primitive = string | number | boolean | bigint | null | undefined | symbol
 
-  interface invertible { [𝐢𝐱: key]: key }
-  interface dictionary<type = _> { [𝐢𝐱: keyof never]: type }
-  interface listlike<type = _> extends globalThis.ReadonlyArray<type> { }
+  interface struct { [ix: string]: any }
+  interface invertible { [ix: key]: key }
+  interface dictionary<type = unknown> { [ix: keyof never]: type }
+  interface listlike<type = unknown> extends globalThis.ReadonlyArray<type> { }
+  interface enumerable<type = unknown> { [ix: number]: type }
+  interface arraylike<type = unknown> extends enumerable<type> { length: number }
+
   type showable = string | number | boolean | bigint | null | undefined
   type type = nullable | nonnullable
   type nullable = null | undefined
   type nonnullable = {}
-  type array<type = _> = globalThis.ReadonlyArray<type>
-  type field<k extends index = index, v = _> = readonly [𝐤𝐞𝐲: k, 𝐯𝐚𝐥𝐮𝐞: v]
-  type entry<type extends readonly [any.index, _] = readonly [any.index, _]> = type
+  type array<type = unknown> = globalThis.ReadonlyArray<type>
+  type field<k extends index = index, v = unknown> = readonly [key: k, value: v]
+  type entry<type extends readonly [any.index, unknown] = readonly [any.index, unknown]> = type
   type entries<type extends any.array<any.entry> = any.array<any.entry>> = type
-  interface enumerable<type = _> { [𝐢𝐱: number]: type }
-  interface arraylike<type = _> extends enumerable<type> { length: number }
   type scalar = string | number | boolean | null
   type json =
     | any.scalar
@@ -116,22 +129,23 @@ declare namespace any_ {
   interface predicate<type = any> { (u: type): boolean }
   type typeguard<
     map extends
-    | readonly [𝐟𝐫𝐨𝐦: _, 𝐭𝐨: _]
-    = readonly [𝐟𝐫𝐨𝐦: any, 𝐭𝐨: _]
+    | readonly [source: unknown, target: unknown]
+    = readonly [source: unknown, target: unknown]
   > = never | { (u: map[0]): u is map[1] }
 
   type assertion<
     map extends
-    | readonly [𝐟𝐫𝐨𝐦: _, 𝐭𝐨: _]
-    = readonly [𝐟𝐫𝐨𝐦: any, 𝐭𝐨: _]
+    | readonly [source: unknown, target: unknown]
+    = readonly [source: any, target: unknown]
   > = never | { (u: map[0]): asserts u is map[1] }
+
 }
 
 type named<
   invariant extends any.field,
   type extends
-  | { [𝒊𝒙 in invariant[0]]: invariant[1] }
-  = { [𝒊𝒙 in invariant[0]]: invariant[1] }
+  | { [ix in invariant[0]]: invariant[1] }
+  = { [ix in invariant[0]]: invariant[1] }
 > = type
 
 type arrayof<
@@ -147,6 +161,11 @@ type fieldof<
   | to.entries<invariant>
   = to.entries<invariant>
 > = type
+
+type instanceOf<
+  super_ extends any_.class = any_.class,
+  instance extends InstanceType<super_> = InstanceType<super_>
+> = instance
 
 type subtypeof<
   invariant,
@@ -206,34 +225,34 @@ declare namespace some {
 
   /** {@link unary `some.unary`} @external */
   interface unary<
-    out = _,
+    out = unknown,
     arg = any
   > { (_: arg): out }
 
   /** {@link binary `some.binary`} @external */
   interface binary<
-    out = _,
+    out = unknown,
     arg_0 = any,
     arg_1 = any
   > { (_0: arg_0, _1: arg_1): out }
 
   /** {@link ternary `some.ternary`} @external */
   interface ternary<
-    out = _,
+    out = unknown,
     arg_0 = any,
     arg_1 = any,
     arg_2 = any
   > { (_0: arg_0, _1: arg_1, _2: arg_2): out }
 
   /** {@link field `some.field`} @external */
-  type field<key extends any.index = any.index, value = _> = any.field<key, value>
+  type field<key extends any.index = any.index, value = unknown> = any.field<key, value>
 
   /** {@link record `some.record`} @external */
   type record<
     key extends
     | any.index
     = any.key,
-    value = _
+    value = unknown
   > = globalThis.Record<key, value>
 
   export type entryof<
@@ -277,7 +296,7 @@ declare namespace distributive {
     ? readonly [key, type[key]]
     : never // never.close.unmatched_expr
     : never // never.close.inline_var<"key">
-    : never // never.close.distributive<"type">
+    : never.close.distributive<"type">
     ;
 }
 
@@ -287,7 +306,7 @@ declare namespace distributive {
 namespace any_ {
   export type PKG_VERSION = typeof PKG_VERSION
   // TODO: generate this identifier from manifest
-  export const PKG_VERSION = "0.28.0" as const
+  export const PKG_VERSION = `0.31.0` as const
 
   /** @internal */
   type id<type> = type
@@ -298,15 +317,5 @@ namespace any_ {
   /** @internal */
   // NOTE: Do not move. It needs to stay here (in the non-ambient `any` namespace) to preserve
   // the `any.function` name (otherwise the alias is not preserved)
-  export interface function_<arg extends any.array<any> = any.array<any>, out = _> { (...arg: arg): out }
-  /** 
-   * Note: this term is not meant to be consumed; it is only
-   * exposed for the "side-effect" (allows us to support 
-   * namespace aliasing using "import equals" syntax, as 
-   * documented in the readme)
-   * 
-   * @category term, implementation detail
-   * @internal
-   */
-  export const never: never = void 0 as never
+  export interface function_<args extends any.array<any> = any.array<any>, ret = unknown> { (...arg: args): ret }
 }
