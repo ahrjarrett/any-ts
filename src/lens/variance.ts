@@ -79,9 +79,3 @@ type __variance_tagged_from__ = [
   expect<equal<typeof input[variance.tagged.Tag.Covariant], variance.tagged.covariant<123 | "four five six">>>,
   expect<equal<typeof input[variance.tagged.Tag.Contravariant], variance.tagged.contravariant<123 | "four five six">>>,
 ]
-
-declare namespace check {
-  interface invariant<type> {
-    _
-  }
-}
