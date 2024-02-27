@@ -147,12 +147,15 @@ declare namespace assert {
     = handleAnys<a, b, [relation.equivalent<a, b>] extends [true] ? Sym.GreenEmoji : interpretFailure<fn, a, b>>
     ;
   export namespace not {
-    type equivalent<a, b, fn extends Interpreter = NotEquivalent>
+    export type equivalent<a, b, fn extends Interpreter = NotEquivalent>
       = handleAnys<a, b, [relation.notEquivalent<a, b>] extends [true] ? Sym.GreenEmoji : interpretFailure<fn, a, b>>
       ;
-    type equal<a, b, fn extends Interpreter = NotEqual>
+    export type equal<a, b, fn extends Interpreter = NotEqual>
       = handleAnys<a, b, [relation.notEqual<a, b>] extends [true] ? Sym.GreenEmoji : interpretFailure<fn, a, b>>
       ;
+    type extends_<a, b, fn extends Interpreter = Extends>
+      = handleAnys<a, b, [relation.doesNotExtend<a, b>] extends [true] ? Sym.GreenEmoji : interpretFailure<fn, a, b>>
+    export { extends_ as extends }
   }
 }
 
@@ -203,6 +206,7 @@ declare namespace relation {
 
   export type notEquivalent<a, b> = not<equivalent<a, b>>
   export type notEqual<a, b> = not<equal<a, b>>
+  export type doesNotExtend<a, b> = not<relation.extends<a, b>>
   export type equivalent<a, b> = [a, b] extends [b, a] ? true : false
   /** OG source: https://github.com/microsoft/TypeScript/issues/27024#issuecomment-421529650 */
   export type equal<a, b> =
@@ -276,12 +280,12 @@ namespace __Spec__ {
 
   type __any_type__ = [
     // ^?
-    expect<assert.equivalent<any.type, unknown>>,
+    expect<assert.not.equivalent<any.type, unknown>>,
     expect<assert.equivalent<any.object, object>>,
-    /** `any.type` and `unknown` are equivalent, but not strictly equal */
     expect<assert.not.equal<any.type, unknown>>,
-    /** order doesn't matter for binary relations */
     expect<assert.not.equal<any.object, object>>,
+    expect<assert.extends<any.type, unknown>>,
+    expect<assert.not.extends<unknown, any.type>>,
   ]
 
   declare const expectToFailErrorMsg: TypeError<[Sym.RedEmoji, `Expected a failing test, but got a passing one instead`]>

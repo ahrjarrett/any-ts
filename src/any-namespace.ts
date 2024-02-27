@@ -5,6 +5,8 @@ import type { some } from "./any"
 import type { to } from "./to"
 import type { pathsof } from "./paths/paths"
 
+
+
 declare namespace any_ {
   export type {
     string_ as string,
@@ -38,7 +40,8 @@ declare namespace any_ {
   type object_<type extends any.object = any.object> = type
   // 🡑🡑 aliased exports 🡑🡑
   // 🡓🡓 direct exports 🡓🡓
-  type type<type extends any.type = any.type> = type
+  type type<type extends any.nullable | any.type = any.nullable | any.type>
+    = never | (type extends any.nonnullable ? any.type<type> : type)
   type nullable<type extends any.nullable = any.nullable> = type
   type nonnullable<type extends any.nonnullable = any.nonnullable> = type
   type key<type extends any.key = any.key> = type

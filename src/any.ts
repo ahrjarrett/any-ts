@@ -13,10 +13,6 @@ import type { never } from "./semantic-never/exports"
 import { to } from "./to"
 
 type id<type> = type
-interface object_ extends id<object> { }
-type interface_<type extends Interface = Interface> = Interface<type>
-/** @ts-expect-error */
-interface Interface<type extends {} = {}> extends id<type> { }
 
 type function_<type extends any.function = any.function> = type
 
@@ -27,8 +23,6 @@ declare namespace any_ {
     type object_ as object,
     /** {@link function_ `any.function`} @internal */
     type function_ as function,
-    /** {@link interface `any.interface`} @internal */
-    type interface_ as interface,
     /** {@link class_ `any.class`} @internal */
     type class_ as class,
     /** {@link instanceOf `any.instanceof`} @internal */
@@ -90,6 +84,10 @@ declare namespace any_ {
     type typeguard,
   }
 
+  type id<type> = type
+  /** @ts-expect-error */
+  interface type<type extends {} = {}> extends id<type> { }
+
   interface class_<
     args extends
     | any.array<any>
@@ -112,7 +110,6 @@ declare namespace any_ {
   interface arraylike<type = unknown> extends enumerable<type> { length: number }
 
   type showable = string | number | boolean | bigint | null | undefined
-  type type = nullable | nonnullable
   type nullable = null | undefined
   type nonnullable = {}
   type array<type = unknown> = globalThis.ReadonlyArray<type>
