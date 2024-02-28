@@ -1,7 +1,7 @@
 {
   "name": "any-ts",
   "private": false,
-  "version": "0.33.0",
+  "version": "0.34.0",
   "author": "Andrew Jarrett <ahrjarrett@gmail.com>",
   "license": "MIT",
   "main": "dist/index.js",
