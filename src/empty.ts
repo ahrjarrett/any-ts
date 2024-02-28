@@ -32,8 +32,8 @@ declare namespace empty {
 namespace empty {
   empty.array = array
   empty.path = array
-  empty.string = string
-  empty.object = object
+  empty.string = string_
+  empty.object = object_
 }
 
 declare namespace nonempty {
