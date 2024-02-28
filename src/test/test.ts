@@ -46,7 +46,7 @@ interface TestResult<type> { }
 
 type eval<type> = never | { [ix in keyof type]: type[ix] }
 
-declare const describe: Describe
+const describe: Describe = (_title: string, _t: (suite: Suite) => unknown) => undefined as never
 
 interface Describe {
   <title extends string, const results extends any.array>(title: title, t: (suite: Suite) => results): TestResult<byPos<results>>
