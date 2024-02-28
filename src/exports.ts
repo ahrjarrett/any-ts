@@ -1,16 +1,18 @@
-export type { any } from "./any-namespace"
-export type { some } from "./any"
-export type { assoc } from "./associative/exports"
-export type { boolean } from "./boolean/exports"
-export type { cache } from "./cache/exports"
-export type { evaluate } from "./evaluate/exports"
-export type { empty, nonempty } from "./empty"
+/** exports that come with an (empty) term-level equivalent */
+export { empty, nonempty } from "./empty"
 export {
   assert,
   describe,
   expect,
   expectToFail
 } from "./test/exports"
+
+export type { any } from "./any-namespace"
+export type { some } from "./any"
+export type { assoc } from "./associative/exports"
+export type { boolean } from "./boolean/exports"
+export type { cache } from "./cache/exports"
+export type { evaluate } from "./evaluate/exports"
 export type {
   enforce,
   Err,
