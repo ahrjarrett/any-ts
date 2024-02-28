@@ -365,6 +365,7 @@ function assertExtends<expected = never, actual = unknown, fn extends Interprete
  */
 function assertExtends(_$0?: unknown, _$1?: unknown): never { return ((_$2?: unknown) => void 0) as never }
 
+function assert() { }
 declare namespace assert {
   export {
     /** 
