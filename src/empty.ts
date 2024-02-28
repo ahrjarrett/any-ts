@@ -15,7 +15,7 @@ type array<type extends typeof array = typeof array> = type
 type object_ = typeof object_
 const object_ = {} as const
 
-
+function empty() { }
 declare namespace empty {
   export {
     /** {@link array `empty.path`} @external */
@@ -36,6 +36,7 @@ namespace empty {
   empty.object = object_
 }
 
+function nonempty() { }
 declare namespace nonempty {
   export {
     /** {@link array `nonempty.array`} @external */
