@@ -16,6 +16,20 @@ type id<type> = type
 
 type function_<type extends any.function = any.function> = type
 
+interface predicate<type = any> { (u: type): boolean }
+type typeguard<
+  map extends
+  | readonly [source: unknown, target: unknown]
+  = readonly [source: unknown, target: unknown]
+> = never | { (u: map[0]): u is map[1] }
+
+type assertion<
+  map extends
+  | readonly [source: unknown, target: unknown]
+  = readonly [source: any, target: unknown]
+> = never | { (u: map[0]): asserts u is map[1] }
+
+
 declare namespace any_ {
   // aliased exports
   export {
@@ -123,19 +137,6 @@ declare namespace any_ {
     | dictionary<json>
     ;
 
-  interface predicate<type = any> { (u: type): boolean }
-  type typeguard<
-    map extends
-    | readonly [source: unknown, target: unknown]
-    = readonly [source: unknown, target: unknown]
-  > = never | { (u: map[0]): u is map[1] }
-
-  type assertion<
-    map extends
-    | readonly [source: unknown, target: unknown]
-    = readonly [source: any, target: unknown]
-  > = never | { (u: map[0]): asserts u is map[1] }
-
 }
 
 type named<
@@ -188,16 +189,22 @@ declare namespace some {
     arrayof,
     /** {@link arrayof `some.arrayOf`} @external */
     arrayof as arrayOf,
+    /** {@link assertion_ `some.assertion`} @external */
+    assertion_ as assertion,
     /** {@link function_ `some.function`} @external */
     function_ as function,
     /** {@link fieldof `some.fieldof`} @external */
     fieldof,
     /** {@link fieldof `some.fieldOf`} @external */
     fieldof as fieldOf,
+    /** {@link guard `some.guard`} @external */
+    guard,
     /** {@link subtypeof `some.subtypeof`} @external */
     subtypeof,
     /** {@link subtypeof `some.subtypeOf`} @external */
     subtypeof as subtypeOf,
+    /** {@link typeguard_ `some.typeguard`} @external */
+    typeguard_ as typeguard,
   }
 
   // direct exports
@@ -219,6 +226,9 @@ declare namespace some {
   }
 
   type predicate<type = never> = any.predicate<type>
+  type guard<target = never> = typeguard_<any, target>
+  type typeguard_<source = never, target = never> = typeguard<[source, target]>
+  type assertion_<source = never, target = never> = assertion<[source, target]>
 
   /** {@link unary `some.unary`} @external */
   interface unary<
