@@ -26,6 +26,9 @@ export type {
   number,
   real,
 } from "./number/exports"
+
+export type { Kind } from "./kind/exports"
+
 export type { iter } from "./iter/exports"
 export type { mut } from "./mutable/exports"
 export type { pathsof } from "./paths/exports"
