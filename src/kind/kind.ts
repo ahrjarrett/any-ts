@@ -22,8 +22,8 @@ declare namespace kind {
 /** 
  * Yet another HKT encoding 🫠
  * 
- * Want to see it in action? Try the 
- * {@link https://stackblitz.com/edit/hkt?file=src%2Fkind.ts sandbox}.
+ * - {@link https://stackblitz.com/edit/hkt?file=src%2Fkind.ts Sandbox}
+ * - {@link https://tsplay.dev/WzqD2m TypeScript playground}
  * 
  * ### Problem statement
  * 
