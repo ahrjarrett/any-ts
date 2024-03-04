@@ -13,7 +13,9 @@ declare namespace kind {
   }
   export {
     apply,
+    apply$,
     bind,
+    bind$,
     partial,
     partiallyApply,
   }
@@ -135,9 +137,33 @@ type apply<fn extends Kind, args extends satisfies<fn>> = bind<fn, args>[-1]
 type partial<fn extends Kind, args extends Partial<satisfies<fn>>> = never | (fn & structured<args>)
 type partiallyApply<fn extends Kind, args extends Partial<satisfies<fn>>> = partial<fn, args>[-1]
 
+/** 
+ * {@link bind$ `bind$`} is a variant of {@link bind `bind`} that does not typecheck {@link args `args`}
+ * against the signature of {@link fn `fn`}.
+ * 
+ * The `$` sigil here has been appended to indicate that this is the "less strict" variant when compared
+ * to its unpostfixed cousin, and is provided as an escape hatch.
+ * 
+ * This pattern (postfixing the `$` sigil to mark an escape hatch) is a convention used across the
+ * `any-ts` project.
+ */
+type bind$<fn extends Kind, args extends any.array | Scope> = never | (fn & structured<args>)
+/** 
+ * {@link apply$ `apply$`} is a variant of {@link apply `apply`} that does not typecheck {@link args `args`}
+ * against the signature of {@link fn `fn`}.
+ * 
+ * The `$` sigil here has been appended to indicate that this is the "less strict" variant when compared
+ * to its unpostfixed cousin, and is provided as an escape hatch.
+ * 
+ * This pattern (postfixing the `$` sigil to mark a more permissive variant or an escape hatch) is a 
+ * convention used across the `any-ts` project.
+ */
+type apply$<fn extends Kind, args extends any.array | Scope> = bind$<fn, args>[-1]
+
+
 /** @internal */
 interface Kind<scope = Scope> extends Mutable<scope & {}> { [-1]: unknown }
 
 /** @internal */
-/* @ts-expect-error - we do extra checks on `type` to make sure `type` is not a union */
+/** @ts-expect-error - we do extra checks on `type` to make sure `type` is not a union */
 interface Mutable<type extends {}> extends identity<type> { }
