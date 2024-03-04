@@ -313,7 +313,7 @@ declare namespace distributive {
 namespace any_ {
   export type PKG_VERSION = typeof PKG_VERSION
   // TODO: generate this identifier from manifest
-  export const PKG_VERSION = `0.34.5` as const
+  export const PKG_VERSION = `0.35.0` as const
 
   /** @internal */
   type id<type> = type

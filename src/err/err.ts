@@ -17,6 +17,11 @@ export {
 
 import type { any } from "../any-namespace"
 
+declare namespace URI {
+  const TypeError: unique symbol
+  type TypeError = typeof URI.TypeError
+}
+
 /** @category model */
 type Msg = typeof Msg
 const Msg = {
@@ -55,25 +60,40 @@ const Msg2 = {
   UniqueNonNumericIndex: "Expected a unique index of non-numeric keys, but got at least one duplicate or numeric key instead"
 } as const
 
-/** @category model */
-type typeError<msg extends string, error>
-  = never | TypeError<[𝗺𝘀𝗴: msg, 𝗴𝗼𝘁: error]>
+/** 
+ * @category model 
+ * 
+ * If you'd like the error message to show up in a bolder font in your
+ * IDE, pass any non-never value for `debugFriendly`.
+ * 
+ * Turned off by default to make the library more accessible to screenreaders,
+ * but if you don't need that, turning them on is a nice DX.
+ * 
+ * TODO: make this feature configurable globally.
+ */
+type typeError<msg extends string, error, debugFriendly = never>
+  = never | (
+    [debugFriendly] extends [never]
+    ? TypeError<[msg: msg, got: error]>
+    : TypeError<[𝗺𝘀𝗴: msg, 𝗴𝗼𝘁: error]>
+  )
+  ;
 
 /** @category model */
 interface TypeError<map extends readonly [msg: string, error: unknown]>
-  extends TypeError.new<[map[0], map[1]]> { }
+  extends TypeError.new<[map[0], map[1]]> { [URI.TypeError]: URI.TypeError }
 
 /** @category coproduct, structure-preserving */
 type Err = typeof Err
 const Err
-  : { [tag in keyof Msg]: TypeError.template<[𝗱𝗶𝘀𝗰𝗿𝗶𝗺𝗶𝗻𝗮𝗻𝘁: tag]> }
+  : { [tag in keyof Msg]: TypeError.template<[discriminant: tag]> }
   = Object.keys(Msg).reduce(
     (acc: any.struct, tag) => ({ ...acc, [tag]: TypeError.template(tag) }),
     {}
   ) as never
 
 type Err2<key extends keyof Msg2, type>
-  = ({ [tag in keyof Msg2]: TypeError.template2<[𝗱𝗶𝘀𝗰𝗿𝗶𝗺𝗶𝗻𝗮𝗻𝘁: tag], type> })[key]
+  = ({ [tag in keyof Msg2]: TypeError.template2<[discriminant: tag], type> })[key]
 
 declare namespace TypeError {
   export {
