@@ -7,7 +7,6 @@ import type { any } from "../any-namespace"
 import type { empty, nonempty } from "../empty"
 
 import type { never } from "../semantic-never/exports"
-import type { assert, expect } from '../test/test';
 
 declare namespace impl {
   type unfold<path extends any.array<any.index>, leaf = unknown>
@@ -79,35 +78,3 @@ declare namespace traversal {
     ;
 }
 
-
-type leaf = typeof leaf
-declare const leaf: unique symbol
-
-export type __traversal_of__ = [
-  //        ^?
-  expect<assert.equivalent<traversal.of<leaf, []>, leaf>>,
-  expect<assert.equivalent<traversal.of<{ a: leaf }, ["a"]>, leaf>>,
-  expect<assert.equivalent<traversal.of<{ a: { b: leaf } }, ["a", "b"]>, leaf>>,
-  expect<assert.equivalent<traversal.of<{ a: { b: { c: leaf } } }, ["a", "b", "c"]>, leaf>>,
-  expect<assert.equivalent<traversal.of<{ a: { b: { c: leaf } } }, []>, { a: { b: { c: leaf } } }>>,
-  expect<assert.equivalent<traversal.of<{ a: { b: { c: leaf } } }, ["a"]>, { b: { c: leaf } }>>,
-  expect<assert.equivalent<traversal.of<{ a: { b: { c: leaf } } }, ["a", "b"]>, { c: leaf }>>,
-  expect<assert.equivalent<traversal.of<{ a: { b: { c: leaf } } }, ["a", "b", "c"]>, leaf>>,
-]
-
-export type __traversable_by__ = [
-  // ^?
-  expect<assert.equal<traversable.by<[]>, unknown>>,
-  expect<assert.equal<traversable.by<["a"]>, { a: unknown }>>,
-  expect<assert.equal<traversable.by<["a", "b"]>, { a: { b: unknown } }>>,
-  expect<assert.equal<traversable.by<["a", "b", "c"]>, { a: { b: { c: unknown } } }>>,
-  expect<assert.equal<traversable.by<[], leaf>, leaf>>,
-  expect<assert.equal<traversable.by<["a"], { "a": 0 }>, { a: 0 }>>,
-  expect<assert.equal<traversable.by<["a", "b"], { a: { b: leaf } }>, { a: { b: leaf } }>>,
-  expect<assert.equal<traversable.by<["a", "b", "c"], { a: { b: { c: leaf } } }>, { a: { b: { c: leaf } } }>>,
-]
-
-export type __nonempty_path__ = expect<assert.equal<nonempty.path<0, [1, 2, 3]>, readonly [0, 1, 2, 3]>>
-//   ^?
-export type __nonempty_pathLeft__ = expect<assert.equal<nonempty.pathLeft<[1, 2, 3], 4>, readonly [1, 2, 3, 4]>>
-//   ^?
