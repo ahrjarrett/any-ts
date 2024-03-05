@@ -1,8 +1,12 @@
 {
   "name": "any-ts",
   "private": false,
-  "version": "0.36.1",
+  "version": "0.36.2",
   "author": "Andrew Jarrett <ahrjarrett@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ahrjarrett/any-ts.git"
+  },
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
