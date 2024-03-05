@@ -1,7 +1,7 @@
 {
   "name": "any-ts",
   "private": false,
-  "version": "0.36.2",
+  "version": "0.36.3",
   "author": "Andrew Jarrett <ahrjarrett@gmail.com>",
   "repository": {
     "type": "git",
