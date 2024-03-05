@@ -198,7 +198,7 @@ const main = () => {
   try { run($.exec("pnpm build")) }
   catch (e) { logError("pnpm build", e) }
 
-  log(`Done! Run pnpm relase or pnpm release-anyway to actually publish`)
+  log(`Done! Run ${OS.EOL}${OS.EOL}pnpm release${OS.EOL}${OS.EOL}to finish publishing`)
 
   // TODO: get publishing working (probably just need to do this via a shell file)
   /**
