@@ -50,7 +50,7 @@ export function flatMap<a, b, err>(f: (a: a) => Task<b, err>) {
 }
 
 interface CLI {
-  exec(cmd: string, args?: Shell.ExecOptions): () => string
+  exec(cmd: string, args?: Shell.ExecOptions): () => string | Buffer
 }
 
 const $: CLI = ({
@@ -58,7 +58,7 @@ const $: CLI = ({
     Shell.execSync(
       cmd,
       { stdio: "inherit", ...args },
-    ).toString() ?? ""
+    )
 })
 
 type intercalate<acc extends string, xs extends readonly unknown[], btwn extends string>
@@ -148,16 +148,6 @@ const versionTemplate = (version: string) =>
   `export const ANY_TS_VERSION = "${version}" as const${OS.EOL}`
     .concat(`export type ANY_TS_VERSION = typeof ANY_TS_VERSION`)
 
-/**
- * Reads the package version from `package.json` and writes it as
- * a value to `src/version.ts`.
- * 
- * This function is called by the script that publishes the package,
- * and makes sure that the `ANY_TS_VERSION` identifier that ships
- * with `any-ts` stays up to date with the actual version that's 
- * published.
- */
-const writeVersion = (version: string) => version && writeFile(versionFile)(versionTemplate(version))
 
 const log = (...args: readonly unknown[]) => {
   console.log()
@@ -170,8 +160,25 @@ const logError = (taskName: string, ...args: readonly unknown[]) => {
   if (args.length > 0) console.info(`🫥\t`, `additional context:`, ...args)
 }
 
+/**
+ * Reads the package version from `package.json` and writes it as
+ * a value to `src/version.ts`.
+ * 
+ * This function is called by the script that publishes the package,
+ * and makes sure that the `ANY_TS_VERSION` identifier that ships
+ * with `any-ts` stays up to date with the actual version that's 
+ * published.
+ */
+const writeVersion = (version: string) => {
+  version && writeFile(versionFile)(versionTemplate(version))
+}
+
 function commitVersion(version: string) {
-  $.exec(`git add ${versionFile} && git commit -m "auto: writes ${version} to ${versionFile}"`)
+  run($.exec(`git add src/version.ts && git commit -m "automated: writes version ${version} to 'src/version.ts'"`))
+}
+
+function publish(version: string) {
+  run($.execSync("pnpm publish"))
 }
 
 const main = () => {
@@ -181,21 +188,27 @@ const main = () => {
   log(`Writing package version \`${version}\` to:${OS.EOL}\t${versionFile}`)
   writeVersion(version)
 
+
   log(`Committing with changes to ${versionFile}`)
-  commitVersion(version)
+  try { commitVersion(version) }
+  catch (e) { log(`Nothing to commit!`) }
+
 
   log(`kicking off build script`)
   try { run($.exec("pnpm build")) }
-  catch (e) { logError("pnpm build") }
+  catch (e) { logError("pnpm build", e) }
 
-  log(`publishing...`)
-  try {
-    run($.exec("pnpm publish"))
-    log(`successfully published \`any-ts\` version \`${version}\` 😊`)
-    log(`https://www.npmjs.com/package/any-ts/v/${version}`)
-  }
-  catch (e) { logError("pnpm publish") }
+  log(`Done! Run ${OS.EOL}${OS.EOL}\tpnpm publish${OS.EOL}${OS.EOL}to push things to npm.`)
 
+  // TODO: get publishing working (probably just need to do this via a shell file)
+  /**
+   * log(`publishing...`)
+   * try {
+   *   log(`successfully published \`any-ts\` version \`${version}\` 😊`)
+   *   log(`https://www.npmjs.com/package/any-ts/v/${version}`)
+   * }
+   * catch (e) { logError("pnpm publish", e) }
+   */
 }
 
 run(main)
