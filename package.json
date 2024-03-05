@@ -14,7 +14,7 @@
     "clean:build": "rm -rf dist",
     "clean:deps": "rm -rf dist",
     "lint": "tsc --noEmit",
-    "release": "git checkout main && ./bin/version.ts && git add -A && git commit -m \"writes package version to version.ts\" && pnpm build && pnpm publish",
+    "release": "./bin/version.ts",
     "release-anyway": "pnpm run release --no-git-checks"
   },
   "devDependencies": {
