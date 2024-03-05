@@ -174,7 +174,7 @@ const writeVersion = (version: string) => {
 }
 
 function commitVersion(version: string) {
-  run($.exec(`git add src/version.ts && git commit -m "automated: writes version ${version} to \`src/version.ts\`"`))
+  run($.exec(`git add src/version.ts && git commit -m "automated: writes version ${version} to 'src/version.ts'"`))
 }
 
 function publish(version: string) {
