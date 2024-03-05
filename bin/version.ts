@@ -174,7 +174,10 @@ const writeVersion = (version: string) => {
 }
 
 function commitVersion(version: string) {
-  run($.exec(`git add src/version.ts && git commit -m "automated: writes version ${version} to 'src/version.ts'"`))
+  try {
+    run($.exec(`git add src/version.ts && git commit -m "automated: writes version ${version} to 'src/version.ts'"`))
+  }
+  catch (e) { logError("commitVersion", e) }
 }
 
 function publish(version: string) {
@@ -193,14 +196,14 @@ const main = () => {
 
   log(`kicking off build script`)
   try { run($.exec("pnpm build")) }
-  catch (e) { logError("pnpm build") }
+  catch (e) { logError("pnpm build", e) }
 
   log(`publishing...`)
   try {
     log(`successfully published \`any-ts\` version \`${version}\` 😊`)
     log(`https://www.npmjs.com/package/any-ts/v/${version}`)
   }
-  catch (e) { logError("pnpm publish") }
+  catch (e) { logError("pnpm publish", e) }
 }
 
 run(main)
