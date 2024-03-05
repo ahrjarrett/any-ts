@@ -35,6 +35,7 @@ const Msg = {
   MaxOneProp: "Expected a non-object type, or an object type with at most 1 property",
   Natural: "Expected a natural number",
   Negative: "Expected a negative number",
+  NonArrayTuple: "Expected a tuple, but got an array instead",
   NonObject: "Expected an array, but got a non-array type instead",
   NonUnion: "Expected a non-union, but got a union type instead",
   NonEmptyArray: "Expected a non-empty array, but got an empty array instead",

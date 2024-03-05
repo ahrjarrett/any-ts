@@ -83,6 +83,18 @@ declare namespace enforce {
     : (unknown)
     ;
 
+  type tuple<type extends any.array>
+    = [number] extends [type["length"]] ? Fn.return<typeof Err.NonArrayTuple<type>>
+    : (unknown)
+    ;
+
+  type tuple$<type>
+    = [type] extends [any.array]
+    ? [number] extends [type["length"]] ? Fn.return<typeof Err.NonArrayTuple<type>>
+    : (unknown)
+    : never
+    ;
+
   type singleChar<type>
     = [string] extends [type] ? Fn.return<typeof Err.SingleCharGotUniversal<type>>
     : [type] extends [`${any}${infer rest}`]
