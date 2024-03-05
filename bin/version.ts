@@ -171,7 +171,7 @@ const logError = (taskName: string, ...args: readonly unknown[]) => {
 }
 
 function commitVersion(version: string) {
-  $.exec(`git add ${versionFile} && git commit -m "auto: writes ${version} to ${versionFile}"`)
+  run($.exec(`git add ${versionFile} && git commit -m "auto: writes ${version} to ${versionFile}"`))
 }
 
 const main = () => {
