@@ -174,10 +174,7 @@ const writeVersion = (version: string) => {
 }
 
 function commitVersion(version: string) {
-  try {
-    run($.exec(`git add src/version.ts && git commit -m "automated: writes version ${version} to 'src/version.ts'"`))
-  }
-  catch (e) { logError("commitVersion", e) }
+  run($.exec(`git add src/version.ts && git commit -m "automated: writes version ${version} to 'src/version.ts'"`))
 }
 
 function publish(version: string) {
@@ -191,14 +188,17 @@ const main = () => {
   log(`Writing package version \`${version}\` to:${OS.EOL}\t${versionFile}`)
   writeVersion(version)
 
+
   log(`Committing with changes to ${versionFile}`)
-  commitVersion(version)
+  try { commitVersion(version) }
+  catch (e) { log(`Nothing to commit!`) }
+
 
   log(`kicking off build script`)
   try { run($.exec("pnpm build")) }
   catch (e) { logError("pnpm build", e) }
 
-  log(`Done! Run ${OS.EOL}${OS.EOL}pnpm release${OS.EOL}${OS.EOL}to finish publishing`)
+  log(`Done! Run ${OS.EOL}${OS.EOL}\tpnpm publish${OS.EOL}${OS.EOL}to push things to npm.`)
 
   // TODO: get publishing working (probably just need to do this via a shell file)
   /**
