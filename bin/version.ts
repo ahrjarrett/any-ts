@@ -157,12 +157,7 @@ const versionTemplate = (version: string) =>
  * with `any-ts` stays up to date with the actual version that's 
  * published.
  */
-const writeVersion = (version: string) => {
-  if (version) {
-    log(`Writing package version \`${version}\` to:${OS.EOL}\t${versionFile}`)
-    writeFile(versionFile)(versionTemplate(version))
-  }
-}
+const writeVersion = (version: string) => version && writeFile(versionFile)(versionTemplate(version))
 
 const log = (...args: readonly unknown[]) => {
   console.log()
@@ -175,21 +170,32 @@ const logError = (taskName: string, ...args: readonly unknown[]) => {
   if (args.length > 0) console.info(`🫥\t`, `additional context:`, ...args)
 }
 
+function commitVersion(version: string) {
+  $.exec(`git add ${versionFile} && git commit -m "auto: writes ${version} to ${versionFile}"`)
+}
+
 const main = () => {
   const version = readPackageVersion()
   log(`releasing version v${version} 🤞`)
+
+  log(`Writing package version \`${version}\` to:${OS.EOL}\t${versionFile}`)
   writeVersion(version)
+
+  log(`Committing with changes to ${versionFile}`)
+  commitVersion(version)
 
   log(`kicking off build script`)
   try { run($.exec("pnpm build")) }
   catch (e) { logError("pnpm build") }
 
   log(`publishing...`)
-  try { run($.exec("pnpm publish")) }
+  try {
+    run($.exec("pnpm publish"))
+    log(`successfully published \`any-ts\` version \`${version}\` 😊`)
+    log(`https://www.npmjs.com/package/any-ts/v/${version}`)
+  }
   catch (e) { logError("pnpm publish") }
 
-  log(`successfully published \`any-ts′ version \`${version}\` 😊`)
-  log(`https://www.npmjs.com/package/any-ts/v/${version}`)
 }
 
 run(main)
