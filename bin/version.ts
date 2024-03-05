@@ -181,7 +181,7 @@ function commitVersion(version: string) {
 }
 
 function publish(version: string) {
-  run($.exec("pnpm publish"))
+  run($.execSync("pnpm publish"))
 }
 
 const main = () => {
@@ -198,12 +198,17 @@ const main = () => {
   try { run($.exec("pnpm build")) }
   catch (e) { logError("pnpm build", e) }
 
-  log(`publishing...`)
-  try {
-    log(`successfully published \`any-ts\` version \`${version}\` 😊`)
-    log(`https://www.npmjs.com/package/any-ts/v/${version}`)
-  }
-  catch (e) { logError("pnpm publish", e) }
+  log(`Done! Run pnpm relase or pnpm release-anyway to actually publish`)
+
+  // TODO: get publishing working (probably just need to do this via a shell file)
+  /**
+   * log(`publishing...`)
+   * try {
+   *   log(`successfully published \`any-ts\` version \`${version}\` 😊`)
+   *   log(`https://www.npmjs.com/package/any-ts/v/${version}`)
+   * }
+   * catch (e) { logError("pnpm publish", e) }
+   */
 }
 
 run(main)
