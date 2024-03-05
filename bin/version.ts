@@ -195,13 +195,12 @@ const main = () => {
   try { run($.exec("pnpm build")) }
   catch (e) { logError("pnpm build") }
 
-  // log(`publishing...`)
-  // try {
-  //   log(`successfully published \`any-ts\` version \`${version}\` 😊`)
-  //   log(`https://www.npmjs.com/package/any-ts/v/${version}`)
-  // }
-  // catch (e) { logError("pnpm publish") }
-
+  log(`publishing...`)
+  try {
+    log(`successfully published \`any-ts\` version \`${version}\` 😊`)
+    log(`https://www.npmjs.com/package/any-ts/v/${version}`)
+  }
+  catch (e) { logError("pnpm publish") }
 }
 
 run(main)
