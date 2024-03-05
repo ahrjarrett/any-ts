@@ -26,7 +26,7 @@ declare namespace URI {
 type Msg = typeof Msg
 const Msg = {
   /** TODO: switch over to an HKT impl */
-  BigintLiteral: "Expected a bigint literal",
+  BigIntLiteral: "Expected a bigint literal",
   BooleanLiteral: "Expected a boolean literal",
   Integer: "Expected an integer",
   IsNotAssignableTo: "Expected input to not be assignable, but input was assignable instead",
