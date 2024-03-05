@@ -1,8 +1,12 @@
 {
   "name": "any-ts",
   "private": false,
-  "version": "0.36.1",
+  "version": "0.36.2",
   "author": "Andrew Jarrett <ahrjarrett@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ahrjarrett/any-ts.git"
+  },
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -14,7 +18,7 @@
     "clean:build": "rm -rf dist",
     "clean:deps": "rm -rf dist",
     "lint": "tsc --noEmit",
-    "release": "git checkout main && ./bin/version.ts && git add -A && git commit -m \"writes package version to version.ts\" && pnpm build && pnpm publish",
+    "release": "./bin/version.ts",
     "release-anyway": "pnpm run release --no-git-checks"
   },
   "devDependencies": {
@@ -22,6 +26,6 @@
     "@types/node": "^20.11.24",
     "init": "^0.1.2",
     "tsup": "^8.0.1",
-    "typescript": "5.2.2"
+    "typescript": "5.3.3"
   }
 }

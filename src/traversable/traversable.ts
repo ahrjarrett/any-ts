@@ -9,7 +9,7 @@ import type { empty, nonempty } from "../empty"
 import type { never } from "../semantic-never/exports"
 
 declare namespace impl {
-  type unfold<path extends any.array<any.index>, leaf = unknown>
+  type unfold<path extends any.path, leaf = unknown>
     = path extends empty.array ? leaf
     : path extends nonempty.pathLeft<infer init, infer last>
     ? unfold<init, any.named<[𝐥𝐚𝐛𝐞𝐥: last, 𝐯𝐚𝐥𝐮𝐞: leaf]>>
@@ -17,7 +17,7 @@ declare namespace impl {
     ;
 }
 
-type unfold<leaf, path extends any.array<any.key>> = impl.unfold<path, leaf>
+type unfold<leaf, path extends any.path> = impl.unfold<path, leaf>
 
 /** 
  * {@link by `traversable.by`} is a type-constructor that takes a path describing a tree and, 
