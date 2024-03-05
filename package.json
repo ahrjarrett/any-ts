@@ -1,18 +1,20 @@
 {
   "name": "any-ts",
   "private": false,
-  "version": "0.36.0",
+  "version": "0.36.1",
   "author": "Andrew Jarrett <ahrjarrett@gmail.com>",
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "build": "pnpm clean:build && pnpm tsup src/index.ts \"!src/**/*.spec.ts\" --dts-only",
     "check": "tsc --noEmit",
-    "clean": "rm -rf dist node_modules",
+    "clean": "pnpm run \"/^check:.*/\"",
+    "clean:build": "rm -rf dist",
+    "clean:deps": "rm -rf dist",
     "lint": "tsc --noEmit",
-    "release": "./bin/version.ts && pnpm build && pnpm publish",
+    "release": "git checkout main && ./bin/version.ts && git add -A && git commit -m \"writes package version to version.ts\" && pnpm build && pnpm publish",
     "release-anyway": "pnpm run release --no-git-checks"
   },
   "devDependencies": {
