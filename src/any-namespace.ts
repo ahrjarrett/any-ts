@@ -1,14 +1,17 @@
 export type { any_ as any, any as any_ }
+export type { ANY_TS_VERSION } from "./version"
 
 import type { any } from "./any"
 import type { some } from "./any"
 import type { to } from "./to"
 import type { pathsof } from "./paths/paths"
-
-
+import type { ANY_TS_VERSION } from "./version"
 
 declare namespace any_ {
-  export type {
+  export {
+    type ANY_TS_VERSION as VERSION,
+  }
+  export {
     string_ as string,
     number_ as number,
     boolean_ as boolean,
@@ -17,7 +20,7 @@ declare namespace any_ {
   }
 
   // 🡓🡓 aliases 🡓🡓
-  export type {
+  export {
     arrayof as arrayOf,
     dictionary as dict,
     indexedby as indexedBy,

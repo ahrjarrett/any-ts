@@ -141,6 +141,32 @@ declare namespace enforce {
     : (unknown)
     ;
 
+  type stringLiteral<type extends string>
+    = [string] extends [type] ? Fn.return<typeof Err.Literal<type>>
+    : (unknown)
+    ;
+
+  type numberLiteral<type extends number>
+    = [number] extends [type] ? Fn.return<typeof Err.Literal<type>>
+    : (unknown)
+    ;
+
+  type booleanLiteral<type extends boolean>
+    = [boolean] extends [type] ? Fn.return<typeof Err.Literal<type>>
+    : (unknown)
+    ;
+
+  type numericLiteral<type extends number | bigint>
+    = [number] extends [type] ? Fn.return<typeof Err.Literal<type>>
+    : [bigint] extends [type] ? Fn.return<typeof Err.Literal<type>>
+    : (unknown)
+    ;
+
+  type bigintLiteral<type extends bigint>
+    = [bigint] extends [type] ? Fn.return<typeof Err.Literal<type>>
+    : (unknown)
+    ;
+
   type integer<type>
     = [number.is.integer<type>] extends [true] ? (unknown)
     : Fn.return<typeof Err.Integer<type>>

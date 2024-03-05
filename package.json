@@ -1,7 +1,7 @@
 {
   "name": "any-ts",
   "private": false,
-  "version": "0.35.4",
+  "version": "0.36.0",
   "author": "Andrew Jarrett <ahrjarrett@gmail.com>",
   "license": "MIT",
   "main": "dist/index.js",
@@ -11,12 +11,13 @@
     "build": "tsup src/index.ts --format cjs,esm --dts",
     "check": "tsc --noEmit",
     "clean": "rm -rf dist node_modules",
-    "lint": "tsc",
-    "release": "npm publish",
-    "release-anyway": "npm publish --no-git-checks"
+    "lint": "tsc --noEmit",
+    "release": "./bin/version.ts && pnpm publish",
+    "release-anyway": "pnpm run release --no-git-checks"
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.1",
+    "@types/node": "^20.11.24",
     "init": "^0.1.2",
     "tsup": "^8.0.1",
     "typescript": "5.2.2"

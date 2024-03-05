@@ -311,10 +311,6 @@ declare namespace distributive {
 // ambient `any`), otherwise the aliases it exports such as `any.object_` will 
 // not be preserved.
 namespace any_ {
-  export type PKG_VERSION = typeof PKG_VERSION
-  // TODO: generate this identifier from manifest
-  export const PKG_VERSION = `0.35.4` as const
-
   /** @internal */
   type id<type> = type
   /** @internal */

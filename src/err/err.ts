@@ -26,10 +26,12 @@ declare namespace URI {
 type Msg = typeof Msg
 const Msg = {
   /** TODO: switch over to an HKT impl */
+  BigintLiteral: "Expected a bigint literal",
+  BooleanLiteral: "Expected a boolean literal",
   Integer: "Expected an integer",
   IsNotAssignableTo: "Expected input to not be assignable, but input was assignable instead",
   KeyUniqueness: "Expected keys to be unique, but encountered 1 or more duplicate keys",
-  Literal: "Expected a literal type, but encountered a non-literal instead",
+  Literal: "Expected a string literal, numeric literal, or boolean literal",
   MaxOneProp: "Expected a non-object type, or an object type with at most 1 property",
   Natural: "Expected a natural number",
   Negative: "Expected a negative number",
@@ -39,12 +41,15 @@ const Msg = {
   NonEmptyString: "Expected a non-empty string, but got an empty string instead",
   NoExcessProps: "Expected inputs to share an index signature, but encountered excess props",
   NonLiteral: "Expected a non-literal type, but encountered a literal instead",
+  NumberLiteral: "Expected a number literal",
   Numeric: "Expected a numeric type, for example `number` or `bigint`",
+  NumericLiteral: "Expected a numeric literal",
   Positive: "Expected a positive number",
   Shallow: "Expected a primitive type or a shallow array",
   SingleCharGotLonger: "Expected to receive a single-char string, but encountered a string containing more than 1 character instead",
   SingleCharGotShorter: "Expected to receive a single-char string, but encountered an empty string instead",
   SingleCharGotUniversal: "Expected to receive a single-char string, but encountered the universal string type instead",
+  StringLiteral: "Expected a string literal",
 } as const
 
 declare namespace Case {
