@@ -15,6 +15,7 @@ export type { cache } from "./cache/exports"
 export type { evaluate } from "./evaluate/exports"
 export type {
   Catch,
+  Catch as Match,
   enforce,
   Err,
   Msg,
