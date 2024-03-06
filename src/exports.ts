@@ -32,7 +32,7 @@ export type { Kind } from "./kind/exports"
 export type { traversable, traversal } from "./traversable/exports"
 
 export type { iter } from "./iter/exports"
-export type { mut } from "./mutable/exports"
+export type { mut, mutable } from "./mutable/exports"
 export type { pathsof } from "./paths/exports"
 export type { never } from "./semantic-never/exports"
 export type {

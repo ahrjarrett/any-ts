@@ -65,8 +65,6 @@ declare namespace impl {
 
 type constrain<invariant, type> = type & invariant
 
-declare function nonObjects<const type extends nonobject<type>>(x: type): type
-
 type check<type, constraint, applied, err> =
   [type] extends [constraint]
   ? ([type] extends [applied] ? unknown : err)
