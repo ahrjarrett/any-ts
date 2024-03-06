@@ -14,6 +14,7 @@ export type { boolean } from "./boolean/exports"
 export type { cache } from "./cache/exports"
 export type { evaluate } from "./evaluate/exports"
 export type {
+  Catch,
   enforce,
   Err,
   Msg,

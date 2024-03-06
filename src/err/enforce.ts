@@ -83,15 +83,12 @@ declare namespace enforce {
     : (unknown)
     ;
 
-  type tuple<type extends any.array>
-    = [number] extends [type["length"]] ? Fn.return<typeof Err.NonArrayTuple<type>>
-    : (unknown)
-    ;
+  type extract<t, u> = [t] extends [u] ? t : never
 
-  type tuple$<type>
-    = [type] extends [any.array]
-    ? [number] extends [type["length"]] ? Fn.return<typeof Err.NonArrayTuple<type>>
-    : (unknown)
+  type tuple<xs, constraint extends any.array>
+    = [xs] extends [constraint]
+    ? [number] extends [xs["length"]] ? Fn.return<typeof Err.NonArrayTuple<xs>>
+    : constraint
     : never
     ;
 
