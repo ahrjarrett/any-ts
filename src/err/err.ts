@@ -11,6 +11,7 @@ export {
   type TypeError,
   type Err,
   type Err2,
+  type URI,
   Case,
   Msg,
 }
