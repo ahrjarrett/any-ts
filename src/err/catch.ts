@@ -5,14 +5,14 @@ import type { Union } from "../union/exports";
 import type { never } from "../semantic-never/exports";
 import { nonempty } from "../empty";
 
-type tuple<xs, constraint extends any.array>
+type tuple<xs, constraint extends any.array = any.array>
   = [xs] extends [constraint]
   ? [number] extends [xs["length"]] ? never.as.nothing
   : constraint
   : never.close.unmatched_expr
   ;
 
-type nontuple<xs, constraint extends any.array>
+type nontuple<xs, constraint extends any.array = any.array>
   = [xs] extends [constraint]
   ? [number] extends [xs["length"]] ? constraint
   : never.as.nothing
