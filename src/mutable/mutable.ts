@@ -101,7 +101,7 @@ declare namespace mut {
   type array<type = unknown> = type[]
   type list<type extends mut.array = mut.array> = type
   type entries<type extends mut.array<mut.entry> = mut.array<mut.entry>> = type
-  type entry<type extends two<any.index, _> = two<any.index, _>> = type
+  type entry<type extends [any.index, _] = [any.index, _]> = type
   type keys<type extends mut.array<any.key> = mut.array<any.key>> = type
   type path<type extends mut.array<any.index> = mut.array<any.index>> = type
 }
