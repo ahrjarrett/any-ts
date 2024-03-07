@@ -38,6 +38,7 @@ export type {
 }
 
 import type { any } from "../any-namespace"
+import { nonempty } from "../empty"
 type _ = unknown
 import { pathsof } from "../paths/paths"
 

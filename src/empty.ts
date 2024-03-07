@@ -1,4 +1,5 @@
 import type { any } from "./any-namespace"
+import { mut } from "./mutable/exports"
 
 export {
   empty,
@@ -38,6 +39,13 @@ namespace empty {
 
 function nonempty() { }
 declare namespace nonempty {
+  // namespace exports
+  export {
+    /** the {@link mutable `nonempty.mut`} namespace contains non-empty, mutable type variants @external */
+    mutable as mut,
+    /** the {@link mutable `nonempty.mutable`} namespace contains non-empty, mutable type variants @external */
+    mutable,
+  }
   export {
     /** {@link array `nonempty.array`} @external */
     array,
@@ -56,7 +64,8 @@ declare namespace nonempty {
     /** {@link pathLeft `nonempty.pathLeft`} */
     pathLeft,
     /** {@link string_ `nonempty.string`} @external */
-    string_ as string
+    string_ as string,
+
   }
 
   type array<
@@ -106,9 +115,10 @@ declare namespace nonempty {
   > = readonly [...init, last]
 }
 
-namespace nonempty {
-  export const never: never = void 0 as never
-  // export const string
-  //   : <text extends enforce.nonEmptyString<text>>(text: text) => text
-  //   = (text) => text
+declare namespace mutable {
+  type array<head = unknown, tail extends any.array = any.array<head>> = [head, ...tail]
+  type list<type extends nonempty.array = nonempty.array> = type
+  type entries<head extends mut.entry = mut.entry, tail extends mut.entries = mut.entries> = [head, ...tail]
+  type keys<head extends any.key = any.key, tail extends mut.keys = mut.keys> = [head, ...tail]
+  type path<head extends any.index = any.index, tail extends mut.path = mut.path> = [head, ...tail]
 }
