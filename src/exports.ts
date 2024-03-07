@@ -29,7 +29,16 @@ export type {
   real,
 } from "./number/exports"
 
-export type { Kind } from "./kind/exports"
+export type {
+  Kind,
+  Ext,
+  Extensible,
+  Extractable,
+  guard,
+  Guard,
+  Intersectable,
+  Negate,
+} from "./kind/exports"
 export type { traversable, traversal } from "./traversable/exports"
 
 export type { iter } from "./iter/exports"
