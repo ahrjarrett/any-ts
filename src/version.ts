@@ -1,2 +1,2 @@
-export const ANY_TS_VERSION = "0.36.9" as const
+export const ANY_TS_VERSION = "0.36.10" as const
 export type ANY_TS_VERSION = typeof ANY_TS_VERSION
