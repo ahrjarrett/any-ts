@@ -2,7 +2,7 @@ export type {
   String as string,
 }
 
-import type { any } from "../any-namespace"
+import type { any } from "../any"
 import type { boolean } from "../boolean/boolean"
 import type { assert, expect } from "../test/exports"
 import type { empty, nonempty } from "../empty"
@@ -12,7 +12,6 @@ import type { char, chars } from "./char"
 import type { Fn1, Fn2, interpret1, interpret2 } from "./kind"
 import type { Union } from "../union/exports"
 
-type _ = string
 type parseNumeric<type> = type extends `${infer x extends number}` ? x : never
 
 declare namespace Config {
@@ -80,15 +79,15 @@ declare namespace String {
   export type UppercaseChars = typeof char.Uppers
   export type UppercaseChar = UppercaseChars[number]
 
-  type is<type> = [type] extends [_] ? true : false
+  type is<type> = [type] extends [string] ? true : false
   export namespace is {
-    export type empty<type extends _> = [type] extends [``] ? true : false
-    export type alpha<type extends _> = [Uppercase<type> | Lowercase<type>] extends [type] ? false : true
-    export type uppercase<type extends _> = [Uppercase<type>] extends [type] ? true : false
-    export type lowercase<type extends _> = [Lowercase<type>] extends [type] ? true : false
-    export type uppercaseAlpha<type extends _> = boolean.all<[String.is.uppercase<type>, String.is.alpha<type>]>
-    export type lowercaseAlpha<type extends _> = boolean.all<[String.is.lowercase<type>, String.is.alpha<type>]>
-    export type parsableNumeric<type extends _>
+    export type empty<type extends string> = [type] extends [``] ? true : false
+    export type alpha<type extends string> = [Uppercase<type> | Lowercase<type>] extends [type] ? false : true
+    export type uppercase<type extends string> = [Uppercase<type>] extends [type] ? true : false
+    export type lowercase<type extends string> = [Lowercase<type>] extends [type] ? true : false
+    export type uppercaseAlpha<type extends string> = boolean.all<[String.is.uppercase<type>, String.is.alpha<type>]>
+    export type lowercaseAlpha<type extends string> = boolean.all<[String.is.lowercase<type>, String.is.alpha<type>]>
+    export type parsableNumeric<type extends string>
       = parseNumeric<type> extends any.number<infer x>
       ? [x] extends [never]
       ? false : true : false
@@ -105,25 +104,25 @@ declare namespace String {
     = empty.string
   > = string.intercalate<``, type, delimiter>
 
-  export type endsWith<matcher extends any.showable, text extends _> = [text] extends [`${_}${matcher}`] ? true : false
-  export type startsWith<matcher extends any.showable, text extends _> = [text] extends [`${matcher}${_}`] ? true : false
-  export type replace<needle extends any.showable, next extends any.showable, haystack extends _>
+  export type endsWith<matcher extends any.showable, text extends string> = [text] extends [`${string}${matcher}`] ? true : false
+  export type startsWith<matcher extends any.showable, text extends string> = [text] extends [`${matcher}${string}`] ? true : false
+  export type replace<needle extends any.showable, next extends any.showable, haystack extends string>
     = [haystack] extends [`${infer before}${needle}${infer after}`] ? `${before}${next}${after}` : haystack
 
-  export type head<chars extends _> = chars extends nonempty.string<infer head, any> ? head : never
-  export type tail<chars extends _> = chars extends nonempty.string<any, infer tail> ? tail : never
-  export type behead<chars extends _> = chars extends nonempty.string<infer head, infer tail> ? [head: head, tail: tail] : never
-  export type second<chars extends _> = chars extends nonempty.string<any, infer tail> ? head<tail> : never
+  export type head<chars extends string> = chars extends nonempty.string<infer head, any> ? head : never
+  export type tail<chars extends string> = chars extends nonempty.string<any, infer tail> ? tail : never
+  export type behead<chars extends string> = chars extends nonempty.string<infer head, infer tail> ? [head: head, tail: tail] : never
+  export type second<chars extends string> = chars extends nonempty.string<any, infer tail> ? head<tail> : never
 
-  export type concat<left extends _, right extends _> = `${left}${right}`
-  export type between<left extends _, middle extends _, right extends _> = `${left}${middle}${right}`
-  export type prefix<before extends any.showable, text extends _> = `${before}${text}`
-  export type postfix<after extends any.showable, text extends _> = `${text}${after}`
-  export type unprefix<prefix extends any.showable, text extends _> = text extends `${prefix}${infer tail}` ? tail : never
-  export type unpostfix<suffix extends any.showable, text extends _> = text extends `${infer head}${suffix}` ? head : never
+  export type concat<left extends string, right extends string> = `${left}${right}`
+  export type between<left extends string, middle extends string, right extends string> = `${left}${middle}${right}`
+  export type prefix<before extends any.showable, text extends string> = `${before}${text}`
+  export type postfix<after extends any.showable, text extends string> = `${text}${after}`
+  export type unprefix<prefix extends any.showable, text extends string> = text extends `${prefix}${infer tail}` ? tail : never
+  export type unpostfix<suffix extends any.showable, text extends string> = text extends `${infer head}${suffix}` ? head : never
 
   export type split<
-    text extends _,
+    text extends string,
     matcher extends Fn1<any.showable> | any.array<any.showable>,
     onMatch extends Fn1<any.showable> = Fn.show
   >
@@ -137,7 +136,7 @@ declare namespace String {
    */
   export type splitOn<
     delimiter extends any.showable,
-    text extends _,
+    text extends string,
     _options extends Config.options = Config.default
   >
     = Union.is<delimiter> extends true ? "Union delimiters are not currently supported"
@@ -148,10 +147,10 @@ declare namespace String {
 }
 
 declare namespace string {
-  export type splitOnceOnChar<acc extends _, text extends _, delimiter extends any.showable>
+  export type splitOnceOnChar<acc extends string, text extends string, delimiter extends any.showable>
     = text extends `${infer head}${delimiter}${infer tail}` ? [before: head, after: tail] : never
 
-  export type splitOnceOnChars<acc extends _, text extends _, delimiter extends any.showable>
+  export type splitOnceOnChars<acc extends string, text extends string, delimiter extends any.showable>
     = text extends empty.string ? acc
     : text extends nonempty.string<infer head, infer tail>
     ? delimiter extends nonempty.string<infer dhead, infer dtail>

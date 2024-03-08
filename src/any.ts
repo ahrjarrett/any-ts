@@ -1,324 +1,247 @@
-// module namespaces
-export type {
-  any_ as any,
-  some,
+export type { any_ as any, _ }
+export type { ANY_TS_VERSION } from "./version"
+
+import type { some } from "./some"
+import type { to } from "./to"
+import type { pathsof } from "./paths/paths"
+import type { ANY_TS_VERSION } from "./version"
+
+type _ = unknown
+
+declare namespace any_ {
+  export {
+    type ANY_TS_VERSION as VERSION,
+  }
+  export {
+    string_ as string,
+    number_ as number,
+    boolean_ as boolean,
+    object_ as object,
+    function_ as function,
+  }
+
+  // 🡓🡓 aliases 🡓🡓
+  export {
+    arrayof as arrayOf,
+    dictionary as dict,
+    indexedby as indexedBy,
+    indexableby as indexableBy,
+    keyof as keyOf,
+    keysof as keysOf,
+  }
 }
 
-// external module namespaces
-export type { mut } from "./mutable/exports"
+declare namespace any_ {
+  // 🡓🡓 aliased exports 🡓🡓
+  type string_<type extends string = string> = type
+  type number_<type extends number = number> = type
+  type boolean_<type extends boolean = boolean> = type
+  type null_<type extends null = null> = type
+  type undefined_<type extends undefined = undefined> = type
+  type symbol_<type extends symbol = symbol> = type
+  type function_<type extends some.function = some.function> = type
+  type class_<type extends any.class = any.class> = type
+  type object_<type extends any.object = any.object> = type
+  // 🡑🡑 aliased exports 🡑🡑
+  // 🡓🡓 direct exports 🡓🡓
+  type type<type extends any.nullable | any.type = any.nullable | any.type>
+    = never | (type extends any.nonnullable ? any.type<type> : type)
+  type nullable<type extends any.nullable = any.nullable> = type
+  type nonnullable<type extends any.nonnullable = any.nonnullable> = type
+  type key<type extends any.key = any.key> = type
+  type index<type extends any.index = any.index> = type
+  type literal<type extends any.literal = any.literal> = type
+  type showable<type extends any.showable = any.showable> = type
+  /** 
+   * {@link primitive `any.primitive`} 
+   * [{@link https://developer.mozilla.org/en-US/docs/Glossary/Primitive MDN reference}]
+   */
+  type primitive<type extends any.primitive = any.primitive> = type
+  type numeric<type extends any.numeric = any.numeric> = type
+  type json<type extends any.json = any.json> = type
+  type one<only = unknown> = readonly [_1: only]
+  type single<type extends one = one> = type
+  type unary<type extends some.unary = some.unary> = type
+  type two<one = unknown, two = unknown> = readonly [_1: one, _2: two]
+  type double<type extends two = two> = type
+  type binary<type extends some.binary = some.binary> = type
+  type three<one = unknown, two = unknown, three = unknown> = readonly [_1: one, _2: two, _3: three]
+  type triple<type extends three = three> = type
+  type ternary<type extends some.ternary = some.ternary> = type
 
-import type { any } from "./any-native"
-import type { never } from "./semantic-never/exports"
+  type predicate<type extends some.predicate = some.predicate> = type
+  type asserts<target = unknown> = some.assertion<[arg: any, out: target]>
+  type assertion<arg = any, out = unknown> = some.assertion<[arg: arg, out: out]>
+  type typeguard<arg = any, out = unknown> = some.typeguard<[arg: arg, out: out]>
+  type guard<target = unknown> = some.typeguard<[source: any, target: target]>
+  type array<type = unknown> = any.array<type>
+  type list<type extends any.array = any.array> = type
+  type entries<type extends any.array<entry> = any.array<entry>> = type
+  type struct<type extends any.struct = any.struct> = type
+  type dictionary<type = unknown> = any.dictionary<type>
+  type enumerable<type extends any.enumerable = any.enumerable> = type
+  type arraylike<type extends any.arraylike = any.arraylike> = type
+  type invertible<type extends any.invertible = any.invertible> = type
+  type path<type extends any.path = any.path> = type
+  type keys<type extends any.keys = any.keys> = type
+  /** 
+   * Use {@link field `any.field`} when its more convenient to pass the key/value
+   * separately, and {@link entry `any.entry`} when you'd prefer passing them as a pair.
+   * @external 
+   */
+  type field<key extends any.index = any.index, value = unknown> = any.field<key, value>
+  /** 
+   * Use {@link entry `any.entry`} when its more convenient to pass the key/value together
+   * as a pair, and {@link field `any.field`} when you'd prefer to pass them separately.
+   * @external 
+   */
+  type entry<type extends any.entry = any.entry> = type
 
-import { to } from "./to"
+  type keyof<
+    invariant,
+    type extends
+    | keyof invariant
+    = keyof invariant
+  > = type
+
+  type keysof<
+    invariant,
+    type extends
+    | any.array<keyof invariant>
+    = any.array<keyof invariant>
+  > = type
+
+  type propertyof<
+    invariant,
+    type extends
+    | any.key & keyof invariant
+    = any.key & keyof invariant
+  > = type
+
+  /**
+   * @deprecated use {@link propertyof `any.propertyof`} or {@link propertyof `any.propertyOf`} instead
+   */
+  type showableKeyof<
+    invariant,
+    type extends
+    | any.key & keyof invariant
+    = any.key & keyof invariant
+  > = type
+
+  type indexof<
+    invariant extends any.array,
+    type extends
+    | Extract<keyof invariant, `${number}`>
+    = Extract<keyof invariant, `${number}`>
+  > = type
+
+  type indexedby<
+    invariant extends any.index,
+    type extends
+    | { [ix in invariant]: unknown }
+    = { [ix in invariant]: unknown }
+  > = type
+
+  type indexableby<
+    invariant extends any.index,
+    type extends
+    | { [ix in invariant]: any.index }
+    = { [ix in invariant]: any.index }
+  > = type
+
+  type pathof<
+    invariant,
+    type extends
+    | pathsof<invariant>
+    = pathsof<invariant>
+  > = type
+
+  type named<
+    invariant extends field,
+    type extends
+    | { [ix in invariant[0]]: invariant[1] }
+    = { [ix in invariant[0]]: invariant[1] }
+  > = type
+
+  type arrayof<
+    invariant,
+    type extends
+    | any.array<invariant>
+    = any.array<invariant>
+  > = type
+
+  type entryof<
+    invariant,
+    type extends
+    | readonly [any.index, invariant]
+    = readonly [any.index, invariant]
+  > = type
+
+  type entriesof<
+    invariant,
+    type extends
+    | any.array<readonly [any.index, invariant]>
+    = any.array<readonly [any.index, invariant]>
+  > = type
+
+  type fieldof<
+    invariant,
+    type extends
+    | to.entries<invariant>
+    = to.entries<invariant>
+  > = type
+
+  type subtypeof<
+    invariant,
+    subtype extends
+    | invariant extends invariant ? invariant : never
+    = invariant extends invariant ? invariant : never
+  > = subtype
+
+
+  namespace any {
+    export type array<type = unknown> = readonly type[]
+    export type index = keyof never
+    interface class_<
+      args extends
+      | any.array<any>
+      = any.array<any>
+    > { new(...arg: args): unknown }
+    export { class_ as class }
+
+    type Object<type extends intrinsic.object = intrinsic.object> = intrinsic.object<type>
+    export { Object as object }
+    export type nonnullable = {}
+    export type nullable = null | undefined
+    export type type<type extends nullable | nonnullable = nullable | nonnullable> = type
+    export type key<type extends string | number = string | number> = type
+    export type literal<type extends string | number | boolean = string | number | boolean> = type
+    export type showable = string | number | boolean | bigint | null | undefined
+    export type primitive = string | number | boolean | bigint | null | undefined | symbol
+    export type numeric = number | `${number}`
+    export type scalar = string | number | boolean | null
+    export interface dictionary<type = unknown> { [ix: keyof any]: type }
+    export type json =
+      | any.scalar
+      | readonly json[]
+      | dictionary<json>
+      ;
+
+    export type struct<type = any> = { [ix: string]: type }
+    export interface enumerable<type = unknown> { [ix: number]: type }
+    export interface arraylike<type = unknown> extends enumerable<type> { length: number }
+    export interface invertible { [ix: key]: key }
+    export type path<type extends readonly index[] = readonly index[]> = type
+    export type keys<type extends readonly key[] = readonly key[]> = type
+    export type field<k extends index = index, v = unknown> = readonly [key: k, value: v]
+    export type entry<type extends readonly [any.index, unknown] = readonly [any.index, unknown]> = type
+  }
+}
 
 type id<type> = type
 
-type function_<type extends any.function = any.function> = type
-
-interface predicate<type = any> { (u: type): boolean }
-type typeguard<
-  map extends
-  | readonly [source: unknown, target: unknown]
-  = readonly [source: unknown, target: unknown]
-> = never | { (u: map[0]): u is map[1] }
-
-type assertion<
-  map extends
-  | readonly [source: unknown, target: unknown]
-  = readonly [source: any, target: unknown]
-> = never | { (u: map[0]): asserts u is map[1] }
-
-
-declare namespace any_ {
-  // aliased exports
-  export {
-    /** {@link object_ `any.object`} @internal */
-    type object_ as object,
-    /** {@link function_ `any.function`} @internal */
-    type function_ as function,
-    /** {@link class_ `any.class`} @internal */
-    type class_ as class,
-    /** {@link instanceOf `any.instanceof`} @internal */
-    type instanceOf as instanceof,
-  }
-  // direct exports
-  export {
-    /** {@link array `any.array`} @internal */
-    type array,
-    /** {@link arraylike `any.arraylike`} @internal */
-    type arraylike,
-    /** {@link assertion `any.assertion`} @internal */
-    type assertion,
-    /** {@link dictionary `any.dictionary`} @internal */
-    type dictionary,
-    /** {@link entries `any.entries`} @internal */
-    type entries,
-    /** {@link enumerable `any.enumerable`} @internal */
-    type enumerable,
-    /** {@link entry `any.entry`} @internal */
-    type entry,
-    /** {@link field `any.field`} @internal */
-    type field,
-    /** {@link index `any.index`} @internal */
-    type index,
-    /** {@link invertible `any.invertible`} @internal */
-    type invertible,
-    /** {@link json `any.json`} @internal */
-    type json,
-    /** {@link key `any.key`} @internal */
-    type key,
-    /** {@link keys `any.keys`} @internal */
-    type keys,
-    /** {@link literal `any.literal`} @internal */
-    type literal,
-    /** {@link listlike `any.listlike`} @internal */
-    type listlike,
-    /** {@link nonnullable `any.nonnullable`} @internal */
-    type nonnullable,
-    /** {@link nullable `any.nullable`} @internal */
-    type nullable,
-    /** {@link numeric `any.numeric`} @internal */
-    type numeric,
-    /** {@link path `any.path`} @internal */
-    type path,
-    /** {@link predicate `any.predicate`} @internal */
-    type predicate,
-    /** {@link primitive `any.primitive`} @internal */
-    type primitive,
-    /** {@link scalar `any.scalar`} @internal */
-    type scalar,
-    /** {@link showable `any.showable`} @internal */
-    type showable,
-    /** {@link struct `any.struct`} @internal */
-    type struct,
-    /** {@link type `any.type`} @internal */
-    type type,
-    /** {@link typeguard `any.typeguard`} @internal */
-    type typeguard,
-  }
-
-  type id<type> = type
+declare namespace intrinsic {
   /** @ts-expect-error */
-  interface type<type extends {} = {}> extends id<type> { }
-
-  interface class_<
-    args extends
-    | any.array<any>
-    = any.array<any>
-  > { new(...arg: args): unknown }
-
-  type key = string | number
-  type index = string | number | symbol
-  type numeric = number | `${number}`
-  type keys = readonly any.key[]
-  type path = readonly index[]
-  type literal = string | number | boolean
-  type primitive = string | number | boolean | bigint | null | undefined | symbol
-
-  interface struct { [ix: string]: any }
-  interface invertible { [ix: key]: key }
-  interface dictionary<type = unknown> { [ix: keyof never]: type }
-  interface listlike<type = unknown> extends globalThis.ReadonlyArray<type> { }
-  interface enumerable<type = unknown> { [ix: number]: type }
-  interface arraylike<type = unknown> extends enumerable<type> { length: number }
-
-  type showable = string | number | boolean | bigint | null | undefined
-  type nullable = null | undefined
-  type nonnullable = {}
-  type array<type = unknown> = globalThis.ReadonlyArray<type>
-  type field<k extends index = index, v = unknown> = readonly [key: k, value: v]
-  type entry<type extends readonly [any.index, unknown] = readonly [any.index, unknown]> = type
-  type entries<type extends any.array<any.entry> = any.array<any.entry>> = type
-  type scalar = string | number | boolean | null
-  type json =
-    | any.scalar
-    | readonly json[]
-    | dictionary<json>
-    ;
-
-}
-
-type named<
-  invariant extends any.field,
-  type extends
-  | { [ix in invariant[0]]: invariant[1] }
-  = { [ix in invariant[0]]: invariant[1] }
-> = type
-
-type arrayof<
-  invariant,
-  type extends
-  | any.array<invariant>
-  = any.array<invariant>
-> = type
-
-type fieldof<
-  invariant,
-  type extends
-  | to.entries<invariant>
-  = to.entries<invariant>
-> = type
-
-type instanceOf<
-  super_ extends any_.class = any_.class,
-  instance extends InstanceType<super_> = InstanceType<super_>
-> = instance
-
-type subtypeof<
-  invariant,
-  subtype extends
-  | invariant extends invariant ? invariant : never
-  = invariant extends invariant ? invariant : never
-> = subtype
-
-namespace some { export const never: never = void 0 as never }
-/**
- * The {@link some `some`} namespace is the dual of {@link any `any`}.
- * 
- * Whereas the {@link any `any`} namespace is analogous to 
- * {@link https://en.wikipedia.org/wiki/Universal_quantification universal quantification}
- * (read: "for all"), {@link some `some`} is more closely related to 
- * {@link https://en.wikipedia.org/wiki/Existential_quantification _existential_ quantification}
- * (read: "there exists").
- */
-declare namespace some {
-  // aliased exports
-  export {
-    /** {@link arrayof `some.arrayof`} @external */
-    arrayof,
-    /** {@link arrayof `some.arrayOf`} @external */
-    arrayof as arrayOf,
-    /** {@link assertion_ `some.assertion`} @external */
-    assertion_ as assertion,
-    /** {@link function_ `some.function`} @external */
-    function_ as function,
-    /** {@link fieldof `some.fieldof`} @external */
-    fieldof,
-    /** {@link fieldof `some.fieldOf`} @external */
-    fieldof as fieldOf,
-    /** {@link guard `some.guard`} @external */
-    guard,
-    /** {@link subtypeof `some.subtypeof`} @external */
-    subtypeof,
-    /** {@link subtypeof `some.subtypeOf`} @external */
-    subtypeof as subtypeOf,
-    /** {@link typeguard_ `some.typeguard`} @external */
-    typeguard_ as typeguard,
-  }
-
-  // direct exports
-  export {
-    /** {@link binary `some.binary`} @external */
-    binary,
-    /** {@link field `some.field`} @external */
-    field,
-    /** {@link named `some.named`} @external */
-    named,
-    /** {@link predicate `some.predicate`} @external */
-    predicate,
-    /** {@link record `some.record`} @external */
-    record,
-    /** {@link ternary `some.ternary`} @external */
-    ternary,
-    /** {@link unary `some.unary`} @external */
-    unary,
-  }
-
-  type predicate<type = never> = any.predicate<type>
-  type guard<target = never> = typeguard_<any, target>
-  type typeguard_<source = never, target = never> = typeguard<[source, target]>
-  type assertion_<source = never, target = never> = assertion<[source, target]>
-
-  /** {@link unary `some.unary`} @external */
-  interface unary<
-    out = unknown,
-    arg = any
-  > { (_: arg): out }
-
-  /** {@link binary `some.binary`} @external */
-  interface binary<
-    out = unknown,
-    arg_0 = any,
-    arg_1 = any
-  > { (_0: arg_0, _1: arg_1): out }
-
-  /** {@link ternary `some.ternary`} @external */
-  interface ternary<
-    out = unknown,
-    arg_0 = any,
-    arg_1 = any,
-    arg_2 = any
-  > { (_0: arg_0, _1: arg_1, _2: arg_2): out }
-
-  /** {@link field `some.field`} @external */
-  type field<key extends any.index = any.index, value = unknown> = any.field<key, value>
-
-  /** {@link record `some.record`} @external */
-  type record<
-    key extends
-    | any.index
-    = any.key,
-    value = unknown
-  > = globalThis.Record<key, value>
-
-  export type entryof<
-    invariant extends any.object,
-    type extends
-    | distributive.entryof<invariant>
-    = distributive.entryof<invariant>
-  > = type
-
-  export type keyof<
-    invariant,
-    type extends
-    | distributive.keyof<invariant>
-    = distributive.keyof<invariant>
-  > = type
-
-  export type valueof<
-    invariant,
-    type extends
-    | distributive.values<invariant>
-    = distributive.values<invariant>
-  > = type
-}
-
-declare namespace distributive {
-  type values<type> = type extends any.array ? type[number] : type[keyof type]
-  type keyof<type>
-    = (
-      type extends any.array
-      ? Extract<keyof type, `${number}`>
-      : keyof type
-    ) extends infer key extends any.index
-    ? values<{ [ix in key]: ix }>
-    : never // never.close.inline_var<"key">
-    ;
-
-  type entryof<type extends any.object>
-    = type extends type
-    ? keyof type extends infer key
-    ? key extends keyof type
-    ? readonly [key, type[key]]
-    : never // never.close.unmatched_expr
-    : never // never.close.inline_var<"key">
-    : never.close.distributive<"type">
-    ;
-}
-
-// NOTE: Do not move this namespace. It needs to stay here (positionally _after_ 
-// ambient `any`), otherwise the aliases it exports such as `any.object_` will 
-// not be preserved.
-namespace any_ {
-  /** @internal */
-  type id<type> = type
-  /** @internal */
-  // NOTE: Do not move. It needs to stay here (in the non-ambient `any` namespace) to preserve
-  // the `any.object` name (otherwise the alias is not preserved)
-  export interface object_ extends id<object> { }
-  /** @internal */
-  // NOTE: Do not move. It needs to stay here (in the non-ambient `any` namespace) to preserve
-  // the `any.function` name (otherwise the alias is not preserved)
-  export interface function_<args extends any.array<any> = any.array<any>, ret = unknown> { (...arg: args): ret }
+  export interface Object<type extends object = object> extends id<type> { }
+  export { Object as object }
 }

@@ -2,7 +2,7 @@ export {
   boolean,
 }
 
-import type { any } from "../any-namespace"
+import type { any } from "../any"
 import { assert, expect } from "../test/exports"
 
 namespace boolean { export const never: never = void 0 as never }

@@ -2,7 +2,7 @@ export type {
   bigint,
 }
 
-import type { any } from "../any-namespace"
+import type { any } from "../any"
 import { never } from "../semantic-never/exports"
 
 declare namespace bigint {

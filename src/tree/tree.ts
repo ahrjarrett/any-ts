@@ -1,4 +1,4 @@
-import { type any } from "../any-namespace"
+import { type any } from "../any"
 import { type empty, type nonempty } from "../empty"
 import { type never } from "../semantic-never/exports"
 

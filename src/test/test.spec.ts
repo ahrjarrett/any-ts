@@ -1,6 +1,6 @@
 import { assert, describe, expect, expectToFail } from "./test"
 import * as Sym from "./symbol"
-import { type any } from "../any-namespace"
+import { type any } from "../any"
 import type { Case, TypeError } from "../err/exports"
 
 namespace __Spec__ {
@@ -27,12 +27,12 @@ namespace __Spec__ {
 
   type __any_type__ = [
     // ^?
-    expect<assert.not.equivalent<any.type, unknown>>,
+    expect<assert.extends<any.type, unknown>>,
+    expect<assert.extends<unknown, any.type>>,
+    expect<assert.equivalent<any.type, unknown>>,
     expect<assert.equivalent<any.object, object>>,
     expect<assert.not.equal<any.type, unknown>>,
     expect<assert.not.equal<any.object, object>>,
-    expect<assert.extends<any.type, unknown>>,
-    expect<assert.not.extends<unknown, any.type>>,
   ]
 
   declare const expectToFailErrorMsg: TypeError<[Sym.RedEmoji, `Expected a failing test, but got a passing one instead`]>

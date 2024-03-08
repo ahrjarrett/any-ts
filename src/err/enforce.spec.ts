@@ -1,5 +1,5 @@
 import { enforce as _, internal } from "./enforce"
-import type { any } from "../any-namespace";
+import type { any } from "../any";
 
 import type { TypeError } from "./err";
 import { assert, expect } from "../test/exports";

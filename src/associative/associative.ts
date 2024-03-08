@@ -3,7 +3,7 @@ export {
   size$,
 }
 
-import type { any } from "../any-namespace"
+import type { any } from "../any"
 import { assert, describe, expect } from "../test/exports"
 import type { TypeError } from "../err/exports"
 import type { Universal } from "../universal/exports"

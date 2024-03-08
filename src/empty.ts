@@ -1,13 +1,10 @@
-import type { any } from "./any-namespace"
+import type { any, _ } from "./any"
 import { mut } from "./mutable/exports"
 
 export {
   empty,
   nonempty,
 }
-
-/** @internal */
-type _ = unknown
 
 type string_ = typeof string_
 const string_ = "" as const
@@ -118,7 +115,10 @@ declare namespace nonempty {
 declare namespace mutable {
   type array<head = unknown, tail extends any.array = any.array<head>> = [head, ...tail]
   type list<type extends nonempty.array = nonempty.array> = type
-  type entries<head extends mut.entry = mut.entry, tail extends mut.entries = mut.entries> = [head, ...tail]
-  type keys<head extends any.key = any.key, tail extends mut.keys = mut.keys> = [head, ...tail]
-  type path<head extends any.index = any.index, tail extends mut.path = mut.path> = [head, ...tail]
+  type entries<
+    head extends [any.index, _] = [any.index, _],
+    tail extends [any.index, _][] = [any.index, _][]
+  > = [head, ...tail]
+  type keys<head extends any.key = any.key, tail extends any.key[] = any.key[]> = [head, ...tail]
+  type path<head extends any.index = any.index, tail extends any.index[] = any.index[]> = [head, ...tail]
 }

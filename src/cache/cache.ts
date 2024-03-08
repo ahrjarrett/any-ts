@@ -2,9 +2,10 @@ export {
   cache,
 }
 
+import type { _ } from "../any"
+
 namespace cache { export const never: never = void 0 as never }
 declare namespace cache {
-  type _ = unknown
 
   type next<ix> = next.next[keyof next.next & ix]["length"]
   namespace next {

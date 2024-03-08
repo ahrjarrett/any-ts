@@ -1,6 +1,6 @@
 export type { Catch }
 
-import type { any } from "../any-namespace"
+import type { any } from "../any"
 import type { Union } from "../union/exports";
 import type { never } from "../semantic-never/exports";
 import { nonempty } from "../empty";
