@@ -3,7 +3,7 @@ export {
   chars,
 }
 
-import type { _ } from "../any-namespace"
+import type { _ } from "../any"
 import type { empty, nonempty } from "../empty"
 import type { boolean } from "../boolean/exports"
 import type { assert, expect } from "../test/exports"

@@ -2,7 +2,7 @@ export type {
   String as string,
 }
 
-import type { any } from "../any-namespace"
+import type { any } from "../any"
 import type { boolean } from "../boolean/boolean"
 import type { assert, expect } from "../test/exports"
 import type { empty, nonempty } from "../empty"

@@ -5,7 +5,7 @@ export type {
   interpret2,
 }
 
-import type { any } from "../any-namespace"
+import type { any } from "../any"
 
 interface Fn1<type = unknown> { [-1]: unknown, [0]: type }
 interface Fn2<left = unknown, right = unknown> { [-1]: any.showable, [0]: left, [1]: right, }

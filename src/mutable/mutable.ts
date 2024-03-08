@@ -37,7 +37,7 @@ export type {
   two,
 }
 
-import type { any, _ } from "../any-namespace"
+import type { any, _ } from "../any"
 import { pathsof } from "../paths/paths"
 
 type list<type extends mut.array = mut.array> = type

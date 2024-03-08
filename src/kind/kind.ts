@@ -3,7 +3,7 @@ export {
   type Kind as kind__internal
 }
 
-import type { any, _ } from "../any-namespace"
+import type { any, _ } from "../any"
 import { Err } from "../err/exports"
 import { Union } from "../union/exports"
 

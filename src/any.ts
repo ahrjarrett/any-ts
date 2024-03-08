@@ -1,8 +1,6 @@
 export type { any_ as any, _ }
 export type { ANY_TS_VERSION } from "./version"
 
-// import type { any } from "./__any.ts__"
-// import type { some } from "./__any.ts__"
 import type { some } from "./some"
 import type { to } from "./to"
 import type { pathsof } from "./paths/paths"

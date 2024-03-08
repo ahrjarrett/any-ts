@@ -1,6 +1,6 @@
 export type { native }
 
-import type { _ } from "./any-namespace"
+import type { _ } from "./any"
 
 declare namespace native {
   export {

@@ -3,7 +3,7 @@ export {
   mutable,
 }
 
-import type { any } from "../any-namespace"
+import type { any } from "../any"
 
 type mutable<type>
   = type extends any.primitive ? type
