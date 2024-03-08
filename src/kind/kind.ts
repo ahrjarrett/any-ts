@@ -3,7 +3,7 @@ export {
   type Kind as kind__internal
 }
 
-import type { any } from "../any-namespace"
+import type { any, _ } from "../any-namespace"
 import { Err } from "../err/exports"
 import { Union } from "../union/exports"
 
@@ -97,7 +97,6 @@ type satisfies<type> = { [ix in Extract<keyof type, `${number}`>]: type[ix] }
 type identity<type> = type
 type nonunion<type> = [Union.is<type>] extends [true] ? ReturnType<typeof Err.NonUnion> : unknown
 
-type _ = unknown
 interface Fn1 { [0]: _ }
 interface Fn2 { [0]: _, [1]: _ }
 interface Fn3 { [0]: _, [1]: _, [2]: _ }
@@ -110,7 +109,6 @@ interface Fn9 { [0]: _, [1]: _, [2]: _, [3]: _, [4]: _, [5]: _, [6]: _, [7]: _, 
 interface Fn10 { [0]: _, [1]: _, [2]: _, [3]: _, [4]: _, [5]: _, [6]: _, [7]: _, [8]: _, [9]: _ }
 
 declare namespace cached {
-  type _ = unknown
   interface A00 { [0]: [] }
   interface A01 { [1]: [_] }
   interface A02 { [2]: [_, _] }

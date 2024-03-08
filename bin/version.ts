@@ -94,7 +94,7 @@ const path
     return (path.endsWith("/") ? path.slice(0, -1) : path) as never
   }
 
-const root: `~` = Url.fileURLToPath(new URL("..", import.meta.url)) as never
+const root: `~` = Url.fileURLToPath(new URL("..", __dirname)) as never
 
 function fromRoot(...xs: []): typeof root
 function fromRoot<const xs extends readonly string[]>(...xs: xs): join<[typeof root, ...xs], "/">
@@ -178,7 +178,7 @@ function commitVersion(version: string) {
 }
 
 function publish(version: string) {
-  run($.execSync("pnpm publish"))
+  run($.exec("pnpm publish"))
 }
 
 const main = () => {

@@ -1,11 +1,14 @@
-export type { any_ as any, any as any_ }
+export type { any_ as any, _ }
 export type { ANY_TS_VERSION } from "./version"
 
-import type { any } from "./any"
-import type { some } from "./any"
+// import type { any } from "./__any.ts__"
+// import type { some } from "./__any.ts__"
+import type { some } from "./some"
 import type { to } from "./to"
 import type { pathsof } from "./paths/paths"
 import type { ANY_TS_VERSION } from "./version"
+
+type _ = unknown
 
 declare namespace any_ {
   export {
@@ -38,7 +41,7 @@ declare namespace any_ {
   type null_<type extends null = null> = type
   type undefined_<type extends undefined = undefined> = type
   type symbol_<type extends symbol = symbol> = type
-  type function_<type extends any.function = any.function> = type
+  type function_<type extends some.function = some.function> = type
   type class_<type extends any.class = any.class> = type
   type object_<type extends any.object = any.object> = type
   // 🡑🡑 aliased exports 🡑🡑
@@ -68,11 +71,11 @@ declare namespace any_ {
   type triple<type extends three = three> = type
   type ternary<type extends some.ternary = some.ternary> = type
 
-  type predicate<type extends any.predicate = any.predicate> = type
-  type asserts<target = unknown> = any.assertion<[arg: any, out: target]>
-  type assertion<arg = any, out = unknown> = any.assertion<[arg: arg, out: out]>
-  type typeguard<arg = any, out = unknown> = any.typeguard<[arg: arg, out: out]>
-  type guard<target = unknown> = any.typeguard<[source: any, target: target]>
+  type predicate<type extends some.predicate = some.predicate> = type
+  type asserts<target = unknown> = some.assertion<[arg: any, out: target]>
+  type assertion<arg = any, out = unknown> = some.assertion<[arg: arg, out: out]>
+  type typeguard<arg = any, out = unknown> = some.typeguard<[arg: arg, out: out]>
+  type guard<target = unknown> = some.typeguard<[source: any, target: target]>
   type array<type = unknown> = any.array<type>
   type list<type extends any.array = any.array> = type
   type entries<type extends any.array<entry> = any.array<entry>> = type
@@ -196,4 +199,51 @@ declare namespace any_ {
     | invariant extends invariant ? invariant : never
     = invariant extends invariant ? invariant : never
   > = subtype
+
+
+  namespace any {
+    export type array<type = unknown> = readonly type[]
+    export type index = keyof never
+    interface class_<
+      args extends
+      | any.array<any>
+      = any.array<any>
+    > { new(...arg: args): unknown }
+    export { class_ as class }
+
+    type Object<type extends intrinsic.object = intrinsic.object> = intrinsic.object<type>
+    export { Object as object }
+    export type nonnullable = {}
+    export type nullable = null | undefined
+    export type type<type extends nullable | nonnullable = nullable | nonnullable> = type
+    export type key<type extends string | number = string | number> = type
+    export type literal<type extends string | number | boolean = string | number | boolean> = type
+    export type showable = string | number | boolean | bigint | null | undefined
+    export type primitive = string | number | boolean | bigint | null | undefined | symbol
+    export type numeric = number | `${number}`
+    export type scalar = string | number | boolean | null
+    export interface dictionary<type = unknown> { [ix: keyof any]: type }
+    export type json =
+      | any.scalar
+      | readonly json[]
+      | dictionary<json>
+      ;
+
+    export type struct<type = any> = { [ix: string]: type }
+    export interface enumerable<type = unknown> { [ix: number]: type }
+    export interface arraylike<type = unknown> extends enumerable<type> { length: number }
+    export interface invertible { [ix: key]: key }
+    export type path<type extends readonly index[] = readonly index[]> = type
+    export type keys<type extends readonly key[] = readonly key[]> = type
+    export type field<k extends index = index, v = unknown> = readonly [key: k, value: v]
+    export type entry<type extends readonly [any.index, unknown] = readonly [any.index, unknown]> = type
+  }
+}
+
+type id<type> = type
+
+declare namespace intrinsic {
+  /** @ts-expect-error */
+  export interface Object<type extends object = object> extends id<type> { }
+  export { Object as object }
 }

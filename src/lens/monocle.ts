@@ -1,6 +1,6 @@
 export type { named }
 
-import type { some } from "../any"
+import type { some } from "../some"
 import type { any } from "../any-namespace"
 import type { nonempty } from "../empty"
 import type { never } from "../exports"

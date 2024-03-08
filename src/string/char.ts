@@ -3,12 +3,11 @@ export {
   chars,
 }
 
-import { empty, nonempty } from "../empty"
-import { boolean } from "../boolean/exports"
-import { assert, expect } from "../test/exports"
+import type { _ } from "../any-namespace"
+import type { empty, nonempty } from "../empty"
+import type { boolean } from "../boolean/exports"
+import type { assert, expect } from "../test/exports"
 import type { string } from "./string"
-
-type _ = string
 
 namespace char {
   export const Lowers = [
