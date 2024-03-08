@@ -14,7 +14,7 @@
   },
   "license": "MIT",
   "types": "dist/index.d.ts",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "sideEffects": false,
   "scripts": {
     "build": "pnpm clean:build && pnpm tsup src/index.ts \"!src/**/*.spec.ts\" --dts-only",
