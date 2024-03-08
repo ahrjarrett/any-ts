@@ -1,15 +1,13 @@
 {
   "name": "any-ts",
   "private": false,
-  "version": "0.36.10",
+  "version": "0.37.0",
   "author": "Andrew Jarrett <ahrjarrett@gmail.com>",
   "repository": {
     "type": "git",
     "url": "https://github.com/ahrjarrett/any-ts.git"
   },
   "license": "MIT",
-  "main": "dist/index.js",
-  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "pnpm clean:build && pnpm tsup src/index.ts \"!src/**/*.spec.ts\" --dts-only",
