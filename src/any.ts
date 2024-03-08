@@ -72,7 +72,7 @@ declare namespace any_ {
   type predicate<type extends some.predicate = some.predicate> = type
   type asserts<target = unknown> = some.assertion<[arg: any, out: target]>
   type assertion<arg = any, out = unknown> = some.assertion<[arg: arg, out: out]>
-  type typeguard<arg = any, out = unknown> = some.typeguard<[arg: arg, out: out]>
+  type typeguard<arg = any, out = unknown> = some.typeguard<arg, out>
   type guard<target = unknown> = some.typeguard<any, target>
   type array<type = unknown> = any.array<type>
   type list<type extends any.array = any.array> = type
