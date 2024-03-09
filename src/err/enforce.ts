@@ -18,8 +18,8 @@ import type { Union as U } from "../union/exports";
 import type { empty } from "../empty";
 
 declare namespace Partial {
-  type strict<type extends Partial<invariant>, invariant> = (
-    & Partial<invariant>
+  type strict<type extends globalThis.Partial<invariant>, invariant> = (
+    & globalThis.Partial<invariant>
     & { [ix in Exclude<keyof type, keyof invariant>]?: never }
   )
 }
