@@ -1,6 +1,6 @@
 #!/usr/bin/env pnpx tsx
 import * as FileSystem from "node:fs"
-import * as Url from "node:url"
+import * as Path from "node:path"
 import * as OS from "node:os"
 import * as Shell from 'node:child_process'
 
@@ -94,7 +94,7 @@ const path
     return (path.endsWith("/") ? path.slice(0, -1) : path) as never
   }
 
-const root: `~` = Url.fileURLToPath(new URL("..", __dirname)) as never
+const root: `~` = Path.resolve(__dirname, "..") as never
 
 function fromRoot(...xs: []): typeof root
 function fromRoot<const xs extends readonly string[]>(...xs: xs): join<[typeof root, ...xs], "/">
