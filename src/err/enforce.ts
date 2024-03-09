@@ -1,6 +1,7 @@
 export type {
   enforce,
   constrain,
+  Partial,
 }
 
 /** @internal - only exported for testing purposes */
@@ -16,6 +17,12 @@ import type { HasDiscriminant } from "../tag/tag";
 import type { Union as U } from "../union/exports";
 import type { empty } from "../empty";
 
+declare namespace Partial {
+  type strict<type extends Partial<invariant>, invariant> = (
+    & Partial<invariant>
+    & { [ix in Exclude<keyof type, keyof invariant>]?: never }
+  )
+}
 
 declare namespace impl {
   type parseNumeric<type> = type extends `${infer x extends number}` ? x : never

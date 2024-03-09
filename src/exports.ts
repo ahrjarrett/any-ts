@@ -19,6 +19,8 @@ export type {
   enforce,
   Err,
   Msg,
+  Partial,
+  partial,
   TypeError
 } from "./err/exports"
 export type {
