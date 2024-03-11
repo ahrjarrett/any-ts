@@ -13,6 +13,7 @@ export type { } from "./associative/exports"
 export type { boolean } from "./boolean/exports"
 export type { cache } from "./cache/exports"
 export type { evaluate } from "./evaluate/exports"
+export type { check, checkNot } from "./check/exports"
 export type {
   Catch,
   Catch as Match,
