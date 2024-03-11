@@ -3,7 +3,6 @@ export type { Catch }
 import type { any } from "../any"
 import type { Union } from "../union/exports";
 import type { never } from "../semantic-never/exports";
-import { nonempty } from "../empty";
 
 type tuple<xs, constraint extends any.array = any.array>
   = [xs] extends [constraint]
