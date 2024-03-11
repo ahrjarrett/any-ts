@@ -10,5 +10,6 @@
     "noUncheckedIndexedAccess": true,
     "noErrorTruncation": true,
     "noEmit": true
-  }
+  },
+  "exclude": ["examples"]
 }

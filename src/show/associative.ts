@@ -13,7 +13,7 @@ import type { any } from "../any"
 import { assert, describe, expect } from "../test/exports"
 import type { enforce } from "../err/enforce"
 import type { TypeError } from "../err/exports"
-import type { never } from "../semantic-never/exports"
+import type { never } from "../semantic/exports"
 import type { Universal } from "../universal/exports"
 import type { assoc as _ } from "../associative/exports"
 

@@ -4,7 +4,7 @@ export {
 
 import type { any } from "../any"
 import { assert, expect } from "../test/exports"
-import type { never } from "../semantic-never/exports"
+import type { never } from "../semantic/exports"
 
 type isOptional<key extends keyof type, type>
   = {} extends { [ix in key]: type[ix] } ? true : false

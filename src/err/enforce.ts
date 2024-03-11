@@ -12,7 +12,7 @@ import type { number } from "../number/number"
 
 import type { Fn } from "../function/exports";
 import type { Err, Err2 } from "./err";
-import type { never } from "../semantic-never/exports";
+import type { never } from "../semantic/exports";
 import type { HasDiscriminant } from "../tag/tag";
 import type { Union as U } from "../union/exports";
 import type { empty } from "../empty";

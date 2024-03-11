@@ -6,7 +6,7 @@ import type { any } from "../any"
 import type { boolean } from "../boolean/boolean"
 import type { assert, expect } from "../test/exports"
 import type { empty, nonempty } from "../empty"
-import type { never } from "../semantic-never/exports"
+import type { never } from "../semantic/exports"
 
 import type { char, chars } from "./char"
 import type { Fn1, Fn2, interpret1, interpret2 } from "./kind"

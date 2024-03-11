@@ -4,7 +4,8 @@ export {
 }
 
 import type { any, _ } from "../any"
-import { Err } from "../err/exports"
+import { Err, Partial } from "../err/exports"
+
 import { Union } from "../union/exports"
 
 declare namespace kind {
@@ -93,7 +94,7 @@ type kind<params extends nonunion<params> = Scope>
 
 type parseInt<type extends any.index> = `${type & any.key}` extends `${infer x extends number}` ? x : never;
 type structured<type> = never | [type] extends [any.array] ? { [ix in Extract<keyof type, `${number}`> as parseInt<ix>]: type[ix] } : type
-type satisfies<type> = { [ix in Extract<keyof type, `${number}`>]: type[ix] }
+type satisfies<type> = never | { [ix in Extract<keyof type, `${number}`>]: type[ix] }
 type identity<type> = type
 type nonunion<type> = [Union.is<type>] extends [true] ? ReturnType<typeof Err.NonUnion> : unknown
 
