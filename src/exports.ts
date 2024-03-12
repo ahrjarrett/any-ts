@@ -43,7 +43,7 @@ export type {
   Negate,
 } from "./kind/exports"
 export type { traversable, traversal } from "./traversable/exports"
-
+export type { Tree } from "./tree/exports"
 export type { iter } from "./iter/exports"
 export type { mut, mutable } from "./mutable/exports"
 export type { pathsof } from "./paths/exports"
