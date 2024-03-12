@@ -69,9 +69,9 @@ type __go_depthFirst__ = [
 ]
 
 type __branch__ = [
-  Tree.enqueue<[]>,
-  Tree.enqueue<[1]>,
-  Tree.enqueue<[1, "abc"]>,
-  Tree.enqueue<["def", "ghi"]>,
-  Tree.enqueue<["def", "ghi", "jkl"]>,
+  Tree.shift<[]>,
+  Tree.shift<[1]>,
+  Tree.shift<[1, "abc"]>,
+  Tree.shift<["def", "ghi"]>,
+  Tree.shift<["def", "ghi", "jkl"]>,
 ]
