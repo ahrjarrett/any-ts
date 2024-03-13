@@ -1,3 +1,10 @@
+export {
+  Focus,
+}
+export type {
+  FocusConstructor,
+}
+
 import { any, describe, empty, expect, never, nonempty } from "../exports"
 
 declare namespace List {
@@ -227,6 +234,12 @@ type createIndexedStorage<type extends any.object, index extends any.array<any.k
 
 type indexed = createIndexedStorage<{ abc: 123, def: [456], ghi: 789 }, ["abc", "def"]>
 
+type mapFocus<next, self extends Focus>
+  = Tree.joinLeft<Tree.unfold<self["_path"], next>, self["_root"]>
+
+type propsInFocus<self extends Focus> = keyof self["."]
+
+
 declare const Focus: FocusConstructor
 interface FocusConstructor {
   of<const structure extends {} = never>(): Focus<[], structure>
@@ -234,11 +247,6 @@ interface FocusConstructor {
   /** given a path, construct a {@link Focus} that is focused on that path (constructing the required parent directories along the way) */
   from<path extends any.path>(...path: path): Focus<path, Tree.unfold<path, {}>>
 }
-
-type mapFocus<next, self extends Focus>
-  = Tree.joinLeft<Tree.unfold<self["_path"], next>, self["_root"]>
-
-type propsInFocus<self extends Focus> = keyof self["."]
 
 interface Focus<path extends any.path = any.path, structure = unknown> extends Storage {
   /** @internal */
@@ -285,6 +293,7 @@ interface Focus<path extends any.path = any.path, structure = unknown> extends S
   mergeRight<const other extends Focus>(other: other):
     Focus<other["_path"], Tree.joinLeft<other["_root"], this["_root"]>>
 }
+
 
 declare const data: {
   a: {

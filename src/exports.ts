@@ -55,3 +55,8 @@ export type {
 } from "./string/exports"
 export type { Universal } from "./universal/exports"
 export type { to } from "./to"
+
+export {
+  Focus,
+  type FocusConstructor
+} from "./lens/focus"
