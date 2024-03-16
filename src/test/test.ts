@@ -9,7 +9,7 @@ import type { any } from "../any"
 import type { Case, TypeError } from "../err/exports"
 
 import * as Sym from "./symbol"
-import type { never } from "../exports"
+import type { boolean, never } from "../exports"
 
 type eval<type> = never | { [ix in keyof type]: type[ix] }
 
@@ -119,7 +119,12 @@ function expectToFail(_$0?: unknown, _$1?: unknown): never { return void 0 as ne
  * @since 0.3.0
  * @external 
  */
-type assertIsTrue<type> = handleAnys<type, never, [true] extends [type] ? Sym.GreenEmoji : interpretFailure<TrueLiteral, type, never>>
+type assertIsTrue<type> = handleAnys<type, never, boolean.if<
+  type,
+  Sym.GreenEmoji,
+  interpretFailure<TrueLiteral, type, never>
+>
+>
 /** 
  * {@link assertIsTrue `assert.is.true`} 
  * `overload [1/1]` 
@@ -413,21 +418,21 @@ namespace assert {
 }
 
 declare namespace interpreter {
-  type never_<type extends { [0]: unknown }> = never | [𝐰𝐚𝐧𝐭: never, 𝐠𝐨𝐭: type[0]]
+  type never_<type extends { [0]: unknown }> = never | [WANT: never, GOT: type[0]]
   export { never_ as never }
-  type unknown_<type extends { [0]: unknown }> = never | [𝐰𝐚𝐧𝐭: unknown, 𝐠𝐨𝐭: type[0]]
+  type unknown_<type extends { [0]: unknown }> = never | [WANT: unknown, GOT: type[0]]
   export { unknown_ as unknown }
   type extends_<map extends { [0]: unknown, [1]: unknown }> = never | [want: map[0], want: map[1]]
   export { extends_ as extends }
 
-  export type trueLiteral<type extends { [0]: unknown }> = never | [𝐰𝐚𝐧𝐭: true, 𝐠𝐨𝐭: type[0]]
-  export type falseLiteral<type extends { [0]: unknown }> = never | [𝐰𝐚𝐧𝐭: false, 𝐠𝐨𝐭: type[0]]
-  export type point<map extends { [0]: unknown, [1]: unknown }> = never | [𝐥𝐞𝐟𝐭: map[0], 𝐫𝐢𝐠𝐡𝐭: map[1]]
-  export type equal<map extends { [0]: unknown, [1]: unknown }> = never | [𝐧𝐨𝐭_𝐞𝐪𝐮𝐚𝐥: point<map>]
+  export type trueLiteral<type extends { [0]: unknown }> = never | [WANT: true, GOT: type[0]]
+  export type falseLiteral<type extends { [0]: unknown }> = never | [WANT: false, GOT: type[0]]
+  export type point<map extends { [0]: unknown, [1]: unknown }> = never | [X: map[0], Y: map[1]]
+  export type equal<map extends { [0]: unknown, [1]: unknown }> = never | [NOT_EQUAL: point<map>]
 
-  export type equivalent<map extends { [0]: unknown, [1]: unknown }> = never | [𝐧𝐨𝐭_𝐞𝐪: point<map>]
-  export type not_equivalent<map extends { [0]: unknown, [1]: unknown }> = never | [𝐮𝐧𝐞𝐱𝐩𝐞𝐜𝐭𝐞𝐝_𝐞𝐪: point<map>]
-  export type not_equal<map extends { [0]: unknown, [1]: unknown }> = never | [𝐮𝐧𝐞𝐱𝐩𝐞𝐜𝐭𝐞𝐝_𝐞𝐪𝐮𝐚𝐥: point<map>]
+  export type equivalent<map extends { [0]: unknown, [1]: unknown }> = never | [NOT_EQ: point<map>]
+  export type not_equivalent<map extends { [0]: unknown, [1]: unknown }> = never | [UNEXPECTED_EQ: point<map>]
+  export type not_equal<map extends { [0]: unknown, [1]: unknown }> = never | [UNEXPECTED_EQUAL: point<map>]
 }
 
 type interpretFailure<fn extends Interpreter, left, right> = never | (fn & { 0: left, 1: right })[-1];
@@ -470,8 +475,8 @@ declare namespace relation {
 
 type handleAnys<a, b, ifNeitherIsAny>
   = bothAreAny<a, b> extends true ? BothIllegal
-  : 0 extends 1 & a ? IllegalLeft
-  : 0 extends 1 & b ? IllegalRight
+  : [0] extends [1 & a] ? IllegalLeft
+  : [0] extends [1 & b] ? IllegalRight
   : ifNeitherIsAny
   ;
 
@@ -484,7 +489,7 @@ type IllegalRight = never | [𝐑: Sym.IllegalAny]
 
 type bothAreAny<a, b> =
   [true, true] extends [
-    0 extends 1 & a ? true : false,
-    0 extends 1 & b ? true : false
+    [0] extends [1 & a] ? true : false,
+    [0] extends [1 & b] ? true : false
   ] ? true : false
   ;

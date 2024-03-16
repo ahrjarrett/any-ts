@@ -2,7 +2,7 @@ export {
   boolean,
 }
 
-import type { any } from "../any"
+import type { any, _ } from "../any"
 import { assert, expect } from "../test/exports"
 
 namespace boolean { export const never: never = void 0 as never }
@@ -12,11 +12,18 @@ declare namespace boolean {
     all,
     /** {@link any_ `boolean.any`} @external */
     any_ as any,
+    /** {@link if_ `boolean.if`} @external */
+    if_ as if,
     /** {@link is `boolean.is`} @external */
     is,
     /** {@link not `boolean.not`} @external */
     not,
+    /** {@link unless `boolean.unless`} @external */
+    unless,
   }
+
+  type if_<cond, onTrue = _, onFalse = _> = boolean.is.true<cond> extends true ? onTrue : onFalse
+  type unless<flag, noFlag = _, onFlag = _> = boolean.is.true<flag> extends true ? onFlag : noFlag
 
   type is<type> = [type] extends [boolean] ? true : false
   namespace is {
@@ -25,6 +32,11 @@ declare namespace boolean {
       true_ as true,
       /** {@link false_ `boolean.is.false`} @external */
       false_ as false,
+      /** {@link finite `boolean.is.finite`} @external */
+      finite,
+      /** {@link nonfinite `boolean.is.nonfinite`} @external */
+      nonfinite,
+
       /** {@link universal `boolean.is.universal`} @external */
       universal,
       /** {@link universal `boolean.is.nonliteral`} @external */
@@ -33,6 +45,25 @@ declare namespace boolean {
 
     type true_<type> = [type] extends [never] ? false : 0 extends 1 & type ? false : [type] extends [true] ? true : false
     type false_<type> = [type] extends [never] ? false : 0 extends 1 & type ? false : [type] extends [false] ? true : false
+    type finite<type> = boolean.not<nonfinite<type>>
+    type nonfinite<type>
+      = [type] extends [never] ? never : 0 extends 1 & type ? false
+      : [type, boolean] extends [boolean, type] ? true : false
+      ;
+
+    type __finite__ = [
+      is.finite<boolean>,
+      is.finite<true>,
+      is.finite<false>,
+      is.finite<never>,
+    ]
+    type __nonfinite__ = [
+      is.nonfinite<boolean>,
+      is.nonfinite<true>,
+      is.nonfinite<false>,
+      is.nonfinite<never>,
+    ]
+
     type universal<type>
       = [type] extends [never] ? false : 0 extends 1 & type ? false : [type, boolean] extends [boolean, type] ? true : false
   }

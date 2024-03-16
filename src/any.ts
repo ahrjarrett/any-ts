@@ -70,26 +70,27 @@ declare namespace any_ {
   type ternary<type extends some.ternary = some.ternary> = type
 
   type predicate<type extends some.predicate = some.predicate> = type
-  type asserts<target = unknown> = some.assertion<[arg: any, out: target]>
-  type assertion<arg = any, out = unknown> = some.assertion<[arg: arg, out: out]>
-  type typeguard<arg = any, out = unknown> = some.typeguard<arg, out>
-  type guard<target = unknown> = some.typeguard<any, target>
-  type array<type = unknown> = any.array<type>
+  type asserts<target = _> = some.assertion<[arg: any, out: target]>
+  type assertion<arg = any, out = _> = some.assertion<[arg: arg, out: out]>
+  type typeguard<arg = any, out = _> = some.typeguard<arg, out>
+  type guard<target = _> = some.typeguard<any, target>
+  type array<type = _> = any.array<type>
   type list<type extends any.array = any.array> = type
   type entries<type extends any.array<entry> = any.array<entry>> = type
   type struct<type extends any.struct = any.struct> = type
-  type dictionary<type = unknown> = any.dictionary<type>
+  type dictionary<type = _> = any.dictionary<type>
   type enumerable<type extends any.enumerable = any.enumerable> = type
   type arraylike<type extends any.arraylike = any.arraylike> = type
   type invertible<type extends any.invertible = any.invertible> = type
   type path<type extends any.path = any.path> = type
   type keys<type extends any.keys = any.keys> = type
+  type showables<type extends any.showables = any.showables> = type
   /** 
    * Use {@link field `any.field`} when its more convenient to pass the key/value
    * separately, and {@link entry `any.entry`} when you'd prefer passing them as a pair.
    * @external 
    */
-  type field<key extends any.index = any.index, value = unknown> = any.field<key, value>
+  type field<key extends any.index = any.index, value = _> = any.field<key, value>
   /** 
    * Use {@link entry `any.entry`} when its more convenient to pass the key/value together
    * as a pair, and {@link field `any.field`} when you'd prefer to pass them separately.
@@ -233,6 +234,7 @@ declare namespace any_ {
     export interface invertible { [ix: key]: key }
     export type path<type extends readonly index[] = readonly index[]> = type
     export type keys<type extends readonly key[] = readonly key[]> = type
+    export type showables<type extends readonly showable[] = readonly showable[]> = type
     export type field<k extends index = index, v = unknown> = readonly [key: k, value: v]
     export type entry<type extends readonly [any.index, unknown] = readonly [any.index, unknown]> = type
   }

@@ -62,7 +62,7 @@ namespace __Spec__ {
 declare namespace __Spec__ {
   namespace uniqueness {
     type __ofEntries__ = [
-      /* 𝖈𝖚𝖗𝖘𝖊𝖉 */
+      /* unhappy path */
       _.uniqueness.ofEntries<[["a", 1], ["a", 2]]>,
       _.uniqueness.ofEntries<[["a", 1], ["b", 2], ["a", 2]]>,
       _.uniqueness.ofEntries<[["a", 1], ["a", 2], ["a", 2]]>,
@@ -76,7 +76,7 @@ declare namespace __Spec__ {
 
   namespace __internal__ {
     type __duplicateKeys__ = [
-      /* 𝖈𝖚𝖗𝖘𝖊𝖉: duplicate(s) found */
+      /* unhappy path: duplicate(s) found */
       internal.duplicateKeys<["a", "a"], {}, []>,
       internal.duplicateKeys<["a", "b", "c", "a"], {}, []>,
       internal.duplicateKeys<["a", "b", "a", "c"], {}, []>,
@@ -119,29 +119,29 @@ declare namespace __Spec__ {
 
   type __singleChar__ = [
     // ^?
-    /* 𝖈𝖚𝖗𝖘𝖊𝖉 */
+    /* unhappy path */
     expect<assert.equal<
       _.singleChar<"">,
-      TypeError<[𝗺𝘀𝗴: "Expected to receive a single-char string, but encountered an empty string instead", 𝗴𝗼𝘁: ""]>
+      TypeError<[msg: "Expected to receive a single-char string, but encountered an empty string instead", got: ""]>
     >>,
     expect<assert.equal<
       _.singleChar<string>,
-      TypeError<[𝗺𝘀𝗴: "Expected to receive a single-char string, but encountered the universal string type instead", 𝗴𝗼𝘁: string]>
+      TypeError<[msg: "Expected to receive a single-char string, but encountered the universal string type instead", got: string]>
     >>,
     expect<assert.equal<
       _.singleChar<"ab">,
-      TypeError<[𝗺𝘀𝗴: "Expected to receive a single-char string, but encountered a string containing more than 1 character instead", 𝗴𝗼𝘁: "ab"]>
+      TypeError<[msg: "Expected to receive a single-char string, but encountered a string containing more than 1 character instead", got: "ab"]>
     >>,
     expect<assert.equal<
       _.singleChar<"abc">,
-      TypeError<[𝗺𝘀𝗴: "Expected to receive a single-char string, but encountered a string containing more than 1 character instead", 𝗴𝗼𝘁: "abc"]>
+      TypeError<[msg: "Expected to receive a single-char string, but encountered a string containing more than 1 character instead", got: "abc"]>
     >>,
     /* happy path */
     expect<assert.equal<_.singleChar<"a">, unknown>>,
   ]
 
   type __noExcessProps__ = [
-    /* 𝖈𝖚𝖗𝖘𝖊𝖉 */
+    /* unhappy path */
     expect<assert.equal<
       _.noExcessProps<
         { abc: number, def: string },

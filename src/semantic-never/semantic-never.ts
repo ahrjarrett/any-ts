@@ -9,18 +9,18 @@ declare namespace close {
 }
 
 namespace never {
-  export declare namespace $$ {
-    export type IllegalState = typeof never.$$.IllegalState
-  }
   export namespace $$ {
     export const IllegalState: unique symbol = Symbol.for("any-ts/semantic-never::IllegalState")
+    export type IllegalState = typeof never.$$.IllegalState
   }
 }
 
 declare namespace as {
-  export type empty<__description extends string = never> = never
-  export type nothing<__description extends string = never> = never
-  export type identity<__description extends string = never> = never
+  type empty<__description extends string = never> = never
+  type nothing<__description extends string = never> = never
+  type identity<__description extends string = never> = never
+  type unused_arg<__description extends string = never> = never
+  type default_arg<__description extends string = never> = never
 }
 
 declare namespace never {
@@ -35,6 +35,9 @@ declare namespace never {
    */
   export type illegal_state<__description extends string = never> = never
   export type not_meant_for_use<__description extends string = never> = never
+  export type prevent_match<__description extends string = never> = never
+  export type uninhabited<__description extends string = never>
+    = never.as.default_arg<"Inhabit this type with any non-never type to trigger the alternate behavior">
 
   /** @deprecated - use {@link as.empty `never.as.empty`} instead */
   export type as_empty<__description extends string = never> = never

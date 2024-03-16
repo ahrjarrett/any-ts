@@ -60,7 +60,7 @@ namespace __Spec__ {
 
   const __extends__ = [
     //  ^?
-    /* 𝖈𝖚𝖗𝖘𝖊𝖉 */
+    /* unhappy path */
     /* @ts-expect-error: failing to provide a value raises a type error */
     assert.extends(),
     /* @ts-expect-error: failing to provide a value raises a type error */

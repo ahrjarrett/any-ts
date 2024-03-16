@@ -4,7 +4,7 @@ import { Whitespace } from "./shared"
 
 type __Natural_is__ = [
   // ^?
-  /* 𝖈𝖚𝖗𝖘𝖊𝖉 */
+  /* unhappy path */
   expect<assert.is.false<_.is<never>>>,
   expect<assert.is.false<_.is<number>>>,
   expect<assert.is.false<_.is<0.1>>>,

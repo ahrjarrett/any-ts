@@ -37,7 +37,7 @@ namespace int {
 
   type is = [
     // ^?
-    /* 𝖈𝖚𝖗𝖘𝖊𝖉 */
+    /* unhappy path */
     expect<assert.is.false<_.is<1 | 1.2>>>,
     expect<assert.is.false<_.is<[]>>>,
     expect<assert.is.false<_.is<1.2>>>,

@@ -135,28 +135,42 @@ type apply<fn extends Kind, args extends satisfies<fn>> = bind<fn, args>[-1]
 type partial<fn extends Kind, args extends Partial<satisfies<fn>>> = never | (fn & structured<args>)
 type partiallyApply<fn extends Kind, args extends Partial<satisfies<fn>>> = partial<fn, args>[-1]
 
+
 /** 
- * {@link bind$ `bind$`} is a variant of {@link bind `bind`} that does not typecheck {@link args `args`}
- * against the signature of {@link fn `fn`}.
+ * {@link bind$ `bind$`} is a variant of {@link bind `bind`} that performs extra typechecking on
+ * {@link args `args`} against the signature of {@link F `F`}.
  * 
- * The `$` sigil here has been appended to indicate that this is the "less strict" variant when compared
- * to its unpostfixed cousin, and is provided as an escape hatch.
+ * In the context of the {@link Kind `Kind`} module, the **_$_** sigil is used as a _qualifying suffix_.
  * 
- * This pattern (postfixing the `$` sigil to mark an escape hatch) is a convention used across the
- * `any-ts` project.
+ * **_$_** translates to _"strict"_, or _"the strict(er) variant"_, and is is pronounced **"bind strict"**.
+ * 
+ * The tradeoff between `bind` and `bind$` is between ergonomics and safety. If you're okay with
+ * occasionally rejecting valid inputs to get a more rigorous check, {@link bind$ `bind$`} is 
+ * probably what you want.
  */
-type bind$<fn extends Kind, args extends any.array | Scope> = never | (fn & structured<args>)
+type bind$<F extends Kind, args extends any.array | Scope> = never | (F & structured<args>)
 /** 
- * {@link apply$ `apply$`} is a variant of {@link apply `apply`} that does not typecheck {@link args `args`}
- * against the signature of {@link fn `fn`}.
+ * {@link apply$ `apply$`} is a variant of {@link apply `apply`} that performs extra typechecking on
+ * {@link args `args`} against the signature of {@link F `F`}.
  * 
- * The `$` sigil here has been appended to indicate that this is the "less strict" variant when compared
- * to its unpostfixed cousin, and is provided as an escape hatch.
+ * In the context of the {@link Kind `Kind`} module, the **_$_** sigil is used as a _qualifying suffix_.
  * 
- * This pattern (postfixing the `$` sigil to mark a more permissive variant or an escape hatch) is a 
- * convention used across the `any-ts` project.
+ * **_$_** translates to _"strict"_, or _"the strict(er) variant"_, and is is pronounced **"apply strict"**.
+ * 
+ * The tradeoff between `apply` and `apply$` is between ergonomics and safety. If you're okay with
+ * occasionally rejecting valid inputs to get a more rigorous check, {@link apply$ `apply$`} is 
+ * probably what you want.
  */
-type apply$<fn extends Kind, args extends any.array | Scope> = bind$<fn, args>[-1]
+type apply$<F extends Kind, args extends any.array | Scope> = bind$<F, args>[-1]
+
+declare namespace strict {
+  export {
+    /** {@link bind$ `Kind.strict.bind`} ({@link bind$ `bind$`}, internally) @external */
+    bind$ as bind,
+    /** {@link apply$ `Kind.strict.apply`} ({@link apply$ `apply$`}, internally) @external */
+    apply$ as apply,
+  }
+}
 
 
 /** @internal */
