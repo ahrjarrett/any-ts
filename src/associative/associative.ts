@@ -184,9 +184,6 @@ declare function Assoc
  */
 type Any = Assoc<[any.type, any.entries]>
 
-type evaluate<type> = never | { [ix in keyof type]: type[ix] }
-type _4 = evaluate<Any>
-
 declare namespace Assoc {
   // aliased exports
   export {

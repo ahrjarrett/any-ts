@@ -79,9 +79,6 @@ declare const is
   : <const type>(type: type) => is<type>
   ;
 
-const brandedString: "hey" & { [tag$]: "stuff" } = "hey" as never
-type test = { [ix in typeof brandedString[tag$]]: ix }
-
 declare namespace impl {
   type parseNumeric<type> = type extends `${infer x extends number}` ? x : never
   type range<acc extends any.array<number>, type extends number>
