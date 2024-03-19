@@ -11,54 +11,59 @@ declare namespace any {
   export {
     type ANY_TS_VERSION as VERSION,
   }
-  export {
-    string_ as string,
-    number_ as number,
-    boolean_ as boolean,
-    object_ as object,
-    function_ as function,
-  }
 
-  // 🡓🡓 aliases 🡓🡓
+  /////////////////////
+  /// 🡓🡓 intrinsics
+  export {
+    boolean_ as boolean,
+    class_ as class,
+    function_ as function,
+    null_ as null,
+    number_ as number,
+    object_ as object,
+    string_ as string,
+    symbol_ as symbol,
+    undefined_ as undefined,
+  }
+  /// 🡑🡑 intrinsics
+  /////////////////////
+  /// 🡓🡓 aliases
   export {
     arrayof as arrayOf,
     dictionary as dict,
-    indexedby as indexedBy,
     indexableby as indexableBy,
+    indexedby as indexedBy,
     keyof as keyOf,
     keysof as keysOf,
   }
-}
+  /// 🡑🡑 aliases
+  ///////////////////
 
-
-type key<type extends string | number = string | number> = type
-type literal<type extends string | number | boolean = string | number | boolean> = type
-type showable = string | number | boolean | bigint | null | undefined
-type primitive = string | number | boolean | bigint | null | undefined | symbol
-type numeric = number | `${number}`
-
-declare namespace any {
-  // 🡓🡓 aliased exports 🡓🡓
-  type string_<type extends string = string> = type
-  type number_<type extends number = number> = type
+  ///////////////////
+  /// 🡓🡓 aliased
   type boolean_<type extends boolean = boolean> = type
-  type null_<type extends null = null> = type
-  type undefined_<type extends undefined = undefined> = type
-  type symbol_<type extends symbol = symbol> = type
-  type function_<type extends some.function = some.function> = type
   type class_<type extends any_class = any_class> = type
+  type function_<type extends some.function = some.function> = type
+  type null_<type extends null = null> = type
+  type number_<type extends number = number> = type
   type object_<type extends object = object> = any_object<type>
-  // 🡑🡑 aliased exports 🡑🡑
-  // 🡓🡓 direct exports 🡓🡓
-  type type<type extends any_nullable | any_nonnullable = any_nullable | any_nonnullable>
+  type string_<type extends string = string> = type
+  type symbol_<type extends symbol = symbol> = type
+  type undefined_<type extends undefined = undefined> = type
+  // 🡑🡑 aliased
+  /////////////////////////
+
+  /////////////////////////
+  /// 🡓🡓 direct exports
+  export type type<type extends any_nullable | any_nonnullable = any_nullable | any_nonnullable>
     = never | (type extends any_nonnullable ? any_type<type> : type)
 
-  type nullable<type extends null | undefined = null | undefined> = type
-  type nonnullable<type extends any_nonnullable = any_nonnullable> = type
-  type key<type extends string | number = string | number> = type
-  type index<type extends keyof never = keyof never> = type
-  type literal<type extends string | number | boolean = string | number | boolean> = type
-  type showable<
+  export type nullable<type extends null | undefined = null | undefined> = type
+  export type nonnullable<type extends any_nonnullable = any_nonnullable> = type
+  export type key<type extends string | number = string | number> = type
+  export type index<type extends keyof never = keyof never> = type
+  export type literal<type extends string | number | boolean = string | number | boolean> = type
+  export type showable<
     type extends
     | string | number | boolean | bigint | null | undefined
     = string | number | boolean | bigint | null | undefined
@@ -68,68 +73,70 @@ declare namespace any {
    * {@link primitive `any.primitive`} 
    * [{@link https://developer.mozilla.org/en-US/docs/Glossary/Primitive MDN reference}]
    */
-  type primitive<
+  export type primitive<
     type extends
     | string | number | boolean | bigint | null | undefined | symbol
     = string | number | boolean | bigint | null | undefined | symbol
   > = type
-  type numeric<type extends number | `${number}` = number | `${number}`> = type
-  type scalar<type extends any_scalar = any_scalar> = type
-  type json<type extends any_json = any_json> = type
-  type one<only = _> = readonly [_1: only]
-  type single<type extends one = one> = type
-  type unary<type extends some.unary = some.unary> = type
-  type two<one = _, two = _> = readonly [_1: one, _2: two]
-  type double<type extends two = two> = type
-  type binary<type extends some.binary = some.binary> = type
-  type three<one = _, two = _, three = _> = readonly [_1: one, _2: two, _3: three]
-  type triple<type extends three = three> = type
-  type ternary<type extends some.ternary = some.ternary> = type
+  export type numeric<type extends number | `${number}` = number | `${number}`> = type
+  export type scalar<type extends any_scalar = any_scalar> = type
+  export type json<type extends any_json = any_json> = type
+  export type one<only = _> = readonly [_1: only]
+  export type single<type extends one = one> = type
+  export type unary<type extends some.unary = some.unary> = type
+  export type two<one = _, two = _> = readonly [_1: one, _2: two]
+  export type double<type extends two = two> = type
+  export type binary<type extends some.binary = some.binary> = type
+  export type three<one = _, two = _, three = _> = readonly [_1: one, _2: two, _3: three]
+  export type triple<type extends three = three> = type
+  export type ternary<type extends some.ternary = some.ternary> = type
 
-  type predicate<type extends some.predicate = some.predicate> = type
-  type asserts<target = _> = some.assertion<[arg: any, out: target]>
-  type assertion<arg = any, out = _> = some.assertion<[arg: arg, out: out]>
-  type typeguard<arg = any, out = _> = some.typeguard<arg, out>
-  type guard<target = _> = some.typeguard<any, target>
-  type array<type = _> = any_array<type>
-  type list<type extends any.array = any.array> = type
-  type entries<type extends any.array<entry> = any.array<entry>> = type
-  type struct<type extends any_struct = any_struct> = type
-  type dictionary<type = _> = dict<type>
-  type enumerable<type extends any_enumerable = any_enumerable> = type
-  type arraylike<type extends any_arraylike = any_arraylike> = type
-  type invertible<type extends any_invertible = any_invertible> = type
-  type path<type extends any.array<any.index> = any.array<any.index>> = type
-  type keys<type extends any.array<any.key> = any.array<any.key>> = type
-  type showables<type extends any.array<showable> = any.array<showable>> = type
+  export type predicate<type extends some.predicate = some.predicate> = type
+  export type asserts<target = _> = some.assertion<[arg: any, out: target]>
+  export type assertion<arg = any, out = _> = some.assertion<[arg: arg, out: out]>
+  export type typeguard<arg = any, out = _> = some.typeguard<arg, out>
+  export type guard<target = _> = some.typeguard<any, target>
+  export type array<type = _> = any_array<type>
+  export type list<type extends any.array = any.array> = type
+  export type entries<type extends any.array<entry> = any.array<entry>> = type
+  export type struct<type extends any_struct = any_struct> = type
+  export type dictionary<type = _> = dict<type>
+  export type enumerable<type extends any_enumerable = any_enumerable> = type
+  export type arraylike<type extends any_arraylike = any_arraylike> = type
+  export type invertible<type extends any_invertible = any_invertible> = type
+  export type path<type extends any.array<any.index> = any.array<any.index>> = type
+  export type keys<type extends any.array<any.key> = any.array<any.key>> = type
+  export type showables<type extends any.array<showable> = any.array<showable>> = type
+
   /** 
    * Use {@link field `any.field`} when its more convenient to pass the key/value
    * separately, and {@link entry `any.entry`} when you'd prefer passing them as a pair.
    * @external 
    */
-  type field<key extends any.index = any.index, value = _> = any_field<key, value>
+  export type field<key extends any.index = any.index, value = _> = any_field<key, value>
+
   /** 
    * Use {@link entry `any.entry`} when its more convenient to pass the key/value together
    * as a pair, and {@link field `any.field`} when you'd prefer to pass them separately.
    * @external 
    */
-  type entry<type extends any_entry = any_entry> = type
+  export type entry<type extends any_entry = any_entry> = type
 
-  type keyof<
+  export type keyof<
     invariant,
     type extends
     | keyof invariant
     = keyof invariant
   > = type
 
-  type keysof<
+  export type keysof<
     invariant,
     type extends
     | any.array<keyof invariant>
     = any.array<keyof invariant>
   > = type
 
-  type propertyof<
+  export type propertyof<
     invariant,
     type extends
     | any.key & keyof invariant
@@ -139,77 +146,77 @@ declare namespace any {
   /**
    * @deprecated use {@link propertyof `any.propertyof`} or {@link propertyof `any.propertyOf`} instead
    */
-  type showableKeyof<
+  export type showableKeyof<
     invariant,
     type extends
     | any.key & keyof invariant
     = any.key & keyof invariant
   > = type
 
-  type indexof<
+  export type indexof<
     invariant extends any.array,
     type extends
     | Extract<keyof invariant, `${number}`>
     = Extract<keyof invariant, `${number}`>
   > = type
 
-  type indexedby<
+  export type indexedby<
     invariant extends any.index,
     type extends
     | { [ix in invariant]: _ }
     = { [ix in invariant]: _ }
   > = type
 
-  type indexableby<
+  export type indexableby<
     invariant extends any.index,
     type extends
     | { [ix in invariant]: any.index }
     = { [ix in invariant]: any.index }
   > = type
 
-  type pathof<
+  export type pathof<
     invariant,
     type extends
     | pathsof<invariant>
     = pathsof<invariant>
   > = type
 
-  type named<
+  export type named<
     invariant extends field,
     type extends
     | { [ix in invariant[0]]: invariant[1] }
     = { [ix in invariant[0]]: invariant[1] }
   > = type
 
-  type arrayof<
+  export type arrayof<
     invariant,
     type extends
     | any.array<invariant>
     = any.array<invariant>
   > = type
 
-  type entryof<
+  export type entryof<
     invariant,
     type extends
     | readonly [any.index, invariant]
     = readonly [any.index, invariant]
   > = type
 
-  type entriesof<
+  export type entriesof<
     invariant,
     type extends
     | any.array<readonly [any.index, invariant]>
     = any.array<readonly [any.index, invariant]>
   > = type
 
-  type fieldof<
+  export type fieldof<
     invariant,
     type extends
     | to.entries<invariant>
     = to.entries<invariant>
   > = type
 
-  type subtypeof<
+  export type subtypeof<
     invariant,
     subtype extends
     | invariant extends invariant ? invariant : never
