@@ -1,6 +1,6 @@
 export type { some }
 
-import type { any } from "./any"
+import type { any } from "./any/any"
 import type { never } from "./semantic-never/exports"
 
 import type { to } from "./to"

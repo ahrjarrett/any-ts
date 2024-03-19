@@ -3,7 +3,7 @@ export {
   charset,
 }
 
-import type { _ } from "../any"
+import type { _ } from "../any/any"
 import type { empty, nonempty } from "../empty"
 import type { boolean } from "../boolean/exports"
 import type { string } from "./string"
@@ -28,9 +28,8 @@ declare namespace char {
   export type Upper = charset.Uppers[number]
   export type Digit = charset.Digits[number]
 
-  export { is }
-  type is<type> = [type] extends [`${string}${infer tail}`] ? string.is.empty<tail> : false
-  namespace is {
+  export type is<type> = [type] extends [`${string}${infer tail}`] ? string.is.empty<tail> : false
+  export namespace is {
     type alpha<type extends string> = boolean.all<[char.is<type>, string.is.alpha<type>]>
     type digit<type> = boolean.all<[char.is<type>, [type] extends [char.Digit] ? true : false]>
     type lowercase<type extends string> = boolean.all<[char.is<type>, string.is.lowercase<type>]>

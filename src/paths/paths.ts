@@ -2,7 +2,7 @@ export {
   type pathsof,
 }
 
-import type { any } from "../any"
+import type { any } from "../any/any"
 import { assert, expect } from "../test/exports"
 import type { never } from "../semantic-never/exports"
 

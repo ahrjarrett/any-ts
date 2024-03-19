@@ -1,6 +1,6 @@
 export type { native }
 
-import type { _ } from "./any"
+import type { _, id } from "./util"
 
 declare namespace native {
   export {
@@ -10,7 +10,6 @@ declare namespace native {
 }
 
 declare namespace native {
-  type id<type> = type
   interface object_ extends id<object> { }
   interface function_<arg extends native.array<any> = native.array<any>, out = _> { (...arg: arg): out }
   type array<type = unknown> = readonly type[]

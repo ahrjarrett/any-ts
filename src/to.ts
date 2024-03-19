@@ -1,6 +1,6 @@
 export { to }
 
-import type { any } from "./any"
+import type { any } from "./any/any"
 
 namespace to { export const never: never = void 0 as never }
 declare namespace to {

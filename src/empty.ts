@@ -1,4 +1,4 @@
-import type { any, _ } from "./any"
+import type { any, _ } from "./any/any"
 import { mut } from "./mutable/exports"
 
 export {

@@ -8,7 +8,7 @@ export {
   type Intersectable,
 }
 
-import type { any } from "../any"
+import type { any } from "../any/any"
 import type { Kind } from "./kind"
 import type { variance } from "../variance/variance"
 

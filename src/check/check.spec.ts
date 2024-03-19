@@ -1,4 +1,4 @@
-import type { any } from "../any"
+import type { any } from "../any/any"
 import type { assert } from "../test/exports"
 import { describe, expect } from "../test/exports"
 import type { mut } from "../mutable/exports"

@@ -1,6 +1,6 @@
 import type { Tree, nonempty as nonemptyPath } from "./tree"
 
-import type { any } from "../any"
+import type { any } from "../any/any"
 import { type empty, type nonempty } from "../empty"
 import { type never } from "../semantic-never/exports"
 

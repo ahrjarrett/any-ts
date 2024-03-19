@@ -3,7 +3,7 @@ export {
   size$,
 }
 
-import type { any } from "../any"
+import type { any } from "../any/any"
 import { assert, describe, expect } from "../test/exports"
 import type { TypeError } from "../err/exports"
 import type { Universal } from "../universal/exports"
@@ -183,6 +183,9 @@ declare function Assoc
  * {@link https://en.wikipedia.org/wiki/Infimum_and_supremum#:~:text=The%20supremum%20(abbreviated%20sup%3B%20plural,to%20the%20greatest%20element%20of least upper bound}.
  */
 type Any = Assoc<[any.type, any.entries]>
+
+type evaluate<type> = never | { [ix in keyof type]: type[ix] }
+type _4 = evaluate<Any>
 
 declare namespace Assoc {
   // aliased exports
