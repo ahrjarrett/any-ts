@@ -6,7 +6,7 @@ import type { to } from "../to"
 import type { pathsof } from "../paths/paths"
 import type { ANY_TS_VERSION } from "../version"
 import type { _, id } from "../util"
-import type { Any as any_ } from "./_internal"
+import type { Any } from "./_internal"
 
 declare namespace any {
   export {
@@ -48,15 +48,15 @@ declare namespace any {
   type undefined_<type extends undefined = undefined> = type
   type symbol_<type extends symbol = symbol> = type
   type function_<type extends some.function = some.function> = type
-  type class_<type extends any_.class = any_.class> = type
-  type object_<type extends any_object = any_object> = type
+  type class_<type extends Any.Class = Any.Class> = type
+  type object_<type extends Any.AnyObject = Any.AnyObject> = type
   // 🡑🡑 aliased exports 🡑🡑
   // 🡓🡓 direct exports 🡓🡓
-  type type<type extends any_.nullable | any_.nonnullable = any_.nullable | any_.nonnullable>
-    = never | (type extends any_.nonnullable ? any_.type<type> : type)
+  type type<type extends Any.Nullable | Any.NonNullable = Any.Nullable | Any.NonNullable>
+    = never | (type extends Any.NonNullable ? Any.Type<type> : type)
 
   type nullable<type extends null | undefined = null | undefined> = type
-  type nonnullable<type extends any_.nonnullable = any_.nonnullable> = type
+  type nonnullable<type extends Any.NonNullable = Any.NonNullable> = type
   type key<type extends string | number = string | number> = type
   type index<type extends keyof never = keyof never> = type
   type literal<type extends string | number | boolean = string | number | boolean> = type
@@ -76,7 +76,7 @@ declare namespace any {
     = string | number | boolean | bigint | null | undefined | symbol
   > = type
   type numeric<type extends number | `${number}` = number | `${number}`> = type
-  type json<type extends any_.json = any_.json> = type
+  type json<type extends Any.Json = Any.Json> = type
   type one<only = unknown> = readonly [_1: only]
   type single<type extends one = one> = type
   type unary<type extends some.unary = some.unary> = type
@@ -92,29 +92,29 @@ declare namespace any {
   type assertion<arg = any, out = _> = some.assertion<[arg: arg, out: out]>
   type typeguard<arg = any, out = _> = some.typeguard<arg, out>
   type guard<target = _> = some.typeguard<any, target>
-  type array<type = _> = any_.array<type>
+  type array<type = _> = Any.AnyArray<type>
   type list<type extends any.array = any.array> = type
   type entries<type extends any.array<entry> = any.array<entry>> = type
-  type struct<type extends any_.struct = any_.struct> = type
-  type dictionary<type = _> = any_.dictionary<type>
-  type enumerable<type extends any_.enumerable = any_.enumerable> = type
-  type arraylike<type extends any_.arraylike = any_.arraylike> = type
-  type invertible<type extends any_.invertible = any_.invertible> = type
-  type path<type extends any_.path = any_.path> = type
-  type keys<type extends any_.keys = any_.keys> = type
+  type struct<type extends Any.Struct = Any.Struct> = type
+  type dictionary<type = _> = Any.Dict<type>
+  type enumerable<type extends Any.Enumerable = Any.Enumerable> = type
+  type arraylike<type extends Any.ArrayLike = Any.ArrayLike> = type
+  type invertible<type extends Any.Invertible = Any.Invertible> = type
+  type path<type extends Any.Path = Any.Path> = type
+  type keys<type extends Any.Keys = Any.Keys> = type
   type showables<type extends any.array<showable> = any.array<showable>> = type
   /** 
    * Use {@link field `any.field`} when its more convenient to pass the key/value
    * separately, and {@link entry `any.entry`} when you'd prefer passing them as a pair.
    * @external 
    */
-  type field<key extends any.index = any.index, value = _> = any_.field<key, value>
+  type field<key extends any.index = any.index, value = _> = Any.Field<key, value>
   /** 
    * Use {@link entry `any.entry`} when its more convenient to pass the key/value together
    * as a pair, and {@link field `any.field`} when you'd prefer to pass them separately.
    * @external 
    */
-  type entry<type extends any_.entry = any_.entry> = type
+  type entry<type extends Any.Entry = Any.Entry> = type
 
   type keyof<
     invariant,
@@ -219,4 +219,4 @@ declare namespace any {
 }
 
 /** @ts-expect-error */
-interface any_object<type extends object = object> extends id<type> { }
+interface Any<type extends object = object> extends id<type> { }

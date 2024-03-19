@@ -6,42 +6,40 @@ import type { intrinsic } from "./_intrinsic"
 
 /** @internal */
 declare namespace Any {
-  export type array<type = unknown> = readonly type[]
-  export type index = keyof never
-  interface class_<
+  export type AnyArray<type = unknown> = readonly type[]
+  export type AnyObject<type extends intrinsic.object = intrinsic.object> = intrinsic.object<type>
+
+  export type Index = keyof never
+  export interface Class<
     args extends
-    | array<any>
-    = array<any>
+    | AnyArray<any>
+    = AnyArray<any>
   > { new(...arg: args): unknown }
-  export { class_ as class }
 
-  export { any_object as object }
-  export type any_object<type extends intrinsic.object = intrinsic.object> = intrinsic.object<type>
 
-  export type nonnullable = {}
-  export type nullable = null | undefined
-  export type type<type extends nullable | nonnullable = nullable | nonnullable> = type
-
-  export type key<type extends string | number = string | number> = type
-  export type literal<type extends string | number | boolean = string | number | boolean> = type
-  export type showable = string | number | boolean | bigint | null | undefined
-  export type primitive = string | number | boolean | bigint | null | undefined | symbol
-  export type numeric = number | `${number}`
-  export type scalar = string | number | boolean | null
-  export interface dictionary<type = unknown> { [ix: keyof any]: type }
-  export type json =
-    | scalar
-    | readonly json[]
-    | dictionary<json>
+  export type NonNullable = {}
+  export type Nullable = null | undefined
+  export type Type<type extends Any.Nullable | Any.NonNullable = Any.Nullable | Any.NonNullable> = type
+  export type Key<type extends string | number = string | number> = type
+  export type Literal<type extends string | number | boolean = string | number | boolean> = type
+  export type Showable = string | number | boolean | bigint | null | undefined
+  export type Primitive = string | number | boolean | bigint | null | undefined | symbol
+  export type Numeric = number | `${number}`
+  export type Scalar = string | number | boolean | null
+  export interface Dict<type = unknown> { [ix: keyof any]: type }
+  export type Json =
+    | Any.Scalar
+    | readonly Any.Json[]
+    | Dict<Any.Json>
     ;
 
-  export type struct<type = any> = { [ix: string]: type }
-  export interface enumerable<type = unknown> { [ix: number]: type }
-  export interface arraylike<type = unknown> extends enumerable<type> { length: number }
-  export interface invertible { [ix: key]: key }
-  export type path<type extends readonly index[] = readonly index[]> = type
-  export type keys<type extends readonly key[] = readonly key[]> = type
-  export type showables<type extends readonly showable[] = readonly showable[]> = type
-  export type field<k extends index = index, v = unknown> = readonly [key: k, value: v]
-  export type entry<type extends readonly [index, unknown] = readonly [index, unknown]> = type
+  export type Struct<type = any> = { [ix: string]: type }
+  export interface Enumerable<type = unknown> { [ix: number]: type }
+  export interface ArrayLike<type = unknown> extends Any.Enumerable<type> { length: number }
+  export interface Invertible { [ix: Any.Key]: Any.Key }
+  export type Path<type extends readonly Any.Index[] = readonly Any.Index[]> = type
+  export type Keys<type extends readonly Any.Key[] = readonly Any.Key[]> = type
+  export type Showables<type extends readonly Any.Showable[] = readonly Any.Showable[]> = type
+  export type Field<k extends Any.Index = Any.Index, v = unknown> = readonly [key: k, value: v]
+  export type Entry<type extends readonly [Any.Index, unknown] = readonly [Any.Index, unknown]> = type
 }
