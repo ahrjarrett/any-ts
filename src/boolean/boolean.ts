@@ -2,7 +2,7 @@ export {
   boolean,
 }
 
-import type { any } from "../any/any"
+import type { any } from "../any/exports"
 import type { _ } from "../util"
 import { assert, expect } from "../test/exports"
 

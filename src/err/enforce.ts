@@ -7,7 +7,7 @@ export type {
 /** @internal - only exported for testing purposes */
 export type { impl as internal }
 
-import type { any } from "../any/any";
+import type { any } from "../any/exports";
 import type { number } from "../number/number"
 
 import type { Fn } from "../function/exports";

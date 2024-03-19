@@ -1,4 +1,4 @@
-import type { any } from "./any/any"
+import type { any } from "./any/exports"
 import type { _ } from "./util"
 
 export {

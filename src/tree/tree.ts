@@ -4,7 +4,7 @@ export type {
   nonempty,
 }
 
-import { type any } from "../any/any"
+import { type any } from "../any/exports"
 import { type empty } from "../empty"
 import { type never } from "../semantic-never/exports"
 

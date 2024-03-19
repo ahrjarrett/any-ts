@@ -9,7 +9,7 @@ export {
   tag$,
 }
 
-import type { any } from "../any/any"
+import type { any } from "../any/exports"
 import { assert, describe, expect } from "../test/exports"
 import type { enforce } from "../err/enforce"
 import type { TypeError } from "../err/exports"

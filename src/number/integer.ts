@@ -2,7 +2,7 @@ export {
   Int as int,
 }
 
-import type { any } from "../any/any"
+import type { any } from "../any/exports"
 import type { Fn } from "../function/exports";
 import { Err } from "../exports"
 import { $$, newtype } from "./shared"

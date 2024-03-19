@@ -7,7 +7,7 @@ export {
   expectToFail
 } from "./test/exports"
 
-export type { any } from "./any/any"
+export type { any } from "./any/exports"
 export type { some } from "./some"
 export type { } from "./associative/exports"
 export type { boolean } from "./boolean/exports"

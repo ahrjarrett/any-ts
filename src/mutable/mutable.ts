@@ -37,7 +37,7 @@ export type {
   two,
 }
 
-import type { any } from "../any/any"
+import type { any } from "../any/exports"
 import type { _ } from "../util"
 import { pathsof } from "../paths/paths"
 

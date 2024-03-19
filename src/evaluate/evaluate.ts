@@ -2,7 +2,7 @@ export {
   evaluate,
 }
 
-import type { any } from "../any/any";
+import type { any } from "../any/exports";
 
 /**
  * @example

@@ -2,7 +2,7 @@ export {
   delimitedCase,
 }
 
-import type { any } from "../any/any"
+import type { any } from "../any/exports"
 import type { join } from "./_internal"
 
 type fromList<keys extends any.showables> = never | ({ [k in `${keys[number]}`]: k })

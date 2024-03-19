@@ -1,5 +1,5 @@
 import type { Kind } from "../kind/exports"
-import type { any } from "../any/any"
+import type { any } from "../any/exports"
 import type { string } from "./string"
 import type { char } from "./char"
 import type { assert, expect } from "../test/exports"

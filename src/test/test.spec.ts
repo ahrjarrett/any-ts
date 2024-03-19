@@ -1,6 +1,6 @@
 import { assert, describe, expect, expectToFail } from "./test"
 import * as Sym from "./symbol"
-import { type any } from "../any/any"
+import { type any } from "../any/exports"
 import type { Case, TypeError } from "../err/exports"
 
 namespace __Spec__ {

@@ -18,7 +18,7 @@ export type {
   snake,
 }
 
-import type { any } from "../any/any"
+import type { any } from "../any/exports"
 import type { boolean } from "../boolean/boolean"
 import type { empty, nonempty } from "../empty"
 import type { never } from "../semantic-never/exports"

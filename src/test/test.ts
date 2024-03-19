@@ -5,7 +5,7 @@ export {
   expectToFail,
 }
 
-import type { any } from "../any/any"
+import type { any } from "../any/exports"
 import type { Case, TypeError } from "../err/exports"
 
 import * as Sym from "./symbol"

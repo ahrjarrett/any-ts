@@ -1,7 +1,7 @@
 export type { named }
 
 import type { some } from "../some"
-import type { any } from "../any/any"
+import type { any } from "../any/exports"
 import type { nonempty } from "../empty"
 import type { never } from "../exports"
 

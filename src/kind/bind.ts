@@ -1,5 +1,5 @@
 import type { Kind } from "./kind"
-import type { any } from "../any/any"
+import type { any } from "../any/exports"
 import type { _ } from "../util"
 
 declare namespace Bind {

@@ -4,7 +4,7 @@ export {
 }
 
 import type { never } from "../semantic-never/exports"
-import type { any } from "../any/any"
+import type { any } from "../any/exports"
 import type { _ } from "../util"
 import type { Err } from "../err/exports"
 import type { Union } from "../union/exports"

@@ -2,7 +2,7 @@ export type {
   string,
 }
 
-import type { any } from "../any/any"
+import type { any } from "../any/exports"
 import type { nonempty } from "../empty"
 import type { Kind } from "../kind/exports"
 import type { check } from "../check/exports"
