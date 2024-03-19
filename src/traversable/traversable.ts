@@ -3,7 +3,7 @@ export {
   traversal,
 }
 
-import type { any } from "../any"
+import type { any } from "../any/exports"
 import type { empty, nonempty } from "../empty"
 
 import type { never } from "../semantic-never/exports"

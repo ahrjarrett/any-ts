@@ -1,5 +1,5 @@
 import { describe, expect, assert } from "../test/exports"
-import type { any } from "../any"
+import type { any } from "../any/exports"
 import type { nonempty } from "../empty"
 
 import type { Catch } from "./catch"

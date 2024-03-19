@@ -13,7 +13,7 @@ export {
   Show
 }
 
-import type { any } from "../any"
+import type { any } from "../any/exports"
 import { assert, describe, expect } from "../test/exports"
 import { empty, nonempty } from "../empty"
 import { never } from "../semantic-never/exports"

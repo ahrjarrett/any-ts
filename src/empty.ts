@@ -1,20 +1,19 @@
-import type { any, _ } from "./any"
-import { mut } from "./mutable/exports"
+import type { any } from "./any/exports"
+import type { _ } from "./util"
 
 export {
-  empty,
-  nonempty,
+  type empty,
+  type nonempty,
 }
 
-type string_ = typeof string_
-const string_ = "" as const
-const array = [] as const
-type array<type extends typeof array = typeof array> = type
-type object_ = typeof object_
-const object_ = {} as const
-
-function empty() { }
 declare namespace empty {
+  const string_: ""
+  type string_ = typeof string_
+  const array: readonly []
+  type array<type extends typeof array = typeof array> = type
+  type object_ = typeof object_
+  const object_: {}
+
   export {
     /** {@link array `empty.path`} @external */
     array as path,
@@ -27,14 +26,6 @@ declare namespace empty {
   }
 }
 
-namespace empty {
-  empty.array = array
-  empty.path = array
-  empty.string = string_
-  empty.object = object_
-}
-
-function nonempty() { }
 declare namespace nonempty {
   // namespace exports
   export {

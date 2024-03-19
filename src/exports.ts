@@ -7,7 +7,7 @@ export {
   expectToFail
 } from "./test/exports"
 
-export type { any } from "./any"
+export type { any } from "./any/exports"
 export type { some } from "./some"
 export type { } from "./associative/exports"
 export type { boolean } from "./boolean/exports"
@@ -50,7 +50,7 @@ export type { pathsof } from "./paths/exports"
 export type { never } from "./semantic-never/exports"
 export type {
   char,
-  chars,
+  charset,
   string
 } from "./string/exports"
 export type { Universal } from "./universal/exports"

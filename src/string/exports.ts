@@ -1,2 +1,2 @@
-export { char, chars } from "./char"
-export { string } from "./string"
+export type { char, charset } from "./char"
+export type { string } from "./string"

@@ -1,6 +1,6 @@
 import { assert, describe, expect, expectToFail } from "./test"
 import * as Sym from "./symbol"
-import { type any } from "../any"
+import { type any } from "../any/exports"
 import type { Case, TypeError } from "../err/exports"
 
 namespace __Spec__ {
@@ -60,7 +60,7 @@ namespace __Spec__ {
 
   const __extends__ = [
     //  ^?
-    /* 𝖈𝖚𝖗𝖘𝖊𝖉 */
+    /* unhappy path */
     /* @ts-expect-error: failing to provide a value raises a type error */
     assert.extends(),
     /* @ts-expect-error: failing to provide a value raises a type error */

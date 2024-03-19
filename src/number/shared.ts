@@ -11,7 +11,7 @@ export type {
   Whitespace,
 }
 
-import type { any } from "../any"
+import type { any } from "../any/exports"
 
 type isNumber<x> = [x] extends [number] ? true : false
 type isNegative<x> = [x] extends [any.showable] ? [`${x}`] extends [`-${number}`] ? true : false : false

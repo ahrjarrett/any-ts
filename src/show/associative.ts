@@ -9,7 +9,7 @@ export {
   tag$,
 }
 
-import type { any } from "../any"
+import type { any } from "../any/exports"
 import { assert, describe, expect } from "../test/exports"
 import type { enforce } from "../err/enforce"
 import type { TypeError } from "../err/exports"
@@ -78,9 +78,6 @@ declare const separate
 declare const is
   : <const type>(type: type) => is<type>
   ;
-
-const brandedString: "hey" & { [tag$]: "stuff" } = "hey" as never
-type test = { [ix in typeof brandedString[tag$]]: ix }
 
 declare namespace impl {
   type parseNumeric<type> = type extends `${infer x extends number}` ? x : never

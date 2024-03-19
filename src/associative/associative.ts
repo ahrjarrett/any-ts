@@ -3,7 +3,7 @@ export {
   size$,
 }
 
-import type { any } from "../any"
+import type { any } from "../any/exports"
 import { assert, describe, expect } from "../test/exports"
 import type { TypeError } from "../err/exports"
 import type { Universal } from "../universal/exports"
@@ -271,7 +271,7 @@ namespace __Spec__ {
         // ^?
         type __is__ = [
           // ^?
-          /* 𝖈𝖚𝖗𝖘𝖊𝖉 */
+          // unhappy path
           expect<assert.is.false<Assoc.is<any.array>>>,
           expect<assert.is.false<Assoc.is<[]>>>,
           expect<assert.is.false<Assoc.is<{}>>>,
@@ -283,7 +283,7 @@ namespace __Spec__ {
           expect<assert.is.false<Assoc.is<["abc", "def", "ghii"] & { abc: 123, def: 455, ghi: 789 }>>>,
           expect<assert.is.false<Assoc.is<["abc", "def"] & { abc: 123, def: 455, ghi: 789 }>>>,
           expect<assert.is.false<Assoc.is<["abc"] & { abc: 123 }>>>,
-          // correct
+          // happy path
           expect<assert.is.true<Assoc.is<{ [size$]: 1, 0: "abc", abc: 123 }>>>,
           expect<assert.is.true<Assoc.is<{ [size$]: 2, 0: "abc", 1: "def", abc: 123, def: 455 }>>>,
         ]
