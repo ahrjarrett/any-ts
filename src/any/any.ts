@@ -6,7 +6,6 @@ import type { to } from "../to"
 import type { pathsof } from "../paths/paths"
 import type { ANY_TS_VERSION } from "../version"
 import type { _, id } from "../util"
-import type { Any } from "./_internal"
 
 declare namespace any {
   export {
@@ -37,7 +36,6 @@ type literal<type extends string | number | boolean = string | number | boolean>
 type showable = string | number | boolean | bigint | null | undefined
 type primitive = string | number | boolean | bigint | null | undefined | symbol
 type numeric = number | `${number}`
-type scalar = string | number | boolean | null
 
 declare namespace any {
   // 🡓🡓 aliased exports 🡓🡓
@@ -48,15 +46,15 @@ declare namespace any {
   type undefined_<type extends undefined = undefined> = type
   type symbol_<type extends symbol = symbol> = type
   type function_<type extends some.function = some.function> = type
-  type class_<type extends Any.Class = Any.Class> = type
-  type object_<type extends Any.AnyObject = Any.AnyObject> = type
+  type class_<type extends any_class = any_class> = type
+  type object_<type extends object = object> = any_object<type>
   // 🡑🡑 aliased exports 🡑🡑
   // 🡓🡓 direct exports 🡓🡓
-  type type<type extends Any.Nullable | Any.NonNullable = Any.Nullable | Any.NonNullable>
-    = never | (type extends Any.NonNullable ? Any.Type<type> : type)
+  type type<type extends any_nullable | any_nonnullable = any_nullable | any_nonnullable>
+    = never | (type extends any_nonnullable ? any_type<type> : type)
 
   type nullable<type extends null | undefined = null | undefined> = type
-  type nonnullable<type extends Any.NonNullable = Any.NonNullable> = type
+  type nonnullable<type extends any_nonnullable = any_nonnullable> = type
   type key<type extends string | number = string | number> = type
   type index<type extends keyof never = keyof never> = type
   type literal<type extends string | number | boolean = string | number | boolean> = type
@@ -76,14 +74,15 @@ declare namespace any {
     = string | number | boolean | bigint | null | undefined | symbol
   > = type
   type numeric<type extends number | `${number}` = number | `${number}`> = type
-  type json<type extends Any.Json = Any.Json> = type
-  type one<only = unknown> = readonly [_1: only]
+  type scalar<type extends any_scalar = any_scalar> = type
+  type json<type extends any_json = any_json> = type
+  type one<only = _> = readonly [_1: only]
   type single<type extends one = one> = type
   type unary<type extends some.unary = some.unary> = type
-  type two<one = unknown, two = unknown> = readonly [_1: one, _2: two]
+  type two<one = _, two = _> = readonly [_1: one, _2: two]
   type double<type extends two = two> = type
   type binary<type extends some.binary = some.binary> = type
-  type three<one = unknown, two = unknown, three = unknown> = readonly [_1: one, _2: two, _3: three]
+  type three<one = _, two = _, three = _> = readonly [_1: one, _2: two, _3: three]
   type triple<type extends three = three> = type
   type ternary<type extends some.ternary = some.ternary> = type
 
@@ -92,29 +91,29 @@ declare namespace any {
   type assertion<arg = any, out = _> = some.assertion<[arg: arg, out: out]>
   type typeguard<arg = any, out = _> = some.typeguard<arg, out>
   type guard<target = _> = some.typeguard<any, target>
-  type array<type = _> = Any.AnyArray<type>
+  type array<type = _> = any_array<type>
   type list<type extends any.array = any.array> = type
   type entries<type extends any.array<entry> = any.array<entry>> = type
-  type struct<type extends Any.Struct = Any.Struct> = type
-  type dictionary<type = _> = Any.Dict<type>
-  type enumerable<type extends Any.Enumerable = Any.Enumerable> = type
-  type arraylike<type extends Any.ArrayLike = Any.ArrayLike> = type
-  type invertible<type extends Any.Invertible = Any.Invertible> = type
-  type path<type extends Any.Path = Any.Path> = type
-  type keys<type extends Any.Keys = Any.Keys> = type
+  type struct<type extends any_struct = any_struct> = type
+  type dictionary<type = _> = dict<type>
+  type enumerable<type extends any_enumerable = any_enumerable> = type
+  type arraylike<type extends any_arraylike = any_arraylike> = type
+  type invertible<type extends any_invertible = any_invertible> = type
+  type path<type extends any.array<any.index> = any.array<any.index>> = type
+  type keys<type extends any.array<any.key> = any.array<any.key>> = type
   type showables<type extends any.array<showable> = any.array<showable>> = type
   /** 
    * Use {@link field `any.field`} when its more convenient to pass the key/value
    * separately, and {@link entry `any.entry`} when you'd prefer passing them as a pair.
    * @external 
    */
-  type field<key extends any.index = any.index, value = _> = Any.Field<key, value>
+  type field<key extends any.index = any.index, value = _> = any_field<key, value>
   /** 
    * Use {@link entry `any.entry`} when its more convenient to pass the key/value together
    * as a pair, and {@link field `any.field`} when you'd prefer to pass them separately.
    * @external 
    */
-  type entry<type extends Any.Entry = Any.Entry> = type
+  type entry<type extends any_entry = any_entry> = type
 
   type keyof<
     invariant,
@@ -157,8 +156,8 @@ declare namespace any {
   type indexedby<
     invariant extends any.index,
     type extends
-    | { [ix in invariant]: unknown }
-    = { [ix in invariant]: unknown }
+    | { [ix in invariant]: _ }
+    = { [ix in invariant]: _ }
   > = type
 
   type indexableby<
@@ -218,5 +217,30 @@ declare namespace any {
   > = subtype
 }
 
+type any_index = keyof never
+type any_nonnullable = {}
+type any_nullable = null | undefined
+type any_type<type extends any_nullable | any_nonnullable = any_nullable | any_nonnullable> = type
+type any_key<type extends string | number = string | number> = type
+type any_scalar = string | number | boolean | null
+
+interface dict<type = _> { [ix: keyof never]: type }
+type any_array<type = _> = readonly type[]
 /** @ts-expect-error */
-interface Any<type extends object = object> extends id<type> { }
+interface any_object<type extends object = object> extends id<type> { }
+type any_struct<type = any> = { [ix: string]: type }
+interface any_enumerable<type = unknown> { [ix: number]: type }
+interface any_arraylike<type = unknown> extends any_enumerable<type> { length: number }
+interface any_invertible { [ix: any_key]: any_key }
+type any_field<k extends any_index = any_index, v = unknown> = readonly [key: k, value: v]
+type any_entry<type extends readonly [any_index, unknown] = readonly [any_index, unknown]> = type
+interface any_class<
+  args extends
+  | any.array<any>
+  = any.array<any>
+> { new(...arg: args): _ }
+type any_json =
+  | any.scalar
+  | readonly any_json[]
+  | dict<any_json>
+  ;
