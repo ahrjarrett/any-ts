@@ -17,8 +17,7 @@
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "files": [
-    "dist",
-    "!*.js"
+    "dist/index.d.ts"
   ],
   "sideEffects": false,
   "scripts": {
