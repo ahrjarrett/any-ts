@@ -21,6 +21,7 @@ declare namespace Any {
   export type nonnullable = {}
   export type nullable = null | undefined
   export type type<type extends nullable | nonnullable = nullable | nonnullable> = type
+
   export type key<type extends string | number = string | number> = type
   export type literal<type extends string | number | boolean = string | number | boolean> = type
   export type showable = string | number | boolean | bigint | null | undefined

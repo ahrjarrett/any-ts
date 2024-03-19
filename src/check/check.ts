@@ -8,7 +8,8 @@ export type {
   Signatures,
 }
 
-import type { _, any } from "../any/any"
+import type { any } from "../any/any"
+import type { _ } from "../util"
 import type { Kind } from "../kind/exports"
 import type { never } from "../semantic-never/exports"
 import { Union } from "../union/exports"

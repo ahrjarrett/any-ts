@@ -3,7 +3,7 @@ export {
   charset,
 }
 
-import type { _ } from "../any/any"
+import type { _ } from "../util"
 import type { empty, nonempty } from "../empty"
 import type { boolean } from "../boolean/exports"
 import type { string } from "./string"

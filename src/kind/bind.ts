@@ -1,5 +1,6 @@
 import type { Kind } from "./kind"
-import type { _, any } from "../any/any"
+import type { any } from "../any/any"
+import type { _ } from "../util"
 
 declare namespace Bind {
   interface zero extends Kind { [-1]: Kind<0> }

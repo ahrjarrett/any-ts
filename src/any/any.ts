@@ -52,8 +52,9 @@ declare namespace any {
   type object_<type extends any_object = any_object> = type
   // 🡑🡑 aliased exports 🡑🡑
   // 🡓🡓 direct exports 🡓🡓
-  type type<type extends any.nullable | any.nonnullable = any.nullable | any.nonnullable>
-    = never | (type extends any.nonnullable ? any.type<type> : type)
+  type type<type extends any_.nullable | any_.nonnullable = any_.nullable | any_.nonnullable>
+    = never | (type extends any_.nonnullable ? any_.type<type> : type)
+
   type nullable<type extends null | undefined = null | undefined> = type
   type nonnullable<type extends any_.nonnullable = any_.nonnullable> = type
   type key<type extends string | number = string | number> = type
