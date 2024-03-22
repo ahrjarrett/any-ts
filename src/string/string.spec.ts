@@ -89,6 +89,12 @@ declare namespace Spec {
     Internal.takeUntilCaseChangeRec<[], "fbiVanWest">,  //  ["fbi", "Van", "West"]
     Internal.takeUntilCaseChangeRec<[], "fbi_Van_West">,  //  ["fbi", "Van", "West"]
     Internal.takeUntilCaseChangeRec<[], "fbiVan123">,  //  ["fbi", "Van", "West"]
+    Internal.takeUntilCaseChangeRec<[], "FBIVan123">,
+    Internal.takeUntilCaseChangeRec<[], "FBIVan1abc">,
+    Internal.takeUntilCaseChangeRec<[], "123">,
+    Internal.takeUntilCaseChangeRec<[], "FBIVan123AndStuff">,
+    Internal.takeUntilCaseChangeRec<[], "FBIVan123andStuff">,
+    Internal.takeUntilCaseChangeRec<[], "PROPERTY">,
   ]
 
   type takeUntilExclusive = [
@@ -115,12 +121,18 @@ declare namespace Spec {
     string.takeUntilInclusive<"", charset.Lowers>,
   ]
 
-  type __TEST__ = [
+  type snake = [
     // ^?
-    Internal.takeUntilCaseChangeRec<[], "FBIVan123">,
-    Internal.takeUntilCaseChangeRec<[], "FBIVan1abc">,
-    Internal.takeUntilCaseChangeRec<[], "123">,
-    Internal.takeUntilCaseChangeRec<[], "FBIVan123AndStuff">,
-    Internal.takeUntilCaseChangeRec<[], "FBIVan123andStuff">,
+    expect<assert.equal<string.snake<"FBIVan123">, "fbi_van_123">>,
+    expect<assert.equal<string.snake<"FBIVan1abc">, "fbi_van_1_abc">>,
+    expect<assert.equal<string.snake<"123">, "123">>,
+    expect<assert.equal<string.snake<"FBIVan123AndStuff">, "fbi_van_123_and_stuff">>,
+    expect<assert.equal<string.snake<"FBIVan123andStuff">, "fbi_van_123_and_stuff">>,
+    expect<assert.equal<string.snake<"PROPERTY">, "property">>,
+    expect<assert.equal<Internal.snake<"FBIVan123">, "fbi_van_123">>,
+    expect<assert.equal<Internal.snake<"FBIVan1abc">, "fbi_van_1_abc">>,
+    expect<assert.equal<Internal.snake<"123">, "123">>,
+    expect<assert.equal<Internal.snake<"FBIVan123AndStuff">, "fbi_van_123_and_stuff">>,
+    expect<assert.equal<Internal.snake<"FBIVan123andStuff">, "fbi_van_123_and_stuff">>,
   ]
 }
