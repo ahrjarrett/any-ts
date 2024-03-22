@@ -38,6 +38,7 @@ declare namespace never {
   export type prevent_match<__description extends string = never> = never
   export type uninhabited<__description extends string = never>
     = never.as.default_arg<"Inhabit this type with any non-never type to trigger the alternate behavior">
+  export type unused_arg<__description extends string = never> = never
 
   /** @deprecated - use {@link as.empty `never.as.empty`} instead */
   export type as_empty<__description extends string = never> = never
@@ -45,4 +46,5 @@ declare namespace never {
   export type as_nothing<__description extends string = never> = never
   /** @deprecated - use {@link as.identity `never.as.identity`} instead */
   export type as_identity<__description extends string = never> = never
+
 }
