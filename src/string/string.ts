@@ -219,7 +219,7 @@ declare function delimitedCase<delimiter extends check.is.stringLiteral<string, 
   (string: string): Uncapitalize<string>
 }
 
-type snake<type extends any.showable> = Internal.snake<`${type} `>
+type snake<type extends any.showable> = Internal.snake<`${type}`>
 type snakeKey<type extends any.primitive> = type extends any.showable ? snake<type> : type
 type snakeKeys<type extends any.object> = { [ix in keyof type as snakeKey<ix>]: type[ix] }
 type snakeArrayValues<type extends any.showables> = { [ix in keyof type]: snake<type[ix]> }
