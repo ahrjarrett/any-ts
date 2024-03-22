@@ -496,3 +496,15 @@ type __NonArrayObject__ = [
     TypeError<"Expected `type` to be a non-array, but got an array", [[]]>
   >>,
 ]
+
+type __check_tuple__ = [
+  // ^?
+  // happy path
+  expect<assert.equal<check.is.tuple<[1, 2, 3]>, any.array>>,
+  expect<assert.equal<check.is.tuple<[1, 2, 3], number[]>, number[]>>,
+  // unhappy path
+  expect<assert.equal<check.is.tuple<[1, 2, 3], string[]>, never>>,
+  expect<assert.equal<check.is.tuple<1[], any.array>, TypeError<"Expected a tuple", [got: 1[]]>>>,
+  expect<assert.equal<check.is.tuple<2[], number[]>, TypeError<"Expected a tuple", [got: 2[]]>>>,
+  expect<assert.equal<check.is.tuple<2[], string[]>, TypeError<"Expected a tuple", [got: 2[]]>>>,
+]
