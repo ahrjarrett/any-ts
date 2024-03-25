@@ -1,21 +1,23 @@
 export type {
   is,
+  camel,
+  delimitedCase,
+  endsWith,
+  intercalate,
+  join,
+  kebab,
+  pascal,
+  screamingKebab,
+  screamingSnake,
+  snake,
+  split,
+  splitOnceOnChar,
+  splitOnceOnChars,
+  startsWith,
   takeUntilCaseChange,
   takeUntilCaseChangeRec,
   takeUntilExclusive,
   takeUntilInclusive,
-  endsWith,
-  startsWith,
-  splitOnceOnChar,
-  splitOnceOnChars,
-  split,
-  intercalate,
-  join,
-  delimitedCase,
-  screamingSnake,
-  kebab,
-  screamingKebab,
-  snake,
 }
 
 import type { any } from "../any/exports"
@@ -233,4 +235,14 @@ type snake<text extends string>
   = [string] extends [text]
   ? globalThis.Lowercase<string>
   : globalThis.Lowercase<delimitedCase<text, "_">>
+  ;
+
+type pascal<type extends string>
+  = char.splitOnChar<delimitedCase<type, " ">, " "> extends any.arrayof<string, infer xs>
+  ? join<{ [ix in keyof xs]: globalThis.Capitalize<globalThis.Lowercase<xs[ix]>> }>
+  : never
+  ;
+
+type camel<type extends string>
+  = globalThis.Uncapitalize<pascal<type>>
   ;

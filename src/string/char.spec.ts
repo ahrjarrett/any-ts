@@ -36,4 +36,15 @@ declare namespace Spec {
       expect<assert.is.false<_.charset.is<"h">>>,
     ]
   }
+
+  type __splitOnChar__ = [
+    // ^?
+    expect<assert.equal<_.char.splitOnChar<"", "">, []>>,
+    expect<assert.equal<_.char.splitOnChar<"a", "">, ["a"]>>,
+    expect<assert.equal<_.char.splitOnChar<"", "a">, []>>,
+    expect<assert.equal<_.char.splitOnChar<"abc", "a">, ["bc"]>>,
+    expect<assert.equal<_.char.splitOnChar<"abc", "b">, ["a", "c"]>>,
+    expect<assert.equal<_.char.splitOnChar<"abc", "c">, ["ab"]>>,
+    expect<assert.equal<_.char.splitOnChar<"h e y", " ">, ["h", "e", "y"]>>,
+  ]
 }

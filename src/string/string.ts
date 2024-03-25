@@ -27,13 +27,15 @@ declare namespace string {
   /** namespace exports */
   export {
     is,
-    lowercase,
-    uppercase,
+    camel,
     capitalize,
-    uncapitalize,
-    snake,
     kebab,
+    lowercase,
+    pascal,
     screaming,
+    snake,
+    uncapitalize,
+    uppercase,
   }
 
   /** nullary types */
@@ -115,7 +117,7 @@ declare namespace screaming { export { screamingSnake as snake, screamingKebab a
 
 type lowercase<type extends any.showable> = globalThis.Lowercase<`${type}`>
 type lowercaseKey<type extends any.primitive> = type extends any.showable ? globalThis.Lowercase<`${type}`> : type
-type lowercaseKeys<type extends any.object> = { [ix in keyof type as lowercaseKey<ix>]: type[ix] }
+type lowercaseKeys<type extends any.object> = never | { [ix in keyof type as lowercaseKey<ix>]: type[ix] }
 type lowercaseArrayValues<type extends any.showables> = { [ix in keyof type]: lowercase<type[ix]> }
 type lowercaseObjectValues<type extends any.dict<any.showable>> = { [ix in keyof type]: lowercase<type[ix]> }
 type lowercaseValues<type extends any.showables | Record<string, any.showable>>
@@ -134,7 +136,7 @@ declare namespace lowercase {
 
 type uppercase<type extends any.showable> = globalThis.Uppercase<`${type}`>
 type uppercaseKey<type extends any.primitive> = type extends any.showable ? uppercase<type> : type
-type uppercaseKeys<type extends any.object> = { [ix in keyof type as uppercaseKey<ix>]: type[ix] }
+type uppercaseKeys<type extends any.object> = never | { [ix in keyof type as uppercaseKey<ix>]: type[ix] }
 type uppercaseArrayValues<type extends any.showables> = { [ix in keyof type]: uppercase<type[ix]> }
 type uppercaseObjectValues<type extends any.dict<any.showable>> = { [ix in keyof type]: uppercase<type[ix]> }
 type uppercaseValues<type extends any.showables | any.dict<any.showable>>
@@ -153,7 +155,7 @@ declare namespace uppercase {
 
 type capitalize<type extends any.showable> = globalThis.Capitalize<`${type}`>
 type capitalizeKey<type extends any.primitive> = type extends any.showable ? capitalize<type> : type
-type capitalizeKeys<type extends any.object> = { [ix in keyof type as capitalizeKey<ix>]: type[ix] }
+type capitalizeKeys<type extends any.object> = never | { [ix in keyof type as capitalizeKey<ix>]: type[ix] }
 type capitalizeArrayValues<type extends any.showables> = { [ix in keyof type]: capitalize<type[ix]> }
 type capitalizeObjectValues<type extends any.dict<any.showable>> = { [ix in keyof type]: capitalize<type[ix]> }
 type capitalizeValues<type extends any.showables | any.dict<any.showable>>
@@ -161,6 +163,13 @@ type capitalizeValues<type extends any.showables | any.dict<any.showable>>
   : [type] extends [any.dict<any.showable>] ? capitalizeObjectValues<type>
   : never
   ;
+
+declare function capitalize<text extends check.is.stringLiteral<text, "shh">>(string: text): capitalize<text>
+declare function capitalize<type extends any.showable>(showable: type): capitalize<type>
+declare function capitalize<type extends any.primitive>(key: type): capitalizeKey<type>
+declare function capitalize<type extends any.object>(object: type): capitalizeKeys<type>
+declare function capitalize(text: string): globalThis.Capitalize<string>
+
 declare namespace capitalize {
   export {
     capitalizeKey as key,
@@ -171,7 +180,7 @@ declare namespace capitalize {
 
 type uncapitalize<type extends any.showable> = globalThis.Uncapitalize<`${type}`>
 type uncapitalizeKey<type extends any.primitive> = type extends any.showable ? uncapitalize<type> : type
-type uncapitalizeKeys<type extends any.object> = { [ix in keyof type as uncapitalizeKey<ix>]: type[ix] }
+type uncapitalizeKeys<type extends any.object> = never | { [ix in keyof type as uncapitalizeKey<ix>]: type[ix] }
 type uncapitalizeArrayValues<type extends any.showables> = { [ix in keyof type]: uncapitalize<type[ix]> }
 type uncapitalizeObjectValues<type extends any.dict<any.showable>> = { [ix in keyof type]: uncapitalize<type[ix]> }
 type uncapitalizeValues<type extends any.showables | any.dict<any.showable>>
@@ -179,6 +188,13 @@ type uncapitalizeValues<type extends any.showables | any.dict<any.showable>>
   : [type] extends [any.dict<any.showable>] ? uncapitalizeObjectValues<type>
   : never
   ;
+
+declare function uncapitalize<text extends check.is.stringLiteral<text, "shh">>(string: text): uncapitalize<text>
+declare function uncapitalize<type extends any.showable>(showable: type): uncapitalize<type>
+declare function uncapitalize<type extends any.primitive>(key: type): uncapitalizeKey<type>
+declare function uncapitalize<type extends any.object>(object: type): uncapitalizeKeys<type>
+declare function uncapitalize(text: string): globalThis.Uncapitalize<string>
+
 declare namespace uncapitalize {
   export {
     uncapitalizeKey as key,
@@ -192,7 +208,7 @@ type delimitedCase<text extends any.showable, delimiter extends any.showable>
 type delimitedCaseKey<type extends any.primitive, delimiter extends any.showable>
   = [type] extends [any.showable] ? delimitedCase<type, delimiter> : type
 type delimitedCaseKeys<type extends any.object, delimiter extends any.showable>
-  = { [ix in keyof type as delimitedCaseKey<ix, delimiter>]: type[ix] }
+  = never | { [ix in keyof type as delimitedCaseKey<ix, delimiter>]: type[ix] }
 type delimitedCaseArrayValues<type extends any.showables, delimiter extends any.showable>
   = { [ix in keyof type]: delimitedCase<type[ix], delimiter> }
 type delimitedCaseObjectValues<type extends any.dict<any.showable>, delimiter extends any.showable>
@@ -216,12 +232,13 @@ declare function delimitedCase<delimiter extends check.is.stringLiteral<string, 
   <text extends check.is.stringLiteral<text, "shh">>(text: text): delimitedCase<text, delimiter>
   <type extends any.showable>(showable: type): delimitedCase<type, delimiter>
   <type extends any.primitive>(key: type): delimitedCaseKey<type, delimiter>
+  <type extends any.object>(object: type): delimitedCaseKeys<type, delimiter>
   (string: string): Uncapitalize<string>
 }
 
 type snake<type extends any.showable> = Internal.snake<`${type}`>
 type snakeKey<type extends any.primitive> = type extends any.showable ? snake<type> : type
-type snakeKeys<type extends any.object> = { [ix in keyof type as snakeKey<ix>]: type[ix] }
+type snakeKeys<type extends any.object> = never | { [ix in keyof type as snakeKey<ix>]: type[ix] }
 type snakeArrayValues<type extends any.showables> = { [ix in keyof type]: snake<type[ix]> }
 type snakeObjectValues<type extends any.dict<any.showable>> = { [ix in keyof type]: snake<type[ix]> }
 type snakeValues<type extends any.showables | any.dict<any.showable>>
@@ -233,6 +250,7 @@ type snakeValues<type extends any.showables | any.dict<any.showable>>
 declare function snake<text extends check.is.stringLiteral<text, "shh">>(string: text): snake<text>
 declare function snake<type extends any.showable>(showable: type): snake<type>
 declare function snake<type extends any.primitive>(key: type): snakeKey<type>
+declare function snake<type extends any.object>(object: type): snakeKeys<type>
 declare function snake(text: string): globalThis.Lowercase<string>
 
 namespace snake { snake.case = snake; }
@@ -247,7 +265,7 @@ declare namespace snake {
 
 type screamingSnake<type extends any.showable> = Internal.screamingSnake<`${type} `>
 type screamingSnakeKey<type extends any.primitive> = type extends any.showable ? screamingSnake<`${type} `> : type
-type screamingSnakeKeys<type extends any.object> = { [ix in keyof type as screamingSnakeKey<ix>]: type[ix] }
+type screamingSnakeKeys<type extends any.object> = never | { [ix in keyof type as screamingSnakeKey<ix>]: type[ix] }
 type screamingSnakeArrayValues<type extends any.showables> = { [ix in keyof type]: screamingSnake<type[ix]> }
 type screamingSnakeObjectValues<type extends any.dict<any.showable>> = { [ix in keyof type]: screamingSnake<type[ix]> }
 type screamingSnakeValues<type extends any.showables | any.dict<any.showable>>
@@ -259,6 +277,7 @@ type screamingSnakeValues<type extends any.showables | any.dict<any.showable>>
 declare function screamingSnake<text extends check.is.stringLiteral<text, "shh">>(string: text): screamingSnake<text>
 declare function screamingSnake<type extends any.showable>(showable: type): screamingSnake<type>
 declare function screamingSnake<type extends any.primitive>(key: type): screamingSnakeKey<type>
+declare function screamingSnake<type extends any.object>(object: type): screamingSnakeKeys<type>
 declare function screamingSnake(text: string): globalThis.Uppercase<string>
 
 namespace screamingSnake { screamingSnake.case = screamingSnake; }
@@ -273,7 +292,7 @@ declare namespace screamingSnake {
 
 type kebab<type extends any.showable> = Internal.kebab<`${type} `>
 type kebabKey<type extends any.primitive> = type extends any.showable ? kebab<type> : type
-type kebabKeys<type extends any.object> = { [ix in keyof type as kebabKey<ix>]: type[ix] }
+type kebabKeys<type extends any.object> = never | { [ix in keyof type as kebabKey<ix>]: type[ix] }
 type kebabArrayValues<type extends any.showables> = { [ix in keyof type]: kebab<type[ix]> }
 type kebabObjectValues<type extends any.dict<any.showable>> = { [ix in keyof type]: kebab<type[ix]> }
 type kebabValues<type extends any.showables | any.dict<any.showable>>
@@ -285,6 +304,7 @@ type kebabValues<type extends any.showables | any.dict<any.showable>>
 declare function kebab<text extends check.is.stringLiteral<text, "shh">>(text: text): kebab<text>
 declare function kebab<type extends any.showable>(showable: type): kebab<type>
 declare function kebab<type extends any.primitive>(key: type): kebabKey<type>
+declare function kebab<type extends any.object>(object: type): kebabKeys<type>
 declare function kebab(text: string): globalThis.Lowercase<string>
 
 namespace kebab { kebab.case = kebab; }
@@ -299,7 +319,7 @@ declare namespace kebab {
 
 type screamingKebab<type extends any.showable> = Internal.screamingKebab<`${type} `>
 type screamingKebabKey<type extends any.primitive> = type extends any.showable ? Internal.screamingKebab<`${type} `> : type
-type screamingKebabKeys<type extends any.object> = { [ix in keyof type as screamingKebabKey<ix>]: type[ix] }
+type screamingKebabKeys<type extends any.object> = never | { [ix in keyof type as screamingKebabKey<ix>]: type[ix] }
 type screamingKebabArrayValues<type extends any.showables> = { [ix in keyof type]: screamingKebab<type[ix]> }
 type screamingKebabObjectValues<type extends any.dict<any.showable>> = { [ix in keyof type]: screamingKebab<type[ix]> }
 type screamingKebabValues<type extends any.showables | any.dict<any.showable>>
@@ -311,6 +331,7 @@ type screamingKebabValues<type extends any.showables | any.dict<any.showable>>
 declare function screamingKebab<text extends check.is.stringLiteral<text, "shh">>(string: text): screamingKebab<text>
 declare function screamingKebab<type extends any.showable>(showable: type): screamingKebab<type>
 declare function screamingKebab<type extends any.primitive>(key: type): screamingKebabKey<type>
+declare function screamingKebab<type extends any.object>(object: type): screamingKebabKeys<type>
 declare function screamingKebab(text: string): globalThis.Uppercase<string>
 
 namespace screamingKebab { screamingKebab.case = screamingKebab; }
@@ -322,6 +343,64 @@ declare namespace screamingKebab {
     screamingKebabValues as values,
   }
 }
+
+type camel<type extends any.showable> = Internal.camel<`${type}`>
+type camelKey<type extends any.primitive> = type extends any.showable ? camel<type> : type
+type camelKeys<type extends any.object> = never | { [ix in keyof type as camelKey<ix>]: type[ix] }
+type camelArrayValues<type extends any.showables> = { [ix in keyof type]: camel<type[ix]> }
+type camelObjectValues<type extends any.dict<any.showable>> = { [ix in keyof type]: camel<type[ix]> }
+type camelValues<type extends any.showables | any.dict<any.showable>>
+  = [type] extends [any.showables] ? camelArrayValues<type>
+  : [type] extends [any.dict<any.showable>] ? camelObjectValues<type>
+  : never
+  ;
+
+declare function camel<text extends check.is.stringLiteral<text, "shh">>(string: text): camel<text>
+declare function camel<type extends any.showable>(showable: type): camel<type>
+declare function camel<type extends any.primitive>(key: type): camelKey<type>
+declare function camel<type extends any.object>(object: type): camelKeys<type>
+declare function camel(text: string): globalThis.Lowercase<string>
+
+namespace camel { camel.case = camel; }
+declare namespace camel {
+  export {
+    camel as case,
+    camelKey as key,
+    camelKeys as object,
+    camelValues as values,
+  }
+}
+
+type pascal<type extends any.showable> = Internal.pascal<`${type}`>
+type pascalKey<type extends any.primitive> = type extends any.showable ? pascal<type> : type
+type pascalKeys<type extends any.object> = never | { [ix in keyof type as pascalKey<ix>]: type[ix] }
+type pascalArrayValues<type extends any.showables> = { [ix in keyof type]: pascal<type[ix]> }
+type pascalObjectValues<type extends any.dict<any.showable>> = { [ix in keyof type]: pascal<type[ix]> }
+type pascalValues<type extends any.showables | any.dict<any.showable>>
+  = [type] extends [any.showables] ? pascalArrayValues<type>
+  : [type] extends [any.dict<any.showable>] ? pascalObjectValues<type>
+  : never
+  ;
+
+declare function pascal<text extends check.is.stringLiteral<text, "shh">>(string: text): pascal<text>
+declare function pascal<type extends any.showable>(showable: type): pascal<type>
+declare function pascal<type extends any.primitive>(key: type): pascalKey<type>
+declare function pascal<type extends any.object>(object: type): pascalKeys<type>
+declare function pascal(text: string): globalThis.Lowercase<string>
+
+namespace pascal { pascal.case = pascal; }
+declare namespace pascal {
+  export {
+    pascal as case,
+    pascalKey as key,
+    pascalKeys as object,
+    pascalValues as values,
+  }
+}
+
+pascal("abc-def")
+const out = pascal({ abc_def: 123 })
+
 
 /**
  * TODO:

@@ -4,7 +4,8 @@ export {
 }
 
 import type { _ } from "../util"
-import type { empty, nonempty } from "../empty"
+import type { any } from "../any/exports"
+import type { nonempty } from "../empty"
 import type { boolean } from "../boolean/exports"
 import type { string } from "./string"
 
@@ -23,19 +24,32 @@ declare namespace char {
     : ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
 }
 
-declare namespace char {
-  export type Lower = charset.Lowers[number]
-  export type Upper = charset.Uppers[number]
-  export type Digit = charset.Digits[number]
+declare namespace Internal {
+  type splitOnChar<acc extends any.array<string>, intermediate extends string, text extends string, splitOn extends any.showable>
+    = text extends nonempty.string<infer head, infer tail>
+    ? head extends splitOn
+    ? splitOnChar<intermediate extends "" ? acc : [...acc, intermediate], "", tail, splitOn>
+    : splitOnChar<acc, `${intermediate}${head}`, tail, splitOn>
+    : intermediate extends "" ? acc : [...acc, intermediate]
+    ;
+}
 
-  export type is<type> = [type] extends [`${string}${infer tail}`] ? string.is.empty<tail> : false
-  export namespace is {
+
+declare namespace char {
+  type Lower = charset.Lowers[number]
+  type Upper = charset.Uppers[number]
+  type Digit = charset.Digits[number]
+
+  type is<type> = [type] extends [`${string}${infer tail}`] ? string.is.empty<tail> : false
+  namespace is {
     type alpha<type extends string> = boolean.all<[char.is<type>, string.is.alpha<type>]>
     type digit<type> = boolean.all<[char.is<type>, [type] extends [char.Digit] ? true : false]>
     type lowercase<type extends string> = boolean.all<[char.is<type>, string.is.lowercase<type>]>
     type uppercase<type extends string> = boolean.all<[char.is<type>, string.is.uppercase<type>]>
     type uppercaseAlpha<type extends string> = boolean.all<[char.is.alpha<`${type}`>, char.is.uppercase<`${type}`>]>
   }
+
+  type splitOnChar<text extends string, splitter extends any.showable> = Internal.splitOnChar<[], "", text, splitter>
 }
 
 declare namespace charset {
