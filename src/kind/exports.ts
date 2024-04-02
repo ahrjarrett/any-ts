@@ -8,7 +8,12 @@ export type {
   Negate,
 } from "./extensible"
 
-export type { Kind } from "./kind"
+export type {
+  Kind,
+  Scope,
+  /** @internal */
+  $$,
+} from "./kind"
 
 export type {
   tag,
