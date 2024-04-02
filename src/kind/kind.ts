@@ -1,6 +1,7 @@
-export {
-  type kind as Kind,
-  type Kind as kind__internal
+export type {
+  kind as Kind,
+  Kind as $$,
+  Scope,
 }
 
 import type { never } from "../semantic-never/exports"
@@ -8,11 +9,14 @@ import type { any } from "../any/exports"
 import type { _ } from "../util"
 import type { Err } from "../err/exports"
 import type { Union } from "../union/exports"
+import type { nonempty } from "../empty"
 
 declare namespace kind {
   /** namespace exports */
   export {
     kind as new,
+    Fold as fold,
+    Reduce as reduce,
   }
   /** aliased exports */
   export {
@@ -154,10 +158,7 @@ interface Scope { 0?: _, 1?: _, 2?: _, 3?: _, 4?: _, 5?: _, 6?: _, 7?: _, 8?: _,
 type bind<fn extends Kind, args extends satisfies<fn>> = never | (fn & structured<args>)
 type apply<fn extends Kind, args extends satisfies<fn>> = bind<fn, args>[-1]
 
-type constraintsOf<
-  fn extends Kind,
-  type extends satisfies<fn> = satisfies<fn>
-> = type
+type constraintsOf<fn extends Kind, type extends satisfies<fn> = satisfies<fn>> = type
 
 /** 
  * {@link bind$ `Kind.bind$`} is an "escape hatch" variant of {@link bind `Kind.bind`} 
@@ -217,3 +218,40 @@ interface Mutable<type extends {}> extends identity<type> { }
 type partial<fn extends Kind, args extends Partial<satisfies<fn>>> = never | (fn & structured<args>)
 /** @deprecated use {@link kind.apply `Kind.apply`} instead */
 type partiallyApply<fn extends Kind, args extends Partial<satisfies<fn>>> = partial<fn, args>[-1]
+
+/**
+ * {@link reduce `reduce`}
+ * 
+ * Fell out of a [conversation with `@MajorLift`](https://github.com/poteat/hkt-toolbelt/issues/59#issuecomment-2018937609) 
+ */
+type reduce<f extends kind<2>, xs extends any.array, x>
+  = xs extends nonempty.array<infer hd, infer tl>
+  ? reduce<f, tl, apply$<f, [x, hd]>>
+  : x
+  ;
+
+/**
+ * {@link Reduce `Kind.reduce`}
+ * 
+ * Fell out of a [conversation with `@MajorLift`](https://github.com/poteat/hkt-toolbelt/issues/59#issuecomment-2018937609) 
+ */
+interface Reduce<T = _> extends kind<[f: kind<[T, T]>, xs: any.array, x: T]> {
+  [-1]: [this[0], this[1], this[2]] extends
+  [kind<[T, T]> & infer f extends kind<2>, any.array & any.list<infer xs>, infer x]
+  ? reduce<f, xs, x>
+  : never
+}
+
+/**
+ * {@link Fold `Kind.fold`}
+ * 
+ * Fell out of a [conversation with `@MajorLift`](https://github.com/poteat/hkt-toolbelt/issues/59#issuecomment-2018937609) 
+ */
+interface Fold<T = _> extends kind<[f: kind<[T, T]>, xs: any.array]> {
+  [-1]: [this[0], this[1]] extends
+  [kind<[T, T]> & infer f extends kind<2>, any.array & any.list<infer xs>]
+  ? xs extends nonempty.array<infer hd, infer tl>
+  ? reduce<f, tl, hd>
+  : never
+  : never
+}

@@ -19,10 +19,10 @@ type nonempty<
   lead extends any.path = any.path
 > = readonly [...lead, last]
 
-type mergeTrees<union> = never.as.identity
-  | [union] extends [any.primitive] ? union :
-  { [ix in union extends union ? keyof union : never.close.distributive]
-    : mergeTrees<union extends any.indexedby<ix> ? union[ix] : never.close.distributive> }
+type merge<t> = never
+  | [t] extends [any.primitive] ? t
+  : { [k in t extends any.object ? keyof t : never]
+    : merge<t extends any.indexedby<k> ? t[k] : never> }
   ;
 
 type shift<xs extends pathable>
@@ -32,7 +32,7 @@ declare namespace Tree {
   export {
     shift,
     fromPaths,
-    mergeTrees as merge,
+    merge,
     pathable,
   }
 
@@ -52,5 +52,4 @@ declare namespace Tree {
       : { [e in Tree.shift<xs> as e[0]]: go.breadthFirst<e[1]> }
       ;
   }
-
 }

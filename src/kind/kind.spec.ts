@@ -1,7 +1,6 @@
+import type { any } from "../any/exports"
 import type { assert, expect } from "../test/exports"
 import type { Kind } from "./kind"
-
-type evaluate<type> = never | ({ [ix in keyof type]: type[ix] })
 
 declare namespace Spec {
   type _ = unknown
@@ -119,7 +118,35 @@ declare namespace Spec {
       { [-1]: _, 0: s, 1: n, 2: b, 3: s, 4: n, 5: b, 6: s, 7: n, 8: b }
     >>,
   ]
+
+  interface Intercalate<delimiter extends any.showable> extends Kind<[string, string]> {
+    [-1]: this[0] extends "" ? this[1] : `${this[0]}${delimiter}${this[1]}`
+  }
+
+  type reduce = [
+    expect<assert.equal<
+      Kind.apply<Kind.reduce<string>, [
+        f: Intercalate<"::">,
+        xs: ["1", "2", "3"],
+        empty: ""
+      ]>,
+      "1::2::3"
+    >>,
+  ]
+  type fold = [
+    expect<assert.equal<
+      Kind.apply<
+        Kind.fold<string>,
+        [
+          f: Intercalate<", ">,
+          xs: ["1", "2", "3"]
+        ]
+      >,
+      "1, 2, 3"
+    >>,
+  ]
 }
+
 
 // type greatestArity<keys extends keyof Scope, countdown extends Arity = 9>
 //   = countdown extends keys ? countdown

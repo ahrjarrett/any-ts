@@ -100,7 +100,7 @@ declare namespace any {
   export type list<type extends any.array = any.array> = type
   export type entries<type extends any.array<entry> = any.array<entry>> = type
   export type struct<type extends any_struct = any_struct> = type
-  export type dictionary<type = _> = dict<type>
+  export type dictionary<type = _> = any_dict<type>
   export type enumerable<type extends any_enumerable = any_enumerable> = type
   export type arraylike<type extends any_arraylike = any_arraylike> = type
   export type invertible<type extends any_invertible = any_invertible> = type
@@ -224,30 +224,31 @@ declare namespace any {
   > = subtype
 }
 
-type any_index = keyof never
-type any_nonnullable = {}
-type any_nullable = null | undefined
-type any_type<type extends any_nullable | any_nonnullable = any_nullable | any_nonnullable> = type
-type any_key<type extends string | number = string | number> = type
-type any_scalar = string | number | boolean | null
+export type any_index = keyof never
+export type any_nonnullable = {}
+export type any_nullable = null | undefined
+export type any_type<type extends any_nullable | any_nonnullable = any_nullable | any_nonnullable> = type
+export type any_key<type extends string | number = string | number> = type
+export type any_scalar = string | number | boolean | null
 
-interface dict<type = _> { [ix: keyof never]: type }
-type any_array<type = _> = readonly type[]
+export interface any_dict<type = _> { [ix: keyof never]: type }
+export type any_array<type = _> = readonly type[]
 /** @ts-expect-error */
-interface any_object<type extends object = object> extends id<type> { }
-type any_struct<type = any> = { [ix: string]: type }
-interface any_enumerable<type = unknown> { [ix: number]: type }
-interface any_arraylike<type = unknown> extends any_enumerable<type> { length: number }
-interface any_invertible { [ix: any_key]: any_key }
-type any_field<k extends any_index = any_index, v = unknown> = readonly [key: k, value: v]
-type any_entry<type extends readonly [any_index, unknown] = readonly [any_index, unknown]> = type
-interface any_class<
+export interface any_object<type extends object = object> extends id<type> { }
+export type any_struct<type = any> = { [ix: string]: type }
+export interface any_enumerable<type = unknown> { [ix: number]: type }
+export interface any_arraylike<type = unknown> extends any_enumerable<type> { length: number }
+export interface any_invertible { [ix: any_key]: any_key }
+export type any_field<k extends any_index = any_index, v = unknown> = readonly [key: k, value: v]
+export type any_entry<type extends readonly [any_index, unknown] = readonly [any_index, unknown]> = type
+export interface any_class<
   args extends
   | any.array<any>
   = any.array<any>
 > { new(...arg: args): _ }
-type any_json =
+
+export type any_json =
   | any.scalar
+  | any_dict<any_json>
   | readonly any_json[]
-  | dict<any_json>
   ;
