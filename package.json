@@ -1,7 +1,7 @@
 {
   "name": "any-ts",
   "private": false,
-  "version": "0.40.1",
+  "version": "0.40.2",
   "author": {
     "name": "Andrew Jarrett",
     "email": "ahrjarrett@gmail.com",
@@ -27,7 +27,7 @@
     "clean:build": "rm -rf dist",
     "clean:deps": "rm -rf dist",
     "lint": "tsc --noEmit",
-    "release": "./bin/version.ts && pnpm changeset version"
+    "release": "./bin/version.ts"
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.1",
