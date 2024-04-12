@@ -180,6 +180,9 @@ function commitVersion(version: string) {
 }
 
 const main = () => {
+  log(`bumping version...`)
+  version()
+
   const v = readPackageVersion()
   log(`releasing version v${v} 🤞`)
 
