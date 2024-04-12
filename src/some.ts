@@ -33,15 +33,15 @@ interface fn<args extends any.array<any> = any.array<any>, returns = unknown> { 
 
 interface predicate<type = any> { (u: type): boolean }
 
-type guard<target = never> = typeguard<any, target>
-type typeguard<source = any, target = unknown> = typePredicate<[source, target]>
+type guard<target = never> = never | typeguard<any, target>
+type typeguard<source = any, target = unknown> = never | typePredicate<[source, target]>
 type typePredicate<
   map extends
   | readonly [source: unknown, target: unknown]
   = readonly [source: any, target: unknown]
-> = never | { (u: map[0]): u is map[1] }
+> = never | ((u: map[0]) => u is map[1])
 
-type asserts<source = any, target = unknown> = assertion<[source, target]>
+type asserts<source = any, target = unknown> = never | assertion<[source, target]>
 type assertion<
   map extends
   | readonly [source: unknown, target: unknown]
@@ -111,6 +111,8 @@ declare namespace some {
   export {
     /** {@link assertion `some.assertion`} @external */
     assertion,
+    /** {@link asserts `some.asserts`} @external */
+    asserts,
     /** {@link binary `some.binary`} @external */
     binary,
     /** {@link field `some.field`} @external */
