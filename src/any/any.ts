@@ -92,10 +92,10 @@ declare namespace any {
   export type ternary<type extends some.ternary = some.ternary> = type
 
   export type predicate<type extends some.predicate = some.predicate> = type
-  export type asserts<target = _> = some.assertion<[arg: any, out: target]>
-  export type assertion<arg = any, out = _> = some.assertion<[arg: arg, out: out]>
-  export type typeguard<arg = any, out = _> = some.typeguard<arg, out>
-  export type guard<target = _> = some.typeguard<any, target>
+  export type asserts<target = _> = never | some.asserts<any, target>
+  export type assertion<arg = any, out = _> = never | some.assertion<[arg: arg, out: out]>
+  export type guard<target = _> = never | some.typeguard<any, target>
+  export type typeguard<arg = any, out = _> = never | some.typeguard<arg, out>
   export type array<type = _> = any_array<type>
   export type list<type extends any.array = any.array> = type
   export type entries<type extends any.array<entry> = any.array<entry>> = type
