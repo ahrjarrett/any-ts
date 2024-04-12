@@ -27,7 +27,7 @@
     "clean:build": "rm -rf dist",
     "clean:deps": "rm -rf dist",
     "lint": "tsc --noEmit",
-    "release": "./bin/version.ts"
+    "release": "./bin/version.ts && pnpm changeset version"
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.1",
