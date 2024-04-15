@@ -144,10 +144,15 @@ function commitWorktree(version: string): void {
 }
 
 function checkCleanWorktree(): void {
-  return void run(
-    $.exec(`git add --all`),
-    $.exec(`git diff-index --exit-code HEAD`),
-  )
+  // return void 
+  try {
+    run(
+      $.exec(`git add --all`),
+      $.exec(`git diff-index --exit-code HEAD`),
+    )
+  } catch (e) {
+    log.thenDie(`Failure: unclean worktree -- commit or discard your changes before attempting to version package`)
+  }
 }
 
 function commitVersion(version: string) {
@@ -173,6 +178,8 @@ const main = () => {
   else {
     log(`Writing package version \`v${next}\` to:${OS.EOL}\t${versionFile}`)
     writeVersion(next)
+
+    commitWorktree(next)
 
     log(`Committing with changes to ${versionFile}`)
     try { commitVersion(next) }
