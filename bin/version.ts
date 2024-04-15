@@ -179,11 +179,8 @@ const main = () => {
     log(`Writing package version \`v${next}\` to:${OS.EOL}\t${versionFile}`)
     writeVersion(next)
 
-    commitWorktree(next)
-
     log(`Committing with changes to ${versionFile}`)
-    try { commitVersion(next) }
-    catch (e) { log.thenDie(`In \`commitVersion\`: nothing to commit. Check to make sure \`writeVersion\` succeeded`, e) }
+    commitWorktree(next)
 
     log(`kicking off build script`)
     try { run($.exec(`pnpm run build`)) }
