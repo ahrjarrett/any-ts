@@ -133,7 +133,7 @@ const main = () => {
   run(
     checkCleanWorktree,
     // $.exec(`pnpm run changes`),
-    $.exec(`pnpm run version`),
+    $.exec(`pnpm changeset version`),
   )
 
   const next = readPackageVersion()
