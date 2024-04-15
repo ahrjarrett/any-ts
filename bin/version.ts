@@ -173,10 +173,14 @@ function commitVersion(version: string) {
 const main = () => {
   const prev = readPackageVersion()
 
+  log(`prev: ${prev}`)
+
   changeset()
   version()
 
   const next = readPackageVersion()
+
+  log(`prev: ${prev}, next: ${next}`)
 
   if (prev === next) {
     logError(`No version change detected comparing previous version (\`v${prev}\`) with the current version (\`v${next}\`)`)
