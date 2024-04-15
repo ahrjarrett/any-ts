@@ -1,5 +1,13 @@
 # any-ts
 
+## 0.40.9
+
+### Patch Changes
+
+- 1dd4331: ci
+- 4eaefdb: fix: don't run `pnpm run version` in `bin/version`, run `changeset version`
+- 6060a67: fix: straightens out release pipeline
+
 ## 0.40.8
 
 ### Patch Changes
