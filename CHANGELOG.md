@@ -1,5 +1,11 @@
 # any-ts
 
+## 0.40.6
+
+### Patch Changes
+
+- fix: adds publish script
+
 ## 0.40.5
 
 ### Patch Changes
