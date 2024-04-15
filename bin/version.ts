@@ -5,50 +5,28 @@ import * as OS from "node:os"
 
 import { $ } from "./cli"
 
-type Result<ok, err> = Ok<ok> | Err<err>
-
-interface Ok<ok> { _tag: "Result::Ok", ok: ok }
-interface Err<err> { _tag: "Result::Err", err: err }
-
-const ok
-  : <const ok, err = never>(ok: ok) => Result<ok, err>
-  = (ok) => ({ _tag: "Result::Ok", ok })
-
-const isOk
-  : <const ok, err>(result: Result<ok, err>) => result is Ok<ok>
-  = (result): result is never => result._tag === "Result::Ok"
-
-const isErr
-  : <const ok, err>(result: Result<ok, err>) => result is Err<err>
-  = (result): result is never => result._tag === "Result::Err"
-
-const err
-  : <const err, ok = unknown>(err: err) => Result<ok, err>
-  = (err) => ({ _tag: "Result::Err", err })
-
-interface Task<ok, err> {
-  (): Promise<Result<ok, err>>
+function log(...args: readonly unknown[]) {
+  console.log()
+  console.log(`\t✨`, ...args)
 }
 
-const run
-  : <type>(f: () => type) => type
-  = (f) => f()
+namespace log {
+  export const error = (taskName: string, ...args: readonly unknown[]) => {
+    console.log()
+    console.error(`🚫\t`, `Execution failed with message:\n ❌\t${taskName}`)
+    if (args.length > 0) console.info(`🫥\t`, `Additional context:`, ...args)
+  }
 
-export function map<a, b, err>(f: (a: a) => b): (task: Task<a, err>) => Task<b, err>
-export function map<a, b, err>(f: (a: a) => b) {
-  return (task: Task<a, err>) => () =>
-    Promise.resolve()
-      .then(task)
-      .then((a) => isOk(a) ? ok(f(a.ok)) : a)
+  export const thenDie = (taskName: string, ...args: readonly unknown[]) => {
+    log.error(taskName, ...args)
+    return process.exit(1)
+  }
 }
 
-export function flatMap<a, b, err>(f: (a: a) => Task<b, err>): (task: Task<a, err>) => Task<b, err>
-export function flatMap<a, b, err>(f: (a: a) => Task<b, err>) {
-  return (task: Task<a, err>) => () =>
-    Promise.resolve()
-      .then(task)
-      .then((a) => isOk(a) ? run(f(a.ok)) : a)
-}
+
+function run<fn extends () => unknown>(fn: fn): ReturnType<fn>
+function run<fns extends readonly (() => unknown)[]>(...fns: fns): { [ix in keyof fns]: globalThis.ReturnType<fns[ix]> }
+function run(...fns: (() => unknown)[]) { return fns.map(fn => fn()) }
 
 type intercalate<acc extends string, xs extends readonly unknown[], btwn extends string>
   = xs extends readonly [infer head extends string, ...infer tail]
@@ -144,16 +122,6 @@ const versionTemplate: (version: string) => string
 //   .concat(`export type ANY_TS_VERSION = typeof ANY_TS_VERSION`)
 
 
-const log = (...args: readonly unknown[]) => {
-  console.log()
-  console.log(`\t✨`, ...args)
-}
-
-const logError = (taskName: string, ...args: readonly unknown[]) => {
-  console.log()
-  console.error(`🚫\t`, `Execution failed with message:\n ❌\t${taskName}`)
-  if (args.length > 0) console.info(`🫥\t`, `Additional context:`, ...args)
-}
 
 /**
  * Reads the package version from `package.json` and writes it as
@@ -164,8 +132,22 @@ const logError = (taskName: string, ...args: readonly unknown[]) => {
  * with `any-ts` stays up to date with the actual version that's 
  * published.
  */
-const writeVersion = (v: string) => {
-  v && writeFile(versionFile)(versionTemplate(v))
+const writeVersion = (v: string): void => {
+  return void (v && writeFile(versionFile)(versionTemplate(v)))
+}
+
+function commitWorktree(version: string): void {
+  return void run(
+    $.exec(`git add -A`),
+    $.exec(`git commit -m "bump: v${version}"`),
+  )
+}
+
+function checkCleanWorktree(): void {
+  return void run(
+    $.exec(`git add --all`),
+    $.exec(`git diff-index --exit-code HEAD`),
+  )
 }
 
 function commitVersion(version: string) {
@@ -174,14 +156,18 @@ function commitVersion(version: string) {
 
 const main = () => {
   const prev = readPackageVersion()
-  run($.exec(`pnpm run changeset`))
-  run($.exec(`pnpm run version`))
+
+  run(
+    checkCleanWorktree,
+    $.exec(`pnpm run changeset`),
+    $.exec(`pnpm run version`),
+  )
+
   const next = readPackageVersion()
 
   if (prev === next) {
-    logError(`No version change detected`)
-    logError(`Compared previous version (\`v${prev}\`) with the current version (\`v${next}\`)`)
-    process.exit(1)
+    log.error(`No version change detected`)
+    log.thenDie(`Compared previous version (\`v${prev}\`) with the current version (\`v${next}\`)`)
   }
 
   else {
@@ -189,38 +175,68 @@ const main = () => {
     writeVersion(next)
 
     log(`Committing with changes to ${versionFile}`)
-    // try { commitVersion(next) }
-    // catch (e) { log(`Nothing to commit!`) }
+    try { commitVersion(next) }
+    catch (e) { log.thenDie(`In \`commitVersion\`: nothing to commit. Check to make sure \`writeVersion\` succeeded`, e) }
 
-    // log(`kicking off build script`)
-    // try { run($.exec("pnpm build")) }
-    // catch (e) { logError("pnpm build", e) }
-    // log(`Done! Run ${OS.EOL}${OS.EOL}\tpnpm publish${OS.EOL}${OS.EOL}to push things to npm.`)
+    log(`kicking off build script`)
+    try { run($.exec(`pnpm run build`)) }
+    catch (e) { log.thenDie(`pnpm build`, e) }
+
+    log(`Done! Run ${OS.EOL}${OS.EOL}\tpnpm publish${OS.EOL}${OS.EOL}to push things to npm.`)
   }
-
-
-  // log(`Writing package version \`v${next}\` to:${OS.EOL}\t${versionFile}`)
-  // writeVersion(next)
-
-  // log(`Committing with changes to ${versionFile}`)
-  // try { commitVersion(next) }
-  // catch (e) { log(`Nothing to commit!`) }
-
-  // log(`kicking off build script`)
-  // try { run($.exec("pnpm build")) }
-  // catch (e) { logError("pnpm build", e) }
-
-  // log(`Done! Run ${OS.EOL}${OS.EOL}\tpnpm publish${OS.EOL}${OS.EOL}to push things to npm.`)
-
-  // // TODO: get publishing working (probably just need to do this via a shell file)
-  // /**
-  //  * log(`publishing...`)
-  //  * try {
-  //  *   log(`successfully published \`any-ts′ version \`${v}\` 😊`)
-  //  *   log(`https://www.npmjs.com/package/any-ts/v/${v}`)
-  //  * }
-  //  * catch (e) { logError("pnpm publish", e) }
-  //  */
 }
 
 run(main)
+
+// log(`Writing package version \`v${next}\` to:${OS.EOL}\t${versionFile}`)
+// writeVersion(next)
+// log(`Committing with changes to ${versionFile}`)
+// try { commitVersion(next) }
+// catch (e) { log(`Nothing to commit!`) }
+// log(`kicking off build script`)
+// try { run($.exec("pnpm build")) }
+// catch (e) { logError("pnpm build", e) }
+// log(`Done! Run ${OS.EOL}${OS.EOL}\tpnpm publish${OS.EOL}${OS.EOL}to push things to npm.`)
+// // TODO: get publishing working (probably just need to do this via a shell file)
+// /**
+//  * log(`publishing...`)
+//  * try {
+//  *   log(`successfully published \`any-ts′ version \`${v}\` 😊`)
+//  *   log(`https://www.npmjs.com/package/any-ts/v/${v}`)
+//  * }
+//  * catch (e) { logError("pnpm publish", e) }
+//  */
+//
+//
+// type Result<ok, err> = Ok<ok> | Err<err>
+// interface Ok<ok> { _tag: "Result::Ok", ok: ok }
+// interface Err<err> { _tag: "Result::Err", err: err }
+// const ok
+//   : <const ok, err = never>(ok: ok) => Result<ok, err>
+//   = (ok) => ({ _tag: "Result::Ok", ok })
+// const isOk
+//   : <const ok, err>(result: Result<ok, err>) => result is Ok<ok>
+//   = (result): result is never => result._tag === "Result::Ok"
+// const isErr
+//   : <const ok, err>(result: Result<ok, err>) => result is Err<err>
+//   = (result): result is never => result._tag === "Result::Err"
+// const err
+//   : <const err, ok = unknown>(err: err) => Result<ok, err>
+//   = (err) => ({ _tag: "Result::Err", err })
+// interface Task<ok, err> {
+//   (): Promise<Result<ok, err>>
+// }
+// export function map<a, b, err>(f: (a: a) => b): (task: Task<a, err>) => Task<b, err>
+// export function map<a, b, err>(f: (a: a) => b) {
+//   return (task: Task<a, err>) => () =>
+//     Promise.resolve()
+//       .then(task)
+//       .then((a) => isOk(a) ? ok(f(a.ok)) : a)
+// }
+// export function flatMap<a, b, err>(f: (a: a) => Task<b, err>): (task: Task<a, err>) => Task<b, err>
+// export function flatMap<a, b, err>(f: (a: a) => Task<b, err>) {
+//   return (task: Task<a, err>) => () =>
+//     Promise.resolve()
+//       .then(task)
+//       .then((a) => isOk(a) ? run(f(a.ok)) : a)
+// }
