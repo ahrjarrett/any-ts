@@ -1,5 +1,11 @@
 # any-ts
 
+## 0.40.4
+
+### Patch Changes
+
+- chore: specify node version in CI
+
 ## 0.40.3
 
 ### Patch Changes

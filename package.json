@@ -1,7 +1,7 @@
 {
   "name": "any-ts",
   "private": false,
-  "version": "0.40.3",
+  "version": "0.40.4",
   "author": {
     "name": "Andrew Jarrett",
     "email": "ahrjarrett@gmail.com",
@@ -12,6 +12,7 @@
     "type": "git",
     "url": "https://github.com/ahrjarrett/any-ts.git"
   },
+  "packageManager": "pnpm@8.15.6",
   "license": "MIT",
   "types": "dist/index.d.ts",
   "main": "dist/index.js",
