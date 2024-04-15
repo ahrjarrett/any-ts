@@ -74,9 +74,9 @@ const path
     const path = tail.map(String).reduce(
       (path, s) => {
         return s === "" ? `${path}`
-          : s.startsWith("/") ? s.endsWith("/") ? `${path}${s.slice(1, 1)}` : `${path}${s.slice(0, 1)}/`
-            : s.endsWith("/") ? `${path}${s}`
-              : `${path}${s}/`
+          : s.startsWith("/") ? s.endsWith("/") ? `${path}${s.slice(1, 1)}`
+            : `${path}${s.slice(0, 1)}/`
+            : `${path}${s}`.concat(s.endsWith("/") ? "" : "/")
       },
       hd.startsWith("/") ? hd.endsWith("/") ? hd : `${hd}/` : hd.endsWith("/") ? `/${hd}` : `/${hd}/`
     )
@@ -102,7 +102,7 @@ declare namespace Cause {
 namespace Cause {
   export const PathNotFound = (path: unknown): PathNotFound => ({
     tag: "PathNotFound",
-    message: typeof path === "string" ? `Path not found, received: \`${JSON.stringify(path)}\`` : `Path not found`
+    message: typeof path === "string" ? `Path not found, received: \`${path}\`` : `Path not found`
   })
 }
 
@@ -126,27 +126,33 @@ const hasVersion
     typeof u.version === "string"
   ;
 
-const readPackageVersion = () => {
+const readPackageVersion = (): string => {
   const manifest = readFile(fromRoot("package.json"))
-  if (typeof manifest === "object") throw manifest
+  if (typeof manifest === "object") throw ["Expected manifest to be a string", manifest]
   const json: {} | null | undefined = JSON.parse(manifest)
-  return hasVersion(json) ? json.version : void 0 as never
+  if (hasVersion(json)) return json.version
+  else throw ["Expected manifest to have a version", json]
 }
 
-const versionTemplate = (version: string) =>
-  `export const ANY_TS_VERSION = "${version}" as const${OS.EOL}`
-    .concat(`export type ANY_TS_VERSION = typeof ANY_TS_VERSION`)
+const versionTemplate: (version: string) => string
+  = (version) =>
+    [
+      `export const ANY_TS_VERSION = "${version}" as const`,
+      `export type ANY_TS_VERSION = typeof ANY_TS_VERSION`,
+    ].join(OS.EOL)
+// `export const ANY_TS_VERSION = "${version}" as const${OS.EOL}`
+//   .concat(`export type ANY_TS_VERSION = typeof ANY_TS_VERSION`)
 
 
 const log = (...args: readonly unknown[]) => {
   console.log()
-  console.log(`✨\t`, ...args)
+  console.log(`\t✨`, ...args)
 }
 
 const logError = (taskName: string, ...args: readonly unknown[]) => {
   console.log()
-  console.error(`🚫\t`, `failure occurred during task ${taskName}`)
-  if (args.length > 0) console.info(`🫥\t`, `additional context:`, ...args)
+  console.error(`🚫\t`, `Execution failed with message:\n ❌\t${taskName}`)
+  if (args.length > 0) console.info(`🫥\t`, `Additional context:`, ...args)
 }
 
 /**
@@ -162,30 +168,36 @@ const writeVersion = (v: string) => {
   v && writeFile(versionFile)(versionTemplate(v))
 }
 
-// const version = $.exec(`pnpm changeset`)
-const changeset = $.exec(`./bin/changeset.sh`)
-const version = $.exec(`./bin/version.sh`)
-
 function commitVersion(version: string) {
   run($.exec(`git add src/version.ts && git commit -m "automated: writes version ${version} to 'src/version.ts'"`))
 }
 
 const main = () => {
   const prev = readPackageVersion()
-
-  log(`prev: ${prev}`)
-
-  changeset()
-  version()
-
+  run($.exec(`pnpm run changeset`))
+  run($.exec(`pnpm run version`))
   const next = readPackageVersion()
 
-  log(`prev: ${prev}, next: ${next}`)
-
   if (prev === next) {
-    logError(`No version change detected comparing previous version (\`v${prev}\`) with the current version (\`v${next}\`)`)
+    logError(`No version change detected`)
+    logError(`Compared previous version (\`v${prev}\`) with the current version (\`v${next}\`)`)
     process.exit(1)
   }
+
+  else {
+    log(`Writing package version \`v${next}\` to:${OS.EOL}\t${versionFile}`)
+    writeVersion(next)
+
+    log(`Committing with changes to ${versionFile}`)
+    // try { commitVersion(next) }
+    // catch (e) { log(`Nothing to commit!`) }
+
+    // log(`kicking off build script`)
+    // try { run($.exec("pnpm build")) }
+    // catch (e) { logError("pnpm build", e) }
+    // log(`Done! Run ${OS.EOL}${OS.EOL}\tpnpm publish${OS.EOL}${OS.EOL}to push things to npm.`)
+  }
+
 
   // log(`Writing package version \`v${next}\` to:${OS.EOL}\t${versionFile}`)
   // writeVersion(next)

@@ -14,7 +14,7 @@ execVersion() {
   echo "This script will version your package(s) according to the changeset you provided"
   if userGrantsPermission; then
     echo "Bumping local version(s)"
-    pnpm changeset version
+    pnpm exec changeset version
   else
     echo "Versioning skipped; your changeset has not been executed."
   fi

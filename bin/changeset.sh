@@ -14,7 +14,7 @@ execChangeset() {
   echo "This script will create a changeset on your behalf"
   if userGrantsPermission; then
     echo "Creating a changeset"
-    pnpm changeset
+    pnpm exec changeset add
   else
     echo "Skipped; a changeset was not generated."
   fi
