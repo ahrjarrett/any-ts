@@ -1,4 +1,3 @@
-#!/usr/bin/env pnpm dlx tsx
 import * as FileSystem from "node:fs"
 import * as Path from "node:path"
 import * as OS from "node:os"

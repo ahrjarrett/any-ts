@@ -29,7 +29,7 @@
     "clean:deps": "rm -rf dist",
     "lint": "tsc --noEmit",
     "changes": "./bin/changeset.sh",
-    "ci:version": "./bin/version.ts",
+    "ci:version": "pnpm dlx tsx ./bin/version.ts",
     "ci:publish": "changeset publish"
   },
   "devDependencies": {
