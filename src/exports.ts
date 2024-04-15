@@ -60,3 +60,5 @@ export {
   Focus,
   type FocusConstructor
 } from "./lens/focus"
+
+export type { Widen } from "./widen/exports"
