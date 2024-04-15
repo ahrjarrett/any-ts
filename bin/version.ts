@@ -1,4 +1,3 @@
-#!/usr/bin/env pnpx tsx
 import * as FileSystem from "node:fs"
 import * as Path from "node:path"
 import * as OS from "node:os"
@@ -23,31 +22,12 @@ namespace log {
   }
 }
 
-
-function run<fn extends () => unknown>(fn: fn): ReturnType<fn>
 function run<fns extends readonly (() => unknown)[]>(...fns: fns): { [ix in keyof fns]: globalThis.ReturnType<fns[ix]> }
 function run(...fns: (() => unknown)[]) { return fns.map(fn => fn()) }
 
-type intercalate<acc extends string, xs extends readonly unknown[], btwn extends string>
-  = xs extends readonly [infer head extends string, ...infer tail]
-  ? intercalate<acc extends "" ? `${head}` : `${acc}${btwn}${head}`, tail, btwn>
-  : acc
-  ;
-
-type join<
-  xs extends readonly literal[],
-  btwn extends string = ""
-> = intercalate<"", xs, `${btwn}`>
-
-type literal = string | number | boolean | bigint
-
-const join
-  : <btwn extends string>(btwn: btwn) => <const xs extends readonly string[]>(...xs: xs) => join<xs, btwn>
-  = (btwn) => (...xs) => xs.join(btwn) as never
-
 const path
-  : <xs extends readonly literal[]>(...xs: xs) => join<xs, "/">
-  = (...[head, ...tail]: readonly literal[]) => {
+  : (...[head, ...tail]: string[]) => string
+  = (...[head, ...tail]) => {
     const hd = head ? `${head}` : "/";
     const path = tail.map(String).reduce(
       (path, s) => {
@@ -61,15 +41,7 @@ const path
     return (path.endsWith("/") ? path.slice(0, -1) : path) as never
   }
 
-const root: `~` = Path.resolve(__dirname, "..") as never
-
-function fromRoot(...xs: []): typeof root
-function fromRoot<const xs extends readonly string[]>(...xs: xs): join<[typeof root, ...xs], "/">
-function fromRoot<const xs extends readonly string[]>(...xs: xs): string {
-  return path(root, ...xs)
-}
-
-const versionFile = fromRoot("src", "version.ts")
+const versionFile = path(Path.resolve(__dirname, ".."), "src", "version.ts")
 
 declare namespace Cause {
   interface PathNotFound<path extends string = string> {
@@ -84,12 +56,12 @@ namespace Cause {
   })
 }
 
-function readFile(filepath: `${typeof root}${string}`): string | Cause.PathNotFound {
+function readFile(filepath: string): string | Cause.PathNotFound {
   try { return FileSystem.readFileSync(filepath).toString("utf-8") }
   catch (err) { return Cause.PathNotFound(err) }
 }
 
-function writeFile(filepath: `${typeof root}${string}`): (contents: string) => void | Cause.PathNotFound {
+function writeFile(filepath: string): (contents: string) => void | Cause.PathNotFound {
   return (contents) => {
     try { return FileSystem.writeFileSync(filepath, contents) }
     catch (err) { return Cause.PathNotFound(err) }
@@ -105,7 +77,8 @@ const hasVersion
   ;
 
 const readPackageVersion = (): string => {
-  const manifest = readFile(fromRoot("package.json"))
+  const manifest = readFile(path(Path.resolve(__dirname, ".."), "package.json"))
+  // const versionFile = path(Path.resolve(__dirname, ".."), "src", "version.ts")
   if (typeof manifest === "object") throw ["Expected manifest to be a string", manifest]
   const json: {} | null | undefined = JSON.parse(manifest)
   if (hasVersion(json)) return json.version
@@ -113,15 +86,10 @@ const readPackageVersion = (): string => {
 }
 
 const versionTemplate: (version: string) => string
-  = (version) =>
-    [
-      `export const ANY_TS_VERSION = "${version}" as const`,
-      `export type ANY_TS_VERSION = typeof ANY_TS_VERSION`,
-    ].join(OS.EOL)
-// `export const ANY_TS_VERSION = "${version}" as const${OS.EOL}`
-//   .concat(`export type ANY_TS_VERSION = typeof ANY_TS_VERSION`)
-
-
+  = (version) => [
+    `export const ANY_TS_VERSION = "${version}" as const`,
+    `export type ANY_TS_VERSION = typeof ANY_TS_VERSION`,
+  ].join(OS.EOL)
 
 /**
  * Reads the package version from `package.json` and writes it as
@@ -164,7 +132,7 @@ const main = () => {
 
   run(
     checkCleanWorktree,
-    $.exec(`pnpm run changeset`),
+    // $.exec(`pnpm run changes`),
     $.exec(`pnpm run version`),
   )
 

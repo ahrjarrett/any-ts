@@ -1,4 +1,4 @@
-#!/usr/bin/env pnpx tsx
+#!/usr/bin/env pnpm dlx tsx
 import * as Shell from 'node:child_process'
 
 export interface CLI {
