@@ -2,7 +2,8 @@
 import * as FileSystem from "node:fs"
 import * as Path from "node:path"
 import * as OS from "node:os"
-import * as Shell from 'node:child_process'
+
+import { $ } from "./cli"
 
 type Result<ok, err> = Ok<ok> | Err<err>
 
@@ -48,18 +49,6 @@ export function flatMap<a, b, err>(f: (a: a) => Task<b, err>) {
       .then(task)
       .then((a) => isOk(a) ? run(f(a.ok)) : a)
 }
-
-interface CLI {
-  exec(cmd: string, args?: Shell.ExecOptions): () => string | Buffer
-}
-
-const $: CLI = ({
-  exec: (cmd: string, args?: Shell.ExecSyncOptions) => () =>
-    Shell.execSync(
-      cmd,
-      { stdio: "inherit", ...args },
-    )
-})
 
 type intercalate<acc extends string, xs extends readonly unknown[], btwn extends string>
   = xs extends readonly [infer head extends string, ...infer tail]
@@ -173,46 +162,49 @@ const writeVersion = (v: string) => {
   v && writeFile(versionFile)(versionTemplate(v))
 }
 
-const version = $.exec(`pnpm changeset`)
+// const version = $.exec(`pnpm changeset`)
+const changeset = $.exec(`./bin/changeset.sh`)
+const version = $.exec(`./bin/version.sh`)
 
 function commitVersion(version: string) {
   run($.exec(`git add src/version.ts && git commit -m "automated: writes version ${version} to 'src/version.ts'"`))
 }
 
 const main = () => {
-  log(`bumping version...`)
+  const prev = readPackageVersion()
+
+  changeset()
   version()
 
-  const v = readPackageVersion()
-  log(`releasing version v${v} 🤞`)
+  const next = readPackageVersion()
 
-  log(`bumping version...`)
-  version()
+  if (prev === next) {
+    logError(`No version change detected comparing previous version (\`v${prev}\`) with the current version (\`v${next}\`)`)
+    process.exit(1)
+  }
 
-  log(`Writing package version \`${v}\` to:${OS.EOL}\t${versionFile}`)
-  writeVersion(v)
+  // log(`Writing package version \`v${next}\` to:${OS.EOL}\t${versionFile}`)
+  // writeVersion(next)
 
+  // log(`Committing with changes to ${versionFile}`)
+  // try { commitVersion(next) }
+  // catch (e) { log(`Nothing to commit!`) }
 
-  log(`Committing with changes to ${versionFile}`)
-  try { commitVersion(v) }
-  catch (e) { log(`Nothing to commit!`) }
+  // log(`kicking off build script`)
+  // try { run($.exec("pnpm build")) }
+  // catch (e) { logError("pnpm build", e) }
 
+  // log(`Done! Run ${OS.EOL}${OS.EOL}\tpnpm publish${OS.EOL}${OS.EOL}to push things to npm.`)
 
-  log(`kicking off build script`)
-  try { run($.exec("pnpm build")) }
-  catch (e) { logError("pnpm build", e) }
-
-  log(`Done! Run ${OS.EOL}${OS.EOL}\tpnpm publish${OS.EOL}${OS.EOL}to push things to npm.`)
-
-  // TODO: get publishing working (probably just need to do this via a shell file)
-  /**
-   * log(`publishing...`)
-   * try {
-   *   log(`successfully published \`any-ts′ version \`${v}\` 😊`)
-   *   log(`https://www.npmjs.com/package/any-ts/v/${v}`)
-   * }
-   * catch (e) { logError("pnpm publish", e) }
-   */
+  // // TODO: get publishing working (probably just need to do this via a shell file)
+  // /**
+  //  * log(`publishing...`)
+  //  * try {
+  //  *   log(`successfully published \`any-ts′ version \`${v}\` 😊`)
+  //  *   log(`https://www.npmjs.com/package/any-ts/v/${v}`)
+  //  * }
+  //  * catch (e) { logError("pnpm publish", e) }
+  //  */
 }
 
 run(main)
