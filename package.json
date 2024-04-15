@@ -23,15 +23,14 @@
   "sideEffects": false,
   "scripts": {
     "build": "pnpm clean:build && tsup src/index.ts \"!src/**/*.spec.ts\" --format cjs,esm --dts",
-    "changeset": "./bin/changeset.sh",
     "check": "tsc --noEmit",
     "clean": "pnpm run \"/^check:.*/\"",
     "clean:build": "rm -rf dist",
     "clean:deps": "rm -rf dist",
     "lint": "tsc --noEmit",
-    "release": "./bin/release.ts",
-    "version": "./bin/version.sh",
-    "publish": "changeset publish"
+    "changes": "./bin/changeset.sh",
+    "ci:version": "./bin/version.ts",
+    "ci:publish": "changeset publish"
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.1",
