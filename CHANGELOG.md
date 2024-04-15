@@ -1,5 +1,11 @@
 # any-ts
 
+## 0.40.7
+
+### Patch Changes
+
+- fix: adds npm script to ci
+
 ## 0.40.6
 
 ### Patch Changes
