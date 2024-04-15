@@ -1,5 +1,11 @@
 # any-ts
 
+## 0.40.8
+
+### Patch Changes
+
+- fix: configure changesets to make access public
+
 ## 0.40.7
 
 ### Patch Changes
