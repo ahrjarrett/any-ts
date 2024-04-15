@@ -1,5 +1,11 @@
 # any-ts
 
+## 0.40.5
+
+### Patch Changes
+
+- chore: commits lockfile
+
 ## 0.40.4
 
 ### Patch Changes
