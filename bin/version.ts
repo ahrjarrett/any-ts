@@ -101,7 +101,7 @@ const versionTemplate: (version: string) => string
  * published.
  */
 const writeVersion = (v: string): void => {
-  return void (v && writeFile(versionFile)(versionTemplate(v)))
+  return void (v && v.length > 0 && writeFile(versionFile)(versionTemplate(v)))
 }
 
 function commitWorktree(version: string): void {
