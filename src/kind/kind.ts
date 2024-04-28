@@ -36,19 +36,19 @@ declare namespace kind {
   }
 }
 
-interface Fn1 { [0]: _ }
-interface Fn2 { [0]: _, [1]: _ }
-interface Fn3 { [0]: _, [1]: _, [2]: _ }
-interface Fn4 { [0]: _, [1]: _, [2]: _, [3]: _ }
-interface Fn5 { [0]: _, [1]: _, [2]: _, [3]: _, [4]: _ }
-interface Fn6 { [0]: _, [1]: _, [2]: _, [3]: _, [4]: _, [5]: _ }
-interface Fn7 { [0]: _, [1]: _, [2]: _, [3]: _, [4]: _, [5]: _, [6]: _ }
-interface Fn8 { [0]: _, [1]: _, [2]: _, [3]: _, [4]: _, [5]: _, [6]: _, [7]: _ }
-interface Fn9 { [0]: _, [1]: _, [2]: _, [3]: _, [4]: _, [5]: _, [6]: _, [7]: _, [8]: _ }
-interface Fn10 { [0]: _, [1]: _, [2]: _, [3]: _, [4]: _, [5]: _, [6]: _, [7]: _, [8]: _, [9]: _ }
+export interface Fn1 { [0]: _ }
+export interface Fn2 { [0]: _, [1]: _ }
+export interface Fn3 { [0]: _, [1]: _, [2]: _ }
+export interface Fn4 { [0]: _, [1]: _, [2]: _, [3]: _ }
+export interface Fn5 { [0]: _, [1]: _, [2]: _, [3]: _, [4]: _ }
+export interface Fn6 { [0]: _, [1]: _, [2]: _, [3]: _, [4]: _, [5]: _ }
+export interface Fn7 { [0]: _, [1]: _, [2]: _, [3]: _, [4]: _, [5]: _, [6]: _ }
+export interface Fn8 { [0]: _, [1]: _, [2]: _, [3]: _, [4]: _, [5]: _, [6]: _, [7]: _ }
+export interface Fn9 { [0]: _, [1]: _, [2]: _, [3]: _, [4]: _, [5]: _, [6]: _, [7]: _, [8]: _ }
+export interface Fn10 { [0]: _, [1]: _, [2]: _, [3]: _, [4]: _, [5]: _, [6]: _, [7]: _, [8]: _, [9]: _ }
 
 /** @internal */
-declare namespace cached {
+export declare namespace cached {
   interface A00 { [0]: [] }
   interface A01 { [1]: [_] }
   interface A02 { [2]: [_, _] }
