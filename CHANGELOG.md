@@ -1,5 +1,11 @@
 # any-ts
 
+## 0.40.10
+
+### Patch Changes
+
+- 66a6800: feat: adds `Widen` type + ambient namespace
+
 ## 0.40.9
 
 ### Patch Changes
