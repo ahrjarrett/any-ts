@@ -81,6 +81,7 @@ declare namespace any {
   export type single<type extends one = one> = type
   export type unary<type extends some.unary = some.unary> = type
   export type two<one = _, two = _> = readonly [_1: one, _2: two]
+  export type pair<left = _, right = _> = readonly [left: left, right: right]
   export type double<type extends two = two> = type
   export type binary<type extends some.binary = some.binary> = type
   export type three<one = _, two = _, three = _> = readonly [_1: one, _2: two, _3: three]
