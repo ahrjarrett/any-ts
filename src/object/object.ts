@@ -1,6 +1,6 @@
-import type { any } from "./any/exports"
-import type { some } from "./some"
-import type { eval } from "./evaluate/exports"
+import type { any } from "../any/exports"
+import type { some } from "../some"
+import type { eval } from "../evaluate/exports"
 
 export declare namespace object {
   type filter = {
