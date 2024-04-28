@@ -151,7 +151,7 @@ Looking for something that we don't ship yet? [Raise an issue](https://github.co
 - [`boolean`](https://github.com/ahrjarrett/any-ts/blob/main/src/boolean/boolean.ts)
 - [`char`](https://github.com/ahrjarrett/any-ts/blob/main/src/string/char.ts)
 - [`empty`](https://github.com/ahrjarrett/any-ts/blob/main/src/empty.ts)
-- [`Kind`](https://github.com/ahrjarrett/any-ts/blob/main/src/kind/kind.ts) (a [higher-kinded type](https://en.wikipedia.org/wiki/Kind_(type_theory)) encoding that is more ergonomic than any other we've found)
+- [`Kind`](https://github.com/ahrjarrett/any-ts/blob/main/src/kind/kind.ts), a simple but powerful [HKT](https://en.wikipedia.org/wiki/Kind_(type_theory)) encoding that supports partial application & re-binding
 - [`integer`](https://github.com/ahrjarrett/any-ts/blob/main/src/number/integer.ts)
 - [`mut`](https://github.com/ahrjarrett/any-ts/blob/main/src/mutable/mutable.ts)
 - [`never`](https://github.com/ahrjarrett/any-ts/blob/main/src/semantic-never/semantic-never.ts), a.k.a. semantic never

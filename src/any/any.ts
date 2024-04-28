@@ -29,12 +29,8 @@ declare namespace any {
   /////////////////////
   /// 🡓🡓 aliases
   export {
-    arrayof as arrayOf,
     dictionary as dict,
-    indexableby as indexableBy,
-    indexedby as indexedBy,
     keyof as keyOf,
-    keysof as keysOf,
   }
   /// 🡑🡑 aliases
   ///////////////////
@@ -85,11 +81,13 @@ declare namespace any {
   export type single<type extends one = one> = type
   export type unary<type extends some.unary = some.unary> = type
   export type two<one = _, two = _> = readonly [_1: one, _2: two]
+  export type pair<left = _, right = _> = readonly [left: left, right: right]
   export type double<type extends two = two> = type
   export type binary<type extends some.binary = some.binary> = type
   export type three<one = _, two = _, three = _> = readonly [_1: one, _2: two, _3: three]
   export type triple<type extends three = three> = type
   export type ternary<type extends some.ternary = some.ternary> = type
+  export type record<type extends globalThis.Record<string, _> = globalThis.Record<string, _>> = type
 
   export type predicate<type extends some.predicate = some.predicate> = type
   export type asserts<target = _> = never | some.asserts<any, target>
@@ -129,52 +127,42 @@ declare namespace any {
     = keyof invariant
   > = type
 
-  export type keysof<
+  export type keysOf<
     invariant,
     type extends
     | any.array<keyof invariant>
     = any.array<keyof invariant>
   > = type
 
-  export type propertyof<
+  export type propertyOf<
     invariant,
     type extends
     | any.key & keyof invariant
     = any.key & keyof invariant
   > = type
 
-  /**
-   * @deprecated use {@link propertyof `any.propertyof`} or {@link propertyof `any.propertyOf`} instead
-   */
-  export type showableKeyof<
-    invariant,
-    type extends
-    | any.key & keyof invariant
-    = any.key & keyof invariant
-  > = type
-
-  export type indexof<
+  export type indexOf<
     invariant extends any.array,
     type extends
     | Extract<keyof invariant, `${number}`>
     = Extract<keyof invariant, `${number}`>
   > = type
 
-  export type indexedby<
+  export type indexedBy<
     invariant extends any.index,
     type extends
     | { [ix in invariant]: _ }
     = { [ix in invariant]: _ }
   > = type
 
-  export type indexableby<
+  export type indexableBy<
     invariant extends any.index,
     type extends
     | { [ix in invariant]: any.index }
     = { [ix in invariant]: any.index }
   > = type
 
-  export type pathof<
+  export type pathOf<
     invariant,
     type extends
     | pathsof<invariant>
@@ -188,40 +176,55 @@ declare namespace any {
     = { [ix in invariant[0]]: invariant[1] }
   > = type
 
-  export type arrayof<
+  export type arrayOf<
     invariant,
     type extends
     | any.array<invariant>
     = any.array<invariant>
   > = type
 
-  export type entryof<
+  export type entryOf<
     invariant,
     type extends
     | readonly [any.index, invariant]
     = readonly [any.index, invariant]
   > = type
 
-  export type entriesof<
+  export type entriesOf<
     invariant,
     type extends
     | any.array<readonly [any.index, invariant]>
     = any.array<readonly [any.index, invariant]>
   > = type
 
-  export type fieldof<
+  export type fieldOf<
     invariant,
     type extends
     | to.entries<invariant>
     = to.entries<invariant>
   > = type
 
-  export type subtypeof<
+  export type subtypeOf<
     invariant,
     subtype extends
     | invariant extends invariant ? invariant : never
     = invariant extends invariant ? invariant : never
   > = subtype
+
+
+  export type domainOf<
+    invariant extends some.function,
+    target extends
+    | globalThis.Parameters<invariant>
+    = globalThis.Parameters<invariant>
+  > = target
+
+  export type codomainOf<
+    invariant extends some.function,
+    target extends
+    | globalThis.ReturnType<invariant>
+    = globalThis.ReturnType<invariant>
+  > = target
 }
 
 export type any_index = keyof never
@@ -236,19 +239,20 @@ export type any_array<type = _> = readonly type[]
 /** @ts-expect-error */
 export interface any_object<type extends object = object> extends id<type> { }
 export type any_struct<type = any> = { [ix: string]: type }
-export interface any_enumerable<type = unknown> { [ix: number]: type }
-export interface any_arraylike<type = unknown> extends any_enumerable<type> { length: number }
+export interface any_enumerable<type = _> { [ix: number]: type }
+export interface any_arraylike<type = _> extends any_enumerable<type> { length: number }
 export interface any_invertible { [ix: any_key]: any_key }
-export type any_field<k extends any_index = any_index, v = unknown> = readonly [key: k, value: v]
-export type any_entry<type extends readonly [any_index, unknown] = readonly [any_index, unknown]> = type
+export type any_field<key extends any_index = any_index, value = _> = readonly [key: key, value: value]
+export type any_entry<type extends readonly [any_index, _] = readonly [any_index, _]> = type
 export interface any_class<
   args extends
   | any.array<any>
-  = any.array<any>
-> { new(...arg: args): _ }
+  = any.array<any>,
+  target = _
+> { new(...arg: args): target }
 
 export type any_json =
   | any.scalar
-  | any_dict<any_json>
   | readonly any_json[]
+  | any_dict<any_json>
   ;

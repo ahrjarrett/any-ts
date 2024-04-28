@@ -9,7 +9,7 @@ export {
 
 export type { any } from "./any/exports"
 export type { some } from "./some"
-export type { } from "./associative/exports"
+export type { object } from "./object/exports"
 export type { boolean } from "./boolean/exports"
 export type { cache } from "./cache/exports"
 export type { evaluate } from "./evaluate/exports"

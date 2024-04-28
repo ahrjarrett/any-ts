@@ -122,7 +122,17 @@ type kind<params extends nonunion<params> = Scope>
 
 type parseInt<type extends any.index> = `${type & any.key}` extends `${infer x extends number}` ? x : never;
 type structured<type> = never | [type] extends [any.array] ? { [ix in Extract<keyof type, `${number}`> as parseInt<ix>]: type[ix] } : type
-type satisfies<type> = never | ({ [ix in Exclude<keyof type, -1>]+?: type[ix] })
+
+// type satisfies<type> = never | ({ [ix in Exclude<keyof type, -1>]+?: type[ix] })
+type satisfies<fn extends Kind> = never
+  | ([fn] extends [kind<infer scope>]
+    ? unknown extends scope
+    ? { [ix in globalThis.Exclude<keyof fn, -1>]: fn[ix] }
+    : scope
+    : never
+  )
+  ;
+
 
 type inferConstraints<fn extends Kind>
   = fn extends Kind<infer constraints>
@@ -155,7 +165,7 @@ type slots<arity extends Arity> = cached.slots[cached.prev[arity]]
 type Arity = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10
 interface Scope { 0?: _, 1?: _, 2?: _, 3?: _, 4?: _, 5?: _, 6?: _, 7?: _, 8?: _, 9?: _ }
 
-type bind<fn extends Kind, args extends satisfies<fn>> = never | (fn & structured<args>)
+type bind<fn extends Kind, args extends Partial<satisfies<fn>>> = never | (fn & structured<args>)
 type apply<fn extends Kind, args extends satisfies<fn>> = bind<fn, args>[-1]
 
 type constraintsOf<fn extends Kind, type extends satisfies<fn> = satisfies<fn>> = type

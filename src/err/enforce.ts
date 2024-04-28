@@ -139,7 +139,7 @@ declare namespace enforce {
 
   type uniqNonNumericIndex<type>
     = [type] extends [any.entries]
-    ? impl.nonnumericIndex<type> extends any.arrayof<any.index, infer numerics>
+    ? impl.nonnumericIndex<type> extends any.arrayOf<any.index, infer numerics>
     ? Err2<"NonNumericIndex", numerics>
     : enforce.uniqueness.ofEntries<type> extends infer dupes
     ? unknown extends dupes ? (unknown)

@@ -51,7 +51,7 @@ type index<acc extends any.array, type extends { [len$]: number }>
   = acc["length"] extends type[len$ & keyof type] ? acc
   : index<[
     ...acc,
-    Extract<type, any.indexedby<acc["length"]>>[acc["length"]]],
+    Extract<type, any.indexedBy<acc["length"]>>[acc["length"]]],
     type
   >
   ;
@@ -120,22 +120,22 @@ declare namespace impl {
 
 namespace impl {
   const assoc_
-    : new < const ns extends any.object, const ord extends any.indexedby<len$>>(named: ns, order: ord) => ns & ord
+    : new < const ns extends any.object, const ord extends any.indexedBy<len$>>(named: ns, order: ord) => ns & ord
     = class {
-      constructor(named: any.object, order: any.indexedby<len$>) {
+      constructor(named: any.object, order: any.indexedBy<len$>) {
         Object.assign(this, order, named);
       }
     } as never
   // @ts-expect-error - internal use only
   export class assoc<
     const named extends any.object,
-    const order extends any.indexedby<len$>
+    const order extends any.indexedBy<len$>
   > extends assoc_<named, order> { }
 }
 
 class assoc<
   tag extends Tag,
-  const named extends any.object, order extends any.indexedby<len$>
+  const named extends any.object, order extends any.indexedBy<len$>
 >
   extends impl.assoc<{ [tag$]: tag } & named, order>
   implements Tagged<tag> {

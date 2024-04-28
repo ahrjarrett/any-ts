@@ -144,13 +144,13 @@ declare namespace impl {
 
   type merge<union>
     = { [ix in union extends union ? keyof union : never.close.distributive]
-      : union extends any.indexedby<ix> ? union[ix] : never.close.distributive }
+      : union extends any.indexedBy<ix> ? union[ix] : never.close.distributive }
     ;
 
   type mergeTrees<union> = never.as_identity
     | [union] extends [any.primitive] ? union :
     { [ix in union extends union ? keyof union : never.close.distributive]
-      : impl.mergeTrees<union extends any.indexedby<ix> ? union[ix] : never.close.distributive> }
+      : impl.mergeTrees<union extends any.indexedBy<ix> ? union[ix] : never.close.distributive> }
     ;
 
   type joinLeft<left, right> = never.as_identity
