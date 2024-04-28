@@ -11,7 +11,7 @@ type isOptional<key extends keyof type, type>
 
 type pathsof<type>
   = Path.go<type, []> extends
-  | any.two<any, any.arrayof<Path.propWithMeta, infer path>>
+  | any.two<any, any.arrayOf<Path.propWithMeta, infer path>>
   ? { [ix in keyof path]: path[ix] extends
     | any.two<infer segment, infer meta>
     ? meta extends typeof Path.Meta.Optional
@@ -41,7 +41,7 @@ declare namespace Path {
 
   export type array<type extends any.array, path extends any.array<Path.propWithMeta>>
     = number extends type["length"] ? Path.go<type[number], [...path, [𝐤𝐞𝐲: number, 𝐦𝐞𝐭𝐚: typeof Meta.Required]]>
-    : any.indexof<type> extends infer ix
+    : any.indexOf<type> extends infer ix
     ? ix extends keyof type
     ? isOptional<ix, type> extends true
     ? Path.go<Exclude<type[ix], undefined>, [...path, [𝐤𝐞𝐲: ix, 𝐦𝐞𝐭𝐚: typeof Meta.Optional]]>

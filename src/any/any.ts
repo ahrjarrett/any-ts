@@ -29,12 +29,8 @@ declare namespace any {
   /////////////////////
   /// 🡓🡓 aliases
   export {
-    arrayof as arrayOf,
     dictionary as dict,
-    indexableby as indexableBy,
-    indexedby as indexedBy,
     keyof as keyOf,
-    keysof as keysOf,
   }
   /// 🡑🡑 aliases
   ///////////////////

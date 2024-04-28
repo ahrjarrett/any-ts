@@ -22,7 +22,7 @@ type nonempty<
 type merge<t> = never
   | [t] extends [any.primitive] ? t
   : { [k in t extends any.object ? keyof t : never]
-    : merge<t extends any.indexedby<k> ? t[k] : never> }
+    : merge<t extends any.indexedBy<k> ? t[k] : never> }
   ;
 
 type shift<xs extends pathable>

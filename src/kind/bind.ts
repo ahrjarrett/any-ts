@@ -10,7 +10,7 @@ declare namespace Bind {
   interface four<a = _, b = _, c = _, d = _> extends Kind<[a, b, c, d]> { [-1]: Kind<[this[0], this[1], this[2], this[3]]> }
   interface five<a = _, b = _, c = _, d = _, e = _> extends Kind<[a, b, c, d, e]> { [-1]: Kind<[this[0], this[1], this[2], this[3], this[4]]> }
 
-  type partial<type extends Kind> = globalThis.Omit<type, -1> extends any.subtypeof<type, infer next> ? next : never
+  type partial<type extends Kind> = globalThis.Omit<type, -1> extends any.subtypeOf<type, infer next> ? next : never
 }
 
 type __Bind__ = [

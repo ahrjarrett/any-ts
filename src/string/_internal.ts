@@ -238,7 +238,7 @@ type snake<text extends string>
   ;
 
 type pascal<type extends string>
-  = char.splitOnChar<delimitedCase<type, " ">, " "> extends any.arrayof<string, infer xs>
+  = char.splitOnChar<delimitedCase<type, " ">, " "> extends any.arrayOf<string, infer xs>
   ? join<{ [ix in keyof xs]: globalThis.Capitalize<globalThis.Lowercase<xs[ix]>> }>
   : never
   ;
