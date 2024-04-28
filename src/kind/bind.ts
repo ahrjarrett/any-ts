@@ -13,9 +13,3 @@ declare namespace Bind {
   type partial<type extends Kind> = globalThis.Omit<type, -1> extends any.subtypeOf<type, infer next> ? next : never
 }
 
-type __Bind__ = [
-  Kind.apply<Bind.two, { 0: "zero" }>,
-  Kind.apply<Bind.two, { 1: "one" }>,
-  Kind.apply<Bind.three, { 2: "two" }>,
-]
-
