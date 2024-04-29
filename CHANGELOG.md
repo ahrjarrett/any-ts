@@ -1,5 +1,11 @@
 # any-ts
 
+## 0.40.15
+
+### Patch Changes
+
+- ce4239e: chore: fix `object` module exports
+
 ## 0.40.14
 
 ### Patch Changes
