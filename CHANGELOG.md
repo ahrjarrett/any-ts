@@ -1,5 +1,12 @@
 # any-ts
 
+## 0.40.12
+
+### Patch Changes
+
+- 6cd69ad: infra: moves commit title to github action
+- bbbb0b7: chore: exports internal `Fn*` type constructors
+
 ## 0.40.11
 
 ### Patch Changes
