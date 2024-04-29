@@ -2,7 +2,9 @@ import type { any } from "../any/exports"
 import type { some } from "../some"
 import type { eval } from "../evaluate/exports"
 
-export declare namespace object {
+/** @experimental */
+export declare namespace signature {
+  /** @experimental */
   type filter = {
     <A, B>(guard: any.typeguard<A, B>): <const T extends any.dict<A>>(object: T) => filter.values<T, B>
     <A>(predicate: some.predicate<A>): <const T extends any.dict<A>>(object: T) => filter.values<T, A>
@@ -10,6 +12,7 @@ export declare namespace object {
     <A, const T extends any.dict<A>>(object: T, predicate: some.predicate<A>,): filter.values<T, A>
   }
 
+  /** @experimental */
   type filterKeys = {
     <A extends any.index, B extends any.index>(guard: any.typeguard<A, B>): <const T extends any.indexedBy<A>>(object: T) => filter.keys<T, B>
     <A extends any.index>(predicate: some.predicate<A>): <const T extends any.indexedBy<A>>(object: T) => filter.keys<T, A>
@@ -18,7 +21,7 @@ export declare namespace object {
   }
 }
 
-declare namespace filter {
+export declare namespace filter {
   type keys<t, bound extends any.index> = never |
     eval<
       & filter.keys.satisfy<t, bound>

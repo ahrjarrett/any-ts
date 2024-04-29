@@ -1,1 +1,1 @@
-export type { object } from "./object"
+export type * as object from "./object"
