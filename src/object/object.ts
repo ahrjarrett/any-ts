@@ -2,6 +2,11 @@ import type { any } from "../any/exports"
 import type { some } from "../some"
 import type { eval } from "../evaluate/exports"
 
+export declare namespace object {
+  export type filterValues<t, bound> = filter.values<t, bound>
+  export type filterKeys<t, bound extends any.index> = filter.keys<t, bound>
+}
+
 /** @experimental */
 export declare namespace signature {
   /** @experimental */
@@ -20,9 +25,6 @@ export declare namespace signature {
     <A extends any.index, const T extends any.indexedBy<A>>(object: T, predicate: some.predicate<A>,): filter.keys<T, A>
   }
 }
-
-export type filter<t, bound> = filter.values<t, bound>
-export type filterKeys<t, bound extends any.index> = filter.keys<t, bound>
 
 export declare namespace filter {
   type keys<t, bound extends any.index> = never |
