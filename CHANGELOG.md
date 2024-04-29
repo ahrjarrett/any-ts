@@ -1,5 +1,11 @@
 # any-ts
 
+## 0.40.13
+
+### Patch Changes
+
+- ffc37c8: fix: exports `filter` from object module; moves function signatures to experimental status
+
 ## 0.40.12
 
 ### Patch Changes
