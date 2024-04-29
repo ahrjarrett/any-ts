@@ -21,6 +21,9 @@ export declare namespace signature {
   }
 }
 
+export type filter<t, bound> = filter.values<t, bound>
+export type filterKeys<t, bound extends any.index> = filter.keys<t, bound>
+
 export declare namespace filter {
   type keys<t, bound extends any.index> = never |
     eval<
