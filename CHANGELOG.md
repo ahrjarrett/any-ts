@@ -1,5 +1,11 @@
 # any-ts
 
+## 0.40.14
+
+### Patch Changes
+
+- 77e9cfd: export `filter` and `filterKeys` from `object` module
+
 ## 0.40.13
 
 ### Patch Changes
