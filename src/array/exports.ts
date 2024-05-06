@@ -1,1 +1,6 @@
-export type { array } from "./array"
+export type {
+  array,
+  nonemptyArray,
+  queue,
+  tuple,
+} from "./array"

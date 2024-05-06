@@ -4,6 +4,12 @@ import type { nonempty } from "../empty"
 import type { queue } from "./queue"
 import type { tuple, tupleN } from "./tuple"
 
+export {
+  queue,
+  nonemptyArray as nonempty,
+  tuple,
+}
+
 export declare namespace array {
   // namespace exports
   export {
