@@ -1,5 +1,16 @@
 # any-ts
 
+## 0.41.0
+
+### Minor Changes
+
+- 89f1189: feat: adds `tuple` module to `array.tuple`
+- 4c017dd: internal: move `semantic-never*` to `never*`
+
+### Patch Changes
+
+- 4c017dd: feat: adds `array` module (includes submodules: `array.queue, array.nonempty`)
+
 ## 0.40.15
 
 ### Patch Changes
