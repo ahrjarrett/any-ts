@@ -1,5 +1,11 @@
 # any-ts
 
+## 0.41.1
+
+### Patch Changes
+
+- 8638a0f: fix: exports `array` submodule
+
 ## 0.41.0
 
 ### Minor Changes
