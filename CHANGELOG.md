@@ -1,5 +1,11 @@
 # any-ts
 
+## 0.41.4
+
+### Patch Changes
+
+- 804b331: fix: moves `array` member declar… Andrew Jarrett 1 minute
+
 ## 0.41.3
 
 ### Patch Changes
