@@ -1,7 +1,7 @@
 export type { some }
 
 import type { any } from "./any/exports"
-import type { never } from "./semantic-never/exports"
+import type { never } from "./never/exports"
 import type { _ } from "./util"
 
 import type { to } from "./to"

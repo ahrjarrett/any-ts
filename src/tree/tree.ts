@@ -6,7 +6,7 @@ export type {
 
 import { type any } from "../any/exports"
 import { type empty } from "../empty"
-import { type never } from "../semantic-never/exports"
+import { type never } from "../never/exports"
 
 type pathable<
   type extends

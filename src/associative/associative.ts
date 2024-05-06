@@ -10,7 +10,7 @@ import type { Universal } from "../universal/exports"
 import type { cache } from "../cache/exports"
 import type { iter } from "../iter/exports"
 import type { enforce } from "../err/enforce"
-import type { never } from "../semantic-never/exports"
+import type { never } from "../never/exports"
 import { real } from "../number/real"
 
 const size$: unique symbol = Symbol.for("any-ts/associative::size$")

@@ -3,7 +3,7 @@ export type {
 }
 
 import type { any } from "../any/exports"
-import { never } from "../semantic-never/exports"
+import { never } from "../never/exports"
 
 declare namespace bigint {
   type is<x> = [x] extends [bigint] ? true : false

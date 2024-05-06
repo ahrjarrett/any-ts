@@ -1,5 +1,5 @@
 import type { any } from "../any/exports"
-import { never } from "../semantic-never/exports";
+import { never } from "../never/exports";
 import { empty, nonempty } from "../empty"
 import { traversable } from "../traversable/traversable"
 import { Union } from "../union/exports";

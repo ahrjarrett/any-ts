@@ -10,14 +10,14 @@ export type {
 
 import type { any } from "../any/exports"
 import type { _ } from "../util"
-import type { Kind } from "../kind/exports"
-import type { never } from "../semantic-never/exports"
+import type { never } from "../never/exports"
 import { Union } from "../union/exports"
+import { TypeError } from ".."
 
 interface Signatures {
   TypeError: {
-    <msg extends string, const arg>(msg: msg, arg: arg): TypeError<msg, [arg]>
-    <msg extends string, const arg1, const arg2>(msg: msg, arg1: arg1, arg2: arg2): TypeError<msg, [arg1, arg2]>
+    <msg extends string, const arg>(msg: msg, arg: arg): TypeError<[msg, [arg]]>
+    <msg extends string, const arg1, const arg2>(msg: msg, arg1: arg1, arg2: arg2): TypeError<[msg, [arg1, arg2]]>
   }
 }
 
@@ -35,17 +35,17 @@ interface Signatures {
  */
 type unused = never.uninhabited<"Inhabit this type to return \`never\` instead of a \`TypeError\` on failure">
 
-declare const TypeErrorURI: unique symbol
-type TypeErrorURI = typeof TypeErrorURI
+// declare const TypeErrorURI: unique symbol
+// type TypeErrorURI = typeof TypeErrorURI
 
-interface TypeError<
-  msg extends string,
-  pair extends [_] | [_, _]
-> extends Kind<[msg, pair]> { [TypeErrorURI]: TypeErrorURI }
+// interface TypeError<
+//   msg extends string,
+//   pair extends [_] | [_, _]
+// > extends Kind<[msg, pair]> { [TypeErrorURI]: TypeErrorURI }
 
 type typeError<msg extends string, args extends [_, _?]> = never | (
-  [args] extends [[_]] ? TypeError<msg, [got: args[0]]>
-  : [args] extends [[_, _]] ? TypeError<msg, [want: args[0], got: args[1]]>
+  [args] extends [[_]] ? TypeError<[msg, [got: args[0]]]>
+  : [args] extends [[_, _]] ? TypeError<[msg, [want: args[0], got: args[1]]]>
   : never.illegal_state<"args">
 )
 
@@ -53,16 +53,16 @@ declare namespace typeError {
   type signature = Signatures["TypeError"]
 }
 
-type doesNotSatisfy<lowerBound, actual> = TypeError<`Expected \`actual\` to satisfy \`lowerBound\``, [lowerBound: lowerBound, actual: actual]>
-type violatesRule<rule, actual> = TypeError<`\`actual\` violates \`rule\``, [rule: rule, actual: actual]>
-type violatesRuleWithMsg<rule, violation, msg extends string> = TypeError<msg, [rule: rule, violation: violation]>
+type doesNotSatisfy<lowerBound, actual> = TypeError<[`Expected \`actual\` to satisfy \`lowerBound\``, [lowerBound: lowerBound, actual: actual]]>
+type violatesRule<rule, actual> = TypeError<[`\`actual\` violates \`rule\``, [rule: rule, actual: actual]]>
+type violatesRuleWithMsg<rule, violation, msg extends string> = TypeError<[msg, [rule: rule, violation: violation]]>
 
 type isStringLiteral<
   type,
-  shush = unused,
+  hush = unused,
   constraint extends string = string,
 > = [string] extends [type]
-  ? [shush] extends [never.unused_arg]
+  ? [hush] extends [never.unused_arg]
   ? typeError<`Expected string literal`, [type]>
   : never.prevent_match
   : (((constraint)))
@@ -70,20 +70,20 @@ type isStringLiteral<
 
 type isNonFiniteString<
   type,
-  shush = unused
+  hush = unused
 > = [string] extends [type]
   ? (((string)))
-  : [shush] extends [never.unused_arg]
+  : [hush] extends [never.unused_arg]
   ? typeError<`Expected non-finite string`, [type]>
   : never.prevent_match
   ;
 
 type isNumberLiteral<
   type,
-  shush = unused,
+  hush = unused,
   constraint extends number = number,
 > = [number] extends [type]
-  ? [shush] extends [never.unused_arg]
+  ? [hush] extends [never.unused_arg]
   ? typeError<`Expected string literal`, [type]>
   : never.prevent_match
   : (((constraint)))
@@ -91,17 +91,17 @@ type isNumberLiteral<
 
 type isNonFiniteNumber<
   type,
-  shush = unused
+  hush = unused
 > = [number] extends [type]
   ? (((number)))
-  : [shush] extends [never.unused_arg]
+  : [hush] extends [never.unused_arg]
   ? typeError<`Expected non-finite number`, [type]>
   : never.prevent_match
   ;
 
-type isBooleanLiteral<type, shush = unused>
+type isBooleanLiteral<type, hush = unused>
   = [boolean] extends [type]
-  ? [shush] extends [never.unused_arg]
+  ? [hush] extends [never.unused_arg]
   ? typeError<`Expected boolean literal`, [type]>
   : never.prevent_match
   : (((boolean)))
@@ -109,10 +109,10 @@ type isBooleanLiteral<type, shush = unused>
 
 type isNonFiniteBoolean<
   type,
-  shush = unused
+  hush = unused
 > = [boolean] extends [type]
   ? (((boolean)))
-  : [shush] extends [never.unused_arg]
+  : [hush] extends [never.unused_arg]
   ? typeError<`Expected non-finite boolean`, [type]>
   : never.prevent_match
   ;
@@ -120,7 +120,7 @@ type isNonFiniteBoolean<
 type isLiteral<
   type,
   constraint extends any.literal = any.literal,
-  shush = unused
+  hush = unused
 >
   = [type] extends [constraint] ? (
     | (string extends type ? [string] : never.as.nothing)
@@ -129,7 +129,7 @@ type isLiteral<
   ) extends infer out
   ? [out] extends [never]
   ? (((constraint)))
-  : [shush] extends [never.unused_arg]
+  : [hush] extends [never.unused_arg]
   ? typeError<"Expected literal", [Extract<out, any.one>[0]]>
   : never.prevent_match
   : never.close.inline_var<"out">
@@ -146,17 +146,17 @@ type widen<
 
 type isNonLiteral<
   type,
-  shush = unused,
+  hush = unused,
   constraint extends any.literal = any.literal,
 > = [type] extends [constraint] ?
   (
-    [shush] extends [never.unused_arg] ? (
+    [hush] extends [never.unused_arg] ? (
       [(
         | (string extends type ? string : never.as.nothing)
         | (number extends type ? number : never.as.nothing)
         | (boolean extends type ? boolean : never.as.nothing)
       )] extends [infer out]
-      ? [out] extends [never] ? [shush] extends [never.unused_arg] ? typeError<"Expected non-literal", [type]>
+      ? [out] extends [never] ? [hush] extends [never.unused_arg] ? typeError<"Expected non-literal", [type]>
       : never.prevent_match
       : [widen<out>, type] extends [type, widen<out>]
       ? (((out)))
@@ -170,7 +170,7 @@ type isNonLiteral<
         | (number extends type ? number : never.as.nothing)
         | (boolean extends type ? boolean : never.as.nothing)
       ) extends infer out
-      ? [out] extends [never] ? [shush] extends [never.unused_arg] ? never.prevent_match
+      ? [out] extends [never] ? [hush] extends [never.unused_arg] ? never.prevent_match
       : never.prevent_match
       : [widen<out>, type] extends [type, widen<out>]
       ? (((out)))
@@ -184,13 +184,13 @@ type isNonLiteral<
 type isNonArrayObject<
   type,
   constraint extends {} = {},
-  shush = unused
+  hush = unused
 >
   = (type extends any.array ? false : true) extends
   | infer bool
   ? [boolean] extends [bool] ?
   (
-    [shush] extends [never.unused_arg]
+    [hush] extends [never.unused_arg]
     ? typeError<
       "Expected \`type\` to be a non-array, but one of its members was an array",
       [Extract<type, any.array>]
@@ -199,7 +199,7 @@ type isNonArrayObject<
   )
   : [bool] extends [false] ?
   (
-    [shush] extends [never.unused_arg]
+    [hush] extends [never.unused_arg]
     ? typeError<"Expected \`type\` to be a non-array, but got an array", [type]>
     : never.prevent_match
   )
@@ -207,23 +207,23 @@ type isNonArrayObject<
   : never.close.inline_var<"bool">
   ;
 
-type isUnion<type, constraint = any.nullable | any.nonnullable, shush = unused>
+type isUnion<type, constraint = any.nullable | any.nonnullable, hush = unused>
   = Union.is<type> extends true ? (((constraint)))
-  : [shush] extends [never.unused_arg] ? typeError<`Expected a union`, [type]>
+  : [hush] extends [never.unused_arg] ? typeError<`Expected a union`, [type]>
   : never.prevent_match
   ;
 
-type isNonUnion<type, constraint = any.nullable | any.nonnullable, shush = unused>
+type isNonUnion<type, constraint = any.nullable | any.nonnullable, hush = unused>
   = Union.is<type> extends false ? (((constraint)))
-  : [shush] extends [never.unused_arg] ? typeError<`Expected a non-union`, [type]>
+  : [hush] extends [never.unused_arg] ? typeError<`Expected a non-union`, [type]>
   : never.prevent_match
   ;
 
 type checkTuple<type> = [type] extends [any.array] ? [number] extends [type["length"]] ? false : true : false
 
-type isTuple<type, constraint extends any.array = any.array, shush = unused>
+type isTuple<type, constraint extends any.array = any.array, hush = unused>
   = checkTuple<type> extends true ? ([type] extends [constraint] ? (((constraint))) : never)
-  : ([shush] extends [never.unused_arg] ? typeError<`Expected a tuple`, [type]> : never.prevent_match)
+  : ([hush] extends [never.unused_arg] ? typeError<`Expected a tuple`, [type]> : never.prevent_match)
   ;
 
 declare namespace is {
@@ -251,8 +251,8 @@ declare namespace non {
 type check<type, invariant> = [type] extends [invariant] ? invariant : doesNotSatisfy<invariant, type>
 
 declare namespace check {
-  export type shush<type, invariant> = [type] extends [invariant] ? invariant : never
-  export type handle<type, invariant> = [check.shush<type, invariant>] extends [never] ? type : type
+  export type hush<type, invariant> = [type] extends [invariant] ? invariant : never
+  export type handle<type, invariant> = [check.hush<type, invariant>] extends [never] ? type : type
   // namespace exports
   export {
     is,
@@ -315,7 +315,7 @@ declare namespace check {
       : doesNotSatisfy<match, type>
       ;
 
-    export type shush<type, match, subsetOf>
+    export type hush<type, match, subsetOf>
       = [type] extends [match] ?
       (
         (subsetOf extends type ? true : false) extends
@@ -329,7 +329,7 @@ declare namespace check {
       ;
 
     export type handle<type, match, subsetOf, errorMsg extends string = never>
-      = [check.strict.shush<type, match, subsetOf>] extends [never] ? check.strict.subsetOf<type, match, subsetOf, errorMsg> : type
+      = [check.strict.hush<type, match, subsetOf>] extends [never] ? check.strict.subsetOf<type, match, subsetOf, errorMsg> : type
   }
 }
 
@@ -397,9 +397,9 @@ type checkNot<type, constraint, cannotMatch>
   ;
 
 declare namespace checkNot {
-  export type shush<type, constraint, invariant> = [type] extends [invariant] ? never : constraint
+  export type hush<type, constraint, invariant> = [type] extends [invariant] ? never : constraint
   export type handle<type, constraint, invariant>
-    = [checkNot.shush<type, constraint, invariant>] extends [never]
+    = [checkNot.hush<type, constraint, invariant>] extends [never]
     ? violatesRule<invariant, type> : type
     ;
   export {

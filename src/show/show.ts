@@ -16,7 +16,7 @@ export {
 import type { any } from "../any/exports"
 import { assert, describe, expect } from "../test/exports"
 import { empty, nonempty } from "../empty"
-import { never } from "../semantic-never/exports"
+import { never } from "../never/exports"
 
 import { assoc } from "./associative"
 

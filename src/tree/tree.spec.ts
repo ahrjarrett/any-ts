@@ -2,7 +2,7 @@ import type { Tree, nonempty as nonemptyPath } from "./tree"
 
 import type { any } from "../any/exports"
 import { type empty, type nonempty } from "../empty"
-import { type never } from "../semantic-never/exports"
+import { type never } from "../never/exports"
 
 declare namespace Err {
   const DepthFirstExpectedNonUnion: "Error: `go.depthFirst` expected a non-union argument for `path`; distribute `path` _outside_ of `go.depthFirst`, otherwise you will lose structure"

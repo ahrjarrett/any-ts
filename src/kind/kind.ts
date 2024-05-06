@@ -4,7 +4,7 @@ export type {
   Scope,
 }
 
-import type { never } from "../semantic-never/exports"
+import type { never } from "../never/exports"
 import type { any } from "../any/exports"
 import type { _ } from "../util"
 import type { Err } from "../err/exports"

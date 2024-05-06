@@ -6,7 +6,7 @@ export {
 import type { any } from "../any/exports"
 import type { empty, nonempty } from "../empty"
 
-import type { never } from "../semantic-never/exports"
+import type { never } from "../never/exports"
 
 declare namespace impl {
   type unfold<path extends any.path, leaf = unknown>
