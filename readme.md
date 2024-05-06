@@ -148,6 +148,7 @@ Looking for something that we don't ship yet? [Raise an issue](https://github.co
 ### Namespaces
 
 - [`any`](https://github.com/ahrjarrett/any-ts/blob/main/src/any.ts)
+- [`array`](https://github.com/ahrjarrett/any-ts/blob/main/src/array.ts)
 - [`boolean`](https://github.com/ahrjarrett/any-ts/blob/main/src/boolean/boolean.ts)
 - [`char`](https://github.com/ahrjarrett/any-ts/blob/main/src/string/char.ts)
 - [`empty`](https://github.com/ahrjarrett/any-ts/blob/main/src/empty.ts)
