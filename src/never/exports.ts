@@ -1,1 +1,1 @@
-export type { never } from "./semantic-never"
+export type { never } from "./never"

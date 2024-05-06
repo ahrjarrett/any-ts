@@ -10,7 +10,7 @@ declare namespace close {
 
 namespace never {
   export namespace $$ {
-    export const IllegalState: unique symbol = Symbol.for("any-ts/semantic-never::IllegalState")
+    export const IllegalState: unique symbol = Symbol.for("any-ts/never::IllegalState")
     export type IllegalState = typeof never.$$.IllegalState
   }
 }
