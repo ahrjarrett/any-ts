@@ -1,5 +1,13 @@
 # any-ts
 
+## 0.41.3
+
+### Patch Changes
+
+- 3595cde: feat: merge `mut` namespace with `mutable` type (both now exported as just `mut`)
+- 5fe03fc: feat: adds `Identity` type
+- 857ca94: feat: `eval` type (a simpler version of `evaluate`) is now exported from the library
+
 ## 0.41.2
 
 ### Patch Changes
