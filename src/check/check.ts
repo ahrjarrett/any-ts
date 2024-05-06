@@ -11,7 +11,7 @@ export type {
 import type { any } from "../any/exports"
 import type { _ } from "../util"
 import type { Kind } from "../kind/exports"
-import type { never } from "../semantic-never/exports"
+import type { never } from "../never/exports"
 import { Union } from "../union/exports"
 
 interface Signatures {

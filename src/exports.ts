@@ -47,7 +47,7 @@ export type { Tree } from "./tree/exports"
 export type { iter } from "./iter/exports"
 export type { mut, mutable } from "./mutable/exports"
 export type { pathsof } from "./paths/exports"
-export type { never } from "./semantic-never/exports"
+export type { never } from "./never/exports"
 export type {
   char,
   charset,

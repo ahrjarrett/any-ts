@@ -23,7 +23,7 @@ export type {
 import type { any } from "../any/exports"
 import type { boolean } from "../boolean/boolean"
 import type { empty, nonempty } from "../empty"
-import type { never } from "../semantic-never/exports"
+import type { never } from "../never/exports"
 import type { Kind } from "../kind/exports"
 
 import type { char, charset } from "./char"
