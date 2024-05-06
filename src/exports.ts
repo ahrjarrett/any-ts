@@ -8,7 +8,7 @@ export {
 } from "./test/exports"
 
 export type { any } from "./any/exports"
-export type { array } from "./array/exports"
+export type { array, nonemptyArray, queue, tuple } from "./array/exports"
 export type { some } from "./some"
 export type { object } from "./object/exports"
 export type { boolean } from "./boolean/exports"
