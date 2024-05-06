@@ -10,14 +10,14 @@ export type {
 
 import type { any } from "../any/exports"
 import type { _ } from "../util"
-import type { Kind } from "../kind/exports"
 import type { never } from "../never/exports"
 import { Union } from "../union/exports"
+import { TypeError } from ".."
 
 interface Signatures {
   TypeError: {
-    <msg extends string, const arg>(msg: msg, arg: arg): TypeError<msg, [arg]>
-    <msg extends string, const arg1, const arg2>(msg: msg, arg1: arg1, arg2: arg2): TypeError<msg, [arg1, arg2]>
+    <msg extends string, const arg>(msg: msg, arg: arg): TypeError<[msg, [arg]]>
+    <msg extends string, const arg1, const arg2>(msg: msg, arg1: arg1, arg2: arg2): TypeError<[msg, [arg1, arg2]]>
   }
 }
 
@@ -35,17 +35,17 @@ interface Signatures {
  */
 type unused = never.uninhabited<"Inhabit this type to return \`never\` instead of a \`TypeError\` on failure">
 
-declare const TypeErrorURI: unique symbol
-type TypeErrorURI = typeof TypeErrorURI
+// declare const TypeErrorURI: unique symbol
+// type TypeErrorURI = typeof TypeErrorURI
 
-interface TypeError<
-  msg extends string,
-  pair extends [_] | [_, _]
-> extends Kind<[msg, pair]> { [TypeErrorURI]: TypeErrorURI }
+// interface TypeError<
+//   msg extends string,
+//   pair extends [_] | [_, _]
+// > extends Kind<[msg, pair]> { [TypeErrorURI]: TypeErrorURI }
 
 type typeError<msg extends string, args extends [_, _?]> = never | (
-  [args] extends [[_]] ? TypeError<msg, [got: args[0]]>
-  : [args] extends [[_, _]] ? TypeError<msg, [want: args[0], got: args[1]]>
+  [args] extends [[_]] ? TypeError<[msg, [got: args[0]]]>
+  : [args] extends [[_, _]] ? TypeError<[msg, [want: args[0], got: args[1]]]>
   : never.illegal_state<"args">
 )
 
@@ -53,9 +53,9 @@ declare namespace typeError {
   type signature = Signatures["TypeError"]
 }
 
-type doesNotSatisfy<lowerBound, actual> = TypeError<`Expected \`actual\` to satisfy \`lowerBound\``, [lowerBound: lowerBound, actual: actual]>
-type violatesRule<rule, actual> = TypeError<`\`actual\` violates \`rule\``, [rule: rule, actual: actual]>
-type violatesRuleWithMsg<rule, violation, msg extends string> = TypeError<msg, [rule: rule, violation: violation]>
+type doesNotSatisfy<lowerBound, actual> = TypeError<[`Expected \`actual\` to satisfy \`lowerBound\``, [lowerBound: lowerBound, actual: actual]]>
+type violatesRule<rule, actual> = TypeError<[`\`actual\` violates \`rule\``, [rule: rule, actual: actual]]>
+type violatesRuleWithMsg<rule, violation, msg extends string> = TypeError<[msg, [rule: rule, violation: violation]]>
 
 type isStringLiteral<
   type,

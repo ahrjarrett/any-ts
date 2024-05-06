@@ -2,31 +2,36 @@ import type { any } from "../any/exports"
 import type { check } from "../check/exports"
 import type { nonempty } from "../empty"
 import type { queue } from "./queue"
+import type { tuple, tupleN } from "./tuple"
 
 export declare namespace array {
   // namespace exports
   export {
     queue,
     nonemptyArray as nonempty,
+    tuple,
   }
 
   // main api 
   export {
     finite,
     finiteOf,
-    nonfinite,
-    nonfiniteOf,
-    fst,
-    snd,
-    snds,
     head,
     heads,
+    nonfinite,
+    nonfiniteOf,
+    snd,
+    snds,
     tail,
     tails,
   }
 
   // auxillary exports
   export {
+    // aliases
+    fst,
+    // types containing types
+    tupleN,
   }
 }
 

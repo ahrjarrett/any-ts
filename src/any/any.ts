@@ -80,11 +80,11 @@ declare namespace any {
   export type one<only = _> = readonly [_1: only]
   export type single<type extends one = one> = type
   export type unary<type extends some.unary = some.unary> = type
-  export type two<one = _, two = _> = readonly [_1: one, _2: two]
+  export type two<first = _, second = _> = readonly [_1: first, _2: second]
   export type pair<left = _, right = _> = readonly [left: left, right: right]
   export type double<type extends two = two> = type
   export type binary<type extends some.binary = some.binary> = type
-  export type three<one = _, two = _, three = _> = readonly [_1: one, _2: two, _3: three]
+  export type three<first = _, second = _, third = _> = readonly [_1: first, _2: second, _3: third]
   export type triple<type extends three = three> = type
   export type ternary<type extends some.ternary = some.ternary> = type
   export type record<type extends globalThis.Record<string, _> = globalThis.Record<string, _>> = type
