@@ -1,5 +1,14 @@
 # any-ts
 
+## 0.41.2
+
+### Patch Changes
+
+- 858c11e: chore: now exports submodules at the toplevel:
+  - `array.nonempty`: now also available as `nonemptyArray`
+  - `array.queue`: now also available as `queue`
+  - `array.tuple`: now also available as `tuple`
+
 ## 0.41.1
 
 ### Patch Changes
