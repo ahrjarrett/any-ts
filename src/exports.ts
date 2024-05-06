@@ -13,7 +13,7 @@ export type { some } from "./some"
 export type { object } from "./object/exports"
 export type { boolean } from "./boolean/exports"
 export type { cache } from "./cache/exports"
-export type { evaluate } from "./evaluate/exports"
+export type { eval, evaluate } from "./evaluate/exports"
 export type { check, checkNot } from "./check/exports"
 export type {
   Catch,
@@ -53,7 +53,8 @@ export type {
 } from "./mutable/exports"
 export type { pathsof } from "./paths/exports"
 export type { never } from "./never/exports"
-export type { identity, Identity } from "./identity"
+export type { Identity } from "./identity"
+export type { id } from "./util"
 export type {
   char,
   charset,
