@@ -148,25 +148,26 @@ Looking for something that we don't ship yet? [Raise an issue](https://github.co
 ### Namespaces
 
 - [`any`](https://github.com/ahrjarrett/any-ts/blob/main/src/any.ts)
-- [`array`](https://github.com/ahrjarrett/any-ts/blob/main/src/array.ts)
+- [`array`](https://github.com/ahrjarrett/any-ts/blob/main/src/array/array.ts)
 - [`boolean`](https://github.com/ahrjarrett/any-ts/blob/main/src/boolean/boolean.ts)
 - [`char`](https://github.com/ahrjarrett/any-ts/blob/main/src/string/char.ts)
 - [`empty`](https://github.com/ahrjarrett/any-ts/blob/main/src/empty.ts)
 - [`Kind`](https://github.com/ahrjarrett/any-ts/blob/main/src/kind/kind.ts), a simple but powerful [HKT](https://en.wikipedia.org/wiki/Kind_(type_theory)) encoding that supports partial application & re-binding
+- [`Identity`](https://github.com/ahrjarrett/any-ts/blob/main/src/identity.ts)
 - [`integer`](https://github.com/ahrjarrett/any-ts/blob/main/src/number/integer.ts)
 - [`mut`](https://github.com/ahrjarrett/any-ts/blob/main/src/mutable/mutable.ts)
 - [`never`](https://github.com/ahrjarrett/any-ts/blob/main/src/never/never.ts), a.k.a. "semantic never"
 - [`nonempty`](https://github.com/ahrjarrett/any-ts/blob/main/src/empty.ts)
 - [`number`](https://github.com/ahrjarrett/any-ts/blob/main/src/number/number.ts)
 - [`bigint`](https://github.com/ahrjarrett/any-ts/blob/main/src/number/bigint.ts)
-- [`object`](https://github.com/ahrjarrett/any-ts/blob/main/src/object.ts)
+- [`object`](https://github.com/ahrjarrett/any-ts/blob/main/src/object/object.ts)
 - [`Path`](https://github.com/ahrjarrett/any-ts/blob/main/src/paths/Path.ts)
 - [`some`](https://github.com/ahrjarrett/any-ts/blob/main/src/some.ts)
 - [`string`](https://github.com/ahrjarrett/any-ts/blob/main/src/string/string.ts)
 - [`traversable`](https://github.com/ahrjarrett/any-ts/blob/main/src/traversable/traversable.ts)
 - [`traversal`](https://github.com/ahrjarrett/any-ts/blob/main/src/traversable/traversal.ts)
 - [`Tree`](https://github.com/ahrjarrett/any-ts/blob/main/src/tree/tree.ts)
-  - in particular, we believe our implementation of `Tree.fromPaths` to be the simplest and most performant solution possible
+  - in particular, we believe our implementation of `Tree.fromPaths` to be the simplest solution + the solution with the least number of allocations possible
 - [`Union`](https://github.com/ahrjarrett/any-ts/blob/main/src/union/union.ts)
 - [`Universal`](https://github.com/ahrjarrett/any-ts/blob/main/src/universal/universal.ts)
 

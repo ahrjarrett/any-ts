@@ -13,7 +13,7 @@ export type { some } from "./some"
 export type { object } from "./object/exports"
 export type { boolean } from "./boolean/exports"
 export type { cache } from "./cache/exports"
-export type { evaluate } from "./evaluate/exports"
+export type { eval, evaluate } from "./evaluate/exports"
 export type { check, checkNot } from "./check/exports"
 export type {
   Catch,
@@ -46,9 +46,15 @@ export type {
 export type { traversable, traversal } from "./traversable/exports"
 export type { Tree } from "./tree/exports"
 export type { iter } from "./iter/exports"
-export type { mut, mutable } from "./mutable/exports"
+export type {
+  mut,
+  /** @deprecated use the `mut` type or `mut` namespace instead */
+  mut as mutable
+} from "./mutable/exports"
 export type { pathsof } from "./paths/exports"
 export type { never } from "./never/exports"
+export type { Identity } from "./identity"
+export type { id } from "./util"
 export type {
   char,
   charset,
