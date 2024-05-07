@@ -1,8 +1,8 @@
-import { enforce as _, internal } from "./enforce"
-import type { any } from "../any/exports";
+/** term-level import */ import { enforce as _, internal } from "./enforce.js"
+/** term-level import */ import { assert, expect } from "../test/exports.js"
 
-import type { TypeError } from "./err";
-import { assert, expect } from "../test/exports";
+import type { any } from "../any/exports.js"
+import type { TypeError } from "./err.js"
 
 namespace __Spec__ {
   declare const testUniqNonNumericSignature
@@ -148,14 +148,14 @@ declare namespace __Spec__ {
         /* @ts-expect-error: intentionally causing this type error to make sure the `TypeError` comes through */
         { abc: 123 }
       >,
-      TypeError<[𝗺𝘀𝗴: "Expected inputs to share an index signature, but encountered excess props", 𝗴𝗼𝘁: [𝐥𝐞𝐟𝐭: "def"]]>
+      TypeError<[msg: "Expected inputs to share an index signature, but encountered excess props", got: [left: "def"]]>
     >>,
     expect<assert.equal<
       _.noExcessProps<
         { abc: number },
         { abc: 123, def: 456 }
       >,
-      TypeError<[𝗺𝘀𝗴: "Expected inputs to share an index signature, but encountered excess props", 𝗴𝗼𝘁: [𝐫𝐢𝐠𝐡𝐭: "def"]]>
+      TypeError<[msg: "Expected inputs to share an index signature, but encountered excess props", got: [right: "def"]]>
     >>,
     expect<assert.equal<
       _.noExcessProps<
@@ -163,7 +163,7 @@ declare namespace __Spec__ {
         /* @ts-expect-error: intentionally causing this type error to make sure the `TypeError` comes through */
         { abc: number, ghi: 456 }
       >,
-      TypeError<[𝗺𝘀𝗴: "Expected inputs to share an index signature, but encountered excess props", 𝗴𝗼𝘁: [𝐥𝐞𝐟𝐭: "def", 𝐫𝐢𝐠𝐡𝐭: "ghi"]]>
+      TypeError<[msg: "Expected inputs to share an index signature, but encountered excess props", got: [left: "def", right: "ghi"]]>
     >>,
   ]
 }

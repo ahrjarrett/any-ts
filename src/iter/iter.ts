@@ -2,8 +2,8 @@ export {
   iter,
 }
 
-import type { cache } from "../cache/cache"
-import { describe, expect } from "../test/exports"
+import type { cache } from "../cache/cache.js"
+import { describe, expect } from "../test/exports.js"
 
 const mutable
   : <const type>(type: type) => { -readonly [ix in keyof type]: type[ix] }

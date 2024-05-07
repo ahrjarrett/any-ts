@@ -13,12 +13,13 @@ export {
   Show
 }
 
-import type { any } from "../any/exports"
-import { assert, describe, expect } from "../test/exports"
-import { empty, nonempty } from "../empty"
-import { never } from "../never/exports"
+/** term-level import */ import { describe, expect } from "../test/exports.js"
+/** term-level import */ import { assoc } from "./associative.js"
 
-import { assoc } from "./associative"
+import type { any } from "../any/exports.js"
+import type { empty, nonempty } from "../empty.js"
+import type { never } from "../never/exports.js"
+
 
 
 declare const concatall

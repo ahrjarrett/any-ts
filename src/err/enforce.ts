@@ -7,15 +7,15 @@ export type {
 /** @internal - only exported for testing purposes */
 export type { impl as internal }
 
-import type { any } from "../any/exports";
-import type { number } from "../number/number"
+import type { any } from "../any/exports.js"
+import type { number } from "../number/number.js"
 
-import type { Fn } from "../function/exports";
-import type { Err, Err2 } from "./err";
-import type { never } from "../never/exports";
-import type { HasDiscriminant } from "../tag/tag";
-import type { Union as U } from "../union/exports";
-import type { empty } from "../empty";
+import type { Fn } from "../function/exports.js"
+import type { Err, Err2 } from "./err.js"
+import type { never } from "../never/exports.js"
+import type { HasDiscriminant } from "../tag/tag.js"
+import type { Union as U } from "../union/exports.js"
+import type { empty } from "../empty.js"
 
 declare namespace Partial {
   type strict<type extends globalThis.Partial<invariant>, invariant> = (

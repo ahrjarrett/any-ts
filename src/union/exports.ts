@@ -1,1 +1,1 @@
-export * as Union from "./union"
+export * as Union from "./union.js"

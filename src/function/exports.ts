@@ -1,1 +1,1 @@
-export * as Fn from "./function"
+export * as Fn from "./function.js"

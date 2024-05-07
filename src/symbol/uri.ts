@@ -1,4 +1,4 @@
-import type { never } from "../never/exports"
+import type { never } from "../never/exports.js"
 
 export namespace URI {
   export const IllegalState: unique symbol = Symbol.for("any-ts/never::IllegalState")

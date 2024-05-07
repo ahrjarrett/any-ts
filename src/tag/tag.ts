@@ -16,7 +16,7 @@ export {
   Tag,
 }
 
-import type { any } from "../exports";
+import type { any } from "../any/exports.js"
 
 type Discriminant = typeof Discriminant
 type HasDiscriminant<

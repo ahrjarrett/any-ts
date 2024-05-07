@@ -1,6 +1,7 @@
-import type { _ } from "../util";
-import type { any } from "../any/exports"
-import type { nonempty } from "../empty"
+import type { _ } from "../util.js";
+import type { any } from "../any/exports.js"
+import type { nonempty } from "../empty.js"
+import { empty } from "../empty.js";
 
 export declare namespace tuple {
   export {
@@ -31,13 +32,49 @@ export declare namespace tuple {
    * This variant is unique in that it trades a bit of performance 
    * to **preserve tuple labels**.
    * 
-   * A good tradeoff to make, when you're working with function 
-   * arguments programmatically.
+   * Often a good tradeoff when you're working with function arguments
+   * at the type-level.
    */
   type take<xs extends any.array, n extends number>
     = xs extends { length: n | 0 } ? xs
     : xs extends nonempty.pathLeft<infer lead, any> ? take<lead, n>
-    : []
+    : empty.array
+    ;
+
+
+  // [number] extends [xs["length"]] ? xs
+  // : [number] extends [n] ? xs
+  // : [xs] extends [{ length: n | 0 }] ? xs
+  // : [xs] extends [nonempty.pathLeft<infer lead, infer last>] ? take<lead, n>
+  // : [xs] extends [[]] ? []
+  // : (never)
+
+  // [`${n}`] extends [`-${number}`] ? xs
+  // : [number] extends [n] ? xs
+  // : 
+  // xs extends { length: number } & infer arr ? arr : never
+  // ? xs
+  // : [number] extends xs["length"] ? xs
+  // : xs extends { length: n | 0 } ? xs
+  // : xs extends nonempty.pathLeft<infer lead, infer last>
+  // ? take<lead, n>
+  // : xs extends [] ? []
+  // : never
+
+
+
+  type __take__ = [
+    // ^?
+    take<[1, 2, 3, 4, 5], 2>,
+
+    // take<[], 0>,
+    // take<[1, 2, 3], -1>,
+    // take<[1, 2, 3], number>,
+    // take<[1, 2, 3, 4, 5], 2>,
+    // take<number[], 2>,
+    // take<[1, 2, 3], number>,
+  ]
+
 
   /**
    * {@link split `split`} splits a tuple into two parts. The

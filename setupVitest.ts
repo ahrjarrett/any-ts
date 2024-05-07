@@ -1,7 +1,7 @@
 import * as attest from "@arktype/attest"
 
-export const setup = () => attest.setup({
-  tsconfig: "tsconfig.json"
-})
+console.log("RUNNING")
+
+export const setup = () => attest.setup({})
 
 export const teardown = attest.teardown

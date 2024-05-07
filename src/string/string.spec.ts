@@ -1,7 +1,7 @@
-import type { string } from "./string"
-import type * as Internal from "./_internal"
-import type { charset } from "./char"
-import type { assert, expect } from "../test/exports"
+import type { string } from "./string.js"
+import type * as Internal from "./_internal.js"
+import type { charset } from "./char.js"
+import type { assert, expect } from "../test/exports.js"
 
 declare namespace Spec {
   type isParsableNumeric = [

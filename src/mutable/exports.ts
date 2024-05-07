@@ -1,1 +1,1 @@
-export type { mut } from "./mutable"
+export type { mut } from "./mutable.js"

@@ -1,1 +1,1 @@
-export { traversable, traversal } from "./traversable"
+export { traversable, traversal } from "./traversable.js"

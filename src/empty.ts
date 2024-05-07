@@ -1,5 +1,5 @@
-import type { any } from "./any/exports"
-import type { _ } from "./util"
+import type { any } from "./any/exports.js"
+import type { _ } from "./util.js"
 
 export {
   type empty,

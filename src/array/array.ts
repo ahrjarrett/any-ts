@@ -1,8 +1,8 @@
-import type { any } from "../any/exports"
-import type { check, TypeError } from "../check/exports"
-import type { nonempty } from "../empty"
-import type { queue } from "./queue"
-import type { tuple } from "./tuple"
+import type { any } from "../any/exports.js"
+import type { check, TypeError } from "../check/exports.js"
+import type { nonempty } from "../empty.js"
+import type { queue } from "./queue.js"
+import type { tuple } from "./tuple.js"
 
 export {
   queue,

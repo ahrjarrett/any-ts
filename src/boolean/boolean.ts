@@ -2,9 +2,9 @@ export {
   boolean,
 }
 
-import { empty, nonempty } from ".."
-import type { any } from "../any/exports"
-import type { _ } from "../util"
+import { empty, nonempty } from "../empty.js"
+import type { any } from "../any/exports.js"
+import type { _ } from "../util.js"
 
 namespace boolean { export const never: never = void 0 as never }
 declare namespace boolean {

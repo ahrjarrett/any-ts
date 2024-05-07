@@ -2,7 +2,7 @@ export type {
   symbol,
 }
 
-import { never } from "..";
+import type { never } from "../never/exports.js";
 
 /** 
  * {@link is_symbol `symbol.is`} 

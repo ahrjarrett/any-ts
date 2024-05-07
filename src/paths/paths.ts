@@ -1,10 +1,8 @@
-export {
-  type pathsof,
-}
+export type { pathsof }
 
-import type { any } from "../any/exports"
-import { assert, expect } from "../test/exports"
-import type { never } from "../never/exports"
+import type { any } from "../any/exports.js"
+import { assert, expect } from "../test/exports.js"
+import type { never } from "../never/exports.js"
 
 type isOptional<key extends keyof type, type>
   = {} extends { [ix in key]: type[ix] } ? true : false

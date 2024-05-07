@@ -1,4 +1,4 @@
-import { real as _ } from "./real"
+import type { real as _ } from "./real.js"
 
 declare namespace __Spec__ {
   type __is__ = [

@@ -1,7 +1,8 @@
-import { assert, describe, expect, expectToFail } from "./test"
-import * as Sym from "./symbol"
-import { type any } from "../any/exports"
-import type { Case, TypeError } from "../err/exports"
+/* term-level import */ import { assert, describe, expect, expectToFail } from "./test.js"
+/* term-level import */ import * as Sym from "./symbol.js"
+
+import type { any } from "../any/exports.js"
+import type { TypeError } from "../err/exports.js"
 
 namespace __Spec__ {
   declare const unsafeAny: any

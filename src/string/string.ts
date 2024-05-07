@@ -2,15 +2,15 @@ export type {
   string,
 }
 
-import type { any } from "../any/exports"
-import type { nonempty } from "../empty"
-import type { Kind } from "../kind/exports"
-import type { check } from "../check/exports"
-import type * as Internal from "./_internal"
-import type { join, startsWith, endsWith } from "./_internal"
-import type { is } from "./_internal"
+import type { any } from "../any/exports.js"
+import type { nonempty } from "../empty.js"
+import type { Kind } from "../kind/exports.js"
+import type { check } from "../check/exports.js"
+import type * as Internal from "./_internal.js"
+import type { join, startsWith, endsWith } from "./_internal.js"
+import type { is } from "./_internal.js"
 
-import type { char } from "./char"
+import type { char } from "./char.js"
 
 declare namespace HKT {
   interface show extends Kind<[any.showable]> { [-1]: string.show<this[0]> }

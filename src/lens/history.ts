@@ -1,4 +1,5 @@
-import { any, describe, expect } from "../exports"
+import { describe, expect } from "../exports.js"
+import type { any } from "../exports.js"
 
 declare namespace History {
   const History: HistoryConstructor

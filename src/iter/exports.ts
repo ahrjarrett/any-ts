@@ -1,1 +1,1 @@
-export { iter } from "./iter"
+export type { iter } from "./iter.js"

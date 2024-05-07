@@ -1,6 +1,6 @@
-import { nat as _ } from "./natural"
-import { expect, assert } from "../test/exports"
-import { Whitespace } from "./shared"
+import type { nat as _ } from "./natural.js"
+import type { expect, assert } from "../test/exports.js"
+import type { Whitespace } from "./shared.js"
 
 type __Natural_is__ = [
   // ^?

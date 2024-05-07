@@ -2,10 +2,10 @@ export {
   Int as int,
 }
 
-import type { any } from "../any/exports"
-import type { Fn } from "../function/exports";
-import { Err } from "../exports"
-import { $$, newtype } from "./shared"
+import type { any } from "../any/exports.js"
+import type { Fn } from "../function/exports.js"
+import type { Err } from "../exports.js"
+import type { $$, newtype } from "./shared.js"
 
 
 type enforce<x>
@@ -38,14 +38,8 @@ declare function is(u: unknown): u is int<number>
 interface int<x extends number> extends newtype.newtype<$$.int, x> { }
 
 type Int<x extends enforce<x>> = never | (x extends number ? int<x> : x)
-function Int<const x extends enforce<x>>(x: x): Int<x> {
-  return globalThis.Number.isInteger(x) as never
-}
-
-namespace Int {
-  Int.new = Int
-  Int.is = is
-}
+declare function Int<const x extends enforce<x>>(x: x): Int<x>
+// example impl: function Int<const x extends number>(x: x) { return Number.isInteger(x) as never }
 
 /**
  * ℤ: the set of positive and negative numbers + zero

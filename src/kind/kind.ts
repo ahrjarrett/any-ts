@@ -4,12 +4,12 @@ export type {
   Scope,
 }
 
-import type { never } from "../never/exports"
-import type { any } from "../any/exports"
-import type { _ } from "../util"
-import type { Err } from "../err/exports"
-import type { Union } from "../union/exports"
-import type { nonempty } from "../empty"
+import type { never } from "../never/exports.js"
+import type { any } from "../any/exports.js"
+import type { _ } from "../util.js"
+import type { Err } from "../err/exports.js"
+import type { Union } from "../union/exports.js"
+import type { nonempty } from "../empty.js"
 
 declare namespace kind {
   /** namespace exports */

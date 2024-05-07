@@ -1,3 +1,3 @@
 export type {
   object,
-} from "./object"
+} from "./object.js"

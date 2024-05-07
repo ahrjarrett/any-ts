@@ -2,7 +2,7 @@ import * as FileSystem from "node:fs"
 import * as Path from "node:path"
 import * as OS from "node:os"
 
-import { $ } from "./cli"
+import { $ } from "./cli.js"
 
 function log(...args: readonly unknown[]) {
   console.log()

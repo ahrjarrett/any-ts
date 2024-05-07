@@ -6,7 +6,7 @@ export type {
   Guard,
   Intersectable,
   Negate,
-} from "./extensible"
+} from "./extensible.js"
 
 export type {
   Kind,
@@ -35,9 +35,9 @@ export type {
   Fn9,
   /** @internal */
   cached,
-} from "./kind"
+} from "./kind.js"
 
 export type {
   tag,
   uri,
-} from "./uri"
+} from "./uri.js"

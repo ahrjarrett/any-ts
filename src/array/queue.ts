@@ -1,7 +1,7 @@
-import type { any } from "../any/exports"
-import type { check } from "../check/exports"
-import type { mut } from "../mutable/exports"
-import type { never } from "../never/exports"
+import type { any } from "../any/exports.js"
+import type { check } from "../check/exports.js"
+import type { mut } from "../mutable/exports.js"
+import type { never } from "../never/exports.js"
 
 export declare namespace queue {
   export {

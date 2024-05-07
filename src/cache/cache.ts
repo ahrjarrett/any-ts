@@ -2,7 +2,7 @@ export {
   cache,
 }
 
-import type { _ } from "../util"
+import type { _ } from "../util.js"
 
 namespace cache { export const never: never = void 0 as never }
 declare namespace cache {

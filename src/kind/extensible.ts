@@ -8,9 +8,9 @@ export {
   type Intersectable,
 }
 
-import type { any } from "../any/exports"
-import type { Kind } from "./kind"
-import type { variance } from "../variance/variance"
+import type { any } from "../any/exports.js"
+import type { Kind } from "./kind.js"
+import type { variance } from "../variance/variance.js"
 
 /**
  * Credit goes to Kristian Notari for figuring out how to get this to work 🎉

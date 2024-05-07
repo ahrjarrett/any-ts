@@ -15,7 +15,7 @@ export type {
   exists,
 }
 
-import type { never } from "../never/exports"
+import type { never } from "../never/exports.js"
 
 /**
  * {@link is `Union.is`} is a type-level predicate that evaluates to

@@ -1,1 +1,1 @@
-export * as show from "./associative"
+export * as show from "./associative.js"

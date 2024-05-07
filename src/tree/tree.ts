@@ -4,9 +4,9 @@ export type {
   nonempty,
 }
 
-import { type any } from "../any/exports"
-import { type empty } from "../empty"
-import { type never } from "../never/exports"
+import type { any } from "../any/exports.js"
+import type { empty } from "../empty.js"
+import type { never } from "../never/exports.js"
 
 type pathable<
   type extends

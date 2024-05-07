@@ -1,8 +1,8 @@
-import type { Tree, nonempty as nonemptyPath } from "./tree"
+import type { Tree, nonempty as nonemptyPath } from "./tree.js"
 
-import type { any } from "../any/exports"
-import { type empty, type nonempty } from "../empty"
-import { type never } from "../never/exports"
+import type { any } from "../any/exports.js"
+import type { empty, nonempty } from "../empty.js"
+import type { never } from "../never/exports.js"
 
 declare namespace Err {
   const DepthFirstExpectedNonUnion: "Error: `go.depthFirst` expected a non-union argument for `path`; distribute `path` _outside_ of `go.depthFirst`, otherwise you will lose structure"

@@ -1,1 +1,1 @@
-export type { never } from "./never"
+export type { never } from "./never.js"

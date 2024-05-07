@@ -1,6 +1,6 @@
 export type { native }
 
-import type { _, id } from "./util"
+import type { _, id } from "./util.js"
 
 declare namespace native {
   export {

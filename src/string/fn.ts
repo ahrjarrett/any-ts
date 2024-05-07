@@ -1,10 +1,10 @@
-import type { Kind } from "../kind/exports"
-import type { any } from "../any/exports"
-import type { string } from "./string"
-import type { char } from "./char"
-import type { assert, expect } from "../test/exports"
+import type { Kind } from "../kind/exports.js"
+import type { any } from "../any/exports.js"
+import type { string } from "./string.js"
+import type { char } from "./char.js"
+import type { assert, expect } from "../test/exports.js"
 
-import type { Fn1, Fn2, interpret1, interpret2 } from "./kind"
+import type { Fn1, Fn2, interpret1, interpret2 } from "./kind.js"
 
 declare namespace Config {
   export interface options { recursive: boolean }

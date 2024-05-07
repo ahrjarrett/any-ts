@@ -8,11 +8,11 @@ export type {
   Signatures,
 }
 
-import type { any } from "../any/exports"
-import type { _ } from "../util"
-import type { never } from "../never/exports"
-import { Union } from "../union/exports"
-import { TypeError } from ".."
+import type { any } from "../any/exports.js"
+import type { _ } from "../util.js"
+import type { never } from "../never/exports.js"
+import { Union } from "../union/exports.js"
+import { TypeError } from "../err/err.js"
 
 interface Signatures {
   TypeError: {

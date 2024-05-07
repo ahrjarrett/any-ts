@@ -16,7 +16,7 @@ export {
   Msg,
 }
 
-import type { any } from "../any/exports"
+import type { any } from "../any/exports.js"
 
 declare namespace URI {
   const TypeError: unique symbol

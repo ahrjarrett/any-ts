@@ -1,6 +1,6 @@
-import type { any } from "../any/exports"
-import type { assert, expect } from "../test/exports"
-import type { Kind } from "./kind"
+import type { any } from "../any/exports.js"
+import type { assert, expect } from "../test/exports.js"
+import type { Kind } from "./kind.js"
 
 declare namespace Spec {
   type _ = unknown
@@ -125,7 +125,7 @@ declare namespace Spec {
 
   type reduce = [
     expect<assert.equal<
-      Kind.apply<Kind.reduce<string>, [
+      Kind.apply$<Kind.reduce<string>, [
         f: Intercalate<"::">,
         xs: ["1", "2", "3"],
         empty: ""
@@ -135,7 +135,7 @@ declare namespace Spec {
   ]
   type fold = [
     expect<assert.equal<
-      Kind.apply<
+      Kind.apply$<
         Kind.fold<string>,
         [
           f: Intercalate<", ">,

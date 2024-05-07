@@ -2,17 +2,17 @@ export type {
   number,
 }
 
-import { bigint } from "./bigint"
-import { int } from "./integer"
-import { nat } from "./natural"
-import { real as real_ } from "./real"
-import { boolean } from "../boolean/exports"
-import {
+import type { bigint } from "./bigint.js"
+import type { int } from "./integer.js"
+import type { nat } from "./natural.js"
+import type { real as real_ } from "./real.js"
+import type { boolean } from "../boolean/exports.js"
+import type {
   isNegative,
   isOne,
   isPositive,
   isZero,
-} from "./shared"
+} from "./shared.js"
 
 declare namespace number {
   type is<x> = [x] extends [number] ? true : false

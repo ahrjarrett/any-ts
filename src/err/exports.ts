@@ -1,4 +1,4 @@
-export type { Err, TypeError } from "./err"
-export { Case, Msg } from "./err"
-export type { enforce, Partial, Partial as partial } from "./enforce"
-export type { Catch } from "./catch"
+export type { Err, TypeError } from "./err.js"
+export { Case, Msg } from "./err.js"
+export type { enforce, Partial, Partial as partial } from "./enforce.js"
+export type { Catch } from "./catch.js"

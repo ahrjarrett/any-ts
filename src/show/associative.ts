@@ -9,13 +9,14 @@ export {
   tag$,
 }
 
-import type { any } from "../any/exports"
-import { assert, describe, expect } from "../test/exports"
-import type { enforce } from "../err/enforce"
-import type { TypeError } from "../err/exports"
-import type { never } from "../never/exports"
-import type { Universal } from "../universal/exports"
-import type { assoc as _ } from "../associative/exports"
+import type { any } from "../any/exports.js"
+import type { assert } from "../test/exports.js"
+import { describe, expect } from "../test/exports.js"
+import type { enforce } from "../err/enforce.js"
+import type { TypeError } from "../err/exports.js"
+import type { never } from "../never/exports.js"
+import type { Universal } from "../universal/exports.js"
+import type { assoc as _ } from "../associative/exports.js"
 
 const len$: unique symbol = Symbol.for("TypeConstructor/assoc::len")
 type len$ = typeof len$

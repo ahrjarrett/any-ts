@@ -1,6 +1,6 @@
-import type { _ } from "../util"
-import type { assert, expect } from "../test/exports"
-import type { boolean } from "./boolean"
+import type { _ } from "../util.js"
+import type { assert, expect } from "../test/exports.js"
+import type { boolean } from "./boolean.js"
 
 declare namespace __Spec__ {
   type __not__ = [
