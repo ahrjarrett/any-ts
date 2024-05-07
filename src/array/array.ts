@@ -1,8 +1,8 @@
 import type { any } from "../any/exports"
-import type { check } from "../check/exports"
+import type { check, TypeError } from "../check/exports"
 import type { nonempty } from "../empty"
 import type { queue } from "./queue"
-import type { tuple, tupleN } from "./tuple"
+import type { tuple } from "./tuple"
 
 export {
   queue,
@@ -16,18 +16,18 @@ export declare namespace array {
     queue,
     nonemptyArray as nonempty,
     tuple,
+    finite,
+    nonfinite,
   }
 
   // main api 
   export {
-    finite,
-    finiteOf,
     head,
     heads,
     last,
     lead,
-    nonfinite,
-    nonfiniteOf,
+    next,
+    reverse,
     snd,
     snds,
     tail,
@@ -38,18 +38,95 @@ export declare namespace array {
   export {
     // aliases
     fst,
-    // types containing types
-    tupleN,
   }
 
-  type finite<xs> = check.is.tuple<xs, any.array, "hush">
-  type finiteOf<xs, invariant extends any.array> = check.is.tuple<xs, invariant, "hush">
-  type nonfinite<xs>
-    = never | ([xs] extends [any.array] ? [number] extends [xs["length"]] ? any.array : never : never)
-  type nonfiniteOf<xs, invariant extends any.array>
-    = never | ([xs] extends [any.array] ? [number] extends [xs["length"]] ? invariant : never : never)
-  /** {@link fst `array.fst`} is an alias for {@link head `array.head`} */
+  /** 
+   * {@link finite `array.finite`} constrains a **generic parameter** to only
+   * match **finite arrays** (a.k.a. tuples).
+   * 
+   * _Note:_ {@link finite `array.finite`} should be applied to the 
+   * **raw type parameter**; see the examples below for usage.
+   * 
+   * _Note:_ This variant will "fail silently", which makes it a good candidate when
+   * defining function overloads (for example). If you need a variant that will 
+   * surface an error message to the user, see {@link finite.orThrow `array.finite.orThrow`}.
+   * 
+   * @example
+   *  import type { array } from "any-ts"
+   * 
+   *  // Note: `array.finite` must be applied to the RAW TYPE PARAMETER
+   *  declare function overloaded<T extends array.finite<T>>(xs: [...T]): [TUPLE: T]
+   *  //               LIKE THIS: ^^^^^^^^^^^^^^^^^^^^^^^^^
+   * 
+   *  // Note: you can apply constraints on `T` via the 2nd argument
+   *  declare function overloaded<T extends array.finite<T, number[]>>>(xs: T): [ARRAY: T]
+   *  //                                         LIKE THIS: ^^^^^^^^
+   * 
+   *  //    ✅ Matches the 1st overload
+   *  const ex_01 = overloaded(myTuple)
+   *  //    ^? const ex_01: [TUPLE: [1, 2, 3]]
+   *
+   *  //    ✅ Works as expected
+   *  const ex_02 = overloaded(myArray)
+   *  //    ^? const ex_02: [ARRAY: number[]]
+   *
+   *  // If you're using `array.finite` like this, you might want `array.finite.orThrow`
+   *  declare function onlyTuples<const T extends array.finite<T>>(xs: [...T]): [...T]
+   *
+   *  //    ✅ Works as expected
+   *  const ex_03 = onlyTuples(myTuple)
+   *  //    ^? const ex_03: [1, 2, 3] 
+   *
+   *  //   🚫 Argument of type 'number[]' is not assignable to parameter of type 'never'
+   *  //                       ↓↓↓↓↓↓↓↓↓↓↓
+   *  const ex_04 = onlyTuples(numberArray)
+   *  //    ^? const ex_04: never
+   */
+  type finite<xs, invariant extends any.array = any.array> = check.is.tuple<xs, invariant, "hush">
 
+  namespace finite {
+    /**
+     * {@link finite `array.finite`} constrains a **generic parameter** to only
+     * match **finite arrays** (a.k.a. tuples).
+     * 
+     * _Note:_ If the provided type is not a finite array, a custom TypeError is raised. 
+     * 
+     * If you need a variant that does not evaluate to a TypeError, see 
+     * {@link array.finite}.
+     * 
+     * @example
+     *  declare const myTuple: [1, 2, 3]
+     *  declare const myArray: number[]
+    
+     *  declare function tuplesOnlyOrThrow<const T extends array.finite.orThrow<T>>(array: T): T
+     *  //    ✅ Works as expected
+     *  const ex_01 = tuplesOnlyOrThrow(myTuple)
+     *  //    ^? const ex_01: [1, 2, 3]
+    
+     *  //    🚫 Argument of type 'number[]' is not assignable to parameter of type 
+     *  //      'TypeError<["Expected a tuple", [got: number[]]]>'
+     *  //                              ↓↓↓↓↓↓↓
+     *  const ex_02 = tuplesOnlyOrThrow(myArray)
+     *  //    ^? const ex_02: TypeError<["Expected a tuple", [got: number[]]]>
+     */
+    type orThrow<xs, invariant extends any.array = any.array> = never | check.is.tuple<xs, invariant, never>
+  }
+
+  type nonfinite<xs> = never |
+    ([xs] extends [any.array] ? [number] extends [xs["length"]] ? any.array : never : never)
+
+  namespace nonfinite {
+    type orThrow<
+      xs,
+      invariant extends any.array = any.array,
+      errorMsg extends string = `Expected a non-finite array`
+    > = never | (
+      [xs] extends [any.array] ? [number] extends [xs["length"]] ? invariant
+      : TypeError<errorMsg, [xs]> : never
+    )
+  }
+
+  /** {@link fst `array.fst`} is an alias for {@link head `array.head`} */
   type fst<xs extends any.array> = never | head<xs>
   /** {@link head `array.head`} returns just the _first_ element of an array */
   type head<xs extends any.array>
@@ -69,6 +146,22 @@ export declare namespace array {
   type last<xs extends any.array> = xs extends [infer last, any] ? last : never
   /** {@link lead `array.lead`} returns every element _but_ the _last_ element of an array */
   type lead<xs extends any.array> = xs extends [...infer lead, any] ? lead : never
+
+  /** You can use {@link reverse `array.reverse`} to reverse an array. */
+  type reverse<xs extends any.array, acc extends any.array = []>
+    = [xs] extends [nonempty.array<infer head, infer tail>] ? reverse<tail, [head, ...acc]> : acc
+
+  /** 
+   * {@link next `array.next`} splits an array into a two-tuple containing the first element, and the
+   * rest of the array. 
+   * 
+   * Useful when loop over an array, especially when that iteration is recursive.
+   */
+  type next<xs extends any.array>
+    = [xs] extends [nonempty.array<infer head, infer tail>]
+    ? [head: head, tail: tail]
+    : [head: xs[number] | undefined, tail: xs]
+    ;
 }
 
 export declare namespace nonemptyArray {

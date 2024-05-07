@@ -221,7 +221,7 @@ type isNonUnion<type, constraint = any.nullable | any.nonnullable, hush = unused
 
 type checkTuple<type> = [type] extends [any.array] ? [number] extends [type["length"]] ? false : true : false
 
-type isTuple<type, constraint extends any.array = any.array, hush = unused>
+type isTuple<type, constraint extends any.array = any.array, hush = never.unused_arg>
   = checkTuple<type> extends true ? ([type] extends [constraint] ? (((constraint))) : never)
   : ([hush] extends [never.unused_arg] ? typeError<`Expected a tuple`, [type]> : never.prevent_match)
   ;

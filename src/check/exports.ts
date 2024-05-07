@@ -2,4 +2,5 @@
 export type {
   check,
   checkNot,
+  TypeError,
 } from "./check"
