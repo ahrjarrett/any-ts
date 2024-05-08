@@ -2,8 +2,8 @@ export {
   delimitedCase,
 }
 
-import type { any } from "../any/exports"
-import type { join } from "./_internal"
+import type { any } from "../any/exports.js"
+import type { join } from "./_internal.js"
 
 type fromList<keys extends any.showables> = never | ({ [k in `${keys[number]}`]: k })
 function fromList<const keys extends any.showables>(keys: keys): fromList<keys>

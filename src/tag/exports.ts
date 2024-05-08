@@ -1,1 +1,1 @@
-export * as Tag from "./tag"
+export * as Tag from "./tag.js"

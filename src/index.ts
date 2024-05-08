@@ -66,4 +66,4 @@
  *   Example:
  *   - {@link Any.arrayof any.arrayof}
  */
-export * from "./exports"
+export * from "./exports.js"

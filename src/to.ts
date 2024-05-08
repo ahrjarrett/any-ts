@@ -1,7 +1,7 @@
 export { to }
 
-import type { mut } from ".";
-import type { any } from "./any/exports"
+import type { mut } from "./mutable/exports.js";
+import type { any } from "./any/exports.js"
 
 declare namespace to {
   export type entries<type = any.nonnullable>

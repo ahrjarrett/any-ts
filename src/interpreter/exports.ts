@@ -1,1 +1,1 @@
-export * as Interpreter from "./interpreter"
+export type * as Interpreter from "./interpreter.js"

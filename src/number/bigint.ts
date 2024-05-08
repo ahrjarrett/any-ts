@@ -1,9 +1,7 @@
-export type {
-  bigint,
-}
+export type { bigint }
 
-import type { any } from "../any/exports"
-import { never } from "../never/exports"
+import type { any } from "../any/exports.js"
+import type { never } from "../never/exports.js"
 
 declare namespace bigint {
   type is<x> = [x] extends [bigint] ? true : false
@@ -22,7 +20,7 @@ declare namespace bigint {
     ;
 
   namespace parse {
-    type literal<type> = [bigint] extends [type] ? never.as_nothing : bigint.parse<type>
-    type universal<type> = [bigint] extends [type] ? type : [`${bigint}`] extends [type] ? bigint : never.as_nothing
+    type literal<type> = [bigint] extends [type] ? never.as.nothing : bigint.parse<type>
+    type universal<type> = [bigint] extends [type] ? type : [`${bigint}`] extends [type] ? bigint : never.as.nothing
   }
 }

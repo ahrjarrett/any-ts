@@ -1,2 +1,2 @@
-export type { any } from "./any"
-export { ANY_TS_VERSION } from "./any"
+export type { any } from "./any.js"
+export { ANY_TS_VERSION } from "./any.js"

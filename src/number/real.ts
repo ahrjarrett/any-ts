@@ -1,8 +1,8 @@
 export { Real as real }
 
-import { boolean } from "../boolean/exports"
-import { int } from "./integer"
-import { $$, isNumber } from "./shared"
+import type { boolean } from "../boolean/exports.js"
+import type { int } from "./integer.js"
+import type { $$, isNumber } from "./shared.js"
 
 
 /**

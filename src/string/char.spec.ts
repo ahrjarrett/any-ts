@@ -1,5 +1,5 @@
-import type { assert, expect } from "../test/exports"
-import type * as _ from "./char"
+import type { assert, expect } from "../test/exports.js"
+import type * as _ from "./char.js"
 
 declare namespace Spec {
   namespace char {

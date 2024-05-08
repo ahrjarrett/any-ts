@@ -5,11 +5,12 @@ export {
   expectToFail,
 }
 
-import type { any } from "../any/exports"
-import type { Case, TypeError } from "../err/exports"
+/** term-level import */ import * as Sym from "./symbol.js"
 
-import * as Sym from "./symbol"
-import type { boolean, never } from "../exports"
+import type { any } from "../any/exports.js"
+import type { Case, TypeError } from "../err/exports.js"
+
+import type { boolean, never } from "../exports.js"
 
 type eval<type> = never | { [ix in keyof type]: type[ix] }
 

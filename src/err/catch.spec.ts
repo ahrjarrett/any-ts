@@ -1,9 +1,10 @@
-import { describe, expect, assert } from "../test/exports"
-import type { any } from "../any/exports"
-import type { nonempty } from "../empty"
+/** term-level import */ import { describe, expect } from "../test/exports.js"
 
-import type { Catch } from "./catch"
-import type { mut } from "../mutable/exports"
+import type { any } from "../any/exports.js"
+import type { nonempty } from "../empty.js"
+
+import type { Catch } from "./catch.js"
+import type { mut } from "../mutable/exports.js"
 
 declare const tuple: [[1, 2], [3, 4]]
 declare const unionNontuple: number[] | string[]

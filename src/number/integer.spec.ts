@@ -1,7 +1,8 @@
-import { int as _ } from "./integer"
-import { assert, describe, expect } from "../test/exports"
-import { TypeError } from "../err/exports"
-import { Whitespace } from "./shared"
+/** term-level import */ import { assert, describe, expect } from "../test/exports.js"
+/** term-level import */ import { int as _ } from "./integer.js"
+
+import type { TypeError } from "../err/exports.js"
+import type { Whitespace } from "./shared.js"
 
 namespace int {
   declare const one: _.new<1>

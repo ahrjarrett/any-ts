@@ -3,11 +3,11 @@ export {
   charset,
 }
 
-import type { _ } from "../util"
-import type { any } from "../any/exports"
-import type { nonempty } from "../empty"
-import type { boolean } from "../boolean/exports"
-import type { string } from "./string"
+import type { _ } from "../util.js"
+import type { any } from "../any/exports.js"
+import type { nonempty } from "../empty.js"
+import type { boolean } from "../boolean/exports.js"
+import type { string } from "./string.js"
 
 declare namespace char {
   export const Lowers: [

@@ -1,4 +1,5 @@
 {
+  "include": ["setupVitest.ts", "src"],
   "compilerOptions": {
     "target": "ESNext",
     "module": "NodeNext",
@@ -6,7 +7,7 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "skipLibCheck": false,
+    "skipLibCheck": true,
     "noUncheckedIndexedAccess": true,
     "noErrorTruncation": true,
     "noEmit": true

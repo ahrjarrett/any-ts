@@ -1,5 +1,5 @@
-import type { Widen } from "./widen"
-import type { expect, assert } from "../test/exports"
+import type { Widen } from "./widen.js"
+import type { expect, assert } from "../test/exports.js"
 
 declare namespace Spec {
 

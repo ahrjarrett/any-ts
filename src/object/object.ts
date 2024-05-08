@@ -1,6 +1,6 @@
-import type { any } from "../any/exports"
-import type { some } from "../some"
-import type { eval } from "../evaluate/exports"
+import type { any } from "../any/exports.js"
+import type { some } from "../some.js"
+import type { eval } from "../evaluate/exports.js"
 
 export declare namespace object {
   export type filterValues<t, bound> = filter.values<t, bound>

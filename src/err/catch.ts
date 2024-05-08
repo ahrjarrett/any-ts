@@ -1,8 +1,8 @@
 export type { Catch }
 
-import type { any } from "../any/exports"
-import type { Union } from "../union/exports";
-import type { never } from "../never/exports";
+import type { any } from "../any/exports.js"
+import type { Union } from "../union/exports.js"
+import type { never } from "../never/exports.js"
 
 type tuple<xs, constraint extends any.array = any.array>
   = [xs] extends [constraint]

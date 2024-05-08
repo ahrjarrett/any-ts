@@ -1,1 +1,1 @@
-export type { Widen } from "./widen"
+export type { Widen } from "./widen.js"

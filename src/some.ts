@@ -1,10 +1,10 @@
 export type { some }
 
-import type { any } from "./any/exports"
-import type { never } from "./never/exports"
-import type { _ } from "./util"
+import type { any } from "./any/exports.js"
+import type { never } from "./never/exports.js"
+import type { _ } from "./util.js"
 
-import type { to } from "./to"
+import type { to } from "./to.js"
 
 declare namespace distributive {
   type values<type> = type extends any.array ? type[number] : type[keyof type]
@@ -28,57 +28,6 @@ declare namespace distributive {
     : never.close.distributive<"type">
     ;
 }
-
-
-interface fn<dom extends any.array<any> = any.array<any>, cod = _> { (...arg: dom): cod }
-
-interface predicate<type = any> { (u: type): boolean }
-
-type guard<target = never> = never | typeguard<any, target>
-type typeguard<source = any, target = _> = never | typePredicate<[source, target]>
-type typePredicate<
-  map extends
-  | readonly [source: _, target: _]
-  = readonly [source: any, target: _]
-> = never | ((u: map[0]) => u is map[1])
-
-type asserts<source = any, target = _> = never | assertion<[source, target]>
-type assertion<
-  map extends
-  | readonly [source: _, target: _]
-  = readonly [source: any, target: _]
-> = never | { (u: map[0]): asserts u is map[1] }
-
-type arrayOf<
-  invariant,
-  type extends
-  | any.array<invariant>
-  = any.array<invariant>
-> = type
-
-type fieldOf<
-  invariant,
-  type extends
-  | to.entries<invariant>
-  = to.entries<invariant>
-> = type
-
-type subtypeOf<
-  invariant,
-  subtype extends
-  | invariant extends invariant ? invariant : never
-  = invariant extends invariant ? invariant : never
-> = subtype
-
-type named<
-  invariant extends any.field,
-  type extends
-  | { [ix in invariant[0]]: invariant[1] }
-  = { [ix in invariant[0]]: invariant[1] }
-> = type
-
-interface predicate<type> { (x: type): boolean }
-
 
 /**
  * {@link some `some`} is {@link any `any`}'s {@link https://en.wikipedia.org/wiki/Duality_(mathematics) dual}.
@@ -196,4 +145,53 @@ declare namespace some {
     | distributive.values<invariant>
     = distributive.values<invariant>
   > = type
+
+  interface fn<dom extends any.array<any> = any.array<any>, cod = _> { (...arg: dom): cod }
+
+  interface predicate<type = any> { (u: type): boolean }
+
+  type guard<target = never> = never | typeguard<any, target>
+  type typeguard<source = any, target = _> = never | typePredicate<[source, target]>
+  type typePredicate<
+    map extends
+    | readonly [source: _, target: _]
+    = readonly [source: any, target: _]
+  > = never | ((u: map[0]) => u is map[1])
+
+  type asserts<source = any, target = _> = never | assertion<[source, target]>
+  type assertion<
+    map extends
+    | readonly [source: _, target: _]
+    = readonly [source: any, target: _]
+  > = never | { (u: map[0]): asserts u is map[1] }
+
+  type arrayOf<
+    invariant,
+    type extends
+    | any.array<invariant>
+    = any.array<invariant>
+  > = type
+
+  type fieldOf<
+    invariant,
+    type extends
+    | to.entries<invariant>
+    = to.entries<invariant>
+  > = type
+
+  type subtypeOf<
+    invariant,
+    subtype extends
+    | invariant extends invariant ? invariant : never
+    = invariant extends invariant ? invariant : never
+  > = subtype
+
+  type named<
+    invariant extends any.field,
+    type extends
+    | { [ix in invariant[0]]: invariant[1] }
+    = { [ix in invariant[0]]: invariant[1] }
+  > = type
+
+  interface predicate<type> { (x: type): boolean }
 }

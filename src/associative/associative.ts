@@ -3,15 +3,15 @@ export {
   size$,
 }
 
-import type { any } from "../any/exports"
-import { assert, describe, expect } from "../test/exports"
-import type { TypeError } from "../err/exports"
-import type { Universal } from "../universal/exports"
-import type { cache } from "../cache/exports"
-import type { iter } from "../iter/exports"
-import type { enforce } from "../err/enforce"
-import type { never } from "../never/exports"
-import { real } from "../number/real"
+import type { any } from "../any/exports.js"
+import { assert, describe, expect } from "../test/exports.js"
+import type { TypeError } from "../err/exports.js"
+import type { Universal } from "../universal/exports.js"
+import type { cache } from "../cache/exports.js"
+import type { iter } from "../iter/exports.js"
+import type { enforce } from "../err/enforce.js"
+import type { never } from "../never/exports.js"
+import { real } from "../number/real.js"
 
 const size$: unique symbol = Symbol.for("any-ts/associative::size$")
 type size$ = typeof size$

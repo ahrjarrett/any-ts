@@ -3,4 +3,4 @@ export type {
   nonemptyArray,
   queue,
   tuple,
-} from "./array"
+} from "./array.js"

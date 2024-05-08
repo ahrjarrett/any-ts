@@ -1,49 +1,8 @@
 export type { mut }
 
-import type { any } from "../any/exports"
-import type { _ } from "../util"
-import type { pathsof } from "../paths/paths"
-
-type array<type = unknown> = type[]
-type list<type extends mut.array = mut.array> = type
-type keys<type extends mut.array<any.key> = mut.array<any.key>> = type
-type path<type extends mut.array<any.index> = mut.array<any.index>> = type
-type entry<type extends [any.index, _] = [any.index, _]> = type
-type entries<type extends mut.array<mut.entry> = mut.array<mut.entry>> = type
-
-type one<only = _> = [_1: only]
-type two<fst = _, snd = _> = [_1: fst, _2: snd]
-type three<fst = _, snd = _, thr = _> = [_1: fst, _2: snd, _3: thr]
-
-type field<k extends any.index = any.index, v = _> = [key: k, value: v]
-
-type arrayOf<
-  invariant,
-  type extends
-  | mut.array<invariant>
-  = mut.array<invariant>
-> = type
-
-type entryOf<
-  invariant,
-  type extends
-  | [any.index, invariant]
-  = [any.index, invariant]
-> = type
-
-type entriesOf<
-  invariant,
-  type extends
-  | any.array<[any.index, invariant]>
-  = any.array<[any.index, invariant]>
-> = type
-
-type pathOf<
-  invariant,
-  type extends
-  | pathsof<invariant>
-  = pathsof<invariant>
-> = type
+import type { any } from "../any/exports.js"
+import type { _ } from "../util.js"
+import type { pathsof } from "../paths/paths.js"
 
 type mut<type>
   = type extends any.primitive ? type
@@ -91,4 +50,46 @@ declare namespace mut {
     /** {@link pathOf `mut.pathOf`} */
     pathOf,
   }
+
+  type array<type = unknown> = type[]
+  type list<type extends mut.array = mut.array> = type
+  type keys<type extends mut.array<any.key> = mut.array<any.key>> = type
+  type path<type extends mut.array<any.index> = mut.array<any.index>> = type
+  type entry<type extends [any.index, _] = [any.index, _]> = type
+  type entries<type extends mut.array<mut.entry> = mut.array<mut.entry>> = type
+
+  type one<only = _> = [_1: only]
+  type two<fst = _, snd = _> = [_1: fst, _2: snd]
+  type three<fst = _, snd = _, thr = _> = [_1: fst, _2: snd, _3: thr]
+
+  type field<k extends any.index = any.index, v = _> = [key: k, value: v]
+
+  type arrayOf<
+    invariant,
+    type extends
+    | mut.array<invariant>
+    = mut.array<invariant>
+  > = type
+
+  type entryOf<
+    invariant,
+    type extends
+    | [any.index, invariant]
+    = [any.index, invariant]
+  > = type
+
+  type entriesOf<
+    invariant,
+    type extends
+    | any.array<[any.index, invariant]>
+    = any.array<[any.index, invariant]>
+  > = type
+
+  type pathOf<
+    invariant,
+    type extends
+    | pathsof<invariant>
+    = pathsof<invariant>
+  > = type
+
 }

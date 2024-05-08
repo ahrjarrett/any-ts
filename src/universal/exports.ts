@@ -1,1 +1,1 @@
-export { Universal } from "./universal"
+export { Universal } from "./universal.js"

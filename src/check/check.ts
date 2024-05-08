@@ -8,11 +8,11 @@ export type {
   Signatures,
 }
 
-import type { any } from "../any/exports"
-import type { _ } from "../util"
-import type { never } from "../never/exports"
-import { Union } from "../union/exports"
-import { TypeError } from ".."
+import type { any } from "../any/exports.js"
+import type { _ } from "../util.js"
+import type { never } from "../never/exports.js"
+import { Union } from "../union/exports.js"
+import { TypeError } from "../err/err.js"
 
 interface Signatures {
   TypeError: {
@@ -221,32 +221,16 @@ type isNonUnion<type, constraint = any.nullable | any.nonnullable, hush = unused
 
 type checkTuple<type> = [type] extends [any.array] ? [number] extends [type["length"]] ? false : true : false
 
-type isTuple<type, constraint extends any.array = any.array, hush = unused>
+type isTuple<type, constraint extends any.array = any.array, hush = never.unused_arg>
   = checkTuple<type> extends true ? ([type] extends [constraint] ? (((constraint))) : never)
   : ([hush] extends [never.unused_arg] ? typeError<`Expected a tuple`, [type]> : never.prevent_match)
   ;
 
-declare namespace is {
-  export {
-    isStringLiteral as stringLiteral,
-    isNumberLiteral as numberLiteral,
-    isBooleanLiteral as booleanLiteral,
-    isLiteral as literal,
-    isUnion as union,
-    isTuple as tuple,
-  }
-}
+type isNonEmptyObject<type, hush = never>
+  = [keyof type] extends [never] ? [hush] extends [never] ? typeError<`Expected a non-empty object`, [{}]> : never : {}
 
-declare namespace non {
-  export {
-    isNonArrayObject as array,
-    isNonUnion as union,
-    isNonLiteral as literal,
-    isNonFiniteBoolean as finiteBoolean,
-    isNonFiniteString as finiteString,
-    isNonFiniteNumber as finiteNumber,
-  }
-}
+type isEmptyObject<type, hush = never>
+  = [keyof type] extends [never] ? {} : [hush] extends [never] ? typeError<`Expected an empty object`, [{}]> : never
 
 type check<type, invariant> = [type] extends [invariant] ? invariant : doesNotSatisfy<invariant, type>
 
@@ -262,6 +246,30 @@ declare namespace check {
     doesNotSatisfy,
     violatesRule,
     violatesRuleWithMsg,
+  }
+
+  namespace is {
+    export {
+      isBooleanLiteral as booleanLiteral,
+      isEmptyObject as emptyObject,
+      isNumberLiteral as numberLiteral,
+      isStringLiteral as stringLiteral,
+      isLiteral as literal,
+      isUnion as union,
+      isTuple as tuple,
+    }
+  }
+
+  namespace non {
+    export {
+      isNonArrayObject as array,
+      isNonUnion as union,
+      isNonEmptyObject as emptyObject,
+      isNonLiteral as literal,
+      isNonFiniteBoolean as finiteBoolean,
+      isNonFiniteString as finiteString,
+      isNonFiniteNumber as finiteNumber,
+    }
   }
 
   export namespace strict {

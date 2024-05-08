@@ -1,11 +1,11 @@
 export type { any }
-export type { ANY_TS_VERSION } from "../version"
+export type { ANY_TS_VERSION } from "../version.js"
 
-import type { some } from "../some"
-import type { to } from "../to"
-import type { pathsof } from "../paths/paths"
-import type { ANY_TS_VERSION } from "../version"
-import type { _, id } from "../util"
+import type { some } from "../some.js"
+import type { to } from "../to.js"
+import type { pathsof } from "../paths/paths.js"
+import type { ANY_TS_VERSION } from "../version.js"
+import type { _, id } from "../util.js"
 
 declare namespace any {
   export {

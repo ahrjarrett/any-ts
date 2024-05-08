@@ -1,1 +1,1 @@
-export { boolean } from "./boolean"
+export { boolean } from "./boolean.js"

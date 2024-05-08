@@ -1,1 +1,1 @@
-export type { variance } from "./variance"
+export type { variance } from "./variance.js"

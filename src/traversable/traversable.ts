@@ -3,10 +3,10 @@ export {
   traversal,
 }
 
-import type { any } from "../any/exports"
-import type { empty, nonempty } from "../empty"
+import type { any } from "../any/exports.js"
+import type { empty, nonempty } from "../empty.js"
 
-import type { never } from "../never/exports"
+import type { never } from "../never/exports.js"
 
 declare namespace impl {
   type unfold<path extends any.path, leaf = unknown>
@@ -36,7 +36,7 @@ type unfold<leaf, path extends any.path> = impl.unfold<path, leaf>
  * What does that look like in practice though?
  * 
  * @example
- *  import { type any } from "any-ts"
+ *  import type { any } from "any-ts"
  * 
  * declare function hasPath<const path extends any.path>
  *   (...path: path): <const tree>(tree: tree) => tree is tree & traversable.by<path>

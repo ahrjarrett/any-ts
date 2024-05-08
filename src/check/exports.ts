@@ -2,4 +2,5 @@
 export type {
   check,
   checkNot,
-} from "./check"
+  TypeError,
+} from "./check.js"

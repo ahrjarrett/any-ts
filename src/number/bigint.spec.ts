@@ -1,5 +1,5 @@
-import { bigint as _ } from "./bigint"
-import { assert, expect } from "../test/exports"
+import type { bigint as _ } from "./bigint.js"
+import type { assert, expect } from "../test/exports.js"
 
 /**
  * module under test should always be imported as `_`, 

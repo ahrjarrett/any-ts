@@ -20,13 +20,13 @@ export type {
   takeUntilInclusive,
 }
 
-import type { any } from "../any/exports"
-import type { boolean } from "../boolean/boolean"
-import type { empty, nonempty } from "../empty"
-import type { never } from "../never/exports"
-import type { Kind } from "../kind/exports"
+import type { any } from "../any/exports.js"
+import type { boolean } from "../boolean/boolean.js"
+import type { empty, nonempty } from "../empty.js"
+import type { never } from "../never/exports.js"
+import type { Kind } from "../kind/exports.js"
 
-import type { char, charset } from "./char"
+import type { char, charset } from "./char.js"
 
 type parseNumeric<type> = type extends `${infer x extends number}` ? x : never
 

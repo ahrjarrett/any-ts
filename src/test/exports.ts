@@ -1,1 +1,1 @@
-export { assert, describe, expect, expectToFail } from "./test"
+export { assert, describe, expect, expectToFail } from "./test.js"

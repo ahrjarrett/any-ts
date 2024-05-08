@@ -1,1 +1,1 @@
-export { assoc, size$ } from "./associative"
+export { assoc, size$ } from "./associative.js"

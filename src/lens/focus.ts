@@ -5,7 +5,9 @@ export type {
   FocusConstructor,
 }
 
-import { any, describe, empty, expect, never, nonempty } from "../exports"
+import { describe, empty, expect, never } from "../exports.js"
+import type { any } from "../any/exports.js"
+import type { nonempty } from "../empty.js"
 
 declare namespace List {
   type head<type extends any.array> = type[0]

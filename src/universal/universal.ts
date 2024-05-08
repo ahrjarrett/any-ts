@@ -2,7 +2,7 @@ export {
   Universal
 }
 
-import type { any } from "../any/exports"
+import type { any } from "../any/exports.js"
 
 type parseNumeric<type> = type extends `${infer x extends number}` ? x : never
 

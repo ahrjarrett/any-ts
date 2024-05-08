@@ -1,1 +1,1 @@
-export { type pathsof } from "./paths"
+export { type pathsof } from "./paths.js"

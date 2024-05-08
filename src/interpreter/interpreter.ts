@@ -10,8 +10,8 @@
  prettier/prettier,
 */
 
-import type { any } from "../exports"
-import type { Discriminant } from "../tag/tag"
+import type { any } from "../exports.js"
+import type { Discriminant } from "../tag/tag.js"
 
 export {
   type Interpreter,

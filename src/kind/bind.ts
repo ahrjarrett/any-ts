@@ -1,6 +1,6 @@
-import type { Kind } from "./kind"
-import type { any } from "../any/exports"
-import type { _ } from "../util"
+import type { Kind } from "./kind.js"
+import type { any } from "../any/exports.js"
+import type { _ } from "../util.js"
 
 declare namespace Bind {
   interface zero extends Kind { [-1]: Kind<0> }

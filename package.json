@@ -2,6 +2,7 @@
   "name": "any-ts",
   "private": false,
   "version": "0.41.4",
+  "type": "module",
   "author": {
     "name": "Andrew Jarrett",
     "email": "ahrjarrett@gmail.com",
@@ -27,16 +28,19 @@
     "clean": "pnpm run \"/^check:.*/\"",
     "clean:build": "rm -rf dist",
     "clean:deps": "rm -rf dist",
-    "lint": "tsc --noEmit",
+    "lint": "pnpm check",
     "changes": "./bin/changeset.sh",
     "ci:version": "pnpm dlx tsx ./bin/version.ts",
-    "ci:publish": "changeset publish"
+    "ci:publish": "changeset publish",
+    "test": "vitest"
   },
   "devDependencies": {
+    "@arktype/attest": "^0.7.3",
     "@changesets/cli": "^2.27.1",
     "@types/node": "^20.12.7",
     "init": "^0.1.2",
     "tsup": "^8.0.2",
-    "typescript": "5.3.3"
+    "typescript": "5.3.3",
+    "vitest": "^1.6.0"
   }
 }

@@ -1,8 +1,8 @@
-import type { any } from "../any/exports"
-import type { assert } from "../test/exports"
-import { describe, expect } from "../test/exports"
-import type { mut } from "../mutable/exports"
-import type { check, TypeError } from "./check"
+import type { any } from "../any/exports.js"
+import type { assert } from "../test/exports.js"
+import { describe, expect } from "../test/exports.js"
+import type { mut } from "../mutable/exports.js"
+import type { check, TypeError } from "./check.js"
 
 type __Literal__ = [
   // ^?

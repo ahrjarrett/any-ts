@@ -1,1 +1,1 @@
-export { } from "./focus"
+export type { } from "./focus.js"
