@@ -1,4 +1,4 @@
-import type { Tree, nonempty as nonemptyPath } from "./tree.js"
+import type { Tree } from "./tree.js"
 
 import type { any } from "../any/exports.js"
 import type { empty, nonempty } from "../empty.js"
@@ -26,7 +26,7 @@ type unfoldDepthFirst<path extends any.path, leaf>
 
 type fromPaths<paths extends Tree.pathable | any.array<Tree.pathable>>
   = (paths extends Tree.pathable ? paths : paths[number]) extends Tree.pathable<infer p>
-  ? (p extends nonemptyPath<infer leaf, infer init> ? [leaf: leaf, init: init] : "BOB") extends infer out
+  ? (p extends Tree.nonempty<infer leaf, infer init> ? [leaf: leaf, init: init] : "BOB") extends infer out
   ? [out] extends [[any, any.path]] ? depthFirst<out[0], out[1]>
   : never
   // unfoldDepthFirst<init, leaf>

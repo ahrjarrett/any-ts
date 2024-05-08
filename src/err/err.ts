@@ -8,7 +8,7 @@
 */
 
 export {
-  type TypeError,
+  type typeError as TypeError,
   type Err,
   type Err2,
   type URI,
@@ -78,31 +78,31 @@ const Msg2 = {
  * 
  * TODO: make this feature configurable globally.
  */
-type typeError<msg extends string, error, debugFriendly = never>
+type typeErrorReturn<msg extends string, error, debugFriendly = never>
   = never | (
     [debugFriendly] extends [never]
-    ? TypeError<[msg: msg, got: error]>
-    : TypeError<[𝗺𝘀𝗴: msg, 𝗴𝗼𝘁: error]>
+    ? typeError<[msg: msg, got: error]>
+    : typeError<[𝗺𝘀𝗴: msg, 𝗴𝗼𝘁: error]>
   )
   ;
 
 /** @category model */
-interface TypeError<map extends readonly [msg: string, error: unknown]>
-  extends TypeError.new<[map[0], map[1]]> { [URI.TypeError]: URI.TypeError }
+interface typeError<map extends readonly [msg: string, error: unknown]>
+  extends typeError.new<[map[0], map[1]]> { [URI.TypeError]: URI.TypeError }
 
 /** @category coproduct, structure-preserving */
 type Err = typeof Err
 const Err
-  : { [tag in keyof Msg]: TypeError.template<[discriminant: tag]> }
+  : { [tag in keyof Msg]: typeError.template<[discriminant: tag]> }
   = Object.keys(Msg).reduce(
-    (acc: any.struct, tag) => ({ ...acc, [tag]: TypeError.template(tag) }),
+    (acc: any.struct, tag) => ({ ...acc, [tag]: typeError.template(tag) }),
     {}
   ) as never
 
 type Err2<key extends keyof Msg2, type>
-  = ({ [tag in keyof Msg2]: TypeError.template2<[discriminant: tag], type> })[key]
+  = ({ [tag in keyof Msg2]: typeError.template2<[discriminant: tag], type> })[key]
 
-declare namespace TypeError {
+declare namespace typeError {
   export {
     /** @category function application */
     catch_ as catch,
@@ -112,15 +112,15 @@ declare namespace TypeError {
 
   /** @category type constructors */
   type new_<map extends readonly [msg: string, got: unknown]>
-    = TypeError.catch<TypeError.bind<map[0]>, map[1]>
+    = typeError.catch<typeError.bind<map[0]>, map[1]>
 
   /** @category type constructors */
   export interface template<errorTag extends readonly [tag: keyof Msg]> {
-    <const type>(type: type): typeError<Msg[errorTag[0]], type>
-    // <const type extends any.two>(type: type): typeError<Msg[errorTag[0]], type>
+    <const type>(type: type): typeErrorReturn<Msg[errorTag[0]], type>
+    // <const type extends any.two>(type: type): typeErrorReturn<Msg[errorTag[0]], type>
   }
 
-  export type template2<errorTag extends readonly [tag: keyof Msg2], type> = typeError<Msg2[errorTag[0]], type>
+  export type template2<errorTag extends readonly [tag: keyof Msg2], type> = typeErrorReturn<Msg2[errorTag[0]], type>
 
   /** @category function application */
   export interface bind<message extends string> {
@@ -130,12 +130,12 @@ declare namespace TypeError {
   }
 
   /** @category function application */
-  type catch_<template extends TypeError.bind<string>, error>
+  type catch_<template extends typeError.bind<string>, error>
     = (template & { error: error })["capture"]
     ;
 }
 
-declare namespace TypeError {
+declare namespace typeError {
   interface Template {
     [0]: unknown  /// inbound
     [-1]: unknown /// error channel
@@ -149,7 +149,7 @@ declare namespace TypeError {
   type eval<type> = never | { [ix in keyof type]: type[ix] }
   type _5 = eval<render<Template, 56>>
 
-  export type typecheck<type> = [type] extends [Template] ? TypeError.throw<type> : type
+  export type typecheck<type> = [type] extends [Template] ? typeError.throw<type> : type
   export { typecheck as try }
 
   namespace not {
@@ -176,7 +176,7 @@ declare namespace TypeError {
        *  //    ^? const throwsTypeError: "Did not expect to receive a type assignable to `100`"
        */
       function assignableTo<const disallow>(disallow: disallow)
-        : <const type extends not.assignableTo<disallow, type>>(type: type) => TypeError.try<type>
+        : <const type extends not.assignableTo<disallow, type>>(type: type) => typeError.try<type>
       function assignableTo<
         const disallow,
         template extends Template
@@ -185,16 +185,16 @@ declare namespace TypeError {
         template: template
       )
         : <const type extends not.assignableToWithMsg<disallow, type>>(type: type)
-          => TypeError.try<type>
+          => typeError.try<type>
 
     }
   }
 }
 
-namespace TypeError {
+namespace typeError {
   /** @category term constructors */
-  export function template<tag extends keyof Msg, meta>(tag: tag): <const err>(err: err) => typeError<Msg[tag], err>
-  export function template<tag extends any.string>(tag: tag): <const err>(type: err) => typeError<tag, err>
+  export function template<tag extends keyof Msg, meta>(tag: tag): <const err>(err: err) => typeErrorReturn<Msg[tag], err>
+  export function template<tag extends any.string>(tag: tag): <const err>(type: err) => typeErrorReturn<tag, err>
   export function template<tag extends keyof Msg>(tag: tag): unknown {
     return <const err>(err: err) => ({
       error: err,

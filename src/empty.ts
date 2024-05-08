@@ -1,9 +1,9 @@
 import type { any } from "./any/exports.js"
 import type { _ } from "./util.js"
 
-export {
-  type empty,
-  type nonempty,
+export type {
+  empty,
+  nonempty,
 }
 
 declare namespace empty {

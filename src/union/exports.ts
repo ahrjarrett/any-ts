@@ -1,1 +1,1 @@
-export * as Union from "./union.js"
+export type { Union } from "./union.js"

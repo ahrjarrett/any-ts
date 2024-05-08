@@ -1,7 +1,7 @@
 export type {
   enforce,
   constrain,
-  Partial,
+  partial as Partial,
 }
 
 /** @internal - only exported for testing purposes */
@@ -17,7 +17,7 @@ import type { HasDiscriminant } from "../tag/tag.js"
 import type { Union as U } from "../union/exports.js"
 import type { empty } from "../empty.js"
 
-declare namespace Partial {
+declare namespace partial {
   type strict<type extends globalThis.Partial<invariant>, invariant> = (
     & globalThis.Partial<invariant>
     & { [ix in Exclude<keyof type, keyof invariant>]?: never }

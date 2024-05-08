@@ -30,10 +30,28 @@ declare namespace kind {
     bind$,
     check,
     constraintsOf,
-    partial,
-    partiallyApply,
+    // partial,
+    // partiallyApply,
     satisfies,
   }
+
+  /**
+   * ### {@link check `Kind.check`}
+   * ---
+   * Given a {@link Kind `Kind`} and a set of arguments, checks that the arguments
+   * satisfy the Kind's constraints.
+   * 
+   * '{}' is assignable to the constraint of type 'P', but 'P' could be instantiated with a different subtype of constraint 'object'.
+   * 
+   * Because {@link apply `Kind.apply`} (along with {@link bind `Kind.bind`}, 
+   * {@link call `Kind.call`}, etc.) requires the user 
+   * 
+   * introspect the `Kind`
+   * 
+   * 
+   */
+  type check<fn extends Kind, args extends { [x: number]: unknown }> = args extends satisfies<fn> ? args : never
+
 }
 
 export interface Fn1 { [0]: _ }
@@ -140,23 +158,6 @@ type inferConstraints<fn extends Kind>
   : never.close.inline_var<"constraints">
   ;
 
-/**
- * ### {@link check `Kind.check`}
- * ---
- * Given a {@link Kind `Kind`} and a set of arguments, checks that the arguments
- * satisfy the Kind's constraints.
- * 
- * '{}' is assignable to the constraint of type 'P', but 'P' could be instantiated with a different subtype of constraint 'object'.
- * 
- * Because {@link apply `Kind.apply`} (along with {@link bind `Kind.bind`}, 
- * {@link call `Kind.call`}, etc.) requires the user 
- * 
- * introspect the `Kind`
- * 
- * 
- */
-type check<fn extends Kind, args extends { [x: number]: unknown }> = args extends satisfies<fn> ? args : never
-
 type identity<type> = type
 type nonunion<type> = [Union.is<type>] extends [true] ? ReturnType<typeof Err.NonUnion> : unknown
 
@@ -224,10 +225,10 @@ interface Mutable<type extends {}> extends identity<type> { }
 //////////////////
 /// DEPRECATED ///
 //////////////////
-/** @deprecated use {@link kind.bind `Kind.bind`} instead */
-type partial<fn extends Kind, args extends Partial<satisfies<fn>>> = never | (fn & structured<args>)
-/** @deprecated use {@link kind.apply `Kind.apply`} instead */
-type partiallyApply<fn extends Kind, args extends Partial<satisfies<fn>>> = partial<fn, args>[-1]
+// /** @deprecated use {@link kind.bind `Kind.bind`} instead */
+// type partial<fn extends Kind, args extends globalThis.Partial<satisfies<fn>>> = never | (fn & structured<args>)
+// /** @deprecated use {@link kind.apply `Kind.apply`} instead */
+// type partiallyApply<fn extends Kind, args extends globalThis.Partial<satisfies<fn>>> = partial<fn, args>[-1]
 
 /**
  * {@link reduce `reduce`}

@@ -1,32 +1,11 @@
 export type {
   Tree,
-  pathable,
-  nonempty,
+  // pathable,
+  // nonempty,
 }
 
 import type { any } from "../any/exports.js"
 import type { empty } from "../empty.js"
-import type { never } from "../never/exports.js"
-
-type pathable<
-  type extends
-  | empty.path | nonempty
-  = empty.path | nonempty
-> = type
-
-type nonempty<
-  last = any.nonnullable,
-  lead extends any.path = any.path
-> = readonly [...lead, last]
-
-type merge<t> = never
-  | [t] extends [any.primitive] ? t
-  : { [k in t extends any.object ? keyof t : never]
-    : merge<t extends any.indexedBy<k> ? t[k] : never> }
-  ;
-
-type shift<xs extends pathable>
-  = xs extends readonly [any.index<infer head>, ...pathable<infer tail>] ? any.two<head, tail> : never
 
 declare namespace Tree {
   export {
@@ -34,7 +13,29 @@ declare namespace Tree {
     fromPaths,
     merge,
     pathable,
+    nonempty,
   }
+
+  type pathable<
+    type extends
+    | empty.path | nonempty
+    = empty.path | nonempty
+  > = type
+
+  type nonempty<
+    last = any.nonnullable,
+    lead extends any.path = any.path
+  > = readonly [...lead, last]
+
+  type merge<t> = never
+    | [t] extends [any.primitive] ? t
+    : { [k in t extends any.object ? keyof t : never]
+      : merge<t extends any.indexedBy<k> ? t[k] : never> }
+    ;
+
+  type shift<xs extends pathable>
+    = xs extends readonly [any.index<infer head>, ...pathable<infer tail>] ? any.two<head, tail> : never
+
 
   /** 
    * {@link fromPaths `Tree.fromPaths`} is a type constructor that accepts either a union or 

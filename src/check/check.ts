@@ -226,27 +226,11 @@ type isTuple<type, constraint extends any.array = any.array, hush = never.unused
   : ([hush] extends [never.unused_arg] ? typeError<`Expected a tuple`, [type]> : never.prevent_match)
   ;
 
-declare namespace is {
-  export {
-    isStringLiteral as stringLiteral,
-    isNumberLiteral as numberLiteral,
-    isBooleanLiteral as booleanLiteral,
-    isLiteral as literal,
-    isUnion as union,
-    isTuple as tuple,
-  }
-}
+type isNonEmptyObject<type, hush = never>
+  = [keyof type] extends [never] ? [hush] extends [never] ? typeError<`Expected a non-empty object`, [{}]> : never : {}
 
-declare namespace non {
-  export {
-    isNonArrayObject as array,
-    isNonUnion as union,
-    isNonLiteral as literal,
-    isNonFiniteBoolean as finiteBoolean,
-    isNonFiniteString as finiteString,
-    isNonFiniteNumber as finiteNumber,
-  }
-}
+type isEmptyObject<type, hush = never>
+  = [keyof type] extends [never] ? {} : [hush] extends [never] ? typeError<`Expected an empty object`, [{}]> : never
 
 type check<type, invariant> = [type] extends [invariant] ? invariant : doesNotSatisfy<invariant, type>
 
@@ -262,6 +246,30 @@ declare namespace check {
     doesNotSatisfy,
     violatesRule,
     violatesRuleWithMsg,
+  }
+
+  namespace is {
+    export {
+      isBooleanLiteral as booleanLiteral,
+      isEmptyObject as emptyObject,
+      isNumberLiteral as numberLiteral,
+      isStringLiteral as stringLiteral,
+      isLiteral as literal,
+      isUnion as union,
+      isTuple as tuple,
+    }
+  }
+
+  namespace non {
+    export {
+      isNonArrayObject as array,
+      isNonUnion as union,
+      isNonEmptyObject as emptyObject,
+      isNonLiteral as literal,
+      isNonFiniteBoolean as finiteBoolean,
+      isNonFiniteString as finiteString,
+      isNonFiniteNumber as finiteNumber,
+    }
   }
 
   export namespace strict {
