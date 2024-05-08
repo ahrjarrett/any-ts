@@ -25,6 +25,8 @@ jobs:
         run: pnpm install --frozen-lockfile
       - name: Build
         run: production=true pnpm build
+      - name: Check
+        run: pnpm check
       - name: Create PR or publish
         id: changesets
         uses: changesets/action@v1
