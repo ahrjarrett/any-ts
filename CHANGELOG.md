@@ -1,5 +1,20 @@
 # any-ts
 
+## 0.42.0
+
+### Minor Changes
+
+- 66e5d7a: infra: library is written in ESM now. still targeting both CJS and ESM
+- a25502d: feat: merges traversable and traversal into Tree
+- 39fefd8: fixes broken version script
+
+### Patch Changes
+
+- 4facde2: fix typechecking issue in `Lens.tree`
+- dd6dc3a: adds type-checking to release pipeline to make it harder to publish bad code
+- a780e80: fix: uses import.meta.url instead of \_\_dirname
+- 46b499e: tweaks a few aliases to prevent compiler from appending `$1`, `$2` to the end of output types
+
 ## 0.41.4
 
 ### Patch Changes
