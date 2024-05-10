@@ -1,15 +1,16 @@
 export type {
   is,
-  camel,
-  delimitedCase,
+  Case,
+  // camel,
+  // delimitedCase,
   endsWith,
   intercalate,
-  join,
-  kebab,
-  pascal,
-  screamingKebab,
-  screamingSnake,
-  snake,
+  // join,
+  // kebab,
+  // pascal,
+  // screamingKebab,
+  // screamingSnake,
+  // snake,
   split,
   splitOnceOnChar,
   splitOnceOnChars,
@@ -25,10 +26,10 @@ import type { boolean } from "../boolean/boolean.js"
 import type { empty, nonempty } from "../empty.js"
 import type { never } from "../never/exports.js"
 import type { Kind } from "../kind/exports.js"
+import type { Universal } from "../exports.js"
 
 import type { char, charset } from "./char.js"
 
-type parseNumeric<type> = type extends `${infer x extends number}` ? x : never
 
 type endsWith<matcher extends any.showable, text extends string> = [text] extends [`${string}${matcher}`] ? true : false
 type startsWith<matcher extends any.showable, text extends string> = [text] extends [`${matcher}${string}`] ? true : false
@@ -45,10 +46,14 @@ declare namespace is {
   type uppercaseAlpha<type extends string> = boolean.all<[is.uppercase<type>, is.alpha<type>]>
   type lowercaseAlpha<type extends string> = boolean.all<[is.lowercase<type>, is.alpha<type>]>
   type parsableNumeric<type extends string>
-    = parseNumeric<type> extends any.number<infer x>
+    = Universal.parseNumeric<type> extends any.number<infer x>
     ? [x] extends [never]
     ? false : true : false
     ;
+}
+
+declare namespace string_ {
+
 }
 
 type takeUntilInclusive<
@@ -201,48 +206,42 @@ type intercalate<
   : never.close.inline_var<"head" | "tail">
   ;
 
-type join<
-  type extends any.array<any.showable>,
-  delimiter extends
-  | any.showable
-  = empty.string
-> = intercalate<``, type, delimiter>
+declare namespace Case {
+  type delimitedCase<text extends string, delimiter extends string>
+    = intercalate<``, takeUntilCaseChangeRec<[], text>, delimiter>
+    ;
 
+  type screamingSnake<text extends string>
+    = [string] extends [text]
+    ? globalThis.Uppercase<string>
+    : globalThis.Uppercase<snake<text>>
+    ;
 
-type delimitedCase<text extends string, delimiter extends string>
-  = join<takeUntilCaseChangeRec<[], text>, delimiter>
-  ;
+  type kebab<text extends string>
+    = [string] extends [text]
+    ? globalThis.Lowercase<string>
+    : globalThis.Lowercase<delimitedCase<text, "-">>
+    ;
 
-type screamingSnake<text extends string>
-  = [string] extends [text]
-  ? globalThis.Uppercase<string>
-  : globalThis.Uppercase<snake<text>>
-  ;
+  type screamingKebab<text extends string>
+    = [string] extends [text]
+    ? globalThis.Uppercase<string>
+    : globalThis.Uppercase<kebab<text>>
+    ;
 
-type kebab<text extends string>
-  = [string] extends [text]
-  ? globalThis.Lowercase<string>
-  : globalThis.Lowercase<delimitedCase<text, "-">>
-  ;
+  type snake<text extends string>
+    = [string] extends [text]
+    ? globalThis.Lowercase<string>
+    : globalThis.Lowercase<delimitedCase<text, "_">>
+    ;
 
-type screamingKebab<text extends string>
-  = [string] extends [text]
-  ? globalThis.Uppercase<string>
-  : globalThis.Uppercase<kebab<text>>
-  ;
+  type pascal<type extends string>
+    = char.splitOnChar<delimitedCase<type, " ">, " "> extends any.arrayOf<string, infer xs>
+    ? intercalate<``, { [ix in keyof xs]: globalThis.Capitalize<globalThis.Lowercase<xs[ix]>> }>
+    : never
+    ;
 
-type snake<text extends string>
-  = [string] extends [text]
-  ? globalThis.Lowercase<string>
-  : globalThis.Lowercase<delimitedCase<text, "_">>
-  ;
-
-type pascal<type extends string>
-  = char.splitOnChar<delimitedCase<type, " ">, " "> extends any.arrayOf<string, infer xs>
-  ? join<{ [ix in keyof xs]: globalThis.Capitalize<globalThis.Lowercase<xs[ix]>> }>
-  : never
-  ;
-
-type camel<type extends string>
-  = globalThis.Uncapitalize<pascal<type>>
-  ;
+  type camel<type extends string>
+    = globalThis.Uncapitalize<pascal<type>>
+    ;
+}

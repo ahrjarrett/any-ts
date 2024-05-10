@@ -4,10 +4,10 @@ export {
 
 import type { any } from "../any/exports.js"
 
-type parseNumeric<type> = type extends `${infer x extends number}` ? x : never
 
-namespace Universal { export const never: never = void 0 as never }
 declare namespace Universal {
+  type parseNumeric<type> = type extends `${infer x extends number}` ? x : never
+
   type key<key extends any.index> =
     | `${Exclude<key, symbol>}`
     | parseNumeric<key>

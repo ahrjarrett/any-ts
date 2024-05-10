@@ -1,6 +1,6 @@
 import type { any } from "../any/exports.js"
 import type { some } from "../some.js"
-import type { eval } from "../evaluate/exports.js"
+import type { evaluate } from "../evaluate/exports.js"
 
 export declare namespace object {
   export type filterValues<t, bound> = filter.values<t, bound>
@@ -28,7 +28,7 @@ export declare namespace signature {
 
 export declare namespace filter {
   type keys<t, bound extends any.index> = never |
-    eval<
+    evaluate<
       & filter.keys.satisfy<t, bound>
       & filter.keys.partiallySatisfy<t, bound>
       & filter.keys.mightSatisfy<t, bound>
@@ -44,7 +44,7 @@ export declare namespace filter {
   }
 
   type values<t, bound> = never |
-    eval<
+    evaluate<
       & filter.values.satisfy<t, bound>
       & filter.values.partiallySatisfy<t, bound>
       & filter.values.mightSatisfy<t, bound>

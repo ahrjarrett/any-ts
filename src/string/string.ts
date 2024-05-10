@@ -7,7 +7,8 @@ import type { nonempty } from "../empty.js"
 import type { Kind } from "../kind/exports.js"
 import type { check } from "../check/exports.js"
 import type * as Internal from "./_internal.js"
-import type { join, startsWith, endsWith } from "./_internal.js"
+import type { Case } from "./_internal.js"
+import type { /* join, */ startsWith, endsWith } from "./_internal.js"
 import type { is } from "./_internal.js"
 
 import type { char } from "./char.js"
@@ -70,6 +71,13 @@ declare namespace string {
     takeUntilExclusive,
     delimitedCase,
   }
+
+  type join<
+    type extends any.array<any.showable>,
+    delimiter extends
+    | any.showable
+    = ``
+  > = Internal.intercalate<``, type, delimiter>
 }
 
 type Digits = typeof char.Digits
@@ -204,7 +212,7 @@ declare namespace uncapitalize {
 }
 
 type delimitedCase<text extends any.showable, delimiter extends any.showable>
-  = Internal.delimitedCase<`${text}`, `${delimiter}`>
+  = Case.delimitedCase<`${text}`, `${delimiter}`>
 type delimitedCaseKey<type extends any.primitive, delimiter extends any.showable>
   = [type] extends [any.showable] ? delimitedCase<type, delimiter> : type
 type delimitedCaseKeys<type extends any.object, delimiter extends any.showable>
@@ -236,7 +244,7 @@ declare function delimitedCase<delimiter extends check.is.stringLiteral<string, 
   (string: string): Uncapitalize<string>
 }
 
-type snake<type extends any.showable> = Internal.snake<`${type}`>
+type snake<type extends any.showable> = Case.snake<`${type}`>
 type snakeKey<type extends any.primitive> = type extends any.showable ? snake<type> : type
 type snakeKeys<type extends any.object> = never | { [ix in keyof type as snakeKey<ix>]: type[ix] }
 type snakeArrayValues<type extends any.showables> = { [ix in keyof type]: snake<type[ix]> }
@@ -263,7 +271,7 @@ declare namespace snake {
   }
 }
 
-type screamingSnake<type extends any.showable> = Internal.screamingSnake<`${type} `>
+type screamingSnake<type extends any.showable> = Case.screamingSnake<`${type} `>
 type screamingSnakeKey<type extends any.primitive> = type extends any.showable ? screamingSnake<`${type} `> : type
 type screamingSnakeKeys<type extends any.object> = never | { [ix in keyof type as screamingSnakeKey<ix>]: type[ix] }
 type screamingSnakeArrayValues<type extends any.showables> = { [ix in keyof type]: screamingSnake<type[ix]> }
@@ -290,7 +298,7 @@ declare namespace screamingSnake {
   }
 }
 
-type kebab<type extends any.showable> = Internal.kebab<`${type} `>
+type kebab<type extends any.showable> = Case.kebab<`${type} `>
 type kebabKey<type extends any.primitive> = type extends any.showable ? kebab<type> : type
 type kebabKeys<type extends any.object> = never | { [ix in keyof type as kebabKey<ix>]: type[ix] }
 type kebabArrayValues<type extends any.showables> = { [ix in keyof type]: kebab<type[ix]> }
@@ -317,8 +325,8 @@ declare namespace kebab {
   }
 }
 
-type screamingKebab<type extends any.showable> = Internal.screamingKebab<`${type} `>
-type screamingKebabKey<type extends any.primitive> = type extends any.showable ? Internal.screamingKebab<`${type} `> : type
+type screamingKebab<type extends any.showable> = Case.screamingKebab<`${type} `>
+type screamingKebabKey<type extends any.primitive> = type extends any.showable ? Case.screamingKebab<`${type} `> : type
 type screamingKebabKeys<type extends any.object> = never | { [ix in keyof type as screamingKebabKey<ix>]: type[ix] }
 type screamingKebabArrayValues<type extends any.showables> = { [ix in keyof type]: screamingKebab<type[ix]> }
 type screamingKebabObjectValues<type extends any.dict<any.showable>> = { [ix in keyof type]: screamingKebab<type[ix]> }
@@ -344,7 +352,7 @@ declare namespace screamingKebab {
   }
 }
 
-type camel<type extends any.showable> = Internal.camel<`${type}`>
+type camel<type extends any.showable> = Case.camel<`${type}`>
 type camelKey<type extends any.primitive> = type extends any.showable ? camel<type> : type
 type camelKeys<type extends any.object> = never | { [ix in keyof type as camelKey<ix>]: type[ix] }
 type camelArrayValues<type extends any.showables> = { [ix in keyof type]: camel<type[ix]> }
@@ -371,7 +379,7 @@ declare namespace camel {
   }
 }
 
-type pascal<type extends any.showable> = Internal.pascal<`${type}`>
+type pascal<type extends any.showable> = Case.pascal<`${type}`>
 type pascalKey<type extends any.primitive> = type extends any.showable ? pascal<type> : type
 type pascalKeys<type extends any.object> = never | { [ix in keyof type as pascalKey<ix>]: type[ix] }
 type pascalArrayValues<type extends any.showables> = { [ix in keyof type]: pascal<type[ix]> }
@@ -397,9 +405,6 @@ declare namespace pascal {
     pascalValues as values,
   }
 }
-
-pascal("abc-def")
-const out = pascal({ abc_def: 123 })
 
 
 /**

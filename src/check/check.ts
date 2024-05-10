@@ -2,11 +2,12 @@ export type {
   check,
   checkNot,
   doesNotSatisfy,
-  typeError as TypeError,
   violatesRule,
   violatesRuleWithMsg,
   Signatures,
 }
+
+export type { typeError as __TESTING__ }
 
 import type { any } from "../any/exports.js"
 import type { _ } from "../util.js"

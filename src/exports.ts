@@ -13,7 +13,7 @@ export type { some } from "./some.js"
 export type { object } from "./object/exports.js"
 export type { boolean } from "./boolean/exports.js"
 export type { cache } from "./cache/exports.js"
-export type { eval, evaluate } from "./evaluate/exports.js"
+export type { evaluate } from "./evaluate/exports.js"
 export type { check, checkNot } from "./check/exports.js"
 export type {
   Catch,

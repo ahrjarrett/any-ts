@@ -9,17 +9,17 @@ export {
 
 import type { any } from "../any/exports.js"
 import type { Case, TypeError } from "../err/exports.js"
+import type { evaluate } from "../evaluate/exports.js"
 
 import type { boolean, never } from "../exports.js"
 
-type eval<type> = never | { [ix in keyof type]: type[ix] }
 
 interface Suite {
   assert: typeof assert
 }
 
 type byPos<type extends any.array, failures extends any.object = {}, ix extends void[] = []>
-  = type extends readonly [] ? [keyof failures] extends [never] ? Sym.GreenEmoji : eval<failures>
+  = type extends readonly [] ? [keyof failures] extends [never] ? Sym.GreenEmoji : evaluate<failures>
   : type extends readonly [infer head, ...infer tail]
   ? byPos<
     tail,
@@ -48,19 +48,19 @@ type byName<type extends any.object>
 interface TestResult<_type> { }
 
 /** {@link describe `describe`} `overload 1/4` @external */
-function describe<title extends string, const results extends any.array>(title: title, t: (suite: Suite) => results): TestResult<byPos<results>>
+declare function describe<title extends string, const results extends any.array>(title: title, t: (suite: Suite) => results): TestResult<byPos<results>>
 /** {@link describe `describe`} `overload 2/4` @external */
-function describe<title extends string, const results extends any.object>(title: title, t: (suite: Suite) => results): TestResult<byName<results>>
+declare function describe<title extends string, const results extends any.object>(title: title, t: (suite: Suite) => results): TestResult<byName<results>>
 /** {@link describe `describe`} `overload 3/4` @external */
-function describe<title extends string, const result>(title: title, t: (suite: Suite) => result): TestResult<byPos<[result]>>
+declare function describe<title extends string, const result>(title: title, t: (suite: Suite) => result): TestResult<byPos<[result]>>
 /** {@link describe `describe`} `overload 4/4` @external */
-function describe<title extends string>(title: title, t: (suite: Suite) => void): void
+declare function describe<title extends string>(title: title, t: (suite: Suite) => void): void
 /** 
  * Implementation comment, **not externally visible**
  * - [ ] TODO: is overload #4 necessary anymore?
  * - [ ] TODO: Docs for overload 1/2
  */
-function describe(_$0?: string, _$1?: (suite: Suite) => unknown): never { return void 0 as never }
+// declare function describe(_$0?: string, _$1?: (suite: Suite) => unknown): never
 
 type expect<type extends [type] extends [Sym.GreenEmoji] ? Sym.GreenEmoji : never> = type
 
@@ -78,17 +78,17 @@ type expect<type extends [type] extends [Sym.GreenEmoji] ? Sym.GreenEmoji : neve
  * 
  * @external 
  */
-function expect<const type>(type: type, _skip: never): [Sym.RedEmoji, type]
+declare function expect<const type>(type: type, _skip: never): [Sym.RedEmoji, type]
 /** 
  * {@link expect `expect`} `overload 2/2`
  * @external 
  */
-function expect<const type extends Sym.GreenEmoji>(type: type): type
+declare function expect<const type extends Sym.GreenEmoji>(type: type): type
 /** 
  * Implementation comment, **not externally visible**
  * - [ ] TODO: Docs for overload 2/2
  */
-function expect(_$0: Sym.GreenEmoji, _$1?: unknown): never { return void 0 as never }
+// declare function expect(_$0: Sym.GreenEmoji, _$1?: unknown): never
 
 /** 
  * {@link expectToFail `expectToFail`}
@@ -104,16 +104,16 @@ function expect(_$0: Sym.GreenEmoji, _$1?: unknown): never { return void 0 as ne
  * 
  * @external 
  */
-function expectToFail<const type>(type: type, _skip: never): [Sym.GreenEmoji] extends [type] ? TypeError<[Sym.RedEmoji, Case.ExpectedFailure]> : type
+declare function expectToFail<const type>(type: type, _skip: never): [Sym.GreenEmoji] extends [type] ? TypeError<[Sym.RedEmoji, Case.ExpectedFailure]> : type
 /** 
  * {@link expectToFail `expectToFail`} `overload 2/2` @external 
  */
-function expectToFail<const type extends [type] extends [Sym.GreenEmoji] ? TypeError<[Sym.RedEmoji, Case.ExpectedFailure]> : unknown>(type: type): Sym.GreenEmoji
+declare function expectToFail<const type extends [type] extends [Sym.GreenEmoji] ? TypeError<[Sym.RedEmoji, Case.ExpectedFailure]> : unknown>(type: type): Sym.GreenEmoji
 /** 
  * Implementation comment, **not externally visible**
  * - [ ] TODO: Docs for overload 2/2
  */
-function expectToFail(_$0?: unknown, _$1?: unknown): never { return void 0 as never }
+// declare function expectToFail(_$0?: unknown, _$1?: unknown): never
 
 /** 
  * {@link assertIsTrue `assert.is.true`} 
@@ -132,12 +132,12 @@ type assertIsTrue<type> = handleAnys<type, never, boolean.if<
  * @since 0.3.0
  * @external 
  */
-function assertIsTrue<const type>(type: type): assert.is.true<type>
+declare function assertIsTrue<const type>(type: type): assert.is.true<type>
 /** 
  * Implementation comment, **not externally visible**
  * - [ ] TODO: Docs for overload 1/1
  */
-function assertIsTrue(_$0?: unknown): never { return void 0 as never }
+// declare function assertIsTrue(_$0?: unknown): never
 
 /** 
  * {@link assertIsFalse `assert.is.false`} 
@@ -151,12 +151,12 @@ type assertIsFalse<type> = handleAnys<type, never, [false] extends [type] ? Sym.
  * @since 0.3.0
  * @external 
  */
-function assertIsFalse<const type>(type: type): assert.is.false<type>
+declare function assertIsFalse<const type>(type: type): assert.is.false<type>
 /** 
  * Implementation comment, **not externally visible**
  * - [ ] TODO: Docs for overload 1/1
  */
-function assertIsFalse(_$0?: unknown): never { return void 0 as never }
+// declare function assertIsFalse(_$0?: unknown): never
 
 /** 
  * {@link assertIsNever `assert.is.never`} 
@@ -170,12 +170,12 @@ type assertIsNever<type> = handleAnys<type, never, [type] extends [never] ? Sym.
  * @since 0.3.0
  * @external 
  */
-function assertIsNever<const type>(type: type): assert.is.never<type>
+declare function assertIsNever<const type>(type: type): assert.is.never<type>
 /** 
  * Implementation comment, **not externally visible**
  * - [ ] TODO: Docs for overload 1/1
  */
-function assertIsNever(_$0?: unknown): never { return void 0 as never }
+// declare function assertIsNever(_$0?: unknown): never
 
 /** 
  * {@link assertIsUnknown `assertIsUnknown`} 
@@ -189,27 +189,12 @@ type assertIsUnknown<type> = handleAnys<type, never, unknown extends type ? Sym.
  * @since 0.3.0
  * @external 
  */
-function assertIsUnknown<const type>(type: type): assert.is.unknown<type>
+declare function assertIsUnknown<const type>(type: type): assert.is.unknown<type>
 /** 
  * Implementation comment, **not externally visible**
  * - [ ] TODO: Docs for overload 1/1
  */
-function assertIsUnknown(_$0?: unknown): never { return void 0 as never }
-
-declare namespace is {
-  export {
-    assertIsTrue as true,
-    assertIsFalse as false,
-    assertIsNever as never,
-    assertIsUnknown as unknown,
-  }
-}
-namespace is {
-  is.true = assertIsTrue
-  is.false = assertIsFalse
-  is.never = assertIsNever
-  is.unknown = assertIsUnknown
-}
+// declare function assertIsUnknown(_$0?: unknown): never
 
 /** 
  * {@link assertIsNotEquivalent `assert.not.equivalent`} 
@@ -224,19 +209,19 @@ type assertIsNotEquivalent<a, b, fn extends Interpreter = NotEquivalent>
  * @since 0.3.0
  * @external 
  */
-function assertIsNotEquivalent<const a, const b, fn extends Interpreter = NotEquivalent>(a: a, b: b, fn?: fn): assertIsNotEquivalent<a, b, fn>
+declare function assertIsNotEquivalent<const a, const b, fn extends Interpreter = NotEquivalent>(a: a, b: b, fn?: fn): assertIsNotEquivalent<a, b, fn>
 /** 
  * {@link assertIsNotEquivalent `assert.not.equivalent`} 
  * `overload [2/2]`
  * @since 0.3.0
  * @external 
  */
-function assertIsNotEquivalent<const b>(b: b): <const a, fn extends Interpreter = NotEquivalent>(a: a, fn?: fn) => assertIsNotEquivalent<a, b, fn>
+declare function assertIsNotEquivalent<const b>(b: b): <const a, fn extends Interpreter = NotEquivalent>(a: a, fn?: fn) => assertIsNotEquivalent<a, b, fn>
 /** 
  * Implementation comment, **not externally visible**
  * - [ ] TODO: Docs for overloads 1/2 & 2/2
  */
-function assertIsNotEquivalent(_$0?: unknown): never { return ((_$1?: unknown) => void 0) as never }
+// declare function assertIsNotEquivalent(_$0?: unknown): never
 
 /** 
  * {@link assertIsNotEqual `assert.not.equal`} 
@@ -251,19 +236,19 @@ type assertIsNotEqual<a, b, fn extends Interpreter = NotEqual>
  * @since 0.3.0
  * @external 
  */
-function assertIsNotEqual<const a, const b, fn extends Interpreter = NotEqual>(a: a, b: b, fn?: fn): assertIsNotEqual<a, b, fn>
+declare function assertIsNotEqual<const a, const b, fn extends Interpreter = NotEqual>(a: a, b: b, fn?: fn): assertIsNotEqual<a, b, fn>
 /** 
  * {@link assertIsNotEqual `assert.not.equal`} 
  * `overload [2/2]`
  * @since 0.3.0
  * @external 
  */
-function assertIsNotEqual<const b>(b: b): <const a, fn extends Interpreter = NotEqual>(a: a, fn?: fn) => assertIsNotEqual<a, b, fn>
+declare function assertIsNotEqual<const b>(b: b): <const a, fn extends Interpreter = NotEqual>(a: a, fn?: fn) => assertIsNotEqual<a, b, fn>
 /** 
  * Implementation comment, **not externally visible**
  * - [ ] TODO: Docs for overloads 1/2 & 2/2
  */
-function assertIsNotEqual(_$0?: unknown, _$1?: unknown, _$2?: unknown): never { return ((_$3: unknown) => void 0) as never }
+// declare function assertIsNotEqual(_$0?: unknown, _$1?: unknown, _$2?: unknown): never
 
 /** 
  * {@link assertDoesNotExtend `assert.not.extends`} 
@@ -278,32 +263,32 @@ type assertDoesNotExtend<a, b, fn extends Interpreter = Extends>
  * @since 0.3.0
  * @external 
  */
-function assertDoesNotExtend<const a, const b, fn extends Interpreter = NotEqual>(a: a, b: b, fn?: fn): assertDoesNotExtend<a, b, fn>
+declare function assertDoesNotExtend<const a, const b, fn extends Interpreter = NotEqual>(a: a, b: b, fn?: fn): assertDoesNotExtend<a, b, fn>
 /** 
  * {@link assertDoesNotExtend `assert.not.extends`} 
  * `overload [2/2]`
  * @since 0.3.0
  * @external 
  */
-function assertDoesNotExtend<const b>(b: b): <const a, fn extends Interpreter = NotEqual>(a: a, fn?: fn) => assertDoesNotExtend<a, b, fn>
+declare function assertDoesNotExtend<const b>(b: b): <const a, fn extends Interpreter = NotEqual>(a: a, fn?: fn) => assertDoesNotExtend<a, b, fn>
 /** 
  * Implementation comment, **not externally visible**
  * - [ ] TODO: Docs for overloads 1/2 & 2/2
  */
-function assertDoesNotExtend(_$0?: unknown, _$1?: unknown, _$2?: unknown): never { return ((_$3?: unknown) => void 0) as never }
+// declare function assertDoesNotExtend(_$0?: unknown, _$1?: unknown, _$2?: unknown): never
 
-declare namespace isNot {
-  export {
-    assertIsNotEqual as equal,
-    assertIsNotEquivalent as equivalent,
-    assertDoesNotExtend as extends,
-  }
-}
-namespace isNot {
-  isNot.equal = assertIsNotEqual
-  isNot.equivalent = assertIsNotEquivalent
-  isNot.extends = assertDoesNotExtend
-}
+// declare namespace isNot {
+//   export {
+//     assertIsNotEqual as equal,
+//     assertIsNotEquivalent as equivalent,
+//     assertDoesNotExtend as extends,
+//   }
+// }
+// namespace isNot {
+//   isNot.equal = assertIsNotEqual
+//   isNot.equivalent = assertIsNotEquivalent
+//   isNot.extends = assertDoesNotExtend
+// }
 
 type assertEqual<a, b, fn extends Interpreter = Equal>
   = handleAnys<a, b, [relation.equal<a, b>] extends [true] ? Sym.GreenEmoji : interpretFailure<fn, a, b>>
@@ -313,19 +298,19 @@ type assertEqual<a, b, fn extends Interpreter = Equal>
  * @since 0.3.0
  * @external 
  */
-function assertEqual<const a, const b, fn extends Interpreter = Equal>(a: a, b: b, fn?: fn): assert.equal<a, b, fn>
+declare function assertEqual<const a, const b, fn extends Interpreter = Equal>(a: a, b: b, fn?: fn): assert.equal<a, b, fn>
 /** 
  * {@link assertEqual `assert.equal`} 
  * `overload [2/2]`
  * @since 0.3.0
  * @external 
  */
-function assertEqual<const b>(b: b): <const a, fn extends Interpreter = Equal>(a: a, fn?: fn) => assert.equal<a, b, fn>
+declare function assertEqual<const b>(b: b): <const a, fn extends Interpreter = Equal>(a: a, fn?: fn) => assert.equal<a, b, fn>
 /** 
  * Implementation comment, **not externally visible**
  * - [ ] TODO: Docs for overloads 1/2 & 2/2
  */
-function assertEqual(_$0?: unknown, _$1?: unknown, _$2?: unknown): never { return ((_$3?: unknown) => void 0) as never }
+// declare function assertEqual(_$0?: unknown, _$1?: unknown, _$2?: unknown): never
 
 type assertEquivalent<a, b, fn extends Interpreter = Equivalent>
   = handleAnys<a, b, [relation.equivalent<a, b>] extends [true] ? Sym.GreenEmoji : interpretFailure<fn, a, b>>
@@ -335,19 +320,19 @@ type assertEquivalent<a, b, fn extends Interpreter = Equivalent>
  * @since 0.3.0
  * @external 
  */
-function assertEquivalent<const a, const b, fn extends Interpreter = Equivalent>(a: a, b: b, fn?: fn): assert.equivalent<a, b, fn>
+declare function assertEquivalent<const a, const b, fn extends Interpreter = Equivalent>(a: a, b: b, fn?: fn): assert.equivalent<a, b, fn>
 /** 
  * {@link assertEquivalent `assert.equivalent`} 
  * `overload [2/2]`
  * @since 0.3.0
  * @external 
  */
-function assertEquivalent<const b>(b: b): <const a, fn extends Interpreter = Equivalent>(a: a, fn?: fn) => assert.equivalent<a, b, fn>
+declare function assertEquivalent<const b>(b: b): <const a, fn extends Interpreter = Equivalent>(a: a, fn?: fn) => assert.equivalent<a, b, fn>
 /** 
  * Implementation comment, **not externally visible**
  * - [ ] TODO: Docs for overloads 1/2 & 2/2
  */
-function assertEquivalent(_$0?: unknown, _$1?: unknown, _$2?: unknown): never { return ((_$3?: unknown) => void 0) as never }
+// declare function assertEquivalent(_$0?: unknown, _$1?: unknown, _$2?: unknown): never
 
 type assertExtends<a, b, fn extends Interpreter = Extends>
   = handleAnys<a, b, [relation.extends<a, b>] extends [true] ? Sym.GreenEmoji : interpretFailure<fn, a, b>>
@@ -357,21 +342,20 @@ type assertExtends<a, b, fn extends Interpreter = Extends>
  * @since 0.3.0
  * @external 
  */
-function assertExtends<expected = never, actual = unknown>(actual: actual & expected, _skip: never): [Sym.RedEmoji, [expected, actual]]
+declare function assertExtends<expected = never, actual = unknown>(actual: actual & expected, _skip: never): [Sym.RedEmoji, [expected, actual]]
 /** 
  * {@link assertExtends `assert.extends`} 
  * `overload [2/2]`
  * @since 0.3.0
  * @external 
  */
-function assertExtends<expected = never, actual = unknown, fn extends Interpreter = Extends>(actual: actual & expected, fn?: fn): assert.extends<expected, actual, fn>
+declare function assertExtends<expected = never, actual = unknown, fn extends Interpreter = Extends>(actual: actual & expected, fn?: fn): assert.extends<expected, actual, fn>
 /** 
  * Implementation comment, **not externally visible**
  * - [ ] TODO: Docs for overloads 1/2 & 2/2
  */
-function assertExtends(_$0?: unknown, _$1?: unknown): never { return ((_$2?: unknown) => void 0) as never }
+// declare function assertExtends(_$0?: unknown, _$1?: unknown): never
 
-function assert() { }
 declare namespace assert {
   export {
     /** 
@@ -394,28 +378,24 @@ declare namespace assert {
     assertEquivalent as equivalent,
     assertExtends as extends,
   }
-}
 
-namespace assert {
-  /** 
-   * {@link is `assert.is`} is a namespace containing a handful of mostly type-level primitives for
-   * making assertions that the type-system is capable of understanding and enforcing at compile-time.
-   * 
-   * See also: {@link isNot `assert.not`}.
-   * @since 0.3.0
-   * @external 
-   */
-  assert.is = is
-  /** 
-   * {@link isNot `assert.not`} is the dual of {@link is `assert.is`}. It contains the
-   * same set of assertions, except that their predicate is flipped. 
-   * @since 0.3.0
-   * @external 
-   */
-  assert.not = isNot
-  assert.equal = assertEqual
-  assert.equivalent = assertEquivalent
-  assert.extends = assertExtends
+  namespace is {
+    export {
+      assertIsTrue as true,
+      assertIsFalse as false,
+      assertIsNever as never,
+      assertIsUnknown as unknown,
+    }
+  }
+
+  namespace isNot {
+    export {
+      assertIsNotEqual as equal,
+      assertIsNotEquivalent as equivalent,
+      assertDoesNotExtend as extends,
+    }
+  }
+
 }
 
 declare namespace interpreter {

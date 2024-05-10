@@ -1,7 +1,4 @@
-export {
-  eval,
-  evaluate,
-}
+export type { evaluate }
 
 import type { any } from "../any/exports.js"
 
@@ -26,12 +23,12 @@ import type { any } from "../any/exports.js"
 *  type bababababab = evaluate<A, -1>
 *  //   ^? type bababababab = { b: { a: { b: { a: { b: { a: { b: { a: { b: { a: { b: any } } } } } } } } } } }
 */
-function evaluate<const type>(type: type): eval<type>
-function evaluate<const type, maxDepth extends number>(type: type, maxDepth: maxDepth): evaluate<type, maxDepth>
-function evaluate<const type, maxDepth extends number>(type: type, _max?: maxDepth): unknown { return type }
+declare function evaluate<const type>(type: type): evaluate<type>
+declare function evaluate<const type, maxDepth extends number>(type: type, maxDepth: maxDepth): evaluate<type, maxDepth>
+// declare function evaluate<const type, maxDepth extends number>(type: type, _max?: maxDepth): unknown { return type }
 
 /** 
- * {@link eval `eval`} is semantically equivalent to {@link evaluate `evaluate`} with
+ * {@link evaluate `evaluate`} is semantically equivalent to {@link evaluate `evaluate`} with
  * a hardcoded max-depth of 1.
  * 
  * In practice, you should use `eval` when you want a shallow evaluation, because 
@@ -48,7 +45,11 @@ function evaluate<const type, maxDepth extends number>(type: type, _max?: maxDep
 *  type Purdy = eval<Abc & Def & Ghi>
 *  //   ^? type Purdy = { abc: 123, def: 456, ghi: 789 }
 */
-type eval<type> = never | ({ [k in keyof type]: type[k] })
+type evaluate<type, maxDepth extends number = never> = never | (
+  [maxDepth] extends [never] ? never | ({ [k in keyof type]: type[k] })
+  : evaluate.go<type, [], maxDepth>
+)
+
 
 /** 
  * {@link evaluate `evaluate`} "evaluates" an expression.
@@ -57,7 +58,7 @@ type eval<type> = never | ({ [k in keyof type]: type[k] })
  * evaluation, because TypeScript can make certain optimizations when it 
  * knows that an expression does not contain any sub-expressions that require recursion.
  */
-type evaluate<type, maxDepth extends number = 2> = evaluate.go<type, [], maxDepth>
+// type evaluate<type, maxDepth extends number = 2> = evaluate.go<type, [], maxDepth>
 declare namespace evaluate {
   type go<type, currentDepth extends void[], maxDepth extends number>
     = maxDepth extends currentDepth["length"] ? type
