@@ -3,7 +3,7 @@ export {
 }
 
 import type { any } from "../any/exports.js"
-import type { join } from "./_internal.js"
+import type { string } from "./string.js"
 
 type fromList<keys extends any.showables> = never | ({ [k in `${keys[number]}`]: k })
 function fromList<const keys extends any.showables>(keys: keys): fromList<keys>
@@ -40,7 +40,7 @@ function escape<char extends string>(char: char) {
   return keyof(Escapable)(char) ? `\\${Escapable[char]}` : char
 }
 
-type patternFromCharset<charset extends any.showables> = `[${join<{ [ix in keyof charset]: escape<`${charset[ix]}`> }, "">}]`
+type patternFromCharset<charset extends any.showables> = `[${string.join<{ [ix in keyof charset]: escape<`${charset[ix]}`> }, "">}]`
 function patternFromCharset<const charset extends any.showables>(...charset: charset): patternFromCharset<charset>
 function patternFromCharset<const charset extends any.showables>(...charset: charset) {
   return `[${charset.map(String).map(escape).join("")}]`
