@@ -1,5 +1,12 @@
 # any-ts
 
+## 0.42.1
+
+### Patch Changes
+
+- 42f115c: 🧹 cleans up `Catch` module to expose fewer types directly
+- 0a29710: fixes broken internal import of `join`
+
 ## 0.42.0
 
 ### Minor Changes
