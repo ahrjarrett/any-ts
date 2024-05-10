@@ -145,10 +145,6 @@ declare namespace typeError {
   type throw_<fn extends Template> = fn[-1]
   export { throw_ as throw }
 
-
-  type eval<type> = never | { [ix in keyof type]: type[ix] }
-  type _5 = eval<render<Template, 56>>
-
   export type typecheck<type> = [type] extends [Template] ? typeError.throw<type> : type
   export { typecheck as try }
 

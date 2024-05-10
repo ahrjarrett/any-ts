@@ -1,5 +1,6 @@
 import type { any } from "../any/exports.js"
-import type { check, TypeError } from "../check/exports.js"
+import type { check } from "../check/exports.js"
+import type { TypeError } from "../exports.js"
 import type { nonempty } from "../empty.js"
 import type { queue } from "./queue.js"
 import type { tuple } from "./tuple.js"
@@ -122,7 +123,7 @@ export declare namespace array {
       errorMsg extends string = `Expected a non-finite array`
     > = never | (
       [xs] extends [any.array] ? [number] extends [xs["length"]] ? invariant
-      : TypeError<errorMsg, [xs]> : never
+      : TypeError<[errorMsg, [xs]]> : never
     )
   }
 

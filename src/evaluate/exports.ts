@@ -1,1 +1,1 @@
-export type { eval, evaluate } from "./evaluate.js"
+export type { evaluate } from "./evaluate.js"

@@ -1,5 +1,6 @@
 import type { string } from "./string.js"
 import type * as Internal from "./_internal.js"
+import type { Case } from "./_internal.js"
 import type { charset } from "./char.js"
 import type { assert, expect } from "../test/exports.js"
 
@@ -129,11 +130,11 @@ declare namespace Spec {
     expect<assert.equal<string.snake<"FBIVan123AndStuff">, "fbi_van_123_and_stuff">>,
     expect<assert.equal<string.snake<"FBIVan123andStuff">, "fbi_van_123_and_stuff">>,
     expect<assert.equal<string.snake<"PROPERTY">, "property">>,
-    expect<assert.equal<Internal.snake<"FBIVan123">, "fbi_van_123">>,
-    expect<assert.equal<Internal.snake<"FBIVan1abc">, "fbi_van_1_abc">>,
-    expect<assert.equal<Internal.snake<"123">, "123">>,
-    expect<assert.equal<Internal.snake<"FBIVan123AndStuff">, "fbi_van_123_and_stuff">>,
-    expect<assert.equal<Internal.snake<"FBIVan123andStuff">, "fbi_van_123_and_stuff">>,
+    expect<assert.equal<Case.snake<"FBIVan123">, "fbi_van_123">>,
+    expect<assert.equal<Case.snake<"FBIVan1abc">, "fbi_van_1_abc">>,
+    expect<assert.equal<Case.snake<"123">, "123">>,
+    expect<assert.equal<Case.snake<"FBIVan123AndStuff">, "fbi_van_123_and_stuff">>,
+    expect<assert.equal<Case.snake<"FBIVan123andStuff">, "fbi_van_123_and_stuff">>,
   ]
 
   type camel = [
@@ -144,21 +145,21 @@ declare namespace Spec {
     expect<assert.equal<string.camel<"FBIVan123AndStuff">, "fbiVan123AndStuff">>,
     expect<assert.equal<string.camel<"FBIVan123andStuff">, "fbiVan123AndStuff">>,
     expect<assert.equal<string.camel<"PROPERTY">, "property">>,
-    expect<assert.equal<Internal.camel<"FBIVan123">, "fbiVan123">>,
-    expect<assert.equal<Internal.camel<"FBIVan1abc">, "fbiVan1Abc">>,
-    expect<assert.equal<Internal.camel<"123">, "123">>,
-    expect<assert.equal<Internal.camel<"FBIVan123AndStuff">, "fbiVan123AndStuff">>,
-    expect<assert.equal<Internal.camel<"FBIVan123andStuff">, "fbiVan123AndStuff">>,
+    expect<assert.equal<Case.camel<"FBIVan123">, "fbiVan123">>,
+    expect<assert.equal<Case.camel<"FBIVan1abc">, "fbiVan1Abc">>,
+    expect<assert.equal<Case.camel<"123">, "123">>,
+    expect<assert.equal<Case.camel<"FBIVan123AndStuff">, "fbiVan123AndStuff">>,
+    expect<assert.equal<Case.camel<"FBIVan123andStuff">, "fbiVan123AndStuff">>,
     expect<assert.equal<string.camel<"fbi-van-123">, "fbiVan123">>,
     expect<assert.equal<string.camel<"fbi-van-123">, "fbiVan123">>,
     expect<assert.equal<string.camel<"fbi">, "fbi">>,
     expect<assert.equal<string.camel<"123">, "123">>,
     expect<assert.equal<string.camel<"fbi_van_123_and_stuff">, "fbiVan123AndStuff">>,
-    expect<assert.equal<Internal.camel<"fbi-">, "fbi">>,
-    expect<assert.equal<Internal.camel<"-fbi">, "fbi">>,
-    expect<assert.equal<Internal.camel<"a-123">, "a123">>,
-    expect<assert.equal<Internal.camel<"a-b123">, "aB123">>,
-    expect<assert.equal<Internal.camel<"a-b-c123">, "aBC123">>,
+    expect<assert.equal<Case.camel<"fbi-">, "fbi">>,
+    expect<assert.equal<Case.camel<"-fbi">, "fbi">>,
+    expect<assert.equal<Case.camel<"a-123">, "a123">>,
+    expect<assert.equal<Case.camel<"a-b123">, "aB123">>,
+    expect<assert.equal<Case.camel<"a-b-c123">, "aBC123">>,
   ]
 
   type pascal = [
@@ -169,20 +170,20 @@ declare namespace Spec {
     expect<assert.equal<string.pascal<"FBIVan123AndStuff">, "FbiVan123AndStuff">>,
     expect<assert.equal<string.pascal<"FBIVan123andStuff">, "FbiVan123AndStuff">>,
     expect<assert.equal<string.pascal<"PROPERTY">, "Property">>,
-    expect<assert.equal<Internal.pascal<"FBIVan123">, "FbiVan123">>,
-    expect<assert.equal<Internal.pascal<"FBIVan1abc">, "FbiVan1Abc">>,
-    expect<assert.equal<Internal.pascal<"123">, "123">>,
-    expect<assert.equal<Internal.pascal<"FBIVan123AndStuff">, "FbiVan123AndStuff">>,
-    expect<assert.equal<Internal.pascal<"FBIVan123andStuff">, "FbiVan123AndStuff">>,
+    expect<assert.equal<Case.pascal<"FBIVan123">, "FbiVan123">>,
+    expect<assert.equal<Case.pascal<"FBIVan1abc">, "FbiVan1Abc">>,
+    expect<assert.equal<Case.pascal<"123">, "123">>,
+    expect<assert.equal<Case.pascal<"FBIVan123AndStuff">, "FbiVan123AndStuff">>,
+    expect<assert.equal<Case.pascal<"FBIVan123andStuff">, "FbiVan123AndStuff">>,
     expect<assert.equal<string.pascal<"fbi-van-123">, "FbiVan123">>,
     expect<assert.equal<string.pascal<"fbi-van-123">, "FbiVan123">>,
     expect<assert.equal<string.pascal<"fbi">, "Fbi">>,
     expect<assert.equal<string.pascal<"123">, "123">>,
     expect<assert.equal<string.pascal<"fbi_van_123_and_stuff">, "FbiVan123AndStuff">>,
-    expect<assert.equal<Internal.pascal<"fbi-">, "Fbi">>,
-    expect<assert.equal<Internal.pascal<"-fbi">, "Fbi">>,
-    expect<assert.equal<Internal.pascal<"a-123">, "A123">>,
-    expect<assert.equal<Internal.pascal<"a-b123">, "AB123">>,
-    expect<assert.equal<Internal.pascal<"a-b-c123">, "ABC123">>,
+    expect<assert.equal<Case.pascal<"fbi-">, "Fbi">>,
+    expect<assert.equal<Case.pascal<"-fbi">, "Fbi">>,
+    expect<assert.equal<Case.pascal<"a-123">, "A123">>,
+    expect<assert.equal<Case.pascal<"a-b123">, "AB123">>,
+    expect<assert.equal<Case.pascal<"a-b-c123">, "ABC123">>,
   ]
 }
