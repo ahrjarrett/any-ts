@@ -41,9 +41,8 @@ const path
     return (path.endsWith("/") ? path.slice(0, -1) : path) as never
   }
 
-const dirname = globalThis.__dirname ?? import.meta.url
-
-const versionFile = path(Path.resolve(dirname, ".."), "src", "version.ts")
+const versionFile = Path.join(Path.resolve(), "src", "version.ts")
+console.log("\nversionFile", versionFile)
 
 declare namespace Cause {
   interface PathNotFound<path extends string = string> {
@@ -79,8 +78,7 @@ const hasVersion
   ;
 
 const readPackageVersion = (): string => {
-  const manifest = readFile(path(Path.resolve(__dirname, ".."), "package.json"))
-  // const versionFile = path(Path.resolve(__dirname, ".."), "src", "version.ts")
+  const manifest = readFile(Path.join(Path.resolve(), "package.json"))
   if (typeof manifest === "object") throw ["Expected manifest to be a string", manifest]
   const json: {} | null | undefined = JSON.parse(manifest)
   if (hasVersion(json)) return json.version
