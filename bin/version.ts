@@ -41,7 +41,9 @@ const path
     return (path.endsWith("/") ? path.slice(0, -1) : path) as never
   }
 
-const versionFile = path(Path.resolve(__dirname, ".."), "src", "version.ts")
+const dirname = globalThis.__dirname ?? import.meta.url
+
+const versionFile = path(Path.resolve(dirname, ".."), "src", "version.ts")
 
 declare namespace Cause {
   interface PathNotFound<path extends string = string> {

@@ -1,14 +1,18 @@
 export {
+  /** @deprecated use {@link Tree `Tree`} instead */
   traversable,
+  /** @deprecated use {@link Tree `Tree`} instead */
   traversal,
 }
 
 import type { any } from "../any/exports.js"
 import type { empty, nonempty } from "../empty.js"
+import type { Tree } from "../tree/exports.js"
 
 import type { never } from "../never/exports.js"
 
 declare namespace impl {
+  /** @deprecated use {@link Tree.unfold `Tree.unfold`} instead */
   type unfold<path extends any.path, leaf = unknown>
     = path extends empty.array ? leaf
     : path extends nonempty.pathLeft<infer init, infer last>
@@ -17,6 +21,7 @@ declare namespace impl {
     ;
 }
 
+/** @deprecated use {@link Tree.unfold `Tree.unfold`} instead */
 type unfold<leaf, path extends any.path> = impl.unfold<path, leaf>
 
 /** 
@@ -51,6 +56,8 @@ type unfold<leaf, path extends any.path> = impl.unfold<path, leaf>
  *     blob 
  *   } // ^? const blob: { xyz: "1223" } & { abc: { def: { ghi: unknown } } }
  */
+
+/** @deprecated use {@link Tree.traversableBy `Tree.traversableBy`} instead */
 type by<
   invariant extends any.path,
   type extends
@@ -59,15 +66,24 @@ type by<
 >
   = type
 
+/** @deprecated use {@link Tree `Tree`} instead */
 declare namespace traversable {
   export {
     by,
     unfold,
   }
+
+  /** @deprecated use {@link Tree.unfold `Tree.unfold`} instead */
+  type unfold<path extends any.path, leaf = unknown>
+    = path extends empty.array ? leaf
+    : path extends nonempty.pathLeft<infer init, infer last>
+    ? unfold<init, any.named<[last: last, leaf: leaf]>>
+    : never
+    ;
 }
 
-namespace traversal { export const never: never = void 0 as never }
 declare namespace traversal {
+  /** @deprecated use {@link Tree.traversal `Tree.traversal`} instead */
   type of<
     tree,
     path extends any.array<any.index>,
