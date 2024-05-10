@@ -45,7 +45,7 @@ type joinRight<left, right> = never.as.identity
 
 type fromPaths<delimiter extends any.showable, type extends any.array<any.string>>
   = splitPaths<type, delimiter> extends any.arrayOf<any.array<string>, infer split>
-  ? { [ix in keyof split]: traversable.unfold<{}, split[ix]> } extends any.list<infer trees>
+  ? { [ix in keyof split]: traversable.unfold<split[ix], {}> } extends any.list<infer trees>
   ? impl.joinTrees<unknown, trees>
   : never.close.inline_var<"trees">
   : never.close.inline_var<"split">
