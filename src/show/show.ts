@@ -26,7 +26,7 @@ declare const concatall
   : <strings extends any.array<string>>(...s: strings) => concatall<strings>
 type concatall<strings extends any.array<string>, acc extends string = ``>
   = strings extends empty.array ? acc
-  : strings extends nonempty.arrayof<string, infer head, infer tail>
+  : strings extends nonempty.arrayOf<string, infer head, infer tail>
   ? concatall<tail, `${acc}${head}`>
   : never.close.inline_var<"head" | "tail">
   ;
@@ -68,7 +68,7 @@ declare namespace Show {
     ;
   type objectBody<acc extends string, type extends any.array>
     = [type] extends [empty.array] ? acc
-    : [type] extends [nonempty.arrayof<any.entry, infer head, infer tail>]
+    : [type] extends [nonempty.arrayOf<any.entry, infer head, infer tail>]
     ? objectBody<
       between<
         between<
@@ -94,7 +94,7 @@ declare namespace Show {
     ;
   type intersectionBody<acc extends string, type extends any.array>
     = [type] extends [empty.array] ? acc
-    : [type] extends [nonempty.arrayof<any.entry, infer head, infer tail>]
+    : [type] extends [nonempty.arrayOf<any.entry, infer head, infer tail>]
     ? intersectionBody<separated.by.ampersand<acc, Show.go<empty.string, head[1]>>, tail>
     : never.close.inline_var<"head" | "tail">
     ;
@@ -108,7 +108,7 @@ declare namespace Show {
     ;
   type unionBody<acc extends string, type extends any.array>
     = [type] extends [empty.array] ? acc
-    : [type] extends [nonempty.arrayof<any.entry, infer head, infer tail>]
+    : [type] extends [nonempty.arrayOf<any.entry, infer head, infer tail>]
     ? unionBody<separated.by.pipe<acc, Show.go<empty.string, head[1]>>, tail>
     : never.close.inline_var<"head" | "tail">
     ;

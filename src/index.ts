@@ -29,7 +29,7 @@
  *   comes in the form of an additional type parameter.
  *  
  *   Example: 
- *   - {@link Any.arrayof any.arrayof}
+ *   - {@link any.arrayof any.arrayof}
  * 
  * 
  * -----------

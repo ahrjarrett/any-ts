@@ -42,7 +42,7 @@ declare namespace any {
   type function_<type extends some.function = some.function> = type
   type null_<type extends null = null> = type
   type number_<type extends number = number> = type
-  type object_<type extends object = object> = any_object<type>
+  export type object_<type extends any_object = any_object> = type
   type string_<type extends string = string> = type
   type symbol_<type extends symbol = symbol> = type
   type undefined_<type extends undefined = undefined> = type
@@ -103,8 +103,28 @@ declare namespace any {
   export type arraylike<type extends any_arraylike = any_arraylike> = type
   export type invertible<type extends any_invertible = any_invertible> = type
   export type path<type extends any.array<any.index> = any.array<any.index>> = type
+
+  export type strings<type extends any.array<string> = any.array<string>> = type
+  export type numbers<type extends any.array<number> = any.array<number>> = type
+  export type booleans<type extends any.array<boolean> = any.array<boolean>> = type
+  export type indices<type extends any.array<any.index> = any.array<any.index>> = type
   export type keys<type extends any.array<any.key> = any.array<any.key>> = type
+  export type paths<type extends any.array<any.path> = any.array<any.path>> = type
+  export type literals<type extends any.array<any.literal> = any.array<any.literal>> = type
+  export type primitives<type extends any.array<any.primitive> = any.array<any.primitive>> = type
   export type showables<type extends any.array<showable> = any.array<showable>> = type
+  export type matrix<type extends any.array<any.array> = any.array<any_array>> = type
+  export type objects<type extends any.array<any.object> = any.array<any.object>> = type
+  export type nullables<type extends any.array<any.nullable> = any.array<any.nullable>> = type
+  export type scalars<type extends any.array<any.scalar> = any.array<any.scalar>> = type
+  export type unit = typeof unit
+  export const unit: unique symbol
+  // export type { unit as true }
+
+  export type bottom<type extends never = never> = type
+  export type { bottom as never }
+  export type top<type = _> = type
+  export type { top as any }
 
   /** 
    * Use {@link field `any.field`} when its more convenient to pass the key/value

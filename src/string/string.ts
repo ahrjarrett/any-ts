@@ -172,7 +172,7 @@ type capitalizeValues<type extends any.showables | any.dict<any.showable>>
   : never
   ;
 
-declare function capitalize<text extends check.is.stringLiteral<text, "shh">>(string: text): capitalize<text>
+declare function capitalize<text extends check.isLiteral<text, string>>(string: text): capitalize<text>
 declare function capitalize<type extends any.showable>(showable: type): capitalize<type>
 declare function capitalize<type extends any.primitive>(key: type): capitalizeKey<type>
 declare function capitalize<type extends any.object>(object: type): capitalizeKeys<type>
@@ -197,7 +197,7 @@ type uncapitalizeValues<type extends any.showables | any.dict<any.showable>>
   : never
   ;
 
-declare function uncapitalize<text extends check.is.stringLiteral<text, "shh">>(string: text): uncapitalize<text>
+declare function uncapitalize<text extends check.isLiteral<text, string>>(string: text): uncapitalize<text>
 declare function uncapitalize<type extends any.showable>(showable: type): uncapitalize<type>
 declare function uncapitalize<type extends any.primitive>(key: type): uncapitalizeKey<type>
 declare function uncapitalize<type extends any.object>(object: type): uncapitalizeKeys<type>
@@ -236,8 +236,8 @@ declare namespace delimitedCase {
 }
 
 /** For an example implementation, see `./impl.ts` */
-declare function delimitedCase<delimiter extends check.is.stringLiteral<string, "shh">>(delimiter: delimiter): {
-  <text extends check.is.stringLiteral<text, "shh">>(text: text): delimitedCase<text, delimiter>
+declare function delimitedCase<delimiter extends check.isLiteral<delimiter>>(delimiter: delimiter): {
+  <text extends check.isLiteral<text, string>>(text: text): delimitedCase<text, delimiter>
   <type extends any.showable>(showable: type): delimitedCase<type, delimiter>
   <type extends any.primitive>(key: type): delimitedCaseKey<type, delimiter>
   <type extends any.object>(object: type): delimitedCaseKeys<type, delimiter>
@@ -255,7 +255,7 @@ type snakeValues<type extends any.showables | any.dict<any.showable>>
   : never
   ;
 
-declare function snake<text extends check.is.stringLiteral<text, "shh">>(string: text): snake<text>
+declare function snake<text extends check.isLiteral<text, string>>(string: text): snake<text>
 declare function snake<type extends any.showable>(showable: type): snake<type>
 declare function snake<type extends any.primitive>(key: type): snakeKey<type>
 declare function snake<type extends any.object>(object: type): snakeKeys<type>
@@ -282,7 +282,7 @@ type screamingSnakeValues<type extends any.showables | any.dict<any.showable>>
   : never
   ;
 
-declare function screamingSnake<text extends check.is.stringLiteral<text, "shh">>(string: text): screamingSnake<text>
+declare function screamingSnake<text extends check.isLiteral<text, string>>(string: text): screamingSnake<text>
 declare function screamingSnake<type extends any.showable>(showable: type): screamingSnake<type>
 declare function screamingSnake<type extends any.primitive>(key: type): screamingSnakeKey<type>
 declare function screamingSnake<type extends any.object>(object: type): screamingSnakeKeys<type>
@@ -309,7 +309,7 @@ type kebabValues<type extends any.showables | any.dict<any.showable>>
   : never
   ;
 
-declare function kebab<text extends check.is.stringLiteral<text, "shh">>(text: text): kebab<text>
+declare function kebab<text extends check.isLiteral<text, string>>(text: text): kebab<text>
 declare function kebab<type extends any.showable>(showable: type): kebab<type>
 declare function kebab<type extends any.primitive>(key: type): kebabKey<type>
 declare function kebab<type extends any.object>(object: type): kebabKeys<type>
@@ -336,7 +336,7 @@ type screamingKebabValues<type extends any.showables | any.dict<any.showable>>
   : never
   ;
 
-declare function screamingKebab<text extends check.is.stringLiteral<text, "shh">>(string: text): screamingKebab<text>
+declare function screamingKebab<text extends check.isLiteral<text, string>>(string: text): screamingKebab<text>
 declare function screamingKebab<type extends any.showable>(showable: type): screamingKebab<type>
 declare function screamingKebab<type extends any.primitive>(key: type): screamingKebabKey<type>
 declare function screamingKebab<type extends any.object>(object: type): screamingKebabKeys<type>
@@ -363,7 +363,7 @@ type camelValues<type extends any.showables | any.dict<any.showable>>
   : never
   ;
 
-declare function camel<text extends check.is.stringLiteral<text, "shh">>(string: text): camel<text>
+declare function camel<text extends check.isLiteral<text, string>>(string: text): camel<text>
 declare function camel<type extends any.showable>(showable: type): camel<type>
 declare function camel<type extends any.primitive>(key: type): camelKey<type>
 declare function camel<type extends any.object>(object: type): camelKeys<type>
@@ -390,7 +390,7 @@ type pascalValues<type extends any.showables | any.dict<any.showable>>
   : never
   ;
 
-declare function pascal<text extends check.is.stringLiteral<text, "shh">>(string: text): pascal<text>
+declare function pascal<text extends check.isLiteral<text, string>>(string: text): pascal<text>
 declare function pascal<type extends any.showable>(showable: type): pascal<type>
 declare function pascal<type extends any.primitive>(key: type): pascalKey<type>
 declare function pascal<type extends any.object>(object: type): pascalKeys<type>
