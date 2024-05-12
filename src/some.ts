@@ -1,91 +1,30 @@
-export type { some }
-
 import type { any } from "./any/exports.js"
 import type { never } from "./never/exports.js"
 import type { _ } from "./util.js"
 
 import type { to } from "./to.js"
 
-declare namespace distributive {
-  type values<type> = type extends any.array ? type[number] : type[keyof type]
-  type keyof<type>
-    = (
-      type extends any.array
-      ? Extract<keyof type, `${number}`>
-      : keyof type
-    ) extends infer key extends any.index
-    ? values<{ [ix in key]: ix }>
-    : never // never.close.inline_var<"key">
-    ;
-
-  type entryof<type extends any.object>
-    = type extends type
-    ? keyof type extends infer key
-    ? key extends keyof type
-    ? readonly [key, type[key]]
-    : never // never.close.unmatched_expr
-    : never // never.close.inline_var<"key">
-    : never.close.distributive<"type">
-    ;
+export declare namespace some {
+  export {
+    /** {@link function_ `some.function`} @external */
+    function_ as function,
+  }
+  /** @internal Use {@link some.function `some.function`} instead */
+  export interface function_<domain extends any.array<any> = any.array<any>, codomain = _> { (...arg: domain): codomain }
 }
 
 /**
- * {@link some `some`} is {@link any `any`}'s {@link https://en.wikipedia.org/wiki/Duality_(mathematics) dual}.
+ * {@link some `some`} is the {@link https://en.wikipedia.org/wiki/Duality_(mathematics) dual} of {@link any `any`} .
  * 
- * Explanation:
+ * **tldr:**
  * 
- * If {@link any `any`} is analogous to 
- * {@link https://en.wikipedia.org/wiki/Universal_quantification universal quantification}
- * (that is, _for all_), then {@link some `some`} corresponds to 
+ * If {@link any `any`} is roughly analogous to 
+ * {@link https://en.wikipedia.org/wiki/Universal_quantification _universal_ quantification}
+ * (_for all_), then {@link some `some`} corresponds to 
  * {@link https://en.wikipedia.org/wiki/Existential_quantification _existential_ quantification}
- * (that is, _there exists_).
+ * (_there exists_).
  */
-declare namespace some {
-  export {
-    /** {@link fn `some.function`} @external */
-    fn as function,
-  }
-
-  // direct exports
-  export {
-    /** {@link arrayOf `some.arrayOf`} @external */
-    arrayOf,
-    /** {@link assertion `some.assertion`} @external */
-    assertion,
-    /** {@link asserts `some.asserts`} @external */
-    asserts,
-    /** {@link binary `some.binary`} @external */
-    binary,
-    /** {@link entryOf `some.entryOf`} @external */
-    entryOf,
-    /** {@link field `some.field`} @external */
-    field,
-    /** {@link fieldOf `some.fieldOf`} @external */
-    fieldOf,
-    /** {@link guard `some.guard`} @external */
-    guard,
-    /** {@link keyof `some.keyof`} @external */
-    keyof,
-    /** {@link named `some.named`} @external */
-    named,
-    /** {@link predicate `some.predicate`} @external */
-    predicate,
-    /** {@link record `some.record`} @external */
-    record,
-    /** {@link subtypeOf `some.subtypeOf`} @external */
-    subtypeOf,
-    /** {@link ternary `some.ternary`} @external */
-    ternary,
-    /** {@link typeguard `some.typeguard`} @external */
-    typeguard,
-    /** {@link unary `some.unary`} @external */
-    unary,
-    /** {@link valueOf `some.valueOf`} @external */
-    valueOf,
-    /** {@link variadic `some.variadic`} @external */
-    variadic,
-  }
-
+export declare namespace some {
   /** {@link unary `some.unary`} @external */
   interface unary<
     returns = _,
@@ -124,68 +63,33 @@ declare namespace some {
     value = _
   > = globalThis.Record<key, value>
 
-  /** {@link record `some.record`} @external */
-  type keyof<
-    invariant,
-    type extends
-    | distributive.keyof<invariant>
-    = distributive.keyof<invariant>
-  > = type
-
-  type entryOf<
-    invariant extends any.object,
-    type extends
-    | distributive.entryof<invariant>
-    = distributive.entryof<invariant>
-  > = type
-
-  type valueOf<
-    invariant,
-    type extends
-    | distributive.values<invariant>
-    = distributive.values<invariant>
-  > = type
-
-  interface fn<dom extends any.array<any> = any.array<any>, cod = _> { (...arg: dom): cod }
-
+  /** {@link predicate `some.predicate`} @external */
   interface predicate<type = any> { (u: type): boolean }
 
+  /** {@link guard `some.guard`} @external */
   type guard<target = never> = never | typeguard<any, target>
+
+  /** {@link typeguard `some.typeguard`} @external */
   type typeguard<source = any, target = _> = never | typePredicate<[source, target]>
+
+  /** @internal Use {@link some.typeguard `some.typeguard`} instead */
   type typePredicate<
     map extends
-    | readonly [source: _, target: _]
-    = readonly [source: any, target: _]
+    | [source: _, target: _]
+    = [source: any, target: _]
   > = never | ((u: map[0]) => u is map[1])
 
+  /** {@link asserts `some.asserts`} @external */
   type asserts<source = any, target = _> = never | assertion<[source, target]>
+
+  /** {@link assertion `some.assertion`} @external */
   type assertion<
     map extends
     | readonly [source: _, target: _]
     = readonly [source: any, target: _]
   > = never | { (u: map[0]): asserts u is map[1] }
 
-  type arrayOf<
-    invariant,
-    type extends
-    | any.array<invariant>
-    = any.array<invariant>
-  > = type
-
-  type fieldOf<
-    invariant,
-    type extends
-    | to.entries<invariant>
-    = to.entries<invariant>
-  > = type
-
-  type subtypeOf<
-    invariant,
-    subtype extends
-    | invariant extends invariant ? invariant : never
-    = invariant extends invariant ? invariant : never
-  > = subtype
-
+  /** {@link named `some.named`} @external */
   type named<
     invariant extends any.field,
     type extends
@@ -193,5 +97,78 @@ declare namespace some {
     = { [ix in invariant[0]]: invariant[1] }
   > = type
 
-  interface predicate<type> { (x: type): boolean }
+
+  /** {@link keyof `some.keyof`} @external */
+  type keyof<
+    invariant,
+    type extends
+    | distributive.keyof<invariant>
+    = distributive.keyof<invariant>
+  > = type
+
+  /** {@link entryOf `some.entryOf`} @external */
+  type entryOf<
+    invariant extends any.object,
+    type extends
+    | distributive.entryOf<invariant>
+    = distributive.entryOf<invariant>
+  > = type
+
+  /** {@link valueOf `some.valueOf`} @external */
+  type valueOf<
+    invariant,
+    type extends
+    | distributive.values<invariant>
+    = distributive.values<invariant>
+  > = type
+
+  /** {@link arrayOf `some.arrayOf`} @external */
+  type arrayOf<
+    invariant,
+    type extends
+    | any.array<invariant>
+    = any.array<invariant>
+  > = type
+
+  /** {@link fieldOf `some.fieldOf`} @external */
+  type fieldOf<
+    invariant,
+    type extends
+    | to.entries<invariant>
+    = to.entries<invariant>
+  > = type
+
+  /** {@link subtypeOf `some.subtypeOf`} @external */
+  type subtypeOf<
+    invariant,
+    subtype extends
+    | invariant extends invariant ? invariant : never
+    = invariant extends invariant ? invariant : never
+  > = subtype
+}
+
+export declare namespace distributive {
+  type values<type> = type extends any.array ? type[number] : type[keyof type]
+
+  type keyof<type>
+    = (
+      type extends any.array
+      ? Extract<keyof type, `${number}`>
+      : keyof type
+    ) extends infer key extends any.index
+    ? values<{ [ix in key]: ix }>
+    : never.close.inline_var<"key">
+    ;
+
+  type entryOf<type extends any.object>
+    = type extends type
+    ? (
+      keyof type extends infer key
+      ? key extends keyof type
+      ? readonly [key, type[key]]
+      : never
+      : never
+    )
+    : never.close.distributive<"type">
+    ;
 }

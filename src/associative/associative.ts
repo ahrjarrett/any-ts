@@ -12,6 +12,7 @@ import type { iter } from "../iter/exports.js"
 import type { enforce } from "../err/enforce.js"
 import type { never } from "../never/exports.js"
 import { real } from "../number/real.js"
+import { _ } from "../util.js"
 
 const size$: unique symbol = Symbol.for("any-ts/associative::size$")
 type size$ = typeof size$
@@ -212,7 +213,7 @@ namespace __Spec__ {
   declare const failureCases: [
     never,
     any,
-    unknown,
+    _,
     {},
     [],
     readonly [],

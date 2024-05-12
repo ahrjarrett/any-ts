@@ -1,6 +1,4 @@
-// namespace exports
 export type {
   check,
-  checkNot,
-  // TypeError,
+  typecheck,
 } from "./check.js"

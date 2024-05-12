@@ -32,13 +32,13 @@ type dequeued<lead extends any.array = [], last = undefined, asMutable = never>
 type enqueued<lead extends any.array = any.array, last extends any.type = any.type, asMutable = never>
   = never | ([asMutable] extends [never] ? readonly [LEAD: Readonly<lead>, LAST: last] : [LEAD: lead, LAST: last])
 
-type dequeue<xs extends check.is.tuple<xs>, distribute = never>
+type dequeue<xs extends check.isTuple<xs>, distribute = never>
   = [distribute] extends [never] ? internal.dequeue<xs>
   : xs extends xs ? internal.dequeue<xs>
   : never.close.distributive
   ;
 
-type enqueue<sequence extends check.is.tuple<sequence>, element = any.type, distribute = never>
+type enqueue<sequence extends check.isTuple<sequence>, element = any.type, distribute = never>
   = [distribute] extends [never] ? internal.enqueue<sequence, element>
   : sequence extends sequence ? internal.enqueue<sequence, element>
   : never.close.distributive

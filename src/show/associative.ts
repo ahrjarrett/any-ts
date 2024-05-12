@@ -159,7 +159,9 @@ type Assoc<inputs extends readonly [Tag, any.object, any.array<any.index>]>
 declare function Assoc
   <tag extends Tag, const type extends any.entries & enforce.uniqNonNumericIndex<type>>(tag: tag, ...type: type): associative<type, tag>
 declare function Assoc
-  <tag extends Tag, const type extends any.object, const order extends any.array<keyof type>>(tag: tag, type: type, order: order): associative<impl.toEntries<type, order>, tag>
+  <tag extends Tag, const type extends any.object, const order extends any.keysOf<type>>
+  (tag: tag, type: type, order: order):
+  associative<impl.toEntries<type, order>, tag>
 
 
 declare namespace Assoc {

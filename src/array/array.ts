@@ -1,5 +1,5 @@
 import type { any } from "../any/exports.js"
-import type { check } from "../check/exports.js"
+import type { check, typecheck } from "../check/exports.js"
 import type { TypeError } from "../exports.js"
 import type { nonempty } from "../empty.js"
 import type { queue } from "./queue.js"
@@ -83,7 +83,7 @@ export declare namespace array {
    *  const ex_04 = onlyTuples(numberArray)
    *  //    ^? const ex_04: never
    */
-  type finite<xs, invariant extends any.array = any.array> = check.is.tuple<xs, invariant, "hush">
+  type finite<xs, invariant extends any.array = any.array> = check.isTuple<xs, invariant>
 
   namespace finite {
     /**
@@ -110,7 +110,7 @@ export declare namespace array {
      *  const ex_02 = tuplesOnlyOrThrow(myArray)
      *  //    ^? const ex_02: TypeError<["Expected a tuple", [got: number[]]]>
      */
-    type orThrow<xs, invariant extends any.array = any.array> = never | check.is.tuple<xs, invariant, never>
+    type orThrow<xs, invariant extends any.array = any.array> = never | typecheck.isTuple<xs, invariant>
   }
 
   type nonfinite<xs> = never |

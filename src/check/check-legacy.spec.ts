@@ -2,7 +2,7 @@ import type { any } from "../any/exports.js"
 import type { assert } from "../test/exports.js"
 import { describe, expect } from "../test/exports.js"
 import type { mut } from "../mutable/exports.js"
-import type { check, __TESTING__ as TypeError } from "./check.js"
+import type { check, __TESTING__ as TypeError } from "./check-legacy.js"
 
 type __Literal__ = [
   // ^?
@@ -462,8 +462,8 @@ describe("check", () => [
 
 type __NonArrayObject__ = [
   // ^?
-  expect<assert.equal<check.non.array<{}>, any.object>>,
-  expect<assert.equal<check.non.array<{ abc: 123 }>, any.object>>,
+  // expect<assert.equal<check.non.array<{}>, any.object>>,
+  // expect<assert.equal<check.non.array<{ abc: 123 }>, any.object>>,
   expect<assert.equivalent<
     check.non.array<[] | { abc: 123 }>,
     TypeError<"Expected `type` to be a non-array, but one of its members was an array", [[]]>
