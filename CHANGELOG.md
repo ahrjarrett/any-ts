@@ -1,5 +1,11 @@
 # any-ts
 
+## 0.43.0
+
+### Minor Changes
+
+- bf4769e: simplifies `check` API (full rewrite); adds `typecheck` API for throwing custom TypeErrors on failure case
+
 ## 0.42.1
 
 ### Patch Changes
