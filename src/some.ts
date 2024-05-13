@@ -8,14 +8,14 @@ export declare namespace some {
   export {
     /** {@link function_ `some.function`} @external */
     function_ as function,
-  }
-  /** @internal Use {@link function_ `some.function`} instead */
-  export interface function_<domain extends any.array<any> = any.array<any>, codomain = _> { (...arg: domain): codomain }
-
-  export {
     /** {@link class_ `some.class`} @external */
-    class_ as class
+    class_ as class,
   }
+
+  /** @internal Use {@link some.function `some.function`} instead */
+  export interface function_
+    <domain extends any.array<any> = any.array<any>, codomain = _> { (...arg: domain): codomain }
+
   /** @internal Use {@link some.class `some.class`} instead */
   export interface class_<
     instance = _,
