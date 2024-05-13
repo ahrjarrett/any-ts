@@ -263,12 +263,6 @@ export interface any_arraylike<type = _> extends any_enumerable<type> { length: 
 export interface any_invertible { [ix: any_key]: any_key }
 export type any_field<key extends any_index = any_index, value = _> = readonly [key: key, value: value]
 export type any_entry<type extends readonly [any_index, _] = readonly [any_index, _]> = type
-// export interface any_class<
-//   args extends
-//   | any.array<any>
-//   = any.array<any>,
-//   target = _
-// > { new(...a: args): target }
 
 export type instanceOf<type> = [type] extends [{ new(...a: any.array<any>): infer instance }] ? instance : never
 
