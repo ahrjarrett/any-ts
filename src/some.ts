@@ -6,9 +6,9 @@ import type { to } from "./to.js"
 
 export declare namespace some {
   export {
-    /** {@link function_ `some.function`} @external */
+    /** {@link some.function `some.function`} @external */
     function_ as function,
-    /** {@link class_ `some.class`} @external */
+    /** {@link some.class `some.class`} @external */
     class_ as class,
   }
 
