@@ -19,6 +19,8 @@ declare namespace mut {
     arrayOf as arrayof,
     /** {@link arrayOf `mut.arrayOf`} */
     arrayOf,
+    /** {@link dict `mut.dict`} */
+    dict,
     /** {@link entry `mut.entry`} */
     entry,
     /** {@link entries `mut.entries`} */
@@ -33,6 +35,8 @@ declare namespace mut {
     entriesOf,
     /** {@link field `mut.field`} */
     field,
+    /** {@link json `mut.json`} */
+    json,
     /** {@link keys `mut.keys`} */
     keys,
     /** {@link list `mut.list`} */
@@ -57,6 +61,7 @@ declare namespace mut {
   type path<type extends mut.array<any.index> = mut.array<any.index>> = type
   type entry<type extends [any.index, _] = [any.index, _]> = type
   type entries<type extends mut.array<mut.entry> = mut.array<mut.entry>> = type
+  type dict<type extends mut_dict<_> = mut_dict<_>> = type
 
   type one<only = _> = [_1: only]
   type two<fst = _, snd = _> = [_1: fst, _2: snd]
@@ -92,4 +97,8 @@ declare namespace mut {
     = pathsof<invariant>
   > = type
 
+  type json<type extends mut_json = mut_json> = type
 }
+
+export interface mut_dict<type> { [x: string]: type }
+export type mut_json = null | number | string | boolean | mut_json[] | mut_dict<mut_json>
