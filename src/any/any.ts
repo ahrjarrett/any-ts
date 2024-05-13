@@ -15,21 +15,30 @@ declare namespace any {
   /////////////////////
   /// 🡓🡓 intrinsics
   export {
+    /** {@link any.boolean `any.boolean`} @external */
     boolean_ as boolean,
+    /** {@link any.class `any.class`} @external */
     class_ as class,
+    /** {@link any.function `any.function`} @external */
     function_ as function,
+    /** {@link any.null `any.null`} @external */
     null_ as null,
+    /** {@link any.number `any.number`} @external */
     number_ as number,
+    /** {@link any.object `any.object`} @external */
     object_ as object,
+    /** {@link any.string `any.string`} @external */
     string_ as string,
+    /** {@link any.symbol `any.symbol`} @external */
     symbol_ as symbol,
+    /** {@link any.undefined `any.undefined`} @external */
     undefined_ as undefined,
   }
   /// 🡑🡑 intrinsics
   /////////////////////
   /// 🡓🡓 aliases
   export {
-    dictionary as dict,
+    dict as dictionary,
     keyof as keyOf,
   }
   /// 🡑🡑 aliases
@@ -37,15 +46,25 @@ declare namespace any {
 
   ///////////////////
   /// 🡓🡓 aliased
-  type boolean_<type extends boolean = boolean> = type
-  type class_<type extends any_class = any_class> = type
-  type function_<type extends some.function = some.function> = type
-  type null_<type extends null = null> = type
-  type number_<type extends number = number> = type
-  export type object_<type extends any_object = any_object> = type
-  type string_<type extends string = string> = type
-  type symbol_<type extends symbol = symbol> = type
-  type undefined_<type extends undefined = undefined> = type
+
+  /** @internal Use {@link any.boolean `any.boolean`} instead */
+  export type boolean_<type extends boolean = boolean> = type
+  /** @internal Use {@link any.class `any.class`} instead */
+  export type class_<type extends some.class = some.class> = type
+  /** @internal Use {@link any.function `any.function`} instead */
+  export type function_<type extends some.function = some.function> = type
+  /** @internal Use {@link any.null `any.null`} instead */
+  export type null_<type extends null = null> = type
+  /** @internal Use {@link any.number `any.number`} instead */
+  export type number_<type extends number = number> = type
+  /** @internal Use {@link any.string `any.string`} instead */
+  export type string_<type extends string = string> = type
+  /** @internal Use {@link any.symbol `any.symbol`} instead */
+  export type symbol_<type extends symbol = symbol> = type
+  /** @internal Use {@link any.undefined `any.undefined`} instead */
+  export type undefined_<type extends undefined = undefined> = type
+  /** @internal Use {@link any.object `any.object`} instead */
+  export type object_<type extends object = object> = any_object<type>
   // 🡑🡑 aliased
   /////////////////////////
 
@@ -98,7 +117,7 @@ declare namespace any {
   export type list<type extends any.array = any.array> = type
   export type entries<type extends any.array<entry> = any.array<entry>> = type
   export type struct<type extends any_struct = any_struct> = type
-  export type dictionary<type = _> = any_dict<type>
+  export type dict<type = _> = any_dict<type>
   export type enumerable<type extends any_enumerable = any_enumerable> = type
   export type arraylike<type extends any_arraylike = any_arraylike> = type
   export type invertible<type extends any_invertible = any_invertible> = type
@@ -264,12 +283,8 @@ export interface any_arraylike<type = _> extends any_enumerable<type> { length: 
 export interface any_invertible { [ix: any_key]: any_key }
 export type any_field<key extends any_index = any_index, value = _> = readonly [key: key, value: value]
 export type any_entry<type extends readonly [any_index, _] = readonly [any_index, _]> = type
-export interface any_class<
-  args extends
-  | any.array<any>
-  = any.array<any>,
-  target = _
-> { new(...arg: args): target }
+
+export type instanceOf<type> = [type] extends [{ new(...a: any.array<any>): infer instance }] ? instance : never
 
 export type any_json =
   | any.scalar

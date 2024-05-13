@@ -6,11 +6,23 @@ import type { to } from "./to.js"
 
 export declare namespace some {
   export {
-    /** {@link function_ `some.function`} @external */
+    /** {@link some.function `some.function`} @external */
     function_ as function,
+    /** {@link some.class `some.class`} @external */
+    class_ as class,
   }
+
   /** @internal Use {@link some.function `some.function`} instead */
-  export interface function_<domain extends any.array<any> = any.array<any>, codomain = _> { (...arg: domain): codomain }
+  export interface function_
+    <domain extends any.array<any> = any.array<any>, codomain = _> { (...arg: domain): codomain }
+
+  /** @internal Use {@link some.class `some.class`} instead */
+  export interface class_<
+    instance = _,
+    params extends
+    | any.array<any>
+    = any.array<any>,
+  > { new(...a: params): instance }
 }
 
 /**
@@ -145,6 +157,13 @@ export declare namespace some {
     | invariant extends invariant ? invariant : never
     = invariant extends invariant ? invariant : never
   > = subtype
+
+  type instanceOf<invariant, distributive = never>
+    = [distributive] extends [never]
+    ? [invariant] extends [some.class<infer instance>] ? instance : never
+    : invariant extends invariant ? some.instanceOf<invariant, never>
+    : never.close.distributive<"invariant">
+    ;
 }
 
 export declare namespace distributive {
@@ -171,4 +190,5 @@ export declare namespace distributive {
     )
     : never.close.distributive<"type">
     ;
+
 }
