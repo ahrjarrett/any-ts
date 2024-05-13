@@ -1,5 +1,11 @@
 # any-ts
 
+## 0.43.1
+
+### Patch Changes
+
+- 54b7436: feat: adds `mut.json`
+
 ## 0.43.0
 
 ### Minor Changes
