@@ -1,5 +1,11 @@
 # any-ts
 
+## 0.43.2
+
+### Patch Changes
+
+- 746458e: feat: adds `some.class`, `any.instanceOf`
+
 ## 0.43.1
 
 ### Patch Changes
