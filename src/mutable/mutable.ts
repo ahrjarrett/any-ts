@@ -100,5 +100,5 @@ declare namespace mut {
   type json<type extends mut_json = mut_json> = type
 }
 
-interface mut_dict<type> { [x: string]: type }
-type mut_json = null | number | string | boolean | mut_json[] | mut_dict<mut_json>
+export interface mut_dict<type> { [x: string]: type }
+export type mut_json = null | number | string | boolean | mut_json[] | mut_dict<mut_json>
