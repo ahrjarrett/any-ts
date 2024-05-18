@@ -47,6 +47,8 @@ declare namespace mut {
     two,
     /** {@link three `mut.three`} */
     three,
+    /** {@link four `mut.four`} */
+    four,
     /** {@link path `mut.path`} */
     path,
     /** @deprecated use `mut.pathOf` instead */
@@ -65,7 +67,8 @@ declare namespace mut {
 
   type one<only = _> = [_1: only]
   type two<fst = _, snd = _> = [_1: fst, _2: snd]
-  type three<fst = _, snd = _, thr = _> = [_1: fst, _2: snd, _3: thr]
+  type three<fst = _, snd = _, trd = _> = [_1: fst, _2: snd, _3: trd]
+  type four<fst = _, snd = _, trd = _, fth = _> = [_1: fst, _2: snd, _3: trd, _4: fth]
 
   type field<k extends any.index = any.index, v = _> = [key: k, value: v]
 

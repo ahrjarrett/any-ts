@@ -43,6 +43,9 @@ export type {
   Intersectable,
   Negate,
 } from "./kind/exports.js"
+
+export type * as experimental from "./kind-new/exports.js"
+
 export type { traversable, traversal } from "./traversable/exports.js"
 export type { Tree } from "./tree/exports.js"
 export type { iter } from "./iter/exports.js"
