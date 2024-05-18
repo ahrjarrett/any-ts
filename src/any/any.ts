@@ -104,6 +104,7 @@ declare namespace any {
   export type double<type extends two = two> = type
   export type binary<type extends some.binary = some.binary> = type
   export type three<first = _, second = _, third = _> = readonly [_1: first, _2: second, _3: third]
+  export type four<first = _, second = _, third = _, fourth = _> = readonly [_1: first, _2: second, _3: third, _4: fourth]
   export type triple<type extends three = three> = type
   export type ternary<type extends some.ternary = some.ternary> = type
   export type record<type extends globalThis.Record<string, _> = globalThis.Record<string, _>> = type
