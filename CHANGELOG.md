@@ -1,5 +1,16 @@
 # any-ts
 
+## 0.43.4
+
+### Patch Changes
+
+- 8c4fcc5: feat: adds
+  - [`mut.strings`](242b529)
+  - [`mut.numbers`](242b529)
+  - [`mut.booleans`](242b529)
+  - [`mut.literals`](7c8c41b)
+  - [`mut.primitives`](7c8c41b)
+
 ## 0.43.3
 
 ### Patch Changes
