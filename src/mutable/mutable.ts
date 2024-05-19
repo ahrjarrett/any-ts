@@ -55,6 +55,12 @@ declare namespace mut {
     pathOf as pathof,
     /** {@link pathOf `mut.pathOf`} */
     pathOf,
+    /** {@link strings `mut.strings`} */
+    strings,
+    /** {@link numbers `mut.numbers`} */
+    numbers,
+    /** {@link booleans `mut.booleans`} */
+    booleans,
   }
 
   type array<type = unknown> = type[]
@@ -69,6 +75,10 @@ declare namespace mut {
   type two<fst = _, snd = _> = [_1: fst, _2: snd]
   type three<fst = _, snd = _, trd = _> = [_1: fst, _2: snd, _3: trd]
   type four<fst = _, snd = _, trd = _, fth = _> = [_1: fst, _2: snd, _3: trd, _4: fth]
+
+  type strings<type extends mut.array<string> = mut.array<string>> = type
+  type numbers<type extends mut.array<number> = mut.array<number>> = type
+  type booleans<type extends mut.array<boolean> = mut.array<boolean>> = type
 
   type field<k extends any.index = any.index, v = _> = [key: k, value: v]
 
