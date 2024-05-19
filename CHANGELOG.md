@@ -1,5 +1,12 @@
 # any-ts
 
+## 0.43.3
+
+### Patch Changes
+
+- 6dccbe0: 24e3d93 \* @ahrjarrett/v0.43.3 feat: adds simplified `Kind` implementation (available now under `experimental.Kind`)
+- 6dccbe0: feat: adds `any.four`, `mut.four`, exports experimental Kind encoding from `experimental.Kind`
+
 ## 0.43.2
 
 ### Patch Changes
