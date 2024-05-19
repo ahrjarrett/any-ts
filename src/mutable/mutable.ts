@@ -61,6 +61,10 @@ declare namespace mut {
     numbers,
     /** {@link booleans `mut.booleans`} */
     booleans,
+    /** {@link primitives `mut.primitives`} */
+    primitives,
+    /** {@link literals `mut.literals`} */
+    literals,
   }
 
   type array<type = unknown> = type[]
@@ -79,6 +83,8 @@ declare namespace mut {
   type strings<type extends mut.array<string> = mut.array<string>> = type
   type numbers<type extends mut.array<number> = mut.array<number>> = type
   type booleans<type extends mut.array<boolean> = mut.array<boolean>> = type
+  type primitives<type extends mut.array<any.primitive> = mut.array<any.primitive>> = type
+  type literals<type extends mut.array<any.literal> = mut.array<any.literal>> = type
 
   type field<k extends any.index = any.index, v = _> = [key: k, value: v]
 
