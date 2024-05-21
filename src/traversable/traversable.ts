@@ -1,3 +1,10 @@
+/**
+ * ////////////////////////////////////////////
+ * //  💀 THIS MODULE HAS BEEN DEPRECATED 💀
+ * //
+ * //  Use {@link Tree `Tree`} instead 
+ * ////////////////////////////////////////////
+ */
 export {
   /** @deprecated use {@link Tree `Tree`} instead */
   traversable,
@@ -12,6 +19,8 @@ import type { Tree } from "../tree/exports.js"
 
 import type { never } from "../never/exports.js"
 
+///////////////////////
+/// 💀 DEPRECATED 💀 
 declare namespace impl {
   /** @deprecated use {@link Tree.unfold `Tree.unfold`} instead */
   type unfold<path extends any.path, leaf = unknown>
@@ -22,9 +31,13 @@ declare namespace impl {
     ;
 }
 
+///////////////////////
+/// 💀 DEPRECATED 💀 
 /** @deprecated use {@link Tree.unfold `Tree.unfold`} instead */
 type unfold<leaf, path extends any.path> = impl.unfold<path, leaf>
 
+///////////////////////
+/// 💀 DEPRECATED 💀 
 /** 
  * {@link by `traversable.by`} is a type-constructor that takes a path describing a tree and, 
  * via induction, constructs the tree it describes.
@@ -58,22 +71,31 @@ type unfold<leaf, path extends any.path> = impl.unfold<path, leaf>
  *   } // ^? const blob: { xyz: "1223" } & { abc: { def: { ghi: unknown } } }
  */
 
+///////////////////////
+/// 💀 DEPRECATED 💀 
 /** @deprecated use {@link Tree.traversableBy `Tree.traversableBy`} instead */
 type by<
   invariant extends any.path,
   type extends
   | impl.unfold<invariant>
   = impl.unfold<invariant>
->
-  = type
+> = type
 
+///////////////////////
+/// 💀 DEPRECATED 💀 
 /** @deprecated use {@link Tree `Tree`} instead */
 declare namespace traversable {
   export {
+    ///////////////////////
+    /// 💀 DEPRECATED 💀 
     by,
+    ///////////////////////
+    /// 💀 DEPRECATED 💀 
     unfold,
   }
 
+  ///////////////////////
+  /// 💀 DEPRECATED 💀 
   /** @deprecated use {@link Tree.unfold `Tree.unfold`} instead */
   type unfold<path extends any.path, leaf = unknown>
     = path extends empty.array ? leaf
@@ -83,7 +105,12 @@ declare namespace traversable {
     ;
 }
 
+///////////////////////
+/// 💀 DEPRECATED 💀 
+/** @deprecated use {@link Tree.traversal `Tree.traversal`} instead */
 declare namespace traversal {
+  ///////////////////////
+  /// 💀 DEPRECATED 💀 
   /** @deprecated use {@link Tree.traversal `Tree.traversal`} instead */
   type of<
     tree,
