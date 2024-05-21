@@ -1,5 +1,5 @@
 import type { any } from "../any/exports.js"
-import type { nonempty } from "../empty.js"
+import type { nonempty } from "../nonempty/nonempty.js"
 
 /**
  * {@link Widen `Widen`} is a type constructor that accepts a tree and an optional max depth 

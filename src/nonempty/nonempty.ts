@@ -1,25 +1,5 @@
-import type { any } from "./any/exports.js"
-import type { _ } from "./util.js"
-
-export declare namespace empty {
-  const string_: ""
-  type string_ = typeof string_
-  const array: readonly []
-  type array<type extends typeof array = typeof array> = type
-  type object_ = typeof object_
-  const object_: {}
-
-  export {
-    /** {@link array `empty.path`} @external */
-    array as path,
-    /** {@link array `empty.array`} @external */
-    array,
-    /** {@link object_ `empty.object`} @external */
-    object_ as object,
-    /** {@link string_ `empty.string`} @external */
-    string_ as string,
-  }
-}
+import type { any } from "../any/exports.js"
+import type { _ } from "../util.js"
 
 /** The {@link nonempty `nonempty`} namespace exports a set of type constructors that target **non-empty** types */
 export declare namespace nonempty {

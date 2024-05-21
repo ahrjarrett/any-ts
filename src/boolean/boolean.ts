@@ -2,7 +2,8 @@ export {
   boolean,
 }
 
-import { empty, nonempty } from "../empty.js"
+import type { empty } from "../empty/empty.js"
+import type { nonempty } from "../nonempty/nonempty.js"
 import type { any } from "../any/exports.js"
 import type { _ } from "../util.js"
 

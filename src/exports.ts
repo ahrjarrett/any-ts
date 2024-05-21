@@ -1,5 +1,4 @@
 /** exports that come with an (empty) term-level equivalent */
-export { empty, nonempty } from "./empty.js"
 export {
   assert,
   describe,
@@ -7,6 +6,8 @@ export {
   expectToFail
 } from "./test/exports.js"
 
+export type { empty } from "./empty/exports.js"
+export type { nonempty } from "./nonempty/exports.js"
 export type { any } from "./any/exports.js"
 export type { array, nonemptyArray, queue, tuple } from "./array/exports.js"
 export type { some } from "./some.js"
@@ -23,8 +24,10 @@ export type {
   Msg,
   Partial,
   partial,
-  TypeError
 } from "./err/exports.js"
+
+export type { TypeError } from "./type-error/exports.js"
+
 export type {
   bigint,
   int,

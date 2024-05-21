@@ -3,7 +3,7 @@ export type {
 }
 
 import type { any } from "../any/exports.js"
-import type { nonempty } from "../empty.js"
+import type { nonempty } from "../nonempty/nonempty.js"
 import type { Kind } from "../kind/exports.js"
 import type { check } from "../check/exports.js"
 import type * as Internal from "./_internal.js"

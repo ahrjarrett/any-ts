@@ -1,6 +1,6 @@
 import type { any } from "../any/exports.js"
 import type { _ } from "../util.js"
-import type { nonempty } from "../empty.js"
+import type { nonempty } from "../nonempty/nonempty.js"
 import type { never } from "../never/exports.js"
 import type { assert, expect } from "../test/exports.js"
 
