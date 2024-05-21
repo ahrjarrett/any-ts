@@ -38,11 +38,11 @@ type is<type> = [type] extends [string] ? true : false
 declare namespace is {
   type empty<type extends string> = [type] extends [``] ? true : false
   type nonempty<type extends string> = boolean.not<is.empty<type>> // [type] extends [``] ? true : false
-  type alpha<type extends string> = [Uppercase<type> | Lowercase<type>] extends [type] ? false : true
+  type alpha<type extends string> = [globalThis.Uppercase<type> | globalThis.Lowercase<type>] extends [type] ? false : true
   type nonalpha<type extends string> = boolean.not<is.alpha<type>>
   // type numeric<type extends string> = `${number}`
-  type uppercase<type extends string> = [Uppercase<type>] extends [type] ? true : false
-  type lowercase<type extends string> = [Lowercase<type>] extends [type] ? true : false
+  type uppercase<type extends string> = [globalThis.Uppercase<type>] extends [type] ? true : false
+  type lowercase<type extends string> = [globalThis.Lowercase<type>] extends [type] ? true : false
   type uppercaseAlpha<type extends string> = boolean.all<[is.uppercase<type>, is.alpha<type>]>
   type lowercaseAlpha<type extends string> = boolean.all<[is.lowercase<type>, is.alpha<type>]>
   type parsableNumeric<type extends string>
@@ -212,36 +212,29 @@ declare namespace Case {
     ;
 
   type screamingSnake<text extends string>
-    = [string] extends [text]
-    ? globalThis.Uppercase<string>
-    : globalThis.Uppercase<snake<text>>
+    = globalThis.Uppercase<[string] extends [text] ? string : snake<text>>
     ;
 
   type kebab<text extends string>
-    = [string] extends [text]
-    ? globalThis.Lowercase<string>
-    : globalThis.Lowercase<delimitedCase<text, "-">>
+    = globalThis.Lowercase<[string] extends [text] ? string : delimitedCase<text, "-">>
     ;
 
   type screamingKebab<text extends string>
-    = [string] extends [text]
-    ? globalThis.Uppercase<string>
-    : globalThis.Uppercase<kebab<text>>
+    = globalThis.Uppercase<[string] extends [text] ? string : kebab<text>>
     ;
 
   type snake<text extends string>
-    = [string] extends [text]
-    ? globalThis.Lowercase<string>
-    : globalThis.Lowercase<delimitedCase<text, "_">>
+    = globalThis.Lowercase<[string] extends [text] ? string : delimitedCase<text, "_">>
     ;
 
   type pascal<type extends string>
-    = char.splitOnChar<delimitedCase<type, " ">, " "> extends any.arrayOf<string, infer xs>
+    = [string] extends [type] ? globalThis.Capitalize<string>
+    : char.splitOnChar<delimitedCase<type, " ">, " "> extends any.arrayOf<string, infer xs>
     ? intercalate<``, { [ix in keyof xs]: globalThis.Capitalize<globalThis.Lowercase<xs[ix]>> }>
     : never
     ;
 
   type camel<type extends string>
-    = globalThis.Uncapitalize<pascal<type>>
+    = globalThis.Uncapitalize<[string] extends [type] ? string : pascal<type>>
     ;
 }

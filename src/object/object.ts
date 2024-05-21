@@ -3,8 +3,9 @@ import type { some } from "../some.js"
 import type { evaluate } from "../evaluate/exports.js"
 
 export declare namespace object {
-  export type filterValues<t, bound> = filter.values<t, bound>
-  export type filterKeys<t, bound extends any.index> = filter.keys<t, bound>
+  type filterValues<T, Bound> = filter.values<T, Bound>
+  type filterKeys<T, Bound extends any.index> = filter.keys<T, Bound>
+  type fromKeys<T extends any.keys> = never | { [K in T[number]]: K }
 }
 
 /** @experimental */
