@@ -1,5 +1,11 @@
 # any-ts
 
+## 0.43.7
+
+### Patch Changes
+
+- f2e8ef6: docs: fix `empty.string` docs (moves them to the right jsdoc node)
+
 ## 0.43.6
 
 ### Patch Changes
