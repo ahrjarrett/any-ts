@@ -1,5 +1,11 @@
 # any-ts
 
+## 0.43.5
+
+### Patch Changes
+
+- 10981fe: fix: `string.camel and `string.pascal` handle non-finite strings now`
+
 ## 0.43.4
 
 ### Patch Changes
