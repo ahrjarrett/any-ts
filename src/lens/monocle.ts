@@ -2,7 +2,7 @@ export type { named }
 
 import type { some } from "../some.js"
 import type { any } from "../any/exports.js"
-import type { nonempty } from "../empty.js"
+import type { nonempty } from "../nonempty/nonempty.js"
 import type { never } from "../exports.js"
 
 type pick<props extends any.array<any.keyof<type>>, type> = never | ({ [prop in props[number]]: type[prop] })

@@ -6,7 +6,8 @@ export {
 }
 
 import type { any } from "../any/exports.js"
-import type { empty, nonempty } from "../empty.js"
+import type { nonempty } from "../nonempty/nonempty.js"
+import type { empty } from "../empty/empty.js"
 import type { Tree } from "../tree/exports.js"
 
 import type { never } from "../never/exports.js"

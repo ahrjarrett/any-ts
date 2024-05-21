@@ -7,7 +7,7 @@ export type {
 
 import { describe, empty, expect, never } from "../exports.js"
 import type { any } from "../any/exports.js"
-import type { nonempty } from "../empty.js"
+import type { nonempty } from "../nonempty/nonempty.js"
 
 declare namespace List {
   type head<type extends any.array> = type[0]

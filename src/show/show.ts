@@ -17,10 +17,9 @@ export {
 /** term-level import */ import { assoc } from "./associative.js"
 
 import type { any } from "../any/exports.js"
-import type { empty, nonempty } from "../empty.js"
+import type { nonempty } from "../nonempty/nonempty.js"
+import type { empty } from "../empty/empty.js"
 import type { never } from "../never/exports.js"
-
-
 
 declare const concatall
   : <strings extends any.array<string>>(...s: strings) => concatall<strings>

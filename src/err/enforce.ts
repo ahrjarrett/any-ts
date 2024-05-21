@@ -15,7 +15,7 @@ import type { Err, Err2 } from "./err.js"
 import type { never } from "../never/exports.js"
 import type { HasDiscriminant } from "../tag/tag.js"
 import type { Union as U } from "../union/exports.js"
-import type { empty } from "../empty.js"
+import type { empty } from "../empty/empty.js"
 
 declare namespace partial {
   type strict<type extends globalThis.Partial<invariant>, invariant> = (

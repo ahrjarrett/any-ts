@@ -23,7 +23,8 @@ export type {
 
 import type { any } from "../any/exports.js"
 import type { boolean } from "../boolean/boolean.js"
-import type { empty, nonempty } from "../empty.js"
+import type { nonempty } from "../nonempty/nonempty.js"
+import type { empty } from "../empty/empty.js"
 import type { never } from "../never/exports.js"
 import type { Kind } from "../kind/exports.js"
 import type { Universal } from "../exports.js"

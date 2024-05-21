@@ -9,7 +9,7 @@ import type { any } from "../any/exports.js"
 import type { _ } from "../util.js"
 import type { Err } from "../err/exports.js"
 import type { Union } from "../union/exports.js"
-import type { nonempty } from "../empty.js"
+import type { nonempty } from "../nonempty/nonempty.js"
 
 declare namespace kind {
   /** namespace exports */

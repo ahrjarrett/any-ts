@@ -1,7 +1,7 @@
 /** term-level import */ import { describe, expect } from "../test/exports.js"
 
 import type { any } from "../any/exports.js"
-import type { nonempty } from "../empty.js"
+import type { nonempty } from "../nonempty/nonempty.js"
 
 import type { Catch } from "./catch.js"
 import type { mut } from "../mutable/exports.js"

@@ -1,7 +1,7 @@
 import type { _ } from "../util.js";
 import type { any } from "../any/exports.js"
-import type { nonempty } from "../empty.js"
-import { empty } from "../empty.js";
+import type { nonempty } from "../nonempty/nonempty.js"
+import { empty } from "../empty/empty.js";
 
 export declare namespace tuple {
   export {

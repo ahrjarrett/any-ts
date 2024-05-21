@@ -5,7 +5,7 @@ export {
 
 import type { _ } from "../util.js"
 import type { any } from "../any/exports.js"
-import type { nonempty } from "../empty.js"
+import type { nonempty } from "../nonempty/nonempty.js"
 import type { boolean } from "../boolean/exports.js"
 import type { string } from "./string.js"
 
