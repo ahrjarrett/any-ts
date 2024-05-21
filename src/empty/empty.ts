@@ -14,66 +14,59 @@ import type { TypeError } from "../type-error/exports.js"
  * But we should talk about (and think through) both cases, and treat emptiness as 
  * a first-class concern, rather than as an after-thought.
  * 
- * But I'm probably preaching to the choir here, so enough talk, let's just dig in.
+ * But I'm probably preaching to the choir here, so enough talk, let's dig in.
  */
 export declare namespace empty {
-  export type path<type = readonly [], debug = never>
-    = [type] extends [[]] ? []
-    : [type] extends [readonly []] ? readonly []
-    : [debug] extends [never] ? never
-    : TypeError.new<"Expected an empty path", type>
+  export { string_ as string }
 
-  export {
-    /**
-     * ## {@link empty.string `empty.string`}
-     * 
-     * - Evaluates to the empty string type (`""`) when used as a nullary type
-     * - Functions as a pattern matcher when used as a unary type constructor
-     * - Functions as a constraint when applied to a type parameter
-     * - See also: {@link empty.string.debug `empty.string.debug`}
-     * 
-     * @example
-     *  ////////////////////
-     *  //   HAPPY PATH
-     *  type ex_01 = empty.string
-     *  //    ^? type ex_01 = ""
-     *  type ex_02 = empty.string<"">
-     *  //    ^? type ex_02 = ""
-     *  type ex_03 = empty.string.debug<"">
-     *  //    ^? type ex_03 = ""
-     *  const ex_04 = empty.string("")
-     *  //    ^? const ex_04: ""
-     *  ////////////////////
-     * 
-     *  ////////////////////
-     *  //   ERROR PATH
-     *  type ex_05 = empty.string<"101 Dalmations">
-     *  //    ^? type ex_05 = never
-     *  //
-     *  //    🚫 Argument of type 'string' is not assignable to parameter of type 'never'
-     *  //                               ↓↓↓
-     *  const ex_06 = empty.string("Cruella de Vil")
-     *  //    ^? const ex_06: never
-     *  ////////////////////
-     * 
-     *  /////////////////////
-     *  //   ADVANCED USE
-     *  //
-     *  // You can use `empty.string` as a type-level optimization.
-     *  /
-     *  // For example, you could create an overload that short-circuits an expensive 
-     *  // type-level operation by handling the edge case separately:
-     *  function stringToChars<T extends empty.string<T>>(emptyString: T): []
-     *  function stringToChars<T extends any.string>(string: T): ExpensiveTypelevelComputation<T> // ...
-     *  /////////////////////
-     */
-    string_ as string
-  }
-
+  /**
+   * ## {@link empty.string `empty.string`}
+   * 
+   * - Evaluates to the empty string type (`""`) when used as a nullary type
+   * - Functions as a pattern matcher when used as a unary type constructor
+   * - Functions as a constraint when applied to a type parameter
+   * - See also: {@link empty.string.debug `empty.string.debug`}
+   * 
+   * @example
+   *  ////////////////////
+   *  //   HAPPY PATH
+   *  type ex_01 = empty.string
+   *  //    ^? type ex_01 = ""
+   *  type ex_02 = empty.string<"">
+   *  //    ^? type ex_02 = ""
+   *  type ex_03 = empty.string.debug<"">
+   *  //    ^? type ex_03 = ""
+   *  const ex_04 = empty.string("")
+   *  //    ^? const ex_04: ""
+   *  ////////////////////
+   * 
+   *  ////////////////////
+   *  //   ERROR PATH
+   *  type ex_05 = empty.string<"101 Dalmations">
+   *  //    ^? type ex_05 = never
+   *  //
+   *  //    🚫 Argument of type 'string' is not assignable to parameter of type 'never'
+   *  //                               ↓↓↓
+   *  const ex_06 = empty.string("Cruella de Vil")
+   *  //    ^? const ex_06: never
+   *  ////////////////////
+   * 
+   *  /////////////////////
+   *  //   ADVANCED USE
+   *  //
+   *  // You can use `empty.string` as a type-level optimization.
+   *  /
+   *  // For example, you could create an overload that short-circuits an expensive 
+   *  // type-level operation by handling the edge case separately:
+   *  function stringToChars<T extends empty.string<T>>(emptyString: T): []
+   *  function stringToChars<T extends any.string>(string: T): ExpensiveTypelevelComputation<T> // ...
+   *  /////////////////////
+   */
   export type string_<type = "", debug = never>
     = [type] extends [""] ? ""
     : [debug] extends [never] ? never
     : TypeError.new<"Expected an empty string", type>
+    ;
 
   export function string_<const T extends empty.string<T>>(empty: T): T
   export namespace string_ {
@@ -109,49 +102,48 @@ export declare namespace empty {
     function debug<const T extends empty.string<T, "debug">>(empty: T): T
   }
 
-  export {
-    /**
-     * ## {@link empty.object `empty.object`}
-     * 
-     * - Evaluates to the empty object type (`{}`) when used as a nullary type
-     * - Functions as a pattern matcher when used as a unary type constructor
-     * - Functions as a constraint when applied to a type parameter
-     * - See also: {@link empty.object.debug `empty.object.debug`}
-     * 
-     * @example
-     * 
-     *  ////////////////////
-     *  //   HAPPY PATH
-     *  type ex_01 = empty.object
-     *  //    ^? type ex_01 = {}
-     *  type ex_02 = empty.object<{}>
-     *  //    ^? type ex_02 = {}
-     *  ////////////////////
-     * 
-     *  ////////////////////
-     *  //   ERROR PATH
-     *  type ex_03 = empty.object<{ dalmatians: 101 }>
-     *  //    ^? type ex_03 = never
-     *  ////////////////////
-     * 
-     *  /////////////////////
-     *  //   ADVANCED USE
-     *  //
-     *  // You can use `empty.object` as a type-level optimization.
-     *  //
-     *  // For example, you could create an overload that short-circuits an expensive 
-     *  // type-level operation by handling the edge case separately:
-     *  function mergeDeep<T extends empty.object<T>>(emptyObject: T): empty.object
-     *  function mergeDeep<T extends any.object>(object: T): ExpensiveTypelevelComputation<T> // ...
-     *  /////////////////////
-     */
-    object_ as object
-  }
-
+  export { object_ as object }
+  /**
+   * ## {@link empty.object `empty.object`}
+   * 
+   * - Evaluates to the empty object type (`{}`) when used as a nullary type
+   * - Functions as a pattern matcher when used as a unary type constructor
+   * - Functions as a constraint when applied to a type parameter
+   * - See also: {@link empty.object.debug `empty.object.debug`}
+   * 
+   * @example
+   * 
+   *  ////////////////////
+   *  //   HAPPY PATH
+   *  type ex_01 = empty.object
+   *  //    ^? type ex_01 = {}
+   *  type ex_02 = empty.object<{}>
+   *  //    ^? type ex_02 = {}
+   *  ////////////////////
+   * 
+   *  ////////////////////
+   *  //   ERROR PATH
+   *  type ex_03 = empty.object<{ dalmatians: 101 }>
+   *  //    ^? type ex_03 = never
+   *  ////////////////////
+   * 
+   *  /////////////////////
+   *  //   ADVANCED USE
+   *  //
+   *  // You can use `empty.object` as a type-level optimization.
+   *  //
+   *  // For example, you could create an overload that short-circuits an expensive 
+   *  // type-level operation by handling the edge case separately:
+   *  function mergeDeep<T extends empty.object<T>>(emptyObject: T): empty.object
+   *  function mergeDeep<T extends any.object>(object: T): ExpensiveTypelevelComputation<T> // ...
+   *  /////////////////////
+   */
   export type object_<type = {}, debug = never>
     = [keyof type] extends [never] ? {}
     : [debug] extends [never] ? never
     : TypeError.new<"Expected an empty object", type>
+    ;
+
   export function object_<const T extends empty.object<T>>(empty: T): T
   export namespace object_ {
     /**
@@ -281,4 +273,11 @@ export declare namespace empty {
     type debug<T extends empty.array<T, "debug">> = empty.array<T, "debug">
     function debug<const T extends empty.array<T, "debug">>(empty: T): T
   }
+
+  export type path<type = readonly [], debug = never>
+    = [type] extends [[]] ? []
+    : [type] extends [readonly []] ? readonly []
+    : [debug] extends [never] ? never
+    : TypeError.new<"Expected an empty path", type>
+    ;
 }
