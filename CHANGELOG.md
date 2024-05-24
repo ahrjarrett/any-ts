@@ -1,5 +1,11 @@
 # any-ts
 
+## 0.44.1
+
+### Patch Changes
+
+- 9d96ba7: feat: adds `has.oneMember`
+
 ## 0.44.0
 
 ### Minor Changes
