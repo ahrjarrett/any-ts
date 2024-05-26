@@ -147,7 +147,7 @@ export namespace Tree {
     = mut<Tree.go<paths>>;
 
   const isKeyable = (u: unknown): u is any.index => ["number", "string", "symbol"].includes(typeof u)
-  const isObject = (u: unknown): u is any.dict => typeof u === "object" && u !== null
+  const isObject = (u: unknown): u is any.record => typeof u === "object" && u !== null
 
   function has<k extends any.index>(k: k): any.typeguard<any.type, any.indexedBy<k>>
   function has<k extends any.index, v>(k: k, guard: any.guard<v>): any.typeguard<any.type, { [p in k]: v }>
