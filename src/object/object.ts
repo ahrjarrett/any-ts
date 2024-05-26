@@ -15,7 +15,7 @@ export declare namespace signature {
     <A, B>(guard: any.typeguard<A, B>): <const T extends any.dict<A>>(object: T) => filter.values<T, B>
     <A>(predicate: some.predicate<A>): <const T extends any.dict<A>>(object: T) => filter.values<T, A>
     <A, B, const T extends any.dict<A>>(object: T, guard: any.typeguard<A, B>): filter.values<T, B>
-    <A, const T extends any.dict<A>>(object: T, predicate: some.predicate<A>,): filter.values<T, A>
+    <A, const T extends any.dict<A>>(object: T, predicate: some.predicate<A>): filter.values<T, A>
   }
 
   /** @experimental */
