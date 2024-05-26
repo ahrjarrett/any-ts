@@ -274,7 +274,7 @@ export type any_type<type extends any_nullable | any_nonnullable = any_nullable 
 export type any_key<type extends string | number = string | number> = type
 export type any_scalar = string | number | boolean | null
 
-export interface any_dict<type = _> { [ix: keyof never]: type }
+export interface any_dict<type = _> { [ix: string]: type }
 export type any_array<type = _> = readonly type[]
 /** @ts-expect-error */
 export interface any_object<type extends object = object> extends id<type> { }
