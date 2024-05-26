@@ -1,5 +1,11 @@
 # any-ts
 
+## 0.44.2
+
+### Patch Changes
+
+- 9065c4b: fix: account for contravariance in index signature of `any.dict`
+
 ## 0.44.1
 
 ### Patch Changes
