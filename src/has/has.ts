@@ -98,11 +98,39 @@ export declare namespace has {
     function debug<Invariant = never>(): <const T extends has.oneElement<T, Invariant, "debug">>(oneElement: T) => T
     function debug<const T extends has.oneElement<T, _, "debug">>(oneElement: T): T
   }
+
+  /**
+   * ### [`has.oneMember`](has.oneMember) 
+   * 
+   * [`has.oneMember`](has.oneMember) allows users to constrain a type parameter 
+   * such that it only accepts types that are singletons.
+   * 
+   * That is, in order for `has.oneMember` to return its constraint (`invariant`),
+   * `type` cannot be `never`, and it cannot be a union containing more than one type.
+   */
+  export type oneMember<type, invariant = _, debug = never>
+    = [any.unit] extends [test$$.hasExactlyOneMember<type>]
+    ? invariant
+    : [debug] extends [never] ? never
+    : TypeError.new<"Expected type to have exactly one member", type>
+    ;
+  export function oneMember<Invariant = never>(): <const T extends has.oneMember<T, Invariant>>(singleton: T) => T
+  export function oneMember<const T extends has.oneMember<T>>(singleton: T): T
+  export namespace oneMember {
+    type debug<type extends has.oneMember<type, _, "debug">, invariant = _> = has.oneMember<type, invariant, "debug">
+    function debug<Invariant = never>(): <const T extends has.oneMember<T, Invariant, "debug">>(oneMember: T) => T
+    function debug<const T extends has.oneMember<T, _, "debug">>(oneMember: T): T
+  }
 }
 
 export declare namespace has {
   namespace test$$ {
     type isUnion<t, u = t> = u extends u ? [t, u] extends [u, t] ? never : any.unit : never
+    type hasExactlyOneMember<t>
+      = [any.unit] extends [isUnion<t>] ? never
+      : [t] extends [never] ? never
+      : any.unit
+      ;
     type hasExactlyOneProp<t>
       = [keyof t] extends [infer key]
       ? [key] extends [never] ? never
@@ -114,4 +142,3 @@ export declare namespace has {
     type hasExactlyOneElement<t> = [1] extends [t[Extract<"length", keyof t>]] ? any.unit : never
   }
 }
-
