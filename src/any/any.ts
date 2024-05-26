@@ -107,7 +107,7 @@ declare namespace any {
   export type four<first = _, second = _, third = _, fourth = _> = readonly [_1: first, _2: second, _3: third, _4: fourth]
   export type triple<type extends three = three> = type
   export type ternary<type extends some.ternary = some.ternary> = type
-  export type record<type extends globalThis.Record<string, _> = globalThis.Record<string, _>> = type
+  export type record<type extends globalThis.Record<string, _> = globalThis.Record<keyof never, _>> = type
 
   export type predicate<type extends some.predicate = some.predicate> = type
   export type asserts<target = _> = never | some.asserts<any, target>
