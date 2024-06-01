@@ -1,5 +1,17 @@
 # any-ts
 
+## 0.45.0
+
+### Minor Changes
+
+- 5e1829b: fix: expose `any_*` constructors
+
+  Fixes:
+
+  ```
+  Exported variable 'x' has or is using name 'any_dict' from external module "node_modules/any-ts/dist/index" but cannot be named.
+  ```
+
 ## 0.44.2
 
 ### Patch Changes
