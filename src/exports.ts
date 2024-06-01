@@ -8,7 +8,6 @@ export {
 
 export type { empty } from "./empty/exports.js"
 export type { nonempty } from "./nonempty/exports.js"
-export type { any } from "./any/exports.js"
 export type { array, nonemptyArray, queue, tuple } from "./array/exports.js"
 export type { some } from "./some.js"
 export type { object } from "./object/exports.js"
@@ -76,3 +75,25 @@ export {
 } from "./lens/focus.js"
 
 export type { Widen } from "./widen/exports.js"
+
+export type {
+  any,
+  ANY_TS_VERSION,
+  any_array,
+  any_arraylike,
+  any_dict,
+  any_entry,
+  any_enumerable,
+  any_field,
+  any_index,
+  any_invertible,
+  any_json,
+  any_key,
+  any_nonnullable,
+  any_nullable,
+  any_object,
+  any_scalar,
+  any_struct,
+  any_type,
+  instanceOf,
+} from "./any/exports.js"
