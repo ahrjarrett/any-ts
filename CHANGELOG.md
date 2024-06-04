@@ -1,5 +1,11 @@
 # any-ts
 
+## 0.45.1
+
+### Patch Changes
+
+- d10ee8c: fix: ensure `string.intercalate` produces a string result
+
 ## 0.45.0
 
 ### Minor Changes
