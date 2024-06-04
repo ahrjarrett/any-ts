@@ -203,7 +203,7 @@ type intercalate<
   delimiter extends any.showable = empty.string
 > = lines extends empty.array ? acc
   : lines extends nonempty.arrayOf<any.showable, infer head, infer tail>
-  ? intercalate<acc extends `` ? head : `${acc}${delimiter}${head}`, tail, delimiter>
+  ? intercalate<acc extends `` ? `${head}` : `${acc}${delimiter}${head}`, tail, delimiter>
   : never.close.inline_var<"head" | "tail">
   ;
 
