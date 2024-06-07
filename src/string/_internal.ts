@@ -230,6 +230,8 @@ declare namespace Case {
 
   type pascal<type extends string>
     = [string] extends [type] ? globalThis.Capitalize<string>
+    : [globalThis.Uppercase<type>] extends [type] ? [globalThis.Lowercase<type>] extends [type] ? type
+    : pascal<globalThis.Lowercase<type>>
     : char.splitOnChar<delimitedCase<type, " ">, " "> extends any.arrayOf<string, infer xs>
     ? intercalate<``, { [ix in keyof xs]: globalThis.Capitalize<globalThis.Lowercase<xs[ix]>> }>
     : never
