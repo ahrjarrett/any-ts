@@ -185,5 +185,6 @@ declare namespace Spec {
     expect<assert.equal<Case.pascal<"a-123">, "A123">>,
     expect<assert.equal<Case.pascal<"a-b123">, "AB123">>,
     expect<assert.equal<Case.pascal<"a-b-c123">, "ABC123">>,
+    expect<assert.equal<Case.pascal<"ABC_DEF">, "AbcDef">>,
   ]
 }
