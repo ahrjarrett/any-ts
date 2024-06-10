@@ -1,5 +1,12 @@
 # any-ts
 
+## 0.45.2
+
+### Patch Changes
+
+- 1ea3201: fix: `Case.pascal` and `Case.camel` converting all caps incorrectly
+- 58593b0: fix: removes "module" field in manifest so `any-ts` plays nice with Vite
+
 ## 0.45.1
 
 ### Patch Changes
