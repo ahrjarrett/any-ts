@@ -2,7 +2,12 @@
   "$schema": "https://unpkg.com/@changesets/config@3.0.0/schema.json",
   "access": "public",
   "baseBranch": "main",
-  "changelog": "@changesets/cli/changelog",
+  "changelog": [
+    "@changesets/changelog-github",
+    {
+      "repo": "ahrjarrett/any-ts"
+    }
+  ],
   "commit": false,
   "fixed": [],
   "ignore": [],
