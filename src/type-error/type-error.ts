@@ -2,7 +2,7 @@ import { _, id } from "../util.js";
 
 export type { TypeError_ as TypeError }
 
-declare namespace TypeError_ {
+export declare namespace TypeError_ {
   export const URI: "any-ts/TypeError"
   export type URI = typeof TypeError_.URI
 
@@ -14,7 +14,7 @@ declare namespace TypeError_ {
   export type TypeError<msg extends string = string, got = _> = never | TypeError_<[msg: msg, got: got]>
 }
 
-interface TypeError_<
+export interface TypeError_<
   error extends
   | readonly [msg: string, got: _]
   = readonly [msg: string, got: _]

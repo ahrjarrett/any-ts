@@ -1,6 +1,6 @@
 export type { named }
 
-import type { some } from "../some.js"
+import type { some } from "../some/some.js"
 import type { any } from "../any/exports.js"
 import type { nonempty } from "../nonempty/nonempty.js"
 import type { never } from "../exports.js"

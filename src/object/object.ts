@@ -1,5 +1,5 @@
 import type { any } from "../any/exports.js"
-import type { some } from "../some.js"
+import type { some } from "../some/some.js"
 import type { evaluate } from "../evaluate/exports.js"
 
 export declare namespace object {

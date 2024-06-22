@@ -1,6 +1,6 @@
 import type { any } from "../any/exports.js"
 import type { check, typecheck } from "../check/exports.js"
-import type { TypeError } from "../exports.js"
+import type { TypeError } from "../type-error/type-error.js"
 import type { nonempty } from "../nonempty/nonempty.js"
 import type { queue } from "./queue.js"
 import type { tuple } from "./tuple.js"
