@@ -13,6 +13,8 @@ export type {
 
 import type { any } from "../any/exports.js"
 
+export type parseInt<t> = never | t extends `${infer x extends number}` ? x : t
+
 type isNumber<x> = [x] extends [number] ? true : false
 type isNegative<x> = [x] extends [any.showable] ? [`${x}`] extends [`-${number}`] ? true : false : false
 type isPositive<x> = [x] extends [any.showable] ? [`${x}`] extends [`-${number}`] ? false : true : false

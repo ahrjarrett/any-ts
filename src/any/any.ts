@@ -1,12 +1,21 @@
 export type { any }
 export type { ANY_TS_VERSION } from "../version.js"
 
-import type { some } from "../some.js"
+import type { some } from "../some/some.js"
 import type { to } from "../to.js"
 import type { pathsof } from "../paths/paths.js"
 import type { ANY_TS_VERSION } from "../version.js"
 import type { _, id } from "../util.js"
 
+/**
+ * ## {@link any `any 🧩`}
+ * `=================`
+ *
+ * {@link any `any`} is a namespace for constraints, least upper bounds, 
+ * and type constructors that double as pattern matchers.
+ * 
+ * It is the main export of the `any-ts` library, and provides its namesake.
+ */
 declare namespace any {
   export {
     type ANY_TS_VERSION as VERSION,
@@ -127,6 +136,7 @@ declare namespace any {
   export type strings<type extends any.array<string> = any.array<string>> = type
   export type numbers<type extends any.array<number> = any.array<number>> = type
   export type booleans<type extends any.array<boolean> = any.array<boolean>> = type
+  export type functions<type extends any.array<any.function> = any.array<any.function>> = type
   export type indices<type extends any.array<any.index> = any.array<any.index>> = type
   export type keys<type extends any.array<any.key> = any.array<any.key>> = type
   export type paths<type extends any.array<any.path> = any.array<any.path>> = type
