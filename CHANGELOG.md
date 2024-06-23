@@ -1,5 +1,11 @@
 # any-ts
 
+## 0.47.2
+
+### Patch Changes
+
+- [#163](https://github.com/ahrjarrett/any-ts/pull/163) [`29e5043`](https://github.com/ahrjarrett/any-ts/commit/29e5043efcb49ca025693ba97527a27ed964af3e) Thanks [@ahrjarrett](https://github.com/ahrjarrett)! - feat: adds `some.entriesOf`
+
 ## 0.47.1
 
 ### Patch Changes
