@@ -205,6 +205,13 @@ declare namespace any {
     = { [ix in invariant]: _ }
   > = type
 
+  export type maybeIndexedBy<
+    invariant extends any.index,
+    type extends
+    | { [ix in invariant]+?: _ }
+    = { [ix in invariant]+?: _ }
+  > = type
+
   export type indexableBy<
     invariant extends any.index,
     type extends
