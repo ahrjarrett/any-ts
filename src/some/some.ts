@@ -180,8 +180,8 @@ export type some_entryOf<
 export type some_entriesOf<
   invariant,
   type extends
-  | any.array<readonly [any.index, invariant]>
-  = any.array<readonly [any.index, invariant]>
+  | any.array<any.pair<keyof invariant, invariant[keyof invariant]>>
+  = any.array<any.pair<keyof invariant, invariant[keyof invariant]>>
 > = type
 
 export type some_arrayOf<
