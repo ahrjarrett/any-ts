@@ -1,1 +1,1 @@
-export type * as match from "./match.js"
+export type { match } from "./match.js"
