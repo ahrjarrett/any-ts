@@ -65,6 +65,8 @@ export declare namespace some {
     some_fieldOf as fieldOf,
     /** {@link some_subtypeOf `some.subtypeOf`} @external */
     some_subtypeOf as subtypeOf,
+    /** {@link some_instanceOf `some.instanceOf`} @external */
+    some_instanceOf as instanceOf,
   }
 }
 
