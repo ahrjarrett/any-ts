@@ -1,5 +1,11 @@
 # any-ts
 
+## 0.47.3
+
+### Patch Changes
+
+- [#165](https://github.com/ahrjarrett/any-ts/pull/165) [`60f77df`](https://github.com/ahrjarrett/any-ts/commit/60f77df8c7b48ca5535f408be5ddcc6bb0dabb44) Thanks [@ahrjarrett](https://github.com/ahrjarrett)! - fix: `some.entriesOf` when used in matching position
+
 ## 0.47.2
 
 ### Patch Changes
