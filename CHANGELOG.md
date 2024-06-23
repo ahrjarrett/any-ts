@@ -1,5 +1,22 @@
 # any-ts
 
+## 0.47.0
+
+### Minor Changes
+
+- [#157](https://github.com/ahrjarrett/any-ts/pull/157) [`9fb7871`](https://github.com/ahrjarrett/any-ts/commit/9fb787131d523b176913da5cf7f3c91d952ce317) Thanks [@ahrjarrett](https://github.com/ahrjarrett)! - break: renames `match.finite*` to `match.finite.*`
+
+  for example:
+
+  ```
+  match.finiteArray -> match.finite.array
+  match.nonfiniteArray -> match.nonfinite.array
+  ```
+
+### Patch Changes
+
+- [#160](https://github.com/ahrjarrett/any-ts/pull/160) [`350fd9f`](https://github.com/ahrjarrett/any-ts/commit/350fd9f26f853de331be1c88ae51cccadc2adbe8) Thanks [@ahrjarrett](https://github.com/ahrjarrett)! - fix: re-exports `some.instanceOf`; feat: adds `any.maybeIndexedBy`
+
 ## 0.46.0
 
 ### Minor Changes
