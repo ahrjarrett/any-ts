@@ -59,6 +59,8 @@ export declare namespace some {
     some_named as named,
     /** {@link some_entryOf `some.entryOf`} @external */
     some_entryOf as entryOf,
+    /** {@link some_entriesOf `some.entriesOf`} @external */
+    some_entriesOf as entriesOf,
     /** {@link some_arrayOf `some.arrayOf`} @external */
     some_arrayOf as arrayOf,
     /** {@link some_fieldOf `some.fieldOf`} @external */
@@ -175,6 +177,13 @@ export type some_entryOf<
   = any.array<any.pair<keyof invariant, invariant[keyof invariant]>>
 > = type
 
+export type some_entriesOf<
+  invariant,
+  type extends
+  | any.array<readonly [any.index, invariant]>
+  = any.array<readonly [any.index, invariant]>
+> = type
+
 export type some_arrayOf<
   invariant,
   type extends
@@ -227,4 +236,5 @@ export declare namespace distributive {
     )
     : never.close.distributive<"type">
     ;
+
 }
