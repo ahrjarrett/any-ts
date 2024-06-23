@@ -1,5 +1,11 @@
 # any-ts
 
+## 0.47.1
+
+### Patch Changes
+
+- [#161](https://github.com/ahrjarrett/any-ts/pull/161) [`b06a828`](https://github.com/ahrjarrett/any-ts/commit/b06a8286141de26b7729f5fae6b383e2e9d54178) Thanks [@ahrjarrett](https://github.com/ahrjarrett)! - fix: correctly exports `match.finite` namespace
+
 ## 0.47.0
 
 ### Minor Changes
