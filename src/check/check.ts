@@ -12,10 +12,10 @@ export {
 
 import type { any } from "../any/exports.js"
 import type { _ } from "../util.js"
-import type { Identity as id } from "../identity.js"
+import type { newtype } from "../newtype.js"
 
 export type TypeErrorURI = "any-ts/TypeError"
-export interface TypeError<type extends [string, unknown]> extends id<type> {
+export interface TypeError<type extends [string, unknown]> extends newtype<type> {
   [any.unit]: TypeErrorURI
 }
 

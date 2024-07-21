@@ -60,7 +60,11 @@ export type {
 } from "./mutable/exports.js"
 export type { pathsof } from "./paths/exports.js"
 export type { never } from "./never/exports.js"
-export type { Identity } from "./identity.js"
+export type {
+  newtype,
+  /** @deprecated use {@link newtype `newtype`} instead */
+  newtype as Identity,
+} from "./newtype.js"
 export type { id } from "./util.js"
 export type {
   char,
