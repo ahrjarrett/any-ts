@@ -10,6 +10,7 @@ import type * as Internal from "./_internal.js"
 import type { Case } from "./_internal.js"
 import type { /* join, */ startsWith, endsWith } from "./_internal.js"
 import type { is } from "./_internal.js"
+import { newtype } from "../newtype.js"
 
 import type { char } from "./char.js"
 
@@ -22,6 +23,16 @@ declare namespace HKT {
   namespace is {
     interface uppercaseAlphaChar extends Kind<[any.showable]> { [-1]: char.is.uppercaseAlpha<`${this[0]}`> }
   }
+}
+
+////////////////
+/// newtypes
+declare namespace string {
+  interface literal<T extends string = string> extends newtype<string> { toString(): T, valueOf(): T }
+  interface decodedURI<T extends string = string> extends string.literal<T> { }
+  interface encodedURI<T extends string = string> extends string.literal<T> { }
+  interface decodedURIComponent<T extends string = string> extends string.literal<T> { }
+  interface encodedURIComponent<T extends string = string> extends string.literal<T> { }
 }
 
 declare namespace string {
