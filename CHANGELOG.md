@@ -1,5 +1,11 @@
 # any-ts
 
+## 0.47.4
+
+### Patch Changes
+
+- [#167](https://github.com/ahrjarrett/any-ts/pull/167) [`4234c81`](https://github.com/ahrjarrett/any-ts/commit/4234c8192815d8415b2722aa56285d44f942d4c2) Thanks [@ahrjarrett](https://github.com/ahrjarrett)! - deprecate: `Identity` -- use `newtype` instead
+
 ## 0.47.3
 
 ### Patch Changes
