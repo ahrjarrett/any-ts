@@ -306,5 +306,3 @@ declare namespace __Spec__ {
     expect<assert.equal<Tag<"object" | "union" | "intersection">, "|" | "&" | "{}">>,
   ]
 }
-
-const t = separate(Assoc("&", ["abc", 123]))
