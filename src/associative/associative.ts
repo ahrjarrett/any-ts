@@ -6,13 +6,48 @@ export {
 import type { any } from "../any/exports.js"
 import { assert, describe, expect } from "../test/exports.js"
 import type { TypeError } from "../err/exports.js"
-import type { Universal } from "../universal/exports.js"
 import type { cache } from "../cache/exports.js"
 import type { iter } from "../iter/exports.js"
 import type { enforce } from "../err/enforce.js"
 import type { never } from "../never/exports.js"
 import { real } from "../number/real.js"
 import { _ } from "../util.js"
+
+// import type { Universal } from "../universal/exports.js"
+declare namespace Universal {
+  type parseNumeric<type> = type extends `${infer x extends number}` ? x : never
+
+  type key<key extends any.index> =
+    | `${Exclude<key, symbol>}`
+    | parseNumeric<key>
+    | key
+    ;
+
+  type keyof<type>
+    = type extends any.array
+    ? Universal.key<Extract<keyof type, `${number}`>>
+    : Universal.key<keyof type>
+    ;
+
+  type get<index extends any.key, type>
+    = index extends keyof type ? type[index]
+    : parseNumeric<index> extends any.number<infer x>
+    ? x extends keyof type ? type[x]
+    : never
+    : `${index}` extends any.string<infer s>
+    ? s extends keyof type ? type[s]
+    : never
+    : never
+    ;
+
+  type values<type>
+    = type extends any.array
+    ? type[number]
+    : type extends any.object
+    ? type[keyof type]
+    : type
+    ;
+}
 
 const size$: unique symbol = Symbol.for("any-ts/associative::size$")
 type size$ = typeof size$
@@ -150,7 +185,7 @@ declare const separate
 
 type is<type>
   = [type] extends [{ [size$]: number }]
-  ? Exclude<type, any.array> extends infer nonArray
+  ? globalThis.Exclude<type, any.array> extends infer nonArray
   ? [nonArray] extends [never] ? false
   : impl.is<type>
   : false

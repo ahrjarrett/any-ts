@@ -15,7 +15,6 @@ import { describe, expect } from "../test/exports.js"
 import type { enforce } from "../err/enforce.js"
 import type { TypeError } from "../err/exports.js"
 import type { never } from "../never/exports.js"
-import type { Universal } from "../universal/exports.js"
 import type { assoc as _ } from "../associative/exports.js"
 
 const len$: unique symbol = Symbol.for("TypeConstructor/assoc::len")
@@ -23,6 +22,41 @@ type len$ = typeof len$
 const tag$: unique symbol = Symbol.for("TypeConstructor/assoc::tag")
 type tag$ = typeof tag$
 
+// import type { Universal } from "../universal/exports.js"
+declare namespace Universal {
+  type parseNumeric<type> = type extends `${infer x extends number}` ? x : never
+
+  type key<key extends any.index> =
+    | `${Exclude<key, symbol>}`
+    | parseNumeric<key>
+    | key
+    ;
+
+  type keyof<type>
+    = type extends any.array
+    ? Universal.key<Extract<keyof type, `${number}`>>
+    : Universal.key<keyof type>
+    ;
+
+  type get<index extends any.key, type>
+    = index extends keyof type ? type[index]
+    : parseNumeric<index> extends any.number<infer x>
+    ? x extends keyof type ? type[x]
+    : never
+    : `${index}` extends any.string<infer s>
+    ? s extends keyof type ? type[s]
+    : never
+    : never
+    ;
+
+  type values<type>
+    = type extends any.array
+    ? type[number]
+    : type extends any.object
+    ? type[keyof type]
+    : type
+    ;
+}
 
 type Tag<type extends keyof typeof Tag = keyof typeof Tag> = typeof Tag[type]
 declare namespace Tag {
@@ -272,3 +306,5 @@ declare namespace __Spec__ {
     expect<assert.equal<Tag<"object" | "union" | "intersection">, "|" | "&" | "{}">>,
   ]
 }
+
+const t = separate(Assoc("&", ["abc", 123]))
