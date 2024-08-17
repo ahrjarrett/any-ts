@@ -18,14 +18,14 @@ declare namespace Universal {
   type parseNumeric<type> = type extends `${infer x extends number}` ? x : never
 
   type key<key extends any.index> =
-    | `${Exclude<key, symbol>}`
+    | `${globalThis.Exclude<key, symbol>}`
     | parseNumeric<key>
     | key
     ;
 
   type keyof<type>
     = type extends any.array
-    ? Universal.key<Extract<keyof type, `${number}`>>
+    ? Universal.key<globalThis.Extract<keyof type, `${number}`>>
     : Universal.key<keyof type>
     ;
 
@@ -55,7 +55,7 @@ type size$ = typeof size$
 
 declare namespace impl {
   type parseNumeric<type> = type extends `${infer x extends number}` ? x : never
-  type asArraylike<type extends any.array> = never | { [ix in size$ | Extract<keyof type, `${number}`>]: ix extends keyof type ? type[ix] : type["length"] }
+  type asArraylike<type extends any.array> = never | { [ix in size$ | globalThis.Extract<keyof type, `${number}`>]: ix extends keyof type ? type[ix] : type["length"] }
 
   type toEntries<type, order extends any.array<keyof type>>
     = never | { [ix in keyof order]: [order[ix], type[order[ix]]] }
@@ -87,7 +87,7 @@ namespace impl {
   } as new <const type extends object>(type: type) => type;
 
   export const rangeInclusive
-    : <x extends enforce.positiveNumber<x>>(upperBound: x) => impl.rangeInclusive<[], Extract<x, number>>
+    : <x extends enforce.positiveNumber<x>>(upperBound: x) => impl.rangeInclusive<[], globalThis.Extract<x, number>>
     = (upperBound) => {
       let acc = []
       if (!real.is$(upperBound)) return [] as never
@@ -95,7 +95,7 @@ namespace impl {
       return acc as never
     }
   export const rangeExclusive
-    : <x extends enforce.positiveNumber<x>>(upperBound: x) => impl.rangeExclusive<[], Extract<x, number>>
+    : <x extends enforce.positiveNumber<x>>(upperBound: x) => impl.rangeExclusive<[], globalThis.Extract<x, number>>
     = (upperBound) => {
       let acc = []
       if (!real.is$(upperBound)) return [] as never
@@ -112,7 +112,7 @@ declare const is
 
 type of<type extends any.entries> = never | [
   { [e in type[number]as e[0]]: e[1] },
-  Extract<{ -readonly [ix in keyof type]: type[ix][0] }, any.array>,
+  globalThis.Extract<{ -readonly [ix in keyof type]: type[ix][0] }, any.array>,
 ]
 
 type make<
@@ -200,7 +200,7 @@ type keys<type extends Any>
   ;
 
 declare const keyof: <type extends Any>(assoc: type) => Assoc.keyof<type>
-type keyof<type extends Any> = Exclude<keyof type, number | size$>
+type keyof<type extends Any> = globalThis.Exclude<keyof type, number | size$>
 
 /** @ts-expect-error - internal use only */
 class assoc<const type extends any.object> extends impl.base<type> { }
