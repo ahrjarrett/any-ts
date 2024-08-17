@@ -27,14 +27,14 @@ declare namespace Universal {
   type parseNumeric<type> = type extends `${infer x extends number}` ? x : never
 
   type key<key extends any.index> =
-    | `${Exclude<key, symbol>}`
+    | `${globalThis.Exclude<key, symbol>}`
     | parseNumeric<key>
     | key
     ;
 
   type keyof<type>
     = type extends any.array
-    ? Universal.key<Extract<keyof type, `${number}`>>
+    ? Universal.key<globalThis.Extract<keyof type, `${number}`>>
     : Universal.key<keyof type>
     ;
 
@@ -75,7 +75,7 @@ namespace Tag {
 
 type is<type>
   = [type] extends [{ [len$]: number, [tag$]: Tag }]
-  ? Exclude<type, any.array> extends infer nonArray
+  ? globalThis.Exclude<type, any.array> extends infer nonArray
   ? [nonArray] extends [never] ? false
   : impl.is<type>
   : false
@@ -86,7 +86,7 @@ type index<acc extends any.array, type extends { [len$]: number }>
   = acc["length"] extends type[len$ & keyof type] ? acc
   : index<[
     ...acc,
-    Extract<type, any.indexedBy<acc["length"]>>[acc["length"]]],
+    globalThis.Extract<type, any.indexedBy<acc["length"]>>[acc["length"]]],
     type
   >
   ;
@@ -100,8 +100,8 @@ type separate<type extends { [len$]: number, [tag$]: Tag }>
   = index<[], type> extends infer index
   ? readonly [
     tag: type[tag$],
-    order: { [ix in Extract<keyof index, `${number}`>]: index[ix] },
-    object: { [ix in Exclude<keyof type, number | tag$ | len$>]: type[ix] },
+    order: { [ix in globalThis.Extract<keyof index, `${number}`>]: index[ix] },
+    object: { [ix in globalThis.Exclude<keyof type, number | tag$ | len$>]: type[ix] },
   ]
   : never
   ;
@@ -124,7 +124,7 @@ declare namespace impl {
     = [separate<type>] extends [readonly [any, infer order, infer object_]]
     ? [
       extra_keys: (keyof order extends infer ord ? ord extends keyof order ? order[ord] extends keyof object_ ? never : ord : never : never),
-      extra_values: Exclude<keyof type, Universal.values<order> | len$ | tag$ | number | `${number}`>
+      extra_values: globalThis.Exclude<keyof type, Universal.values<order> | len$ | tag$ | number | `${number}`>
     ] extends [never, never]
     ? true : false : false
     ;
@@ -132,7 +132,7 @@ declare namespace impl {
     = never | { [ix in keyof order]: [order[ix], type[order[ix]]] }
     ;
   type asArraylike<type extends any.array> = never |
-    { [ix in len$ | Extract<keyof type, `${number}`> as Universal.key<ix>]
+    { [ix in len$ | globalThis.Extract<keyof type, `${number}`> as Universal.key<ix>]
       : ix extends keyof type ? type[ix]
       : ix extends len$ ? type["length"] & number
       : never }
@@ -141,7 +141,7 @@ declare namespace impl {
     ;
   type of<type extends any.entries> = never | [
     { [e in type[number]as e[0]]: e[1] },
-    Extract<{ -readonly [ix in keyof type]: type[ix][0] }, any.array>,
+    globalThis.Extract<{ -readonly [ix in keyof type]: type[ix][0] }, any.array>,
   ]
   type make<
     type,
