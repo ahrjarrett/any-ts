@@ -47,7 +47,7 @@ declare namespace is {
   type uppercaseAlpha<type extends string> = boolean.all<[is.uppercase<type>, is.alpha<type>]>
   type lowercaseAlpha<type extends string> = boolean.all<[is.lowercase<type>, is.alpha<type>]>
   type parsableNumeric<type extends string>
-    = Universal.parseNumeric<type> extends any.number<infer x>
+    = Universal.parseInt<type> extends any.number<infer x>
     ? [x] extends [never]
     ? false : true : false
     ;

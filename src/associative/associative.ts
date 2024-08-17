@@ -6,7 +6,6 @@ export {
 import type { any } from "../any/exports.js"
 import { assert, describe, expect } from "../test/exports.js"
 import type { TypeError } from "../err/exports.js"
-import type { Universal } from "../universal/exports.js"
 import type { cache } from "../cache/exports.js"
 import type { iter } from "../iter/exports.js"
 import type { enforce } from "../err/enforce.js"
@@ -14,13 +13,49 @@ import type { never } from "../never/exports.js"
 import { real } from "../number/real.js"
 import { _ } from "../util.js"
 
+// import type { Universal } from "../universal/exports.js"
+declare namespace Universal {
+  type parseNumeric<type> = type extends `${infer x extends number}` ? x : never
+
+  type key<key extends any.index> =
+    | `${globalThis.Exclude<key, symbol>}`
+    | parseNumeric<key>
+    | key
+    ;
+
+  type keyof<type>
+    = type extends any.array
+    ? Universal.key<globalThis.Extract<keyof type, `${number}`>>
+    : Universal.key<keyof type>
+    ;
+
+  type get<index extends any.key, type>
+    = index extends keyof type ? type[index]
+    : parseNumeric<index> extends any.number<infer x>
+    ? x extends keyof type ? type[x]
+    : never
+    : `${index}` extends any.string<infer s>
+    ? s extends keyof type ? type[s]
+    : never
+    : never
+    ;
+
+  type values<type>
+    = type extends any.array
+    ? type[number]
+    : type extends any.object
+    ? type[keyof type]
+    : type
+    ;
+}
+
 const size$: unique symbol = Symbol.for("any-ts/associative::size$")
 type size$ = typeof size$
 
 
 declare namespace impl {
   type parseNumeric<type> = type extends `${infer x extends number}` ? x : never
-  type asArraylike<type extends any.array> = never | { [ix in size$ | Extract<keyof type, `${number}`>]: ix extends keyof type ? type[ix] : type["length"] }
+  type asArraylike<type extends any.array> = never | { [ix in size$ | globalThis.Extract<keyof type, `${number}`>]: ix extends keyof type ? type[ix] : type["length"] }
 
   type toEntries<type, order extends any.array<keyof type>>
     = never | { [ix in keyof order]: [order[ix], type[order[ix]]] }
@@ -52,7 +87,7 @@ namespace impl {
   } as new <const type extends object>(type: type) => type;
 
   export const rangeInclusive
-    : <x extends enforce.positiveNumber<x>>(upperBound: x) => impl.rangeInclusive<[], Extract<x, number>>
+    : <x extends enforce.positiveNumber<x>>(upperBound: x) => impl.rangeInclusive<[], globalThis.Extract<x, number>>
     = (upperBound) => {
       let acc = []
       if (!real.is$(upperBound)) return [] as never
@@ -60,7 +95,7 @@ namespace impl {
       return acc as never
     }
   export const rangeExclusive
-    : <x extends enforce.positiveNumber<x>>(upperBound: x) => impl.rangeExclusive<[], Extract<x, number>>
+    : <x extends enforce.positiveNumber<x>>(upperBound: x) => impl.rangeExclusive<[], globalThis.Extract<x, number>>
     = (upperBound) => {
       let acc = []
       if (!real.is$(upperBound)) return [] as never
@@ -77,7 +112,7 @@ declare const is
 
 type of<type extends any.entries> = never | [
   { [e in type[number]as e[0]]: e[1] },
-  Extract<{ -readonly [ix in keyof type]: type[ix][0] }, any.array>,
+  globalThis.Extract<{ -readonly [ix in keyof type]: type[ix][0] }, any.array>,
 ]
 
 type make<
@@ -150,7 +185,7 @@ declare const separate
 
 type is<type>
   = [type] extends [{ [size$]: number }]
-  ? Exclude<type, any.array> extends infer nonArray
+  ? globalThis.Exclude<type, any.array> extends infer nonArray
   ? [nonArray] extends [never] ? false
   : impl.is<type>
   : false
@@ -165,7 +200,7 @@ type keys<type extends Any>
   ;
 
 declare const keyof: <type extends Any>(assoc: type) => Assoc.keyof<type>
-type keyof<type extends Any> = Exclude<keyof type, number | size$>
+type keyof<type extends Any> = globalThis.Exclude<keyof type, number | size$>
 
 /** @ts-expect-error - internal use only */
 class assoc<const type extends any.object> extends impl.base<type> { }
