@@ -2,12 +2,7 @@
 "any-ts": patch
 ---
 
-
 feat: adds `inline` type utility
-    
-
-
-
 
 ### new features
 
