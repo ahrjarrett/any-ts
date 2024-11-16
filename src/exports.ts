@@ -6,6 +6,8 @@ export {
   expectToFail
 } from "./test/exports.js"
 
+export type inline<T> = T
+
 export type { empty } from "./empty/exports.js"
 export type { nonempty } from "./nonempty/exports.js"
 export type { array, nonemptyArray, queue, tuple } from "./array/exports.js"
